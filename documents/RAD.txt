@@ -12,7 +12,10 @@ This version overrides all previous versions.
 
 This section gives a brief overview of the project.
 
-1.1 Purpose of application 
+1.1 Purpose of application
+Applikationen kommer låta personer inom ett område anonymt kommunicera och diskutera med varandra. Syftet är att hitta nya vänner, dela med
+sig av tankar och åsikter eller kanske till och med hitta en framtida livspartner. Om två personer fattar tycker för varandra kommer nämligen anonymiteten
+försvinna, de kommer kunna chatta med varandra och personlig information från Facebook kommer presenteras.
 
 1.2 General characteristics of application
 Applikationen kommer att vara anpassat fÃ¶r plattformar som kÃ¶r Android, kopplat till vÃ¥ra servrar dÃ¤r all data hanteras.
@@ -22,11 +25,12 @@ Den andra delen kommer att innehÃ¥lla anvÃ¤ndarens chattar.
 Den sista delen kommer att visa anvÃ¤ndarens profil, dÃ¤r anvÃ¤ndaren har mÃ¶jlighet att Ã¤ndra sina instÃ¤llningar samt administrera sina skrivna inlÃ¤gg.
 
 
-1.3 Scope of application 
+1.3 Scope of application
+Applikationen kommer inte innehÃ¥lla nÃ¥gon karta utan meddelanden presenteras endast med ett avstÃ¥nd frÃ¥n dig sjÃ¤lv.
 
 1.4 Objectives and success criteria of the project 
 
-1.5 Definitions, acronyms and abbreviations 
+1.5 Definitions, acronyms and abbreviations
 
 2 Requirements
 
