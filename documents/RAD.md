@@ -74,14 +74,14 @@ Possible NA (not applicable).
 
 UML and a list of UC names (text for all in appendix)
 
-*Skriv ett inlägg.
-*Kommentera ett inlägg.
-*Gilla inlägg.
-*Starta chatt med okänd person.
-*Chatta med känd person.
-*Läsa notiser.
-*Läs inlägg.
-*Ändra inställningar
+* Skriv ett inlägg.
+* Kommentera ett inlägg.
+* Gilla inlägg.
+* Starta chatt med okänd person.
+* Chatta med känd person.
+* Läsa notiser.
+* Läs inlägg.
+* Ändra inställningar
 
 
 #### 2.3.2 Use cases priority
