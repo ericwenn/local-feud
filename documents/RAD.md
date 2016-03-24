@@ -32,7 +32,15 @@ Applikationen kommer inte innehålla någon karta utan meddelanden presenteras e
 
 #### 1.4 Objectives and success criteria of the project 
 
-#### 1.5 Definitions, acronyms and abbreviations
+  * Som användare skall man kunna publicera inlägg knutna till den geografiska position man befinner sig i vid publiceringstillfället. Man skall även kunna läsa andra personers inlägg om ens egen läsradie tangerar inläggens synlighetsradie.
+
+  * Man skall kunna interagera med inlägg genom någon form av upp/nedröstning eller gillamarkering och genom att kommentera inlägget. När inlägget får mer interaktioner ökar dess synlighetsradie enligt en av oss förutbestämd funktion.
+
+  * Man skall kunna välja att sortera inlägg på olika sätt. Det ska gå att sortera på senaste inlägg samt popularitet och man kan påverka antalet inlägg i sitt flöde genom att justera sin läsradie.
+
+  * Användare skall dessutom kunna starta privata chattar med varandra där deras anonymitet släpper. Användarnas namn och bild visas då i chatten.
+
+### 1.5 Definitions, acronyms and abbreviations
 
 ## 2 Requirements
 
