@@ -26,7 +26,7 @@ Den sista delen kommer att visa användarens profil, där användaren har möjli
 
 
 1.3 Scope of application
-Applikationen kommer inte innehÃ¥lla nÃ¥gon karta utan meddelanden presenteras endast med ett avstÃ¥nd frÃ¥n dig sjÃ¤lv.
+Applikationen kommer inte innehålla någon karta utan meddelanden presenteras endast med ett avstånd från dig själv.
 
 1.4 Objectives and success criteria of the project 
 
