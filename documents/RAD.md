@@ -40,7 +40,7 @@ Applikationen kommer inte innehålla någon karta utan meddelanden presenteras e
 
   * Användare skall dessutom kunna starta privata chattar med varandra där deras anonymitet släpper. Användarnas namn och bild visas då i chatten.
 
-### 1.5 Definitions, acronyms and abbreviations
+#### 1.5 Definitions, acronyms and abbreviations
 
 ## 2 Requirements
 
