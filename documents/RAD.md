@@ -50,7 +50,7 @@ In this section we specify all requirements
 
 Create a list of high level functions here (from the use cases).
 
-#### 2.2 Non-functional requirements 
+#### 2.2 Non-functional requirements
 
 Possible NA (not applicable).
 
@@ -73,6 +73,16 @@ Possible NA (not applicable).
 #### 2.3.1 Use case model 
 
 UML and a list of UC names (text for all in appendix)
+
+*Skriv ett inlägg.
+*Kommentera ett inlägg.
+*Gilla inlägg.
+*Starta chatt med okänd person.
+*Chatta med känd person.
+*Läsa notiser.
+*Läs inlägg.
+*Ändra inställningar
+
 
 #### 2.3.2 Use cases priority
 
