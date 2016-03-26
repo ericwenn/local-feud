@@ -14,7 +14,7 @@ This section gives a brief overview of the project.
 
 #### 1.1 Purpose of application
 
-Applikationen kommer låta personer inom ett område anonymt kommunicera och diskutera med varandra. Syftet är att hitta nya vänner, dela med sig av tankar och åsikter eller kanske till och med hitta en framtida livspartner. Om två personer fattar tycker för varandra kommer nämligen anonymiteten
+Applikationen kommer låta personer inom ett område anonymt kommunicera och diskutera med varandra. Syftet är att hitta nya vänner, dela med sig av tankar och åsikter eller kanske till och med hitta en framtida livspartner. Om två personer fattar tycke för varandra kommer nämligen anonymiteten
 försvinna, de kommer kunna chatta med varandra och personlig information från Facebook kommer presenteras.
 
 #### 1.2 General characteristics of application
