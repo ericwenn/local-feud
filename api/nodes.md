@@ -1,6 +1,6 @@
 # /nodes
 ## GET
-This is the base endpoint for fetching nodes.
+Get an array of `Node` objects.
 
 ### Parameters
 * latitude: Float (required)
