@@ -24,7 +24,9 @@ This is the base endpoint for fetching nodes.
 				"latitude": Float,
 				"longitude": Float
 			},
-			"number_of_comments": Integer
+			"number_of_comments": Integer,
+			"date": Date
+			"href": String
 		},
 		...
 	]
@@ -35,7 +37,9 @@ This is the base endpoint for fetching nodes.
 ## POST
 
 ### Parameters
-* content: String
+* content: String (required)
+* latitude: Float (required)
+* longitude: Float (required)
 
 ### Return
 
