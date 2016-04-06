@@ -86,7 +86,14 @@ UML and a list of UC names (text for all in appendix)
 
 #### 2.3.2 Use cases priority
 
-A list
+1. Skriv ett inlägg
+2. Läs inlägg
+3. Gilla inlägg
+4. Kommentera inlägg
+5. Starta chatt med okänd person
+6. Chatta med känd person
+7. Läsa notiser
+8. Ändra inställningar
 
 #### 2.3.3 Domain model
 
