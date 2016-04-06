@@ -1,4 +1,4 @@
-# Requirements and Analysis Document for NNN
+﻿# Requirements and Analysis Document for NNN
 
 *Version: 1.0*
 
@@ -54,7 +54,7 @@ Create a list of high level functions here (from the use cases).
 
 Possible NA (not applicable).
 
-#### 2.2.1 Usability 
+#### 2.2.1 Usability
 
 #### 2.2.2 Reliability 
 
@@ -108,6 +108,7 @@ Text to motivate a picture.
   APPENDIX 
 
   GUI
+![Image of Use Cases](https://raw.githubusercontent.com/ericwenn/local-feud/master/documents/vyer.jpg)
 
   Domain model
 
