@@ -1,11 +1,13 @@
-# /nodes
+# /posts
 ## GET
-Get an array of `Node` objects.
+Get an array of `Post` objects.
 
 ### Parameters
-* latitude: Float (required)
-* longitde: Float (required)
-* radius: Integer
+* latitude: `Float` (required)
+* longitde: `Float` (required)
+* radius: `Integer`
+* order: `String`
+
 
 ### Return
 
@@ -15,31 +17,44 @@ Get an array of `Node` objects.
 			"id": Integer,
 			"user": {
 				"id": Integer,
-				"firstname": String,
-				"lastname": String,
 				"href": String
 			},
 			"reach": Integer,
+			"content":
+				"type": String [ 'text' / 'image' ],
+				"image_src": URL,
+				"text": String
+			}
+
+
 			"location": {
-				"latitude": Float,
-				"longitude": Float
+				"distance": Integer 
 			},
+
 			"number_of_comments": Integer,
-			"date": Date
-			"href": String
+			"number_of_likes": Integer,
+			"date_posted": Date
+			"href": URL
 		},
 		...
 	]
 
+`location.distance` is an `Integer` from 0 to 10.
 
+* `0` = close
+* `10` = far 
 
 
 ## POST
 
 ### Parameters
-* content: String (required)
-* latitude: Float (required)
-* longitude: Float (required)
+* `latitude`: 		Float 						(required)
+* `longitude`: 		Float 						(required)
+
+* `content_type`: 	String [ 'image'/'text']  	(required)
+* `text`: 			String 						(required if `content_type == 'text'`)
+* `image`:			**TODO**
+
 
 ### Return
 
