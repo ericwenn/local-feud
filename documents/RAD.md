@@ -97,7 +97,7 @@ Possible NA (not applicable).
 
 #### 2.3.3 Domain model
 
-UML, possible some text.
+![Image of Use Cases](https://raw.githubusercontent.com/ericwenn/local-feud/master/domainmodel/domainmodel.jpg)
 
 #### 2.3.4 User interface 
 
