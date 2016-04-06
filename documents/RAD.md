@@ -72,7 +72,7 @@ Possible NA (not applicable).
 
 #### 2.3.1 Use case model 
 
-UML and a list of UC names (text for all in appendix)
+![Image of Use Cases](https://raw.githubusercontent.com/ericwenn/local-feud/master/usecases/use-case.jpg)
 
 * Skriv ett inlägg.
 * Kommentera ett inlägg.
