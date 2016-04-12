@@ -8,49 +8,70 @@ import android.util.Log;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.util.TagHandler;
-import com.google.gson.Gson;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
-    private Gson gson;
-    private String dummyJsonPost = "{\n" +
-            "  \"id\": \"1\",\n" +
-            "  \"location\": {\n" +
-            "    \"latitude\": 32.1231,\n" +
-            "    \"longitude\": 13.123123,\n" +
-            "    \"distance\": 7\n" +
+    private String dummyJsonPost = "// 20160412174501\n" +
+            "// http://api-local.ericwenn.se/posts/\n" +
+            "\n" +
+            "[\n" +
+            "  {\n" +
+            "    \"id\": 1,\n" +
+            "    \"location\": {\n" +
+            "      \"distance\": 5\n" +
+            "    },\n" +
+            "    \"user\": {\n" +
+            "      \"id\": 1,\n" +
+            "      \"firstname\": \"Karl\",\n" +
+            "      \"lastname\": \"Karlsson\",\n" +
+            "      \"href\": \"http://localhost/local-feud_backend/src/users/1/\"\n" +
+            "    },\n" +
+            "    \"reach\": 5,\n" +
+            "    \"content\": {\n" +
+            "      \"type\": \"text\",\n" +
+            "      \"text\": \"Lorem ipsum dolorem.\"\n" +
+            "    },\n" +
+            "    \"number_of_comments\": 10,\n" +
+            "    \"number_of_likes\": 20,\n" +
+            "    \"date_posted\": \"2016-04-12T17:45:01+02:00\",\n" +
+            "    \"href\": \"http://localhost/local-feud_backend/src/posts/1/\"\n" +
             "  },\n" +
-            "  \"user\": {\n" +
+            "  {\n" +
             "    \"id\": 2,\n" +
-            "    \"firstname\": \"Krune\",\n" +
-            "    \"lastname\": \"Nilsson\",\n" +
-            "    \"href\": \"http://localhost/local-feud_backend/src/users/2/\"\n" +
-            "  },\n" +
-            "  \"reach\": 5,\n" +
-            "  \"content\": {\n" +
-            "    \"type\": \"text\",\n" +
-            "    \"text\": \"Lorem ipsum dolorem.\"\n" +
-            "  },\n" +
-            "  \"date_posted\": \"2016-04-12T16:11:43+02:00\",\n" +
-            "  \"is_deleted\": false,\n" +
-            "  \"number_of_comments\": 5,\n" +
-            "  \"number_of_likes\": 10\n" +
-            "}";
-    private Post dummyPost;
+            "    \"location\": {\n" +
+            "      \"distance\": 7\n" +
+            "    },\n" +
+            "    \"user\": {\n" +
+            "      \"id\": 2,\n" +
+            "      \"firstname\": \"Krune\",\n" +
+            "      \"lastname\": \"Nilsson\",\n" +
+            "      \"href\": \"http://localhost/local-feud_backend/src/users/2/\"\n" +
+            "    },\n" +
+            "    \"reach\": 5,\n" +
+            "    \"content\": {\n" +
+            "      \"type\": \"text\",\n" +
+            "      \"text\": \"Lorem ipsum dolorem.\"\n" +
+            "    },\n" +
+            "    \"number_of_comments\": 10,\n" +
+            "    \"number_of_likes\": 20,\n" +
+            "    \"date_posted\": \"2016-04-12T17:45:01+02:00\",\n" +
+            "    \"href\": \"http://localhost/local-feud_backend/src/posts/2/\"\n" +
+            "  }\n" +
+            "]";
+    private ArrayList<Post> dummyPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dummyPost = GsonHandler.getInstance().toPostList(dummyJsonPost);
         initViews();
-        gson = new Gson();
-        dummyPost = gson.fromJson(dummyJsonPost, Post.class);
-        Log.d(TagHandler.MAIN_TAG, "Text: " +  dummyPost.getDatePosted().get(Calendar.DAY_OF_MONTH));
     }
 
     private void initViews() {
@@ -64,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         postAdapter = new PostAdapter(this);
         recyclerView.setAdapter(postAdapter);
-        for (int i = 0; i < 40; i ++) {
-            postAdapter.addStringToDummy("Post " + i);
+        for (Post post : dummyPost) {
+            postAdapter.addStringToDummy(post.getContent().getText());
         }
     }
 }
