@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
+
+    private ArrayList<Post> dummyPost;
     private String dummyJsonPost = "// 20160412174501\n" +
             "// http://api-local.ericwenn.se/posts/\n" +
             "\n" +
@@ -64,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
             "    \"href\": \"http://localhost/local-feud_backend/src/posts/2/\"\n" +
             "  }\n" +
             "]";
-    private ArrayList<Post> dummyPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         postAdapter = new PostAdapter(this);
         recyclerView.setAdapter(postAdapter);
         for (Post post : dummyPost) {
-            postAdapter.addStringToDummy(post.getContent().getText());
+            postAdapter.addPostToAdapter(post);
         }
     }
 }

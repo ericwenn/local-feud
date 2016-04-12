@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.Post;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Text om klassen
@@ -23,7 +25,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private final LayoutInflater inflater;
 
 //    TODO: Remove and replace with real data
-    private ArrayList<String> dummyPostList = new ArrayList<>();
+    private ArrayList<Post> postList = new ArrayList<>();
 
     public PostAdapter(Context context) {
         this.context = context;
@@ -38,19 +40,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String text = dummyPostList.get(position);
-        holder.postItemMsgTextView.setText(text);
+        Post post = postList.get(position);
+        holder.postItemMsgTextView.setText(post.getContent().getText());
+        holder.postItemDistanceTextView.setText("" + post.getLocation().getDistance());
+        holder.postItemTimeTextView.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
+                post.getDatePosted().get(Calendar.MINUTE));
+        holder.postItemSenderTextView.setText("" + post.getUser().getId());
     }
 
     @Override
     public int getItemCount() {
-        return dummyPostList.size();
+        return postList.size();
     }
 
-//    TODO: Remove and replace with real data
-    public void addStringToDummy(String text) {
-        dummyPostList.add(text);
-        notifyItemChanged(dummyPostList.size());
+    public void addPostToAdapter(Post post) {
+        postList.add(post);
+        notifyItemChanged(postList.size());
+    }
+
+    public void addPostListToAdapter(ArrayList<Post> postList) {
+        postList.addAll(postList);
+//        TODO: NOTIFY
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
