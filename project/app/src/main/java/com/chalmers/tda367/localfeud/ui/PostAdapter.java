@@ -39,7 +39,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String text = dummyPostList.get(position);
-        holder.postItemTextView.setText(text);
+        holder.postItemMsgTextView.setText(text);
     }
 
     @Override
@@ -55,12 +55,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView postItemTextView;
+        private final TextView postItemMsgTextView;
+        private final TextView postItemSenderTextView;
+        private final TextView postItemDistanceTextView;
+        private final TextView postItemTimeTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 //            Init views here
-            postItemTextView = (TextView) itemView.findViewById(R.id.post_item_text);
+            postItemSenderTextView = (TextView) itemView.findViewById(R.id.post_item_sender_textview);
+            postItemMsgTextView = (TextView) itemView.findViewById(R.id.post_item_msg_textview);
+            postItemDistanceTextView = (TextView) itemView.findViewById(R.id.post_item_distance_textview);
+            postItemTimeTextView = (TextView) itemView.findViewById(R.id.post_item_time_textview);
         }
     }
 }
