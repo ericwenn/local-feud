@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Created by Alfred on 2016-04-11.
+ * Created by Daniel Ahlqvist on 2016-04-13.
  */
 public class Comment
 {
