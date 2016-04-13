@@ -6,7 +6,7 @@ package com.chalmers.tda367.localfeud.data;
 public class Position {
     private double latitude;
     private double longitude;
-    private int distance;
+    private double distance;
 
     public double getLatitude() {
         return latitude;
@@ -24,7 +24,7 @@ public class Position {
         this.longitude = longitude;
     }
 
-    public int getDistance() {
+    public double getDistance() {
         return distance;
     }
 

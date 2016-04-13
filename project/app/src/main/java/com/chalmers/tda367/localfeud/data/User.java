@@ -4,9 +4,10 @@ package com.chalmers.tda367.localfeud.data;
  * Created by Alfred on 2016-04-11.
  */
 public class User {
-    int id;
-    int age;
-    Sex sex;
+    private int id;
+    private int age;
+    private Sex sex;
+    private String href;
 
     public enum Sex{
         MALE, FEMALE
@@ -43,5 +44,13 @@ public class User {
         else{
             return false;
         }
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
     }
 }

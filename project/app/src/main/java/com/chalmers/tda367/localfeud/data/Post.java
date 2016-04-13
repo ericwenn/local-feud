@@ -52,6 +52,7 @@ public class Post {
     private boolean is_deleted;
     private int number_of_comments;
     private int number_of_likes;
+    private String href;
 
     public int getId() {
         return id;
@@ -134,6 +135,14 @@ public class Post {
 
     public void setNumberOfLikes(int number_of_likes) {
         this.number_of_likes = number_of_likes;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
     }
 
     public static class Content {
