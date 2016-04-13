@@ -27,7 +27,6 @@ public class RestClient {
         }else{
             throw new HttpResponseException(responseHandler.getStatusCode(), responseHandler.getResponse());
         }
-
     }
 
     public void post(String url, Map<String, String> paramsMap) throws HttpResponseException {
@@ -47,6 +46,18 @@ public class RestClient {
         RequestParams params = new RequestParams(paramsMap);
 
         client.delete(getAbsoluteUrl(url), params, responseHandler);
+        if (responseHandler.getStatusCode() == 200){
+            // Everything is fine
+        }else{
+            throw new HttpResponseException(responseHandler.getStatusCode(), responseHandler.getResponse());
+        }
+    }
+
+    public void put(String url, Map<String, String> paramsMap) throws HttpResponseException{
+        RestResponseHandler responseHandler = new RestResponseHandler();
+        RequestParams params = new RequestParams(paramsMap);
+
+        client.put(getAbsoluteUrl(url), params, responseHandler);
         if (responseHandler.getStatusCode() == 200){
             // Everything is fine
         }else{
