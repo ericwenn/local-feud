@@ -1,10 +1,13 @@
 package com.chalmers.tda367.localfeud.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
@@ -13,10 +16,11 @@ import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback {
 
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
+    private FloatingActionButton createNewFab;
 
     private ArrayList<Post> dummyPostList;
     private Post dummyPost;
@@ -94,17 +98,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        long currentTime = System.currentTimeMillis();
         dummyPost = GsonHandler.getInstance().toPost(dummyJsonPost);
-        Log.d(TagHandler.MAIN_TAG, "Created post object in " + (System.currentTimeMillis() - currentTime) + " ms");
-        currentTime = System.currentTimeMillis();
         dummyPostList = GsonHandler.getInstance().toPostList(dummyJsonPostList);
-        Log.d(TagHandler.MAIN_TAG, "Created post object list in " + (System.currentTimeMillis() - currentTime) + " ms");
-        Log.d(TagHandler.MAIN_TAG, dummyPostList.get(0).getHref());
         initViews();
     }
 
     private void initViews() {
+        createNewFab = (FloatingActionButton) findViewById(R.id.post_feed_create_new_fab);
+        createNewFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v,
+                        "Create new post",
+                        Snackbar.LENGTH_SHORT)
+                .show();
+            }
+        });
         recyclerView = (RecyclerView) findViewById(R.id.post_feed_recyclerview);
         if (recyclerView != null) {
             recyclerView.setHasFixedSize(true);
@@ -118,5 +127,13 @@ public class MainActivity extends AppCompatActivity {
         for (Post post : dummyPostList) {
             postAdapter.addPostToAdapter(post);
         }
+    }
+
+    @Override
+    public void onPostClick(Post post) {
+        Snackbar.make(recyclerView,
+                "ID " + post.getId() + ": " + post.getContent().getText(),
+                Snackbar.LENGTH_LONG)
+        .show();
     }
 }
