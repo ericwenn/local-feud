@@ -44,18 +44,31 @@
             android:id="@+id/post_item_msg_textview"
             android:padding="@dimen/default_margin"
             android:textSize="@dimen/card_post_message_text_size"
-            android:text="Test test test test test test"/>
+            android:text="@string/app_name"/>
 
         <!--Temporary TextView. Should be comment icon-->
         <TextView
+            android:id="@+id/post_item_comment_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/post_item_msg_textview"
             android:layout_alignParentStart="true"
-            android:paddingBottom="@dimen/default_margin"
             android:paddingStart="@dimen/default_margin"
+            android:paddingEnd="@dimen/small_margin"
+            android:paddingBottom="@dimen/default_margin"
+            android:textSize="@dimen/card_post_comment_text_size"
+            android:text="1"/>
+
+        <ImageView
+            android:id="@+id/post_item_comment_imageview"
+            android:layout_below="@id/post_item_msg_textview"
+            android:layout_toEndOf="@id/post_item_comment_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:paddingEnd="@dimen/default_margin"
-            android:text="Comments"/>
+            android:alpha="0.54"
+            android:src="@drawable/ic_comment_black_24dp"/>
 
         <TextView
             android:layout_below="@id/post_item_msg_textview"
