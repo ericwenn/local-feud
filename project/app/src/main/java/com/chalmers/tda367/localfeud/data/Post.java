@@ -13,40 +13,11 @@ import java.util.Locale;
  * Created by Alfred on 2016-04-11.
  */
 public class Post {
-    /**
-     * id : 1
-     * location : {"latitude":32.1231,"longitude":13.123123,"distance":7}
-     * user : {"id":2,"firstname":"Krune","lastname":"Nilsson","href":"http://localhost/local-feud_backend/src/users/2/"}
-     * reach : 5
-     * content : {"type":"text","text":"Lorem ipsum dolorem."}
-     * date_posted : 2016-04-12T16:11:43+02:00
-     * is_deleted : false
-     * number_of_comments : 5
-     * number_of_likes : 10
-     */
 
     private int id;
-    /**
-     * latitude : 32.1231
-     * longitude : 13.123123
-     * distance : 7
-     */
-
     private Position location;
-    /**
-     * id : 2
-     * firstname : Krune
-     * lastname : Nilsson
-     * href : http://localhost/local-feud_backend/src/users/2/
-     */
-
     private User user;
     private double reach;
-    /**
-     * type : text
-     * text : Lorem ipsum dolorem.
-     */
-
     private Content content;
     private String date_posted;
     private boolean is_deleted;
@@ -105,7 +76,7 @@ public class Post {
         return calendar;
     }
 
-    public String getStringDatePosted() {
+    private String getStringDatePosted() {
         return date_posted;
     }
 
