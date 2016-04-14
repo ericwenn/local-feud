@@ -3,30 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fc3"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/posttext"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="What would you like to tell the world?"
-        android:inputType="textMultiLine"
-        android:minLines="5"
-        android:gravity="top|left"
-        android:padding="16dp"
-        android:textColor="#000"
-        android:background="#fff"
-        />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
 
-    <Button
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:text="Share anonymously"
-        android:onClick="selfDestruct"
-        android:background="#00f"
-        android:textColor="#fff"
-        android:layout_marginTop="10dp"
-        />
+    <RelativeLayout
+        android:padding="8dp">
+
+        <EditText
+            android:id="@+id/posttext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="What would you like to tell the world?"
+            android:inputType="textMultiLine"
+            android:minLines="5"
+            android:gravity="top|left"
+            android:padding="16dp"
+            android:textColor="#000"
+            android:background="#fff"
+            />
+
+        <Button
+            android:layout_below="@id/posttext"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:text="Share anonymously"
+            android:onClick="selfDestruct"
+            android:background="#00f"
+            android:textColor="#fff"
+            android:layout_marginTop="10dp"
+            />
+    </RelativeLayout>
 
 </GridLayout>
