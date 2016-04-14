@@ -2,9 +2,10 @@ package com.chalmers.tda367.localfeud.util;
 
 import android.util.Log;
 
-import com.loopj.android.http.*;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
-import java.net.HttpURLConnection;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.client.HttpResponseException;
@@ -17,16 +18,9 @@ public class RestClient {
 
     private AsyncHttpClient client = new AsyncHttpClient();
 
-    public String get(String url, Map<String, String> paramsMap) throws HttpResponseException {
-        RestResponseHandler responseHandler = new RestResponseHandler();
+    public void get(String url, Map<String, String> paramsMap, AsyncHttpResponseHandler responseHandler) throws HttpResponseException {
         RequestParams params = new RequestParams(paramsMap);
-        
         client.get(getAbsoluteUrl(url), params, responseHandler);
-        if (responseHandler.getStatusCode() == 200){
-            return responseHandler.getResponse();
-        }else{
-            throw new HttpResponseException(responseHandler.getStatusCode(), responseHandler.getResponse());
-        }
     }
 
     public void post(String url, Map<String, String> paramsMap) throws HttpResponseException {

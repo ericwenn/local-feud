@@ -12,15 +12,24 @@ import android.view.View;
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
+import com.chalmers.tda367.localfeud.util.RestClient;
 import com.chalmers.tda367.localfeud.util.TagHandler;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.client.HttpResponseException;
 
 public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback {
 
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
     private FloatingActionButton createNewFab;
+
+    //    TEMP STUFF
+    private RestClient restClient;
 
     private ArrayList<Post> dummyPostList;
     private Post dummyPost;
@@ -101,6 +110,28 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         dummyPost = GsonHandler.getInstance().toPost(dummyJsonPost);
         dummyPostList = GsonHandler.getInstance().toPostList(dummyJsonPostList);
         initViews();
+
+//        SPAGHETTI-CODE INCOMING
+        restClient = new RestClient();
+        HashMap<String, String> tempMap = new HashMap<>();
+        tempMap.put("test", "test");
+        try {
+            restClient.get("posts/", tempMap, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    ArrayList<Post> posts = GsonHandler.getInstance().toPostList(new String(responseBody));
+                    postAdapter.addPostListToAdapter(posts);
+                    Log.d(TagHandler.MAIN_TAG, "onSuccess. Posts: " + posts.size());
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Log.e(TagHandler.MAIN_TAG, error.getMessage());
+                }
+            });
+        } catch (HttpResponseException e) {
+            Log.e(TagHandler.MAIN_TAG, e.getMessage());
+        }
     }
 
     private void initViews() {
@@ -111,22 +142,21 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 Snackbar.make(v,
                         "Create new post",
                         Snackbar.LENGTH_SHORT)
-                .show();
+                        .show();
             }
         });
         recyclerView = (RecyclerView) findViewById(R.id.post_feed_recyclerview);
         if (recyclerView != null) {
             recyclerView.setHasFixedSize(true);
-        }
-        else {
+        } else {
             Log.e(TagHandler.MAIN_TAG, "No RecyclerView found in activity_main.xml");
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         postAdapter = new PostAdapter(this);
         recyclerView.setAdapter(postAdapter);
-        for (Post post : dummyPostList) {
-            postAdapter.addPostToAdapter(post);
-        }
+//        for (Post post : dummyPostList) {
+//            postAdapter.addPostToAdapter(post);
+//        }
     }
 
     @Override
@@ -134,6 +164,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         Snackbar.make(recyclerView,
                 "ID " + post.getId() + ": " + post.getContent().getText(),
                 Snackbar.LENGTH_LONG)
-        .show();
+                .show();
     }
 }
