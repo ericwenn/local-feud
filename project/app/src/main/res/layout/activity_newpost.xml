@@ -13,6 +13,14 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
+       <Button
+           android:id="@+id/postbackbutton"
+           android:layout_width="wrap_content"
+           android:layout_height="fill_parent"
+           android:text="Back"
+           android:textColor="#fff"
+           android:background="#000099"/>
+
         <Button
             android:id="@+id/postsettingsbutton"
             android:layout_width="wrap_content"

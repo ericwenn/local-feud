@@ -1,5 +1,6 @@
 package com.chalmers.tda367.localfeud.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,7 @@ import com.chalmers.tda367.localfeud.R;
  */
 public class NewPostActivity extends AppCompatActivity
 {
-    private Button postbutton, postsettingsbutton;
+    private Button postbutton, postsettingsbutton, postbackbutton;
     private EditText posttext;
 
     @Override
@@ -29,6 +30,7 @@ public class NewPostActivity extends AppCompatActivity
         postbutton = (Button) findViewById(R.id.postbutton);
         posttext = (EditText) findViewById(R.id.posttext);
         postsettingsbutton = (Button) findViewById(R.id.postsettingsbutton);
+        postbackbutton = (Button) findViewById(R.id.postbackbutton);
 
         postbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,6 +39,13 @@ public class NewPostActivity extends AppCompatActivity
                         posttext.getText(),
                         Snackbar.LENGTH_SHORT)
                         .show();
+            }
+        });
+
+        postbackbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 
