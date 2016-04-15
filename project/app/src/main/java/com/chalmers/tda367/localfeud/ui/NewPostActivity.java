@@ -13,7 +13,7 @@ import com.chalmers.tda367.localfeud.R;
  */
 public class NewPostActivity extends AppCompatActivity
 {
-    private Button postbutton;
+    private Button postbutton, postsettingsbutton;
     private EditText posttext;
 
     @Override
@@ -28,11 +28,23 @@ public class NewPostActivity extends AppCompatActivity
     {
         postbutton = (Button) findViewById(R.id.postbutton);
         posttext = (EditText) findViewById(R.id.posttext);
+        postsettingsbutton = (Button) findViewById(R.id.postsettingsbutton);
+
         postbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Snackbar.make(v,
                         posttext.getText(),
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+        });
+
+        postsettingsbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v,
+                        "Åhh, va bra att du kan ändra inställningar här!",
                         Snackbar.LENGTH_SHORT)
                         .show();
             }
