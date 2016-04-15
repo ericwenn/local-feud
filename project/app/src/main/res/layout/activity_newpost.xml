@@ -27,9 +27,11 @@
             android:padding="16dp"
             android:textColor="#000"
             android:background="#fff"
+            android:maxLength="240"
             />
 
         <Button
+            android:id="@+id/postbutton"
             android:layout_below="@id/posttext"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"

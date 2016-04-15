@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
@@ -14,7 +15,8 @@ import com.chalmers.tda367.localfeud.util.GsonHandler;
  */
 public class NewPostActivity extends AppCompatActivity
 {
-    private FloatingActionButton createNewFab;
+    private Button postbutton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +26,15 @@ public class NewPostActivity extends AppCompatActivity
 
     private void initViews()
     {
-
+        postbutton = (Button) findViewById(R.id.postbutton);
+        postbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v,
+                        "Som ett brev på posten",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+        });
     }
 }
