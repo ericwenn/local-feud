@@ -36,7 +36,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        adapterCallback = (AdapterCallback) context;
+        try {
+            adapterCallback = (AdapterCallback) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException("PostAdapter: Activity must implement AdapterCallback.");
+        }
 
         View view = inflater.inflate(R.layout.post_list_item, parent, false);
         return new ViewHolder(view);
