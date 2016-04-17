@@ -25,7 +25,11 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         ServerComm.updatePostFeed(postAdapter);
     }
 

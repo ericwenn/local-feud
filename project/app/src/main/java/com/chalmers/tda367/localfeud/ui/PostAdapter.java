@@ -77,7 +77,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         int position = this.postList.size() + 1;
         this.postList.addAll(postList);
         notifyItemChanged(position);
-//        TODO: NOTIFY
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
