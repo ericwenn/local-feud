@@ -6,4 +6,5 @@ package com.chalmers.tda367.localfeud.ui;
 public class PostClickedActivity
 {
 
+
 }
