@@ -1,5 +1,6 @@
 package com.chalmers.tda367.localfeud.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -38,10 +39,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         createNewFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 Snackbar.make(v,
                         "Create new post",
                         Snackbar.LENGTH_SHORT)
                         .show();
+=======
+                Intent i = new Intent(getApplicationContext(),NewPostActivity.class);
+                startActivity(i);
+>>>>>>> 71fa0715197c999a4452b30ba9a8563924120b55
             }
         });
         recyclerView = (RecyclerView) findViewById(R.id.post_feed_recyclerview);
