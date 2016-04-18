@@ -109,8 +109,20 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         createNewFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+                Snackbar.make(v,
+                        "Create new post",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+=======
                 Intent i = new Intent(getApplicationContext(),NewPostActivity.class);
                 startActivity(i);
+>>>>>>> 71fa0715197c999a4452b30ba9a8563924120b55
+=======
+                Intent i = new Intent(getApplicationContext(),NewPostActivity.class);
+                startActivity(i);
+>>>>>>> development
             }
         });
         recyclerView = (RecyclerView) findViewById(R.id.post_feed_recyclerview);
