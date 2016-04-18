@@ -1,6 +1,8 @@
 package com.chalmers.tda367.localfeud.ui;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,8 +28,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private final LayoutInflater inflater;
     private AdapterCallback adapterCallback;
 
-//    TODO: Remove and replace with real data
-    private ArrayList<Post> postList = new ArrayList<>();
+    private final ArrayList<Post> postList = new ArrayList<>();
 
     public PostAdapter(Context context) {
         this.context = context;
@@ -73,10 +74,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         notifyItemChanged(postList.size());
     }
 
-    public void addPostListToAdapter(ArrayList<Post> postList) {
-        int position = this.postList.size() + 1;
-        this.postList.addAll(postList);
-        notifyItemChanged(position);
+    public void addPostListToAdapter(final ArrayList<Post> postList) {
+        final int currentCount = this.postList.size();
+        synchronized (this.postList) {
+            this.postList.addAll(postList);
+        }
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            notifyItemRangeInserted(currentCount, postList.size());
+        }
+        else {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    notifyItemRangeInserted(currentCount, postList.size());
+                }
+            });
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -90,7 +103,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-//            Init views here
+
             postItemSenderTextView = (TextView) itemView.findViewById(R.id.post_item_sender_textview);
             postItemMsgTextView = (TextView) itemView.findViewById(R.id.post_item_msg_textview);
             postItemDistanceTextView = (TextView) itemView.findViewById(R.id.post_item_distance_textview);

@@ -25,12 +25,17 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initViews();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initViews();
         ServerComm.updatePostFeed(postAdapter);
     }
 
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                         "Create new post",
                         Snackbar.LENGTH_SHORT)
                         .show();
-                Intent i = new Intent(getApplicationContext(),NewPostActivity.class);
+                Intent i = new Intent(getApplicationContext(), NewPostActivity.class);
                 startActivity(i);
             }
         });
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         postAdapter = new PostAdapter(this);
+        Log.d(TagHandler.MAIN_TAG, "Creating postAdapter " + postAdapter);
         recyclerView.setAdapter(postAdapter);
     }
 
