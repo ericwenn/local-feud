@@ -21,10 +21,15 @@ import com.chalmers.tda367.localfeud.util.TagHandler;
  */
 public class PostFragment extends Fragment {
 
-    private PostAdapter postAdapter;
+    private static PostAdapter postAdapter;
 
-    public PostFragment(PostAdapter postAdapter) {
-        this.postAdapter = postAdapter;
+    public PostFragment() {
+
+    }
+
+    public static PostFragment newInstance(PostAdapter adapter) {
+        postAdapter = adapter;
+        return new PostFragment();
     }
 
     @Nullable

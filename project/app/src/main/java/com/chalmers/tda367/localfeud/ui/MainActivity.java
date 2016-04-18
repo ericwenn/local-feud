@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -27,8 +28,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        initViews();
     }
 
     @Override
@@ -39,19 +39,20 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     @Override
     protected void onResume() {
         super.onResume();
-        initViews();
         ServerComm.updatePostFeed(postAdapter);
     }
 
     private void initViews() {
+        CollapsingToolbarLayout collapsingToolbarLayout =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
+        collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         createNewFab = (FloatingActionButton) findViewById(R.id.post_feed_create_new_fab);
         createNewFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v,
-                        "Create new post",
-                        Snackbar.LENGTH_SHORT)
-                        .show();
                 Intent i = new Intent(getApplicationContext(), NewPostActivity.class);
                 startActivity(i);
             }
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         viewPager = (ViewPager) findViewById(R.id.post_feed_viewpager);
         addPages(viewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tablayout);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabGravity(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -91,7 +92,10 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     private void addPages(ViewPager viewPager) {
         FeedPagerAdapter feedPagerAdapter = new FeedPagerAdapter(getSupportFragmentManager());
-        feedPagerAdapter.addPage(new PostFragment(postAdapter));
+        feedPagerAdapter.addPage(PostFragment.newInstance(postAdapter));
+
+//        TODO: Change to a diff fragment
+        feedPagerAdapter.addPage(PostFragment.newInstance(postAdapter));
         viewPager.setAdapter(feedPagerAdapter);
     }
 
