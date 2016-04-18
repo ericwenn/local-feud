@@ -57,19 +57,11 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 startActivity(i);
             }
         });
-//        recyclerView = (RecyclerView) findViewById(R.id.post_feed_recyclerview);
-//        if (recyclerView != null) {
-//            recyclerView.setHasFixedSize(true);
-//        } else {
-//            Log.e(TagHandler.MAIN_TAG, "No RecyclerView found in activity_main.xml");
-//        }
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         postAdapter = new PostAdapter(this);
         Log.d(TagHandler.MAIN_TAG, "Creating postAdapter " + postAdapter);
         viewPager = (ViewPager) findViewById(R.id.post_feed_viewpager);
         addPages(viewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tablayout);
-        tabLayout.setTabGravity(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -87,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
             }
         });
-//        recyclerView.setAdapter(postAdapter);
     }
 
     private void addPages(ViewPager viewPager) {
