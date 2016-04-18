@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     protected void onResume() {
         super.onResume();
         initViews();
-        ServerComm.updatePostFeed(postAdapter);
+        ServerComm.getInstance().updatePostFeed(postAdapter);
     }
 
     private void initViews() {

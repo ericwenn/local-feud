@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.util;
 
 import android.util.Log;
 
+import com.chalmers.tda367.localfeud.util.responseActions.IResponseAction;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -15,48 +16,32 @@ import cz.msebera.android.httpclient.client.HttpResponseException;
  */
 public class RestClient {
     private final String BASE_URL = "http://api-local.ericwenn.se/";
+    private AsyncHttpClient client;
+    private RestResponseHandler responseHandler;
 
-    private AsyncHttpClient client = new AsyncHttpClient();
+    public RestClient(IResponseAction action){
+        client = new AsyncHttpClient();
+        responseHandler = new RestResponseHandler(action);
+    }
 
-    public void get(String url, Map<String, String> paramsMap, AsyncHttpResponseHandler responseHandler) throws HttpResponseException {
+    public void get(String url, Map<String, String> paramsMap){
         RequestParams params = new RequestParams(paramsMap);
         client.get(getAbsoluteUrl(url), params, responseHandler);
     }
 
-    public void post(String url, Map<String, String> paramsMap) throws HttpResponseException {
-        RestResponseHandler responseHandler = new RestResponseHandler();
+    public void post(String url, Map<String, String> paramsMap){
         RequestParams params = new RequestParams(paramsMap);
-
         client.post(getAbsoluteUrl(url), params, responseHandler);
-        if (responseHandler.getStatusCode() == 200){
-            // Everything is fine
-        }else{
-            throw new HttpResponseException(responseHandler.getStatusCode(), responseHandler.getResponse());
-        }
     }
 
-    public void delete(String url, Map<String, String> paramsMap) throws HttpResponseException{
-        RestResponseHandler responseHandler = new RestResponseHandler();
+    public void delete(String url, Map<String, String> paramsMap){
         RequestParams params = new RequestParams(paramsMap);
-
         client.delete(getAbsoluteUrl(url), params, responseHandler);
-        if (responseHandler.getStatusCode() == 200){
-            // Everything is fine
-        }else{
-            throw new HttpResponseException(responseHandler.getStatusCode(), responseHandler.getResponse());
-        }
     }
 
     public void put(String url, Map<String, String> paramsMap) throws HttpResponseException{
-        RestResponseHandler responseHandler = new RestResponseHandler();
         RequestParams params = new RequestParams(paramsMap);
-
         client.put(getAbsoluteUrl(url), params, responseHandler);
-        if (responseHandler.getStatusCode() == 200){
-            // Everything is fine
-        }else{
-            throw new HttpResponseException(responseHandler.getStatusCode(), responseHandler.getResponse());
-        }
     }
 
     private String getAbsoluteUrl(String relativeUrl) {
