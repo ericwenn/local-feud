@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
@@ -17,14 +18,17 @@ import com.chalmers.tda367.localfeud.util.TagHandler;
 
 public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback {
 
-    private RecyclerView recyclerView;
+//    private RecyclerView recyclerView;
     private PostAdapter postAdapter;
     private FloatingActionButton createNewFab;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -52,21 +56,50 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 startActivity(i);
             }
         });
-        recyclerView = (RecyclerView) findViewById(R.id.post_feed_recyclerview);
-        if (recyclerView != null) {
-            recyclerView.setHasFixedSize(true);
-        } else {
-            Log.e(TagHandler.MAIN_TAG, "No RecyclerView found in activity_main.xml");
-        }
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView = (RecyclerView) findViewById(R.id.post_feed_recyclerview);
+//        if (recyclerView != null) {
+//            recyclerView.setHasFixedSize(true);
+//        } else {
+//            Log.e(TagHandler.MAIN_TAG, "No RecyclerView found in activity_main.xml");
+//        }
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         postAdapter = new PostAdapter(this);
         Log.d(TagHandler.MAIN_TAG, "Creating postAdapter " + postAdapter);
-        recyclerView.setAdapter(postAdapter);
+        viewPager = (ViewPager) findViewById(R.id.post_feed_viewpager);
+        addPages(viewPager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tablayout);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+//        recyclerView.setAdapter(postAdapter);
     }
+
+    private void addPages(ViewPager viewPager) {
+        FeedPagerAdapter feedPagerAdapter = new FeedPagerAdapter(getSupportFragmentManager());
+        feedPagerAdapter.addPage(new PostFragment(postAdapter));
+        viewPager.setAdapter(feedPagerAdapter);
+    }
+
+
 
     @Override
     public void onPostClick(Post post) {
-        Snackbar.make(recyclerView,
+        Snackbar.make(viewPager,
                 "ID " + post.getId() + ": " + post.getContent().getText(),
                 Snackbar.LENGTH_LONG)
                 .show();
