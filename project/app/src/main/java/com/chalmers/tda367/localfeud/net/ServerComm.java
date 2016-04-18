@@ -10,6 +10,7 @@ import com.chalmers.tda367.localfeud.ui.PostAdapter;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.util.RestClient;
 import com.chalmers.tda367.localfeud.util.TagHandler;
+import com.chalmers.tda367.localfeud.util.responseActions.IResponseAction;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.ArrayList;
@@ -24,27 +25,34 @@ import cz.msebera.android.httpclient.client.HttpResponseException;
  */
 public class ServerComm implements IServerComm {
 
-    public static void updatePostFeed(final PostAdapter adapter) {
-        RestClient restClient = new RestClient();
-        HashMap<String, String> tempMap = new HashMap<>(); // TEMP CODE
-        tempMap.put("test", "test"); // TEMP CODE
-        try {
-            restClient.get("posts/", tempMap, new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    ArrayList<Post> posts = GsonHandler.getInstance().toPostList(new String(responseBody));
-                    adapter.addPostListToAdapter(posts);
-                    Log.d(TagHandler.MAIN_TAG, "onSuccess in serverComm. Posts: " + posts.size());
-                }
+    private static ServerComm instance;
 
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Log.e(TagHandler.MAIN_TAG, error.getMessage());
-                }
-            });
-        } catch (HttpResponseException e) {
-            Log.e(TagHandler.MAIN_TAG, e.getMessage());
+    public static ServerComm getInstance(){
+        if (instance == null){
+            instance = new ServerComm();
         }
+        return instance;
+    }
+
+    public void updatePostFeed(final PostAdapter adapter) {
+
+        class UpdatePostFeedResponseAction implements IResponseAction{
+            public void onSuccess(String responseBody){
+                ArrayList<Post> posts = GsonHandler.getInstance().toPostList(new String(responseBody));
+                adapter.addPostListToAdapter(posts);
+                Log.d(TagHandler.MAIN_TAG, "onSuccess in serverComm. Posts: " + posts.size());
+            }
+
+            public void onFailure(String responseBody){
+                // TODO: se till att något görs här
+            }
+        }
+
+        RestClient restClient = new RestClient(new UpdatePostFeedResponseAction());
+        HashMap<String, String> param = new HashMap<>();
+        param.put("test", "test");
+
+        restClient.get("posts/", param);
     }
     public List<Post> getPosts(Position pos, int radius, String order) {
         return null;

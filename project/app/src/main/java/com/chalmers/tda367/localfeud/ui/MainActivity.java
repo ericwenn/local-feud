@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     @Override
     protected void onStart() {
         super.onStart();
-        ServerComm.updatePostFeed(postAdapter);
+        ServerComm.getInstance().updatePostFeed(postAdapter);
     }
 
     private void initViews() {
