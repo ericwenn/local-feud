@@ -9,10 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.TagHandler;
+
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Daniel Ahlqvist on 2016-04-18.
@@ -22,6 +26,7 @@ public class PostClickedActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private PostClickedAdapter postClickedAdapter;
     private Post post;
+    private TextView postText, senderText, distanceText, timeText, timeElapsedText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,6 +51,21 @@ public class PostClickedActivity extends AppCompatActivity
     }
 
     private void initViews() {
+        Calendar current = Calendar.getInstance();
+        String timeSinceUpload = String.format("%d", TimeUnit.MILLISECONDS.toMinutes(current.getTimeInMillis() - post.getDatePosted().getTimeInMillis()));
+
+        postText = (TextView) findViewById(R.id.post_item_msg_textview);
+        senderText = (TextView) findViewById(R.id.post_item_sender_textview);
+        distanceText = (TextView) findViewById(R.id.post_item_distance_textview);
+        timeText = (TextView) findViewById(R.id.post_item_time_textview);
+        timeElapsedText = (TextView) findViewById(R.id.post_item_time_elapsed_textview);
+        postText.setText(post.getContent().getText());
+        senderText.setText("" + post.getUser().getId());
+        distanceText.setText("" + post.getLocation().getDistance());
+        timeText.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
+                post.getDatePosted().get(Calendar.MINUTE));
+        timeElapsedText.setText(timeSinceUpload + " minuter sedan");
+
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
         if (recyclerView != null) {
             recyclerView.setHasFixedSize(true);
