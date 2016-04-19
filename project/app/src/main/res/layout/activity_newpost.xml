@@ -1,64 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fc3"
     android:orientation="vertical">
 
-   <android.support.v7.widget.Toolbar
-        android:id="@+id/posttoolbar"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+        android:layout_height="wrap_content">
 
-       <Button
-           android:id="@+id/postbackbutton"
-           android:layout_width="wrap_content"
-           android:layout_height="fill_parent"
-           android:text="Back"
-           android:textColor="#fff"
-           android:background="#000099"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/posttoolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <Button
-            android:id="@+id/postsettingsbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="Settings"
-            android:textColor="#fff"
-            android:layout_gravity="right"
-            android:background="#000099"/>
-    </android.support.v7.widget.Toolbar>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/toolbar_title_textview"
+                    style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginBottom="@dimen/default_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/create_new_post"
+                    android:textColor="@android:color/white" />
+
+                <ImageButton
+                    android:id="@+id/post_button"
+                    android:layout_margin="@dimen/default_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_send_white_24dp" />
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
-        android:padding="8dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize">
 
         <EditText
             android:id="@+id/posttext"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="What would you like to tell the world?"
-            android:inputType="textMultiLine"
-            android:minLines="5"
-            android:gravity="top|left"
-            android:padding="16dp"
-            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="#fff"
+            android:gravity="top|left"
+            android:hint="@string/new_post_hint"
+            android:inputType="textMultiLine"
             android:maxLength="240"
-            />
+            android:minLines="5"
+            android:padding="16dp"
+            android:textColor="@android:color/black" />
 
-        <Button
-            android:id="@+id/postbutton"
-            android:layout_below="@id/posttext"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:text="Share anonymously"
-            android:onClick="selfDestruct"
-            android:background="#00f"
-            android:textColor="#fff"
-            android:layout_marginTop="10dp"
-            />
     </RelativeLayout>
 
-</GridLayout>
+</android.support.design.widget.CoordinatorLayout>
