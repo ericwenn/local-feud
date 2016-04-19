@@ -4,15 +4,18 @@ import android.util.Log;
 
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import cz.msebera.android.httpclient.entity.SerializableEntity;
+
 /**
  * Created by Alfred on 2016-04-11.
  */
-public class Post {
+public class Post implements Serializable {
 
     private int id;
     private Position location;
@@ -116,7 +119,7 @@ public class Post {
         this.href = href;
     }
 
-    public static class Content {
+    public static class Content implements Serializable {
         private String type;
         private String text;
 

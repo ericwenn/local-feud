@@ -1,9 +1,11 @@
 package com.chalmers.tda367.localfeud.data;
 
+import java.io.Serializable;
+
 /**
  * Created by Alfred on 2016-04-11.
  */
-public class Position {
+public class Position implements Serializable{
     private double latitude;
     private double longitude;
     private double distance;

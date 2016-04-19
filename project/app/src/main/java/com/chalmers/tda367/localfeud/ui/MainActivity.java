@@ -70,8 +70,11 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 "ID " + post.getId() + ": " + post.getContent().getText(),
                 Snackbar.LENGTH_LONG)
                 .show();
-        System.out.println("hejhej");
+
         Intent i = new Intent(getApplicationContext(), PostClickedActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("post", post);
+        i.putExtras(bundle);
         startActivity(i);
     }
 }

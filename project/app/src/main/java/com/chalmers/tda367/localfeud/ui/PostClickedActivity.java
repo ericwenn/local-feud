@@ -1,5 +1,6 @@
 package com.chalmers.tda367.localfeud.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,7 +11,10 @@ import android.util.Log;
 import android.view.View;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.TagHandler;
+
+import java.util.List;
 
 /**
  * Created by Daniel Ahlqvist on 2016-04-18.
@@ -25,6 +29,10 @@ public class PostClickedActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        Post post = (Post) bundle.getSerializable("post");
+        //Log.d(TagHandler.MAIN_TAG, "Postid: " + post.getId());
         setContentView(R.layout.activity_post_clicked);
     }
 
