@@ -52,7 +52,34 @@ public class PostClickedActivity extends AppCompatActivity
 
     private void initViews() {
         Calendar current = Calendar.getInstance();
-        String timeSinceUpload = String.format("%d", TimeUnit.MILLISECONDS.toMinutes(current.getTimeInMillis() - post.getDatePosted().getTimeInMillis()));
+        long timeElapsedMs = current.getTimeInMillis() - post.getDatePosted().getTimeInMillis();
+        long timeElapsedMin = TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs);
+        long timeElapsedHour = TimeUnit.MILLISECONDS.toHours(timeElapsedMs);
+        long timeElapsedDay = TimeUnit.MILLISECONDS.toDays(timeElapsedMs);
+
+        String timeSinceUpload;
+
+        if(timeElapsedDay >= 1)
+        {
+            if(timeElapsedDay == 1)
+                timeSinceUpload = "1 day ago";
+            else
+                timeSinceUpload = timeElapsedDay + " days ago";
+        }
+        else if(timeElapsedMin > 60)
+        {
+            if(timeElapsedHour == 1)
+                timeSinceUpload = "1 hour ago";
+            else
+                timeSinceUpload = timeElapsedHour + " hours ago";
+        }
+        else
+        {
+            if(timeElapsedMin == 1)
+                timeSinceUpload = "1 minute ago";
+            else
+                timeSinceUpload = timeElapsedMin + " minutes ago";
+        }
 
         postText = (TextView) findViewById(R.id.post_item_msg_textview);
         senderText = (TextView) findViewById(R.id.post_item_sender_textview);
@@ -64,7 +91,7 @@ public class PostClickedActivity extends AppCompatActivity
         distanceText.setText("" + post.getLocation().getDistance());
         timeText.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
                 post.getDatePosted().get(Calendar.MINUTE));
-        timeElapsedText.setText(timeSinceUpload + " minuter sedan");
+        timeElapsedText.setText(timeSinceUpload);
 
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
         if (recyclerView != null) {
