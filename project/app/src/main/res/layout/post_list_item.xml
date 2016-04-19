@@ -37,6 +37,17 @@
             android:alpha="0.12"
             android:background="@color/black" />
 
+        <ImageButton
+            android:id="@+id/post_item_like_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/post_item_top_divider"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_favorite_border_black_24dp"
+            android:alpha="0.54"
+            android:background="@color/transparent"/>
+
         <TextView
             android:layout_below="@id/post_item_top_divider"
             android:layout_width="wrap_content"
