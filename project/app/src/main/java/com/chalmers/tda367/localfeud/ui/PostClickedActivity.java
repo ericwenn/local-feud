@@ -10,9 +10,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.chalmers.tda367.localfeud.R;
-import com.chalmers.tda367.localfeud.data.Comment;
-import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 /**
@@ -24,15 +21,26 @@ public class PostClickedActivity extends AppCompatActivity
     private PostClickedAdapter postClickedAdapter;
     private FloatingActionButton commentFab;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_clicked);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initViews();
     }
 
     private void initViews() {
-        commentFab = (FloatingActionButton) findViewById(R.id.post_feed_create_new_fab);
+        commentFab = (FloatingActionButton) findViewById(R.id.post_feed_comment_fab);
         commentFab.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -56,6 +64,6 @@ public class PostClickedActivity extends AppCompatActivity
         /*for (Comment comment : dummyCommentList) {
             postClickedAdapter.addCommentToAdapter(comment);
         }*/
-        postClickedAdapter.addCommentToAdapter(new Comment());
+        //postClickedAdapter.addCommentToAdapter(new Comment());
     }
 }
