@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
@@ -99,5 +100,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 "ID " + post.getId() + ": " + post.getContent().getText(),
                 Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    @Override
+    public void onLikeClick(Post post, ImageButton imageButton) {
+        Snackbar.make(viewPager,
+                "You like that huh?",
+                Snackbar.LENGTH_LONG)
+                .show();
+//        Should check if post is liked
+        imageButton.setImageResource(R.drawable.ic_favorite_black_24dp);
     }
 }
