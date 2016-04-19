@@ -111,4 +111,12 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 //        Should check if post is liked
         imageButton.setImageResource(R.drawable.ic_favorite_black_24dp);
     }
+
+    @Override
+    public void onMoreClick(Post post) {
+        Snackbar.make(viewPager,
+                "No more for you",
+                Snackbar.LENGTH_LONG)
+                .show();
+    }
 }

@@ -70,6 +70,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 adapterCallback.onLikeClick(post, holder.postItemLikeButton);
             }
         });
+        holder.postItemMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterCallback.onMoreClick(post);
+            }
+        });
     }
 
     @Override
@@ -109,6 +115,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         private final TextView postItemCommentTextView;
         private final CardView holderLayout;
         private final ImageButton postItemLikeButton;
+        private final ImageButton postItemMoreButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -120,11 +127,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             postItemCommentTextView = (TextView) itemView.findViewById(R.id.post_item_comment_textview);
             holderLayout = (CardView) itemView.findViewById(R.id.post_list_item);
             postItemLikeButton = (ImageButton) itemView.findViewById(R.id.post_item_like_button);
+            postItemMoreButton = (ImageButton) itemView.findViewById(R.id.post_item_more_button);
         }
     }
 
     public interface AdapterCallback {
         void onPostClick(Post post);
         void onLikeClick(Post post, ImageButton imageButton);
+        void onMoreClick(Post post);
     }
 }
