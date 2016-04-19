@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.ui;
+package com.chalmers.tda367.localfeud.control;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -66,11 +66,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     @Override
     public void onPostClick(Post post) {
-        Snackbar.make(recyclerView,
-                "ID " + post.getId() + ": " + post.getContent().getText(),
-                Snackbar.LENGTH_LONG)
-                .show();
-
         Intent i = new Intent(getApplicationContext(), PostClickedActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("post", post);

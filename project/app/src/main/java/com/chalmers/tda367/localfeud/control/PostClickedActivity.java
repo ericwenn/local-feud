@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.ui;
+package com.chalmers.tda367.localfeud.control;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,6 @@ import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
-import java.util.List;
-
 /**
  * Created by Daniel Ahlqvist on 2016-04-18.
  */
@@ -23,7 +21,7 @@ public class PostClickedActivity extends AppCompatActivity
 {
     private RecyclerView recyclerView;
     private PostClickedAdapter postClickedAdapter;
-    private FloatingActionButton commentFab;
+    private Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,7 +29,7 @@ public class PostClickedActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-        Post post = (Post) bundle.getSerializable("post");
+        post = (Post) bundle.getSerializable("post");
         //Log.d(TagHandler.MAIN_TAG, "Postid: " + post.getId());
         setContentView(R.layout.activity_post_clicked);
     }
@@ -48,17 +46,6 @@ public class PostClickedActivity extends AppCompatActivity
     }
 
     private void initViews() {
-        commentFab = (FloatingActionButton) findViewById(R.id.post_feed_comment_fab);
-        commentFab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(v,
-                        "Skriv en fantastisk kommentar som alla älskar!",
-                        Snackbar.LENGTH_SHORT)
-                        .show();
-            }
-        });
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
         if (recyclerView != null) {
             recyclerView.setHasFixedSize(true);
@@ -72,6 +59,5 @@ public class PostClickedActivity extends AppCompatActivity
         /*for (Comment comment : dummyCommentList) {
             postClickedAdapter.addCommentToAdapter(comment);
         }*/
-        //postClickedAdapter.addCommentToAdapter(new Comment());
     }
 }

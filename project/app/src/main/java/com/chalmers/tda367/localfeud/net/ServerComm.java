@@ -6,7 +6,7 @@ import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.User;
-import com.chalmers.tda367.localfeud.ui.PostAdapter;
+import com.chalmers.tda367.localfeud.control.PostAdapter;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.util.RestClient;
 import com.chalmers.tda367.localfeud.util.TagHandler;
