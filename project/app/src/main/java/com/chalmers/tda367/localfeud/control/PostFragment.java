@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.ui;
+package com.chalmers.tda367.localfeud.control;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

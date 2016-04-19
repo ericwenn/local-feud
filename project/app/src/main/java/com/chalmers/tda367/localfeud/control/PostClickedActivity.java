@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.ui;
+package com.chalmers.tda367.localfeud.control;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,8 +11,6 @@ import android.view.View;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Comment;
-import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 /**

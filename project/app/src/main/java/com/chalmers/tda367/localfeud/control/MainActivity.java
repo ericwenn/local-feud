@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.ui;
+package com.chalmers.tda367.localfeud.control;
 
 import android.content.Intent;
 import android.os.Bundle;
