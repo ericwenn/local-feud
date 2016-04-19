@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.control;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,8 @@ import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.util.TagHandler;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnMenuTabClickListener;
 
 public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback {
 
@@ -24,12 +27,14 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     private PostAdapter postAdapter;
     private FloatingActionButton createNewFab;
     private ViewPager viewPager;
+    private BottomBar bottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+        initBottomBar(savedInstanceState);
     }
 
     @Override
@@ -42,6 +47,39 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         super.onResume();
         initViews();
         ServerComm.getInstance().updatePostFeed(postAdapter);
+    }
+
+    private void initBottomBar(Bundle savedInstanceState){
+        bottomBar = BottomBar.attach(this, savedInstanceState);
+        
+        //TODO: Implement button functionality
+        bottomBar.setItemsFromMenu(R.layout.bottombar_menu, new OnMenuTabClickListener() {
+            @Override
+            public void onMenuTabSelected(@IdRes int menuItemId) {
+                if (menuItemId == R.id.bottomBarItemOne) {
+                    // The user selected item number one.
+                }
+                else if (menuItemId == R.id.bottomBarItemTwo) {
+                    // The user selected item number two.
+                }
+                else if (menuItemId == R.id.bottomBarItemThree) {
+                    // The user selected item number three.
+                }
+            }
+
+            @Override
+            public void onMenuTabReSelected(@IdRes int menuItemId) {
+                if (menuItemId == R.id.bottomBarItemOne) {
+                    // The user reselected item number one.
+                }
+                else if (menuItemId == R.id.bottomBarItemTwo) {
+                    // The user reselected item number two.
+                }
+                else if (menuItemId == R.id.bottomBarItemThree) {
+                    // The user reselected item number three.
+                }
+            }
+        });
     }
 
     private void initViews() {
