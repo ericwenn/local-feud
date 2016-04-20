@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -88,10 +90,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         notifyItemChanged(postList.size());
     }
 
+    private void clearAdapter() {
+        postList.clear();
+        notifyDataSetChanged();
+    }
+
     public void addPostListToAdapter(final ArrayList<Post> postList) {
         final int currentCount = this.postList.size();
         synchronized (this.postList) {
-            this.postList.addAll(postList);
+            Log.d(TagHandler.MAIN_TAG, "Uppdaterar inlägg...");
+//            TODO: Fixa en bra add metod
+            if (this.postList.containsAll(postList)) {
+                Log.d(TagHandler.MAIN_TAG, "Inga nya inlägg");
+            }
+            else {
+                clearAdapter();
+                this.postList.addAll(postList);
+            }
         }
         if (Looper.getMainLooper() == Looper.myLooper()) {
             notifyItemRangeInserted(currentCount, postList.size());
