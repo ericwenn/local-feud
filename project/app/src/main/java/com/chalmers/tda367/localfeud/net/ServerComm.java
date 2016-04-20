@@ -1,5 +1,6 @@
 package com.chalmers.tda367.localfeud.net;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
 import com.chalmers.tda367.localfeud.data.Chat;
@@ -30,13 +31,15 @@ public class ServerComm implements IServerComm {
         return instance;
     }
 
-    public void updatePostFeed(final PostAdapter adapter) {
-
+    public void updatePostFeed(final PostAdapter adapter, final SwipeRefreshLayout swipeRefreshLayout) {
         class UpdatePostFeedResponseAction implements IResponseAction{
             public void onSuccess(String responseBody){
                 ArrayList<Post> posts = GsonHandler.getInstance().toPostList(new String(responseBody));
                 adapter.addPostListToAdapter(posts);
                 Log.d(TagHandler.MAIN_TAG, "onSuccess in serverComm. Posts: " + posts.size());
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
 
             public void onFailure(String responseBody){
@@ -49,6 +52,10 @@ public class ServerComm implements IServerComm {
         param.put("test", "test");
 
         restClient.get("posts/", param);
+    }
+
+    public void updatePostFeed(final PostAdapter adapter) {
+        updatePostFeed(adapter, null);
     }
     public List<Post> getPosts(Position pos, int radius, String order) {
         return null;
