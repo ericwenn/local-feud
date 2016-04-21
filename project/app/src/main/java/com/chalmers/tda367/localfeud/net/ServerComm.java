@@ -6,13 +6,9 @@ import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.User;
-import com.chalmers.tda367.localfeud.control.PostAdapter;
-import com.chalmers.tda367.localfeud.util.GsonHandler;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
 import com.chalmers.tda367.localfeud.util.RestClient;
-import com.chalmers.tda367.localfeud.util.TagHandler;
-import com.chalmers.tda367.localfeud.util.responseActions.IResponseAction;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,26 +26,20 @@ public class ServerComm implements IServerComm {
         return instance;
     }
 
-    public void updatePostFeed(final PostAdapter adapter) {
+    public void requestPosts(Position pos, IResponseListener listener) {
+        // Init restClient with a responseAction and its listener
+        IResponseAction action = new RequestPostsResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
 
-        class UpdatePostFeedResponseAction implements IResponseAction{
-            public void onSuccess(String responseBody){
-                ArrayList<Post> posts = GsonHandler.getInstance().toPostList(new String(responseBody));
-                adapter.addPostListToAdapter(posts);
-                Log.d(TagHandler.MAIN_TAG, "onSuccess in serverComm. Posts: " + posts.size());
-            }
-
-            public void onFailure(String responseBody){
-                // TODO: se till att något görs här
-            }
-        }
-
-        RestClient restClient = new RestClient(new UpdatePostFeedResponseAction());
+        // Store parameters
         HashMap<String, String> param = new HashMap<>();
-        param.put("test", "test");
+        param.put("latitude", Double.toString(pos.getLatitude()));
+        param.put("longitude", Double.toString(pos.getLongitude()));
 
         restClient.get("posts/", param);
     }
+
     public List<Post> getPosts(Position pos, int radius, String order) {
         return null;
     }

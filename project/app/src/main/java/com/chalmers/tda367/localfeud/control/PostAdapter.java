@@ -16,6 +16,7 @@ import com.chalmers.tda367.localfeud.data.Post;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -88,7 +89,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         notifyItemChanged(postList.size());
     }
 
-    public void addPostListToAdapter(final ArrayList<Post> postList) {
+    public void addPostListToAdapter(final List<Post> postList) {
         final int currentCount = this.postList.size();
         synchronized (this.postList) {
             this.postList.addAll(postList);

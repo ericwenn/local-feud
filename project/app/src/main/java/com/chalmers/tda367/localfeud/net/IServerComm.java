@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface IServerComm {
 
+    void requestPosts(Position pos, IResponseListener listener);
+
     /**
      * Get a list of Post objects.
      * @param pos The position of the requesting user

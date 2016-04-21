@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.util.responseActions;
+package com.chalmers.tda367.localfeud.net;
 
 /**
  * Created by Alfred on 2016-04-18.
@@ -6,4 +6,6 @@ package com.chalmers.tda367.localfeud.util.responseActions;
 public interface IResponseAction {
     void onSuccess(String responseBody);
     void onFailure(String responseBody);
+    void addListener(IResponseListener listener);
+    void removeListener(IResponseListener listener);
 }

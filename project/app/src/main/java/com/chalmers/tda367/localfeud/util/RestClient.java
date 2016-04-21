@@ -2,9 +2,8 @@ package com.chalmers.tda367.localfeud.util;
 
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.util.responseActions.IResponseAction;
+import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import java.util.Map;
@@ -22,6 +21,10 @@ public class RestClient {
     public RestClient(IResponseAction action){
         client = new AsyncHttpClient();
         responseHandler = new RestResponseHandler(action);
+    }
+
+    public void addHeader(String header, String value){
+        client.addHeader(header, value);
     }
 
     public void get(String url, Map<String, String> paramsMap){

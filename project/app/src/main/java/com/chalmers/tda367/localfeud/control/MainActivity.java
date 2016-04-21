@@ -15,23 +15,30 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.IResponseAction;
+import com.chalmers.tda367.localfeud.net.IResponseListener;
+import com.chalmers.tda367.localfeud.net.IServerComm;
 import com.chalmers.tda367.localfeud.net.ServerComm;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
-public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback {
+public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback, IResponseListener {
 
 //    private RecyclerView recyclerView;
     private PostAdapter postAdapter;
     private FloatingActionButton createNewFab;
     private ViewPager viewPager;
     private BottomBar bottomBar;
+    private IServerComm server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.server = ServerComm.getInstance();
         setContentView(R.layout.activity_main);
         initViews();
         initBottomBar(savedInstanceState);
@@ -46,7 +53,19 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     protected void onResume() {
         super.onResume();
         initViews();
-        ServerComm.getInstance().updatePostFeed(postAdapter);
+        //Dummy position
+        server.requestPosts(new Position(52.123123, 11.123123), this);
+    }
+
+    public void onResponseSuccess(IResponseAction source){
+        if (source instanceof RequestPostsResponseAction){
+            RequestPostsResponseAction responseAction = (RequestPostsResponseAction) source;
+            postAdapter.addPostListToAdapter(responseAction.getPosts());
+        }
+    }
+
+    public void onResponseFailure(IResponseAction source){
+
     }
 
     private void initBottomBar(Bundle savedInstanceState){
