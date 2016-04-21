@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Local Feud</string>
+    <string name="new_post_hint">What would you like to tell the world?</string>
+    <string name="create_new_post">Create new post</string>
+    <string name="empty_string" />
+    <string name="feed_menu_button">Feed</string>
+    <string name="chat_menu_button">Chat</string>
+    <string name="me_menu_button">Me</string>
 </resources>

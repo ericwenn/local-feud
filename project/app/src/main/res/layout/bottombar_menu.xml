@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp">
+    <item
+        android:layout_height="match_parent"
+        android:id="@+id/bottomBarItemOne"
+        android:icon="@drawable/ic_forum_black_24dp"
+        android:title="@string/feed_menu_button" />
+    <item
+        android:layout_height="match_parent"
+        android:id="@+id/bottomBarItemTwo"
+        android:icon="@drawable/ic_chat_black_24dp"
+        android:title="@string/chat_menu_button" />
+    <item
+        android:layout_height="match_parent"
+        android:id="@+id/bottomBarItemThree"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="@string/me_menu_button" />
+</menu>
