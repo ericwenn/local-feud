@@ -12,51 +12,34 @@ import java.util.List;
  */
 public interface IServerComm {
 
-    /**
-     * Get a list of Post objects.
-     * @param pos The position of the requesting user
-     * @param radius The reading radius of the requesting user
-     * @param order The order of the posts
-     * @return A List of Post-objects in the desired order
-     */
-    List<Post> getPosts(Position pos, int radius, String order);
+    void requestPosts(Position pos, IResponseListener listener);
 
-    /**
-     * Returns the post object with the specified id
-     * @param id The id of the post
-     * @return A Post object
-     */
-    Post getPost(int id);
+    void requestPosts(IResponseListener listener);
+
+    void requestSinglePost(Post post, IResponseListener listener);
+
+    void createPost(Post post, IResponseListener listener);
 
     /**
      * Sends a request to like a post
      * @param post The Post to like
      */
-    void likePost(Post post);
+    void likePost(Post post, IResponseListener listener);
 
     /**
      * Sends a request to unlike a post
      * @param post The Post to unlike
      */
-    void unlikePost(Post post);
+    void unlikePost(Post post, IResponseListener listener);
+
+    void requestLikes(Post post, IResponseListener listener);
 
     /**
      * Sends a request to comment a post
      * @param post
      * @param comment
      */
-    void commentPost(Post post, String comment);
+    void commentPost(Post post, String comment, IResponseListener listener);
 
-    /**
-     * Returns all chats with given status
-     * @param status A string that is one of "requested"/"pending"/"accepted"
-     * @return A list with Chats
-     */
-    List<Chat> getChats(String status);
-
-    /**
-     * Sends a request to start a chat with a User
-     * @param user The user to start a chat with
-     */
-    Chat createChat(User user);
+    void requestComments(Post post, IResponseListener listener);
 }

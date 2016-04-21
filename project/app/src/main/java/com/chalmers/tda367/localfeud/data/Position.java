@@ -10,6 +10,11 @@ public class Position implements Serializable{
     private double longitude;
     private double distance;
 
+    public Position(double latitude, double longitude){
+        this.setLatitude(latitude);
+        this.setLongitude(longitude);
+    }
+
     public double getLatitude() {
         return latitude;
     }
