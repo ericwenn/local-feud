@@ -1,21 +1,11 @@
 package com.chalmers.tda367.localfeud.net;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
-
-import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.data.User;
-import com.chalmers.tda367.localfeud.control.PostAdapter;
-import com.chalmers.tda367.localfeud.util.GsonHandler;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
 import com.chalmers.tda367.localfeud.util.RestClient;
-import com.chalmers.tda367.localfeud.util.TagHandler;
-import com.chalmers.tda367.localfeud.util.responseActions.IResponseAction;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Alfred on 2016-04-12.
@@ -30,58 +20,64 @@ public class ServerComm implements IServerComm {
         }
         return instance;
     }
+    
+    public void requestPosts(Position pos, IResponseListener listener) {
+        // Init restClient with a responseAction and its listener
+        IResponseAction action = new RequestPostsResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
 
-    public void updatePostFeed(final PostAdapter adapter, final SwipeRefreshLayout swipeRefreshLayout) {
-        class UpdatePostFeedResponseAction implements IResponseAction{
-            public void onSuccess(String responseBody){
-                ArrayList<Post> posts = GsonHandler.getInstance().toPostList(new String(responseBody));
-                adapter.addPostListToAdapter(posts);
-                Log.d(TagHandler.MAIN_TAG, "onSuccess in serverComm. Posts: " + posts.size());
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-            }
-
-            public void onFailure(String responseBody){
-                // TODO: se till att något görs här
-            }
-        }
-
-        RestClient restClient = new RestClient(new UpdatePostFeedResponseAction());
+        // Store parameters
         HashMap<String, String> param = new HashMap<>();
-        param.put("test", "test");
+        param.put("latitude", Double.toString(pos.getLatitude()));
+        param.put("longitude", Double.toString(pos.getLongitude()));
 
         restClient.get("posts/", param);
     }
 
-    public void updatePostFeed(final PostAdapter adapter) {
-        updatePostFeed(adapter, null);
-    }
-    public List<Post> getPosts(Position pos, int radius, String order) {
-        return null;
+    public void requestPosts(IResponseListener listener){
+        //Dummy position
+        requestPosts(new Position(53.123123, 11.123123), listener);
     }
 
-    public Post getPost(int id) {
-        return null;
-    }
-
-    public void likePost(Post post) {
+    public void requestSinglePost(Post post, IResponseListener listener){
 
     }
 
-    public void unlikePost(Post post) {
+    public void createPost(Post post, IResponseListener listener){
 
     }
 
-    public void commentPost(Post post, String comment) {
+    /**
+     * Sends a request to like a post
+     * @param post The Post to like
+     */
+    public void likePost(Post post, IResponseListener listener){
 
     }
 
-    public List<Chat> getChats(String status) {
-        return null;
+    /**
+     * Sends a request to unlike a post
+     * @param post The Post to unlike
+     */
+    public void unlikePost(Post post, IResponseListener listener){
+
     }
 
-    public Chat createChat(User user) {
-        return null;
+    public void requestLikes(Post post, IResponseListener listener){
+
+    }
+
+    /**
+     * Sends a request to comment a post
+     * @param post
+     * @param comment
+     */
+    public void commentPost(Post post, String comment, IResponseListener listener){
+
+    }
+
+    public void requestComments(Post post, IResponseListener listener){
+
     }
 }

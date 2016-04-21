@@ -15,8 +15,14 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.IResponseAction;
+import com.chalmers.tda367.localfeud.net.IResponseListener;
+import com.chalmers.tda367.localfeud.net.IServerComm;
 import com.chalmers.tda367.localfeud.net.ServerComm;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
+import com.chalmers.tda367.localfeud.net.responseListeners.RequestPostsResponseListener;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -28,10 +34,12 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     private FloatingActionButton createNewFab;
     private ViewPager viewPager;
     private BottomBar bottomBar;
+    private IServerComm server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.server = ServerComm.getInstance();
         setContentView(R.layout.activity_main);
         initViews();
         initBottomBar(savedInstanceState);
@@ -46,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     protected void onResume() {
         super.onResume();
         initViews();
-        ServerComm.getInstance().updatePostFeed(postAdapter);
+        server.requestPosts(new RequestPostsResponseListener(this.postAdapter));
     }
 
     private void initBottomBar(Bundle savedInstanceState){
