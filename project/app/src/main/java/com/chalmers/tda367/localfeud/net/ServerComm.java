@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.net;
 
 import android.util.Log;
 
+import com.chalmers.tda367.localfeud.control.PostClickedAdapter;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
@@ -46,6 +47,11 @@ public class ServerComm implements IServerComm {
             Log.e(TagHandler.MAIN_TAG, e.getMessage());
         }
     }
+
+    public static void updateCommentFeed(final PostClickedAdapter adapter)
+    {
+    }
+
     public List<Post> getPosts(Position pos, int radius, String order) {
         return null;
     }
