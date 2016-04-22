@@ -19,15 +19,8 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
-
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback {
 
@@ -50,30 +43,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
 
         // Initialize facebook SDK
-
-        FacebookSdk.sdkInitialize(this.getApplicationContext());
-
-        callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                System.out.println(loginResult);
-                System.out.println(loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
-
-        System.out.println("Facebook login");
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
 
 
 

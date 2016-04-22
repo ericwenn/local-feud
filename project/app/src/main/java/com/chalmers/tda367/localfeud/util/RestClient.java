@@ -20,6 +20,7 @@ public class RestClient {
     private RestResponseHandler responseHandler;
 
     public RestClient(IResponseAction action){
+
         client = new AsyncHttpClient();
         responseHandler = new RestResponseHandler(action);
     }
