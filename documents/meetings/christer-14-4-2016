@@ -1,0 +1,4 @@
+I vår domänmodell var det otydligt vem som var användaren. Det finns flera olika typer av användare, men vi har endast inkluderat en.
+Istället för att ha en User bör vi ha till exempel Author, Commenter, Liker osv.
+
+Prata med Joachim om API (PHP).
