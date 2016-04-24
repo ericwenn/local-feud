@@ -1,6 +1,7 @@
 package com.chalmers.tda367.localfeud.util;
 
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.data.Comment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -31,5 +32,8 @@ public class GsonHandler {
 
     public ArrayList<Post> toPostList(String json) {
         return gson.fromJson(json, new TypeToken<List<Post>>(){}.getType());
+    }
+    public ArrayList<Comment> toCommentList(String json) {
+        return gson.fromJson(json, new TypeToken<List<Comment>>(){}.getType());
     }
 }
