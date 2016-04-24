@@ -42,8 +42,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/post_item_top_divider"
-            android:layout_margin="@dimen/default_margin"
             android:layout_alignParentEnd="true"
+            android:padding="@dimen/default_margin"
             android:src="@drawable/ic_favorite_border_black_24dp"
             android:alpha="0.54"
             android:background="@color/transparent"/>
@@ -55,9 +55,8 @@
             android:id="@+id/post_item_msg_textview"
             android:padding="@dimen/default_margin"
             android:textSize="@dimen/card_post_message_text_size"
-            android:text="@string/app_name"/>
+            android:text="@string/really_long_text" />
 
-        <!--Temporary TextView. Should be comment icon-->
         <TextView
             android:id="@+id/post_item_comment_textview"
             android:layout_width="wrap_content"

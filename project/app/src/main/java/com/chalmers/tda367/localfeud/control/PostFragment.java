@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
-import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestPostsResponseListener;
 import com.chalmers.tda367.localfeud.util.TagHandler;
