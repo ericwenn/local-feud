@@ -10,6 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestPostsResponseListener;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 public class FeedFragment extends Fragment {
 
@@ -24,29 +26,42 @@ public class FeedFragment extends Fragment {
     private PostAdapter postAdapter;
     private ViewPager viewPager;
     private MainActivity activity;
+    private RequestPostsResponseListener requestPostsResponseListener;
 
     public static FeedFragment newInstance(MainActivity mainActivity) {
         FeedFragment fragment = new FeedFragment();
         fragment.activity = mainActivity;
+        fragment.postAdapter = new PostAdapter(fragment.activity);
+        fragment.requestPostsResponseListener = new RequestPostsResponseListener(fragment.postAdapter);
+        Log.d(TagHandler.FEED_FRAGMENT_TAG, "NewInstance");
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TagHandler.FEED_FRAGMENT_TAG, "On Create View. MainActivity: " + activity + ", PostAdapter: " + postAdapter);
         return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TagHandler.FEED_FRAGMENT_TAG, "On View Created");
+        ServerComm.getInstance().requestPosts(requestPostsResponseListener);
         initViews(view);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ServerComm.getInstance().requestPosts(new RequestPostsResponseListener(postAdapter));
+        Log.d(TagHandler.FEED_FRAGMENT_TAG, "On Resume");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TagHandler.FEED_FRAGMENT_TAG, "On Start");
     }
 
     private void initViews(final View view) {
@@ -64,8 +79,6 @@ public class FeedFragment extends Fragment {
                 startActivity(i);
             }
         });
-
-        postAdapter = new PostAdapter(activity);
 
         viewPager = (ViewPager) view.findViewById(R.id.post_feed_viewpager);
         addPages(viewPager);

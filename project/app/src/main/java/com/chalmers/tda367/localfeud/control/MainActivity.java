@@ -72,11 +72,11 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     private void initViews() {
         FeedFragment feedFragment = FeedFragment.newInstance(this);
+        ChatFragment chatFragment = ChatFragment.newInstance();
+        MeFragment meFragment = MeFragment.newInstance();
         fragments.add(feedFragment);
-
-//        TODO: Nu läggs samma fragment till hela tiden
-        fragments.add(feedFragment);
-        fragments.add(feedFragment);
+        fragments.add(chatFragment);
+        fragments.add(meFragment);
     }
 
     @Override
