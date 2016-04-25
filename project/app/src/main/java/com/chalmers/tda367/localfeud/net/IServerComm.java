@@ -16,7 +16,7 @@ public interface IServerComm {
 
     void requestPosts(IResponseListener listener);
 
-    void requestSinglePost(Post post, IResponseListener listener);
+    void requestSinglePost(int postID, IResponseListener listener);
 
     void createPost(Post post, IResponseListener listener);
 

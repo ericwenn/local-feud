@@ -8,6 +8,7 @@ import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.User;
 import com.chalmers.tda367.localfeud.control.PostAdapter;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestSinglePostResponseAction;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
@@ -49,8 +50,13 @@ public class ServerComm implements IServerComm {
         requestPosts(new Position(53.123123, 11.123123), listener);
     }
 
-    public void requestSinglePost(Post post, IResponseListener listener){
+    public void requestSinglePost(int postID, IResponseListener listener){
+        // Init restClient with a responseAction and its listener
+        IResponseAction action = new RequestSinglePostResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
 
+        restClient.get("posts/" + Integer.toString(postID) + "/");
     }
 
     public void createPost(Post post, IResponseListener listener){

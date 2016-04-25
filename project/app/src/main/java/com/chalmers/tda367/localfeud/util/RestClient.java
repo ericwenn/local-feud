@@ -27,6 +27,10 @@ public class RestClient {
         client.addHeader(header, value);
     }
 
+    public void get(String url){
+        client.get(getAbsoluteUrl(url), null, responseHandler);
+    }
+
     public void get(String url, Map<String, String> paramsMap){
         RequestParams params = new RequestParams(paramsMap);
         client.get(getAbsoluteUrl(url), params, responseHandler);
