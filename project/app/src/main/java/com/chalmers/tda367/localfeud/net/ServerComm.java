@@ -1,14 +1,5 @@
 package com.chalmers.tda367.localfeud.net;
 
-import android.util.Log;
-
-import com.chalmers.tda367.localfeud.control.PostClickedAdapter;
-import com.chalmers.tda367.localfeud.data.Chat;
-import com.chalmers.tda367.localfeud.data.Position;
-import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.data.User;
-import com.chalmers.tda367.localfeud.control.PostAdapter;
-import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;

@@ -1,6 +1,7 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -26,14 +27,18 @@ import com.chalmers.tda367.localfeud.util.TagHandler;
 public class PostFragment extends Fragment {
 
     private static PostAdapter postAdapter;
+    private LinearLayoutManager linearLayoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Parcelable listState;
+    private static final String LIST_STATE_KEY = "ListStateKey";
 
     public PostFragment() {
-
+        linearLayoutManager = new LinearLayoutManager(this.getActivity());
     }
 
     public static PostFragment newInstance(PostAdapter adapter) {
         postAdapter = adapter;
+        Log.d(TagHandler.FEED_FRAGMENT_TAG, "PostFragment: New Instance");
         return new PostFragment();
     }
 
@@ -73,11 +78,54 @@ public class PostFragment extends Fragment {
                 ServerComm.getInstance().requestPosts(new RefreshPostsResponseListener(postAdapter));
             }
         });
+        Log.d(TagHandler.FEED_FRAGMENT_TAG, "PostFragment: On Create View");
         return view;
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.d(TagHandler.FEED_FRAGMENT_TAG, "PostFragment: On View Created");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (listState != null) {
+            linearLayoutManager.onRestoreInstanceState(listState);
+        }
+        Log.d(TagHandler.FEED_FRAGMENT_TAG, "PostFragment: On Resume");
+    }
+
+
+    @Override
     public String toString() {
         return "Post Feed";
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        listState = linearLayoutManager.onSaveInstanceState();
+        outState.putParcelable(LIST_STATE_KEY, listState);
+
+        Log.d(TagHandler.MAIN_TAG, "PostFragment: OnSaveInstanceState");
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        }
+        Log.d(TagHandler.MAIN_TAG, "PostFragment: OnViewStateRestored");
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(TagHandler.MAIN_TAG, "PostFragment: OnActivityCreated");
     }
 }
