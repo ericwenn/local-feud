@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     private void initBottomBar(Bundle savedInstanceState){
         bottomBar = BottomBar.attach(this, savedInstanceState);
-
+        bottomBar.noTopOffset();
+        bottomBar.noResizeGoodness();
+        bottomBar.noNavBarGoodness();
         bottomBar.setMaxFixedTabs(2);
         //TODO: Implement button functionality
         bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
