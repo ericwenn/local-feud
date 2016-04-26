@@ -54,7 +54,14 @@ public class ServerComm implements IServerComm {
      * @param post The Post to like
      */
     public void likePost(Post post, IResponseListener listener) {
+        // Init restClient with a responseAction and its listener
+        IResponseAction action = new RequestPostsResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
 
+        int postID = post.getId();
+
+        restClient.post("posts/"+postID+"/likes/", null);
     }
 
     /**
