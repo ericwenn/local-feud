@@ -70,6 +70,14 @@ public class ServerComm implements IServerComm {
      * @param post The Post to unlike
      */
     public void unlikePost(Post post, IResponseListener listener){
+        // Init restClient with a responseAction and its listener
+        IResponseAction action = new LikePostResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
+
+        int postID = post.getId();
+
+        restClient.delete("posts/"+postID+"/likes/", null);
 
     }
 
