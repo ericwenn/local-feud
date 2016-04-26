@@ -18,16 +18,10 @@ import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback {
 
     private BottomBar bottomBar;
     private Fragment currentFragment;
-
-    private final ArrayList<Fragment> fragments = new ArrayList<>();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
