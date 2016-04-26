@@ -3,7 +3,6 @@ package com.chalmers.tda367.localfeud.net;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
-import com.chalmers.tda367.localfeud.util.RestClient;
 
 import java.util.HashMap;
 
@@ -13,6 +12,8 @@ import java.util.HashMap;
 public class ServerComm implements IServerComm {
 
     private static ServerComm instance;
+
+    private ServerComm() {}
 
     public static ServerComm getInstance(){
         if (instance == null){
