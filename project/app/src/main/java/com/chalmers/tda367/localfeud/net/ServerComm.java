@@ -52,7 +52,7 @@ public class ServerComm implements IServerComm {
      * Sends a request to like a post
      * @param post The Post to like
      */
-    public void likePost(Post post, IResponseListener listener){
+    public void likePost(Post post, IResponseListener listener) {
 
     }
 

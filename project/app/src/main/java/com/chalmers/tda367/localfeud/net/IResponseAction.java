@@ -5,7 +5,7 @@ package com.chalmers.tda367.localfeud.net;
  */
 public interface IResponseAction {
     void onSuccess(String responseBody);
-    void onFailure(String responseBody);
+    void onFailure(ResponseError error, String responseBody);
     void addListener(IResponseListener listener);
     void removeListener(IResponseListener listener);
 }
