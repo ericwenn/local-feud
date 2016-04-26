@@ -12,8 +12,10 @@ import android.util.Log;
 import android.widget.ImageButton;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.auth.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.TagHandler;
+import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
@@ -26,12 +28,36 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     private final ArrayList<Fragment> fragments = new ArrayList<>();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Initialize Facebook SDK
+        FacebookSdk.sdkInitialize( getApplicationContext() );
+
+
         setContentView(R.layout.activity_main);
         initViews();
         initBottomBar(savedInstanceState);
+
+        /**
+         * Avkommentera detta när inloggning ska ske.
+         *
+        if( !AuthenticatedUser.getInstance().isLoggedIn() ) {
+            Intent i = new Intent( getApplicationContext(), LoginActivity.class );
+            startActivity(i);
+        }
+         */
+
+
+        System.out.println(AuthenticatedUser.getInstance().requestHeaders());
+
+
+
+
+
     }
 
     private void initBottomBar(Bundle savedInstanceState){
