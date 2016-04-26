@@ -63,6 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/default_margin"
+        android:src="@drawable/ic_create_white_48dp"
         app:layout_behavior="com.chalmers.tda367.localfeud.control.ScrollAwareFABBehavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

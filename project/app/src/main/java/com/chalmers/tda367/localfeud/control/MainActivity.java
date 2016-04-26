@@ -12,7 +12,6 @@ import android.util.Log;
 import android.widget.ImageButton;
 
 import com.chalmers.tda367.localfeud.R;
-import com.chalmers.tda367.localfeud.auth.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
@@ -37,9 +36,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize( getApplicationContext() );
 
-
         setContentView(R.layout.activity_main);
-        initViews();
         initBottomBar(savedInstanceState);
 
         /**
@@ -50,17 +47,9 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
             startActivity(i);
         }
          */
-
-
-        System.out.println(AuthenticatedUser.getInstance().requestHeaders());
-
-
-
-
-
     }
 
-    private void initBottomBar(Bundle savedInstanceState){
+    private void initBottomBar(final Bundle savedInstanceState){
         bottomBar = BottomBar.attach(this, savedInstanceState);
         bottomBar.noTopOffset();
         bottomBar.noResizeGoodness();
@@ -95,28 +84,27 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     private void switchFragment(int menuItemId) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (menuItemId == R.id.feed_item) {
-            Log.d(TagHandler.MAIN_ACTIVITY_TAG, "Selected feed fragment.");
-            currentFragment = FeedFragment.newInstance(this);
+            if (currentFragment == null || currentFragment.getClass() != FeedFragment.class)
+                currentFragment = FeedFragment.newInstance(this);
         }
         else if (menuItemId == R.id.chat_item) {
-            Log.d(TagHandler.MAIN_ACTIVITY_TAG, "Selected chat fragment.");
-            currentFragment = ChatFragment.newInstance();
+            if (currentFragment == null || currentFragment.getClass() != ChatFragment.class)
+                currentFragment = ChatFragment.newInstance();
         }
         else if (menuItemId == R.id.me_item) {
-            Log.d(TagHandler.MAIN_ACTIVITY_TAG, "Selected me fragment.");
-            currentFragment = MeFragment.newInstance();
+            if (currentFragment == null || currentFragment.getClass() != MeFragment.class)
+                currentFragment = MeFragment.newInstance();
         }
         transaction.replace(R.id.main_root, currentFragment);
         transaction.commit();
     }
 
-    private void initViews() {
-        FeedFragment feedFragment = FeedFragment.newInstance(this);
-        ChatFragment chatFragment = ChatFragment.newInstance();
-        MeFragment meFragment = MeFragment.newInstance();
-        fragments.add(feedFragment);
-        fragments.add(chatFragment);
-        fragments.add(meFragment);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TagHandler.MAIN_ACTIVITY_TAG, "onSaveInstanceState");
+        bottomBar.onSaveInstanceState(outState);
+        currentFragment.onSaveInstanceState(outState);
     }
 
     @Override
