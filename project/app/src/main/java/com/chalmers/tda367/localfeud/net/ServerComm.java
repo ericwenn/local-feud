@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.net;
 
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.responseActions.LikePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
 
 import java.util.HashMap;
@@ -55,7 +56,7 @@ public class ServerComm implements IServerComm {
      */
     public void likePost(Post post, IResponseListener listener) {
         // Init restClient with a responseAction and its listener
-        IResponseAction action = new RequestPostsResponseAction();
+        IResponseAction action = new LikePostResponseAction();
         action.addListener(listener);
         RestClient restClient = new RestClient(action);
 
