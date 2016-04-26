@@ -1,8 +1,9 @@
-package com.chalmers.tda367.localfeud.util;
+package com.chalmers.tda367.localfeud.net;
 
 import android.util.Log;
 
 import com.chalmers.tda367.localfeud.net.IResponseAction;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.ResponseHandlerInterface;
 
