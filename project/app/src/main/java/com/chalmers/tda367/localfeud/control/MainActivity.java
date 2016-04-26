@@ -110,13 +110,18 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     }
 
     @Override
-    public void onLikeClick(Post post, final ImageButton imageButton) {
+    public void onLikeClick(final Post post, final ImageButton imageButton) {
 //        Should check if post is liked
+        final boolean isLiked = post.isLiked();
+        final int revertLikeDrawable;
+        if (isLiked) revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+        else revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
 
         ServerComm.getInstance().likePost(post, new IResponseListener() {
             @Override
             public void onResponseSuccess(IResponseAction source) {
-                imageButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+                imageButton.setImageResource(revertLikeDrawable);
+                post.setIsLiked(!isLiked);
             }
 
             @Override

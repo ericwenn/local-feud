@@ -8,5 +8,5 @@
     <string name="me_menu_button">Me</string>
     <string name="really_long_text">Message with max characters. Bacon ipsum dolor amet ball tip kevin corned beef boudin shank tenderloin swine cupim strip steak sirloin. Doner ground round hamburger, boudin short ribs frankfurter brisket pork turducken. Bacon ipsum dolor amet ball tip....</string>
     <string name="facebook_app_id">1552907468343208</string>
-    <string name="like_error_msg">Couldn't like right now. Try again later.</string>
+    <string name="like_error_msg">Couldn\'t like right now. Try again later.</string>
 </resources>
