@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.text.SimpleDateFormat;
@@ -55,10 +56,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Post post = postList.get(position);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
         holder.postItemMsgTextView.setText(post.getContent().getText());
         holder.postItemDistanceTextView.setText("" + post.getLocation().getDistance());
-        holder.postItemTimeTextView.setText(simpleDateFormat.format(post.getDatePosted().getTime()));
+        holder.postItemTimeTextView.setText(DateString.convert(post.getDatePosted()));
         holder.postItemSenderTextView.setText("" + post.getUser().getId());
         holder.postItemCommentTextView.setText("" + post.getNumberOfComments());
         holder.holderLayout.setOnClickListener(new View.OnClickListener() {
