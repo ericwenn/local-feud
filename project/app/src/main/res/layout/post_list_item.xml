@@ -9,6 +9,7 @@
     android:layout_margin="4dp"
     card_view:cardCornerRadius="@dimen/card_corner_radius">
     <RelativeLayout
+        android:id="@+id/post_item_relative"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
