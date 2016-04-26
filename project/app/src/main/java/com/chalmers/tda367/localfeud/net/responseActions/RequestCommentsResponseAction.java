@@ -47,8 +47,8 @@ public class RequestCommentsResponseAction extends AbstractResponseAction {
         }
     }
 
-    private void setComments(List<Comment> posts){
-        this.comments = posts;
+    private void setComments(List<Comment> comments){
+        this.comments = comments;
     }
 
     public List<Comment> getComments(){

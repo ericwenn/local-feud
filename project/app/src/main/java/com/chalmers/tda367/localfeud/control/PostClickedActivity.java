@@ -85,7 +85,7 @@ public class PostClickedActivity extends AppCompatActivity {
                 timeSinceUpload = timeElapsedMin + " minutes ago";
         }
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_item_refresh_layout);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
         postText = (TextView) findViewById(R.id.post_item_msg_textview);
         senderText = (TextView) findViewById(R.id.post_item_sender_textview);
         distanceText = (TextView) findViewById(R.id.post_item_distance_textview);

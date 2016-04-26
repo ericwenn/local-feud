@@ -50,6 +50,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<PostClickedAdapter.
         holder.commentItemTimeTextView.setText(comment.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
                 comment.getDatePosted().get(Calendar.MINUTE));
         holder.commentItemSenderTextView.setText("" + comment.getAuthor());
+        Log.d(TagHandler.MAIN_TAG, "Comment: " + comment.getText());
     }
 
     public void addCommentToAdapter(Comment comment)
