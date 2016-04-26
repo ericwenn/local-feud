@@ -13,6 +13,9 @@ import android.widget.ImageButton;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.IResponseAction;
+import com.chalmers.tda367.localfeud.net.IResponseListener;
+import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
@@ -28,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         super.onCreate(savedInstanceState);
 
         // Initialize Facebook SDK
-        FacebookSdk.sdkInitialize( getApplicationContext() );
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_main);
         initBottomBar(savedInstanceState);
@@ -36,14 +39,14 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         /**
          * Avkommentera detta när inloggning ska ske.
          *
-        if( !AuthenticatedUser.getInstance().isLoggedIn() ) {
-            Intent i = new Intent( getApplicationContext(), LoginActivity.class );
-            startActivity(i);
-        }
+         if( !AuthenticatedUser.getInstance().isLoggedIn() ) {
+         Intent i = new Intent( getApplicationContext(), LoginActivity.class );
+         startActivity(i);
+         }
          */
     }
 
-    private void initBottomBar(final Bundle savedInstanceState){
+    private void initBottomBar(final Bundle savedInstanceState) {
         bottomBar = BottomBar.attach(this, savedInstanceState);
         bottomBar.noTopOffset();
         bottomBar.noResizeGoodness();
@@ -60,11 +63,9 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
             public void onMenuTabReSelected(@IdRes int menuItemId) {
                 if (menuItemId == R.id.feed_item) {
                     // The user reselected item number one.
-                }
-                else if (menuItemId == R.id.chat_item) {
+                } else if (menuItemId == R.id.chat_item) {
                     // The user reselected item number two.
-                }
-                else if (menuItemId == R.id.me_item) {
+                } else if (menuItemId == R.id.me_item) {
                     // The user reselected item number three.
                 }
             }
@@ -80,12 +81,10 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         if (menuItemId == R.id.feed_item) {
             if (currentFragment == null || currentFragment.getClass() != FeedFragment.class)
                 currentFragment = FeedFragment.newInstance(this);
-        }
-        else if (menuItemId == R.id.chat_item) {
+        } else if (menuItemId == R.id.chat_item) {
             if (currentFragment == null || currentFragment.getClass() != ChatFragment.class)
                 currentFragment = ChatFragment.newInstance();
-        }
-        else if (menuItemId == R.id.me_item) {
+        } else if (menuItemId == R.id.me_item) {
             if (currentFragment == null || currentFragment.getClass() != MeFragment.class)
                 currentFragment = MeFragment.newInstance();
         }
@@ -111,13 +110,23 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     }
 
     @Override
-    public void onLikeClick(Post post, ImageButton imageButton) {
-        Snackbar.make(bottomBar,
-                "You like that huh?",
-                Snackbar.LENGTH_LONG)
-                .show();
+    public void onLikeClick(Post post, final ImageButton imageButton) {
 //        Should check if post is liked
-        imageButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+
+        ServerComm.getInstance().likePost(post, new IResponseListener() {
+            @Override
+            public void onResponseSuccess(IResponseAction source) {
+                imageButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+            }
+
+            @Override
+            public void onResponseFailure(IResponseAction source) {
+                Snackbar.make(bottomBar,
+                        R.string.like_error_msg,
+                        Snackbar.LENGTH_LONG)
+                        .show();
+            }
+        });
     }
 
     @Override
