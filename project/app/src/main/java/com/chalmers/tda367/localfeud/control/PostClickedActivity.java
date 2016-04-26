@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.Calendar;
@@ -55,30 +56,6 @@ public class PostClickedActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        Calendar current = Calendar.getInstance();
-        long timeElapsedMs = current.getTimeInMillis() - post.getDatePosted().getTimeInMillis();
-        long timeElapsedMin = TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs);
-        long timeElapsedHour = TimeUnit.MILLISECONDS.toHours(timeElapsedMs);
-        long timeElapsedDay = TimeUnit.MILLISECONDS.toDays(timeElapsedMs);
-
-        String timeSinceUpload;
-
-        if (timeElapsedDay >= 1) {
-            if (timeElapsedDay == 1)
-                timeSinceUpload = "1 day ago";
-            else
-                timeSinceUpload = timeElapsedDay + " days ago";
-        } else if (timeElapsedMin > 60) {
-            if (timeElapsedHour == 1)
-                timeSinceUpload = "1 hour ago";
-            else
-                timeSinceUpload = timeElapsedHour + " hours ago";
-        } else {
-            if (timeElapsedMin == 1)
-                timeSinceUpload = "1 minute ago";
-            else
-                timeSinceUpload = timeElapsedMin + " minutes ago";
-        }
 
         postText = (TextView) findViewById(R.id.post_item_msg_textview);
         senderText = (TextView) findViewById(R.id.post_item_sender_textview);
@@ -90,7 +67,7 @@ public class PostClickedActivity extends AppCompatActivity {
         distanceText.setText("" + post.getLocation().getDistance());
         timeText.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
                 post.getDatePosted().get(Calendar.MINUTE));
-        timeElapsedText.setText(timeSinceUpload);
+        timeElapsedText.setText(DateString.convert( post.getDatePosted()));
 
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
         if (recyclerView != null) {
