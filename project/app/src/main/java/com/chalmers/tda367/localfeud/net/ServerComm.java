@@ -14,6 +14,7 @@ import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
 import com.chalmers.tda367.localfeud.util.RestClient;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.HashMap;
 
@@ -96,8 +97,9 @@ public class ServerComm implements IServerComm {
 
         // Store parameters
         HashMap<String, String> param = new HashMap<>();
-        param.put("id", Double.toString(post.getId()));
+        /*param.put("id", Double.toString(post.getId()));
+        Log.d(TagHandler.MAIN_TAG, "The hashmap: " + param.get("id"));*/
 
-        restClient.get("comments/", param);
+        restClient.get("posts/" + post.getId() + "/comments/", param);
     }
 }
