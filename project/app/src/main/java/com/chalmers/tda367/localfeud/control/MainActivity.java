@@ -6,6 +6,7 @@ import android.support.annotation.IdRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageButton;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback {
 
     private BottomBar bottomBar;
+    private Fragment currentFragment;
 
     private final ArrayList<Fragment> fragments = new ArrayList<>();
 
@@ -34,25 +36,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     private void initBottomBar(Bundle savedInstanceState){
         bottomBar = BottomBar.attach(this, savedInstanceState);
-
+        bottomBar.noTopOffset();
+        bottomBar.noResizeGoodness();
+        bottomBar.noNavBarGoodness();
+        bottomBar.setMaxFixedTabs(2);
         //TODO: Implement button functionality
         bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                if (menuItemId == R.id.feed_item) {
-                    Log.d(TagHandler.MAIN_ACTIVITY_TAG, "Selected feed fragment.");
-                    transaction.replace(R.id.main_root, fragments.get(0));
-                }
-                else if (menuItemId == R.id.chat_item) {
-                    Log.d(TagHandler.MAIN_ACTIVITY_TAG, "Selected chat fragment.");
-                    transaction.replace(R.id.main_root, fragments.get(1));
-                }
-                else if (menuItemId == R.id.me_item) {
-                    Log.d(TagHandler.MAIN_ACTIVITY_TAG, "Selected me fragment.");
-                    transaction.replace(R.id.main_root, fragments.get(2));
-                }
-                transaction.commit();
+                switchFragment(menuItemId);
             }
 
             @Override
@@ -68,15 +60,37 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 }
             }
         });
+
+        bottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorPrimary));
+        bottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.colorAccent));
+        bottomBar.mapColorForTab(2, "#FF9800");
+    }
+
+    private void switchFragment(int menuItemId) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (menuItemId == R.id.feed_item) {
+            Log.d(TagHandler.MAIN_ACTIVITY_TAG, "Selected feed fragment.");
+            currentFragment = FeedFragment.newInstance(this);
+        }
+        else if (menuItemId == R.id.chat_item) {
+            Log.d(TagHandler.MAIN_ACTIVITY_TAG, "Selected chat fragment.");
+            currentFragment = ChatFragment.newInstance();
+        }
+        else if (menuItemId == R.id.me_item) {
+            Log.d(TagHandler.MAIN_ACTIVITY_TAG, "Selected me fragment.");
+            currentFragment = MeFragment.newInstance();
+        }
+        transaction.replace(R.id.main_root, currentFragment);
+        transaction.commit();
     }
 
     private void initViews() {
         FeedFragment feedFragment = FeedFragment.newInstance(this);
+        ChatFragment chatFragment = ChatFragment.newInstance();
+        MeFragment meFragment = MeFragment.newInstance();
         fragments.add(feedFragment);
-
-//        TODO: Nu läggs samma fragment till hela tiden
-        fragments.add(feedFragment);
-        fragments.add(feedFragment);
+        fragments.add(chatFragment);
+        fragments.add(meFragment);
     }
 
     @Override

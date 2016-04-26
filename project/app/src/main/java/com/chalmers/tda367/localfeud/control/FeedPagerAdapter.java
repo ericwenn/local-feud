@@ -2,7 +2,7 @@ package com.chalmers.tda367.localfeud.control;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author David Söderberg
  * @since 16-04-18
  */
-public class FeedPagerAdapter extends FragmentPagerAdapter {
+public class FeedPagerAdapter extends FragmentStatePagerAdapter {
     ArrayList<Fragment> pages = new ArrayList<>();
 
     public FeedPagerAdapter(FragmentManager fm) {
