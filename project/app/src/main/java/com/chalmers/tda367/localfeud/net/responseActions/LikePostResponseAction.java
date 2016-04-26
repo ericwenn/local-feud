@@ -8,10 +8,11 @@ import com.chalmers.tda367.localfeud.net.ResponseError;
 public class LikePostResponseAction extends AbstractResponseAction {
     @Override
     public void onSuccess(String responseBody) {
+        this.notifySuccess();
     }
 
     @Override
     public void onFailure(ResponseError err, String responseBody) {
-
+        this.notifyFailure();
     }
 }
