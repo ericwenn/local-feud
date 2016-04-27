@@ -3,6 +3,7 @@ package com.chalmers.tda367.localfeud.permissionflow;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.chalmers.tda367.localfeud.R;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
@@ -13,11 +14,7 @@ public class PermissionFlow extends AppIntro {
     public void init(Bundle savedInstanceState) {
 
 
-        // Test slide
-        String title = "Permission Flow";
-        String description = "Testar permission flow";
-
-        addSlide(AppIntroFragment.newInstance(title, description, 0, 0));
+        addSlide( SlideFactory.newInstance(R.layout.fragment_permission_flow_slide1));
 
         // OPTIONAL METHODS
         // Override bar/separator color.
