@@ -115,9 +115,7 @@ public class PostClickedActivity extends AppCompatActivity {
                 ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
             }
         });
-        /*for (Comment comment : dummyCommentList) {
-            postClickedAdapter.addCommentToAdapter(comment);
-        }*/
+        ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
     }
 
     public class RefreshCommentsResponseListener extends RequestCommentsResponseListener
