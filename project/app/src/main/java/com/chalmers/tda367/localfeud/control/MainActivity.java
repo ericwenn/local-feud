@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageButton;
 
 import com.chalmers.tda367.localfeud.R;
@@ -16,7 +15,6 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.ServerComm;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -95,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(TagHandler.MAIN_ACTIVITY_TAG, "onSaveInstanceState");
         bottomBar.onSaveInstanceState(outState);
         currentFragment.onSaveInstanceState(outState);
     }
@@ -116,8 +113,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         final int revertLikeDrawable;
         if (isLiked) revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
         else revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
-
-        ServerComm.getInstance().likePost(post, new IResponseListener() {
+        IResponseListener responseListener = new IResponseListener() {
             @Override
             public void onResponseSuccess(IResponseAction source) {
                 imageButton.setImageResource(revertLikeDrawable);
@@ -131,7 +127,10 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                         Snackbar.LENGTH_LONG)
                         .show();
             }
-        });
+        };
+
+        if (!isLiked) ServerComm.getInstance().likePost(post, responseListener);
+        else ServerComm.getInstance().unlikePost(post, responseListener);
     }
 
     @Override

@@ -10,7 +10,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import android.view.ViewGroup;
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestPostsResponseListener;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 
 public class FeedFragment extends Fragment {
 
@@ -41,13 +39,11 @@ public class FeedFragment extends Fragment {
 
         fragment.postFragment = PostFragment.newInstance(fragment.postAdapter);
         fragment.postFragment2 = PostFragment.newInstance(fragment.postAdapter);
-        Log.d(TagHandler.FEED_FRAGMENT_TAG, "New Instance");
         return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d(TagHandler.FEED_FRAGMENT_TAG, "onCreate, savedInstanceState: " + savedInstanceState);
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
     }
@@ -55,19 +51,15 @@ public class FeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TagHandler.FEED_FRAGMENT_TAG, "onCreateView");
         feedPagerAdapter = new FeedPagerAdapter(activity.getSupportFragmentManager());
-        Log.d(TagHandler.FEED_FRAGMENT_TAG, "onCreateView");
         return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(TagHandler.FEED_FRAGMENT_TAG, "onViewCreated. savedInstanceState: " + savedInstanceState);
         ServerComm.getInstance().requestPosts(requestPostsResponseListener);
         initViews(view, savedInstanceState);
-        Log.d(TagHandler.FEED_FRAGMENT_TAG, "onViewCreated finished");
     }
 
     private void initViews(final View view, @Nullable Bundle savedInstanceState) {
@@ -126,6 +118,5 @@ public class FeedFragment extends Fragment {
         outState.putParcelable(VIEW_PAGER_KEY, viewPager.onSaveInstanceState());
         postFragment.onSaveInstanceState(outState);
         postFragment2.onSaveInstanceState(outState);
-        Log.d(TagHandler.FEED_FRAGMENT_TAG, "onSaveInstanceState");
     }
 }
