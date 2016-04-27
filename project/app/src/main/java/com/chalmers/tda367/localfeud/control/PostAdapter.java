@@ -77,7 +77,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 adapterCallback.onMoreClick(post);
             }
         });
-        if (post.isLiked()) holder.postItemLikeButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+        if (post.isLiked())
+            holder.postItemLikeButton.setImageResource(R.drawable.ic_favorite_black_24dp);
         else holder.postItemLikeButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
     }
 
@@ -100,19 +101,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         final int currentCount = this.postList.size();
         synchronized (this.postList) {
             Log.d(TagHandler.MAIN_TAG, "Uppdaterar inlägg...");
-//            TODO: Fixa en bra add metod
-            if (this.postList.containsAll(postList)) {
-                Log.d(TagHandler.MAIN_TAG, "Inga nya inlägg");
-            }
-            else {
-                clearAdapter();
-                this.postList.addAll(postList);
-            }
+            clearAdapter();
+            this.postList.addAll(postList);
         }
         if (Looper.getMainLooper() == Looper.myLooper()) {
             notifyItemRangeInserted(currentCount, postList.size());
-        }
-        else {
+        } else {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
@@ -149,7 +143,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public interface AdapterCallback {
         void onPostClick(Post post);
+
         void onLikeClick(Post post, ImageButton imageButton);
+
         void onMoreClick(Post post);
     }
 }
