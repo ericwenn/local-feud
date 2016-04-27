@@ -1,12 +1,12 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,6 @@ import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestPostsResponseListener;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 
 /**
  * Text om klassen
@@ -26,7 +25,10 @@ import com.chalmers.tda367.localfeud.util.TagHandler;
 public class PostFragment extends Fragment {
 
     private static PostAdapter postAdapter;
+    private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Parcelable listState;
+    private static final String LIST_STATE_KEY = "ListStateKey";
 
     public PostFragment() {
 
@@ -59,10 +61,9 @@ public class PostFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TagHandler.MAIN_TAG, "Created PostFragment");
         View view = inflater.inflate(R.layout.post_feed_fragment, null);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.post_feed_refresh_layout);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.post_feed_recyclerview);
+        recyclerView = (RecyclerView) view.findViewById(R.id.post_feed_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setAdapter(postAdapter);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
@@ -77,7 +78,45 @@ public class PostFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (listState != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(listState);
+        }
+    }
+
+
+    @Override
     public String toString() {
         return "Post Feed";
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        listState = recyclerView.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(LIST_STATE_KEY, listState);
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        }
     }
 }

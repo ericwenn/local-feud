@@ -1,20 +1,10 @@
 package com.chalmers.tda367.localfeud.net;
 
-import android.util.Log;
-
-import com.chalmers.tda367.localfeud.control.PostClickedAdapter;
-import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.data.User;
-import com.chalmers.tda367.localfeud.control.PostAdapter;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestCommentsResponseAction;
-import com.chalmers.tda367.localfeud.util.GsonHandler;
-import com.chalmers.tda367.localfeud.data.Position;
-import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.responseActions.LikePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
-import com.chalmers.tda367.localfeud.util.RestClient;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.HashMap;
 
@@ -24,6 +14,8 @@ import java.util.HashMap;
 public class ServerComm implements IServerComm {
 
     private static ServerComm instance;
+
+    private ServerComm() {}
 
     public static ServerComm getInstance(){
         if (instance == null){
@@ -63,8 +55,15 @@ public class ServerComm implements IServerComm {
      * Sends a request to like a post
      * @param post The Post to like
      */
-    public void likePost(Post post, IResponseListener listener){
+    public void likePost(Post post, IResponseListener listener) {
+        // Init restClient with a responseAction and its listener
+        IResponseAction action = new LikePostResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
 
+        int postID = post.getId();
+
+        restClient.post("posts/"+postID+"/likes/", null);
     }
 
     /**
@@ -72,6 +71,14 @@ public class ServerComm implements IServerComm {
      * @param post The Post to unlike
      */
     public void unlikePost(Post post, IResponseListener listener){
+        // Init restClient with a responseAction and its listener
+        IResponseAction action = new LikePostResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
+
+        int postID = post.getId();
+
+        restClient.delete("posts/"+postID+"/likes/", null);
 
     }
 

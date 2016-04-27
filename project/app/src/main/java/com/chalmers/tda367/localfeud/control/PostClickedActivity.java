@@ -15,12 +15,10 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestCommentsResponseListener;
+import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Daniel Ahlqvist on 2016-04-18.
@@ -62,30 +60,6 @@ public class PostClickedActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        Calendar current = Calendar.getInstance();
-        long timeElapsedMs = current.getTimeInMillis() - post.getDatePosted().getTimeInMillis();
-        long timeElapsedMin = TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs);
-        long timeElapsedHour = TimeUnit.MILLISECONDS.toHours(timeElapsedMs);
-        long timeElapsedDay = TimeUnit.MILLISECONDS.toDays(timeElapsedMs);
-
-        String timeSinceUpload;
-
-        if (timeElapsedDay >= 1) {
-            if (timeElapsedDay == 1)
-                timeSinceUpload = "1 day ago";
-            else
-                timeSinceUpload = timeElapsedDay + " days ago";
-        } else if (timeElapsedMin > 60) {
-            if (timeElapsedHour == 1)
-                timeSinceUpload = "1 hour ago";
-            else
-                timeSinceUpload = timeElapsedHour + " hours ago";
-        } else {
-            if (timeElapsedMin == 1)
-                timeSinceUpload = "1 minute ago";
-            else
-                timeSinceUpload = timeElapsedMin + " minutes ago";
-        }
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
         postText = (TextView) findViewById(R.id.post_item_msg_textview);
@@ -96,9 +70,10 @@ public class PostClickedActivity extends AppCompatActivity {
         postText.setText(post.getContent().getText());
         senderText.setText("" + post.getUser().getId());
         distanceText.setText("" + post.getLocation().getDistance());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
-        timeText.setText(simpleDateFormat.format(post.getDatePosted().getTime()));
-        timeElapsedText.setText(timeSinceUpload);
+
+        timeText.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
+                post.getDatePosted().get(Calendar.MINUTE));
+        timeElapsedText.setText(DateString.convert( post.getDatePosted()));
 
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
         if (recyclerView != null) {

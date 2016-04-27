@@ -3,80 +3,97 @@ package com.chalmers.tda367.localfeud.control;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageButton;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.util.TagHandler;
+import com.chalmers.tda367.localfeud.net.IResponseAction;
+import com.chalmers.tda367.localfeud.net.IResponseListener;
+import com.chalmers.tda367.localfeud.net.ServerComm;
+import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback {
 
     private BottomBar bottomBar;
-
-    private final ArrayList<Fragment> fragments = new ArrayList<>();
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Initialize Facebook SDK
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
         setContentView(R.layout.activity_main);
-        initViews();
         initBottomBar(savedInstanceState);
+
+        /**
+         * Avkommentera detta när inloggning ska ske.
+         *
+         if( !AuthenticatedUser.getInstance().isLoggedIn() ) {
+         Intent i = new Intent( getApplicationContext(), LoginActivity.class );
+         startActivity(i);
+         }
+         */
     }
 
-    private void initBottomBar(Bundle savedInstanceState){
+    private void initBottomBar(final Bundle savedInstanceState) {
         bottomBar = BottomBar.attach(this, savedInstanceState);
-
+        bottomBar.noTopOffset();
+        bottomBar.noResizeGoodness();
+        bottomBar.noNavBarGoodness();
+        bottomBar.setMaxFixedTabs(2);
         //TODO: Implement button functionality
         bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                if (menuItemId == R.id.feed_item) {
-                    Log.d(TagHandler.MAIN_ACTIVITY_TAG, "Selected feed fragment.");
-                    transaction.replace(R.id.main_root, fragments.get(0));
-                }
-                else if (menuItemId == R.id.chat_item) {
-                    Log.d(TagHandler.MAIN_ACTIVITY_TAG, "Selected chat fragment.");
-                    transaction.replace(R.id.main_root, fragments.get(1));
-                }
-                else if (menuItemId == R.id.me_item) {
-                    Log.d(TagHandler.MAIN_ACTIVITY_TAG, "Selected me fragment.");
-                    transaction.replace(R.id.main_root, fragments.get(2));
-                }
-                transaction.commit();
+                switchFragment(menuItemId);
             }
 
             @Override
             public void onMenuTabReSelected(@IdRes int menuItemId) {
                 if (menuItemId == R.id.feed_item) {
                     // The user reselected item number one.
-                }
-                else if (menuItemId == R.id.chat_item) {
+                } else if (menuItemId == R.id.chat_item) {
                     // The user reselected item number two.
-                }
-                else if (menuItemId == R.id.me_item) {
+                } else if (menuItemId == R.id.me_item) {
                     // The user reselected item number three.
                 }
             }
         });
+
+        bottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorPrimary));
+        bottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.colorAccent));
+        bottomBar.mapColorForTab(2, "#FF9800");
     }
 
-    private void initViews() {
-        FeedFragment feedFragment = FeedFragment.newInstance(this);
-        fragments.add(feedFragment);
+    private void switchFragment(int menuItemId) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (menuItemId == R.id.feed_item) {
+            if (currentFragment == null || currentFragment.getClass() != FeedFragment.class)
+                currentFragment = FeedFragment.newInstance(this);
+        } else if (menuItemId == R.id.chat_item) {
+            if (currentFragment == null || currentFragment.getClass() != ChatFragment.class)
+                currentFragment = ChatFragment.newInstance();
+        } else if (menuItemId == R.id.me_item) {
+            if (currentFragment == null || currentFragment.getClass() != MeFragment.class)
+                currentFragment = MeFragment.newInstance();
+        }
+        transaction.replace(R.id.main_root, currentFragment);
+        transaction.commit();
+    }
 
-//        TODO: Nu läggs samma fragment till hela tiden
-        fragments.add(feedFragment);
-        fragments.add(feedFragment);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        bottomBar.onSaveInstanceState(outState);
+        currentFragment.onSaveInstanceState(outState);
     }
 
     @Override
@@ -89,20 +106,45 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     }
 
     @Override
-    public void onLikeClick(Post post, ImageButton imageButton) {
-        Snackbar.make(bottomBar,
-                "You like that huh?",
-                Snackbar.LENGTH_LONG)
-                .show();
+    public void onLikeClick(final Post post, final ImageButton imageButton) {
 //        Should check if post is liked
-        imageButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+        final boolean isLiked = post.isLiked();
+        final int revertLikeDrawable, originalLikeDrawable;
+        if (isLiked) {
+            revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+            originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
+        }
+        else {
+            revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
+            originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+        }
+        imageButton.setImageResource(revertLikeDrawable);
+        IResponseListener responseListener = new IResponseListener() {
+            @Override
+            public void onResponseSuccess(IResponseAction source) {
+                post.setIsLiked(!isLiked);
+            }
+
+            @Override
+            public void onResponseFailure(IResponseAction source) {
+                imageButton.setImageResource(originalLikeDrawable);
+                showSnackbar(getString(R.string.like_error_msg));
+            }
+        };
+
+        if (!isLiked) ServerComm.getInstance().likePost(post, responseListener);
+        else ServerComm.getInstance().unlikePost(post, responseListener);
     }
 
     @Override
     public void onMoreClick(Post post) {
-        Snackbar.make(bottomBar,
-                "No more for you",
-                Snackbar.LENGTH_LONG)
-                .show();
+        showSnackbar("No more for you");
+    }
+
+    private void showSnackbar(String text) {
+        if (currentFragment.getClass() == FeedFragment.class) {
+            FeedFragment fragment = (FeedFragment) currentFragment;
+            fragment.showSnackbar(text);
+        }
     }
 }

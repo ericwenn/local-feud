@@ -1,8 +1,8 @@
-package com.chalmers.tda367.localfeud.util;
+package com.chalmers.tda367.localfeud.net;
 
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.net.IResponseAction;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 
@@ -19,6 +19,7 @@ public class RestClient {
     private RestResponseHandler responseHandler;
 
     public RestClient(IResponseAction action){
+
         client = new AsyncHttpClient();
         responseHandler = new RestResponseHandler(action);
     }
