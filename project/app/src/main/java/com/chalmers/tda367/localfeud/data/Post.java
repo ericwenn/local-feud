@@ -10,8 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import cz.msebera.android.httpclient.entity.SerializableEntity;
-
 /**
  * Created by Alfred on 2016-04-11.
  */
@@ -27,6 +25,16 @@ public class Post implements Serializable {
     private int number_of_comments;
     private int number_of_likes;
     private String href;
+
+    public boolean isLiked() {
+        return current_user_has_liked;
+    }
+
+    public void setIsLiked(boolean currentUserHasLiked) {
+        this.current_user_has_liked = currentUserHasLiked;
+    }
+
+    private boolean current_user_has_liked;
 
     public int getId() {
         return id;

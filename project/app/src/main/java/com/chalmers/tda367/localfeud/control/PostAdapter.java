@@ -17,10 +17,8 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Text om klassen
@@ -79,6 +77,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 adapterCallback.onMoreClick(post);
             }
         });
+        if (post.isLiked()) holder.postItemLikeButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+        else holder.postItemLikeButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
     }
 
     @Override
