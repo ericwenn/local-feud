@@ -1,31 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".control.PostClickedActivity">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <TextView
+                android:id="@+id/toolbar_title_textview"
+                style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/app_name"
+                android:textColor="@android:color/white" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
+
         <TextView
+            android:id="@+id/post_item_sender_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:padding="@dimen/default_margin"
-            android:text="(Manssymbol) Rune, 98"
-            android:id="@+id/post_item_sender_textview"/>
+            android:text="(Manssymbol) Rune, 98" />
 
         <TextView
+            android:id="@+id/post_item_distance_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
             android:padding="@dimen/default_margin"
-            android:text="mindre än 500 m"
-            android:id="@+id/post_item_distance_textview"
-            />
+            android:text="mindre än 500 m" />
+
         <View
             android:id="@+id/post_item_top_divider"
             android:layout_width="match_parent"
@@ -35,54 +62,54 @@
             android:background="@color/black" />
 
         <TextView
-            android:layout_below="@id/post_item_top_divider"
+            android:id="@+id/post_item_msg_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/post_item_msg_textview"
+            android:layout_below="@id/post_item_top_divider"
             android:padding="@dimen/default_margin"
-            android:textSize="@dimen/card_post_message_text_size"
-            android:text="Känner mig sjukt gammal idag... Nån annan som känner detsamma?"/>
+            android:text="Känner mig sjukt gammal idag... Nån annan som känner detsamma?"
+            android:textSize="@dimen/card_post_message_text_size" />
 
         <TextView
-            android:layout_below="@id/post_item_msg_textview"
+            android:id="@+id/post_item_time_elapsed_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_below="@id/post_item_msg_textview"
             android:paddingBottom="@dimen/default_margin"
-            android:paddingStart="@dimen/default_margin"
             android:paddingEnd="@dimen/default_margin"
-            android:id="@+id/post_item_time_elapsed_textview"
-            android:text="8 minuter sedan"/>
+            android:paddingStart="@dimen/default_margin"
+            android:text="8 minuter sedan" />
 
         <TextView
-            android:layout_below="@id/post_item_msg_textview"
+            android:id="@+id/post_item_time_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/post_item_msg_textview"
             android:layout_centerInParent="true"
             android:paddingBottom="@dimen/default_margin"
-            android:paddingStart="@dimen/default_margin"
             android:paddingEnd="@dimen/default_margin"
-            android:id="@+id/post_item_time_textview"
-            android:text="20:56"/>
+            android:paddingStart="@dimen/default_margin"
+            android:text="20:56" />
 
         <!--Temporary TextView. Should be "settings" icon-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/post_item_msg_textview"
             android:layout_alignParentEnd="true"
+            android:layout_below="@id/post_item_msg_textview"
             android:paddingBottom="@dimen/default_margin"
-            android:paddingStart="@dimen/default_margin"
             android:paddingEnd="@dimen/default_margin"
-            android:text="More"/>
+            android:paddingStart="@dimen/default_margin"
+            android:text="More" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/comment_feed_recyclerview"
-        android:layout_below="@id/post_item_time_textview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/comment_feed_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/post_item_time_textview">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
 
