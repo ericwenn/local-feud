@@ -17,6 +17,7 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.ServerComm;
+import com.chalmers.tda367.localfeud.permission.PermissionHandler;
 import com.chalmers.tda367.localfeud.permissionflow.PermissionFlow;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
@@ -163,31 +164,18 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                //  Initialize SharedPreferences
-                SharedPreferences getPrefs = PreferenceManager
-                        .getDefaultSharedPreferences(getBaseContext());
 
-                //  Create a new boolean and preference and set it to true
-                boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
 
-                //  If the activity has never started before...
-                //if (isFirstStart) {
-                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Is first start.");
-                    //  Launch app intro
+                if (!PermissionHandler.hasPermissions( getApplicationContext() )) {
+
+                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions not granted.");
+
                     Intent i = new Intent(MainActivity.this, PermissionFlow.class);
                     startActivity(i);
 
-                    //  Make a new preferences editor
-                    SharedPreferences.Editor e = getPrefs.edit();
-
-                    //  Edit preference to make it false because we don't want this to run again
-                    e.putBoolean("firstStart", false);
-
-                    //  Apply changes
-                    e.apply();
-                //} else {
-                  //  Log.d(TagHandler.PERMISSION_FLOW_TAG, "Is not first start.");
-                //}
+                } else {
+                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions granted.");
+                }
             }
         });
 

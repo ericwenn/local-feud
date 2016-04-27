@@ -6,30 +6,26 @@
     android:id="@+id/main">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="300sp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:paddingLeft="32dp"
-        android:layout_weight="3"
+        android:gravity="center_vertical"
         android:fontFamily="sans-serif-thin"
         android:textColor="#ffffff"
-        android:paddingRight="32dp"
         android:textSize="28sp"
-        android:text="Slide 1 title"/>
+        android:text="Grant access"
+        android:textStyle="bold"
+        android:layout_marginTop="50sp" />
 
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:textColor="#ffffff"
-        android:paddingLeft="64dp"
-        android:paddingRight="64dp"
         android:textSize="16sp"
-        android:text="Loooooooooooooooo[...]ooooooooong descreption here"/>
+        android:text="Change permissions in your device's app settings. Give Local Feud access to the the device's Location." />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="64dp" />
