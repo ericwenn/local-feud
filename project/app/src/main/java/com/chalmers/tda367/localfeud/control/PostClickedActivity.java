@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.control;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +12,13 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.IResponseAction;
+import com.chalmers.tda367.localfeud.net.ServerComm;
+import com.chalmers.tda367.localfeud.net.responseListeners.RequestCommentsResponseListener;
 import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Daniel Ahlqvist on 2016-04-18.
@@ -23,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 public class PostClickedActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PostClickedAdapter postClickedAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Post post;
     private TextView postText, senderText, distanceText, timeText, timeElapsedText, toolbarTextView;
     private Toolbar toolbar;
@@ -57,6 +61,7 @@ public class PostClickedActivity extends AppCompatActivity {
 
     private void initViews() {
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
         postText = (TextView) findViewById(R.id.post_item_msg_textview);
         senderText = (TextView) findViewById(R.id.post_item_sender_textview);
         distanceText = (TextView) findViewById(R.id.post_item_distance_textview);
@@ -65,6 +70,7 @@ public class PostClickedActivity extends AppCompatActivity {
         postText.setText(post.getContent().getText());
         senderText.setText("" + post.getUser().getId());
         distanceText.setText("" + post.getLocation().getDistance());
+
         timeText.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
                 post.getDatePosted().get(Calendar.MINUTE));
         timeElapsedText.setText(DateString.convert( post.getDatePosted()));
@@ -78,8 +84,33 @@ public class PostClickedActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         postClickedAdapter = new PostClickedAdapter(this);
         recyclerView.setAdapter(postClickedAdapter);
-        /*for (Comment comment : dummyCommentList) {
-            postClickedAdapter.addCommentToAdapter(comment);
-        }*/
+        ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorAccent);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
+            }
+        });
+    }
+
+    public class RefreshCommentsResponseListener extends RequestCommentsResponseListener
+    {
+        public RefreshCommentsResponseListener(PostClickedAdapter adapter){
+            super(adapter);
+        }
+
+        @Override
+        public void onResponseSuccess(IResponseAction source){
+            super.onResponseSuccess(source);
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
+        @Override
+        public void onResponseFailure(IResponseAction source){
+            super.onResponseFailure(source);
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 }

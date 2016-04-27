@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.net;
 
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestCommentsResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.LikePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
 
@@ -90,11 +91,22 @@ public class ServerComm implements IServerComm {
      * @param post
      * @param comment
      */
-    public void commentPost(Post post, String comment, IResponseListener listener){
+    public void commentPost(Post post, String comment, IResponseListener listener)
+    {
 
     }
 
-    public void requestComments(Post post, IResponseListener listener){
+    public void requestComments(Post post, IResponseListener listener)
+    {
+        IResponseAction action = new RequestCommentsResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
 
+        // Store parameters
+        HashMap<String, String> param = new HashMap<>();
+        /*param.put("id", Double.toString(post.getId()));
+        Log.d(TagHandler.MAIN_TAG, "The hashmap: " + param.get("id"));*/
+
+        restClient.get("posts/" + post.getId() + "/comments/", param);
     }
 }
