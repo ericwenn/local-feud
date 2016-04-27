@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public abstract class AbstractResponseAction implements IResponseAction {
     private ArrayList<IResponseListener> listeners;
+    private ResponseError error;
 
     public AbstractResponseAction(){
         this.listeners = new ArrayList<>();
@@ -35,6 +36,14 @@ public abstract class AbstractResponseAction implements IResponseAction {
         for (IResponseListener listener : listeners) {
             listener.onResponseFailure(this);
         }
+    }
+
+    protected synchronized void setResponseError(ResponseError error){
+        this.error = error;
+    }
+
+    public synchronized ResponseError getResponseError(){
+        return this.error;
     }
 
     /**

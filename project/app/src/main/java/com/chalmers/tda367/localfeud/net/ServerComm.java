@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.net;
 
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.responseActions.CreatePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestSinglePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.LikePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
@@ -53,7 +54,18 @@ public class ServerComm implements IServerComm {
     }
 
     public void createPost(Post post, IResponseListener listener){
+        // Init restClient with a responseAction and its listener
+        IResponseAction action = new CreatePostResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
 
+        HashMap params = new HashMap();
+        params.put("latitude", Double.toString(post.getLocation().getLatitude()));
+        params.put("longitude", Double.toString(post.getLocation().getLongitude()));
+        params.put("content_type", post.getContent().getType());
+        params.put("text", post.getContent().getText());
+
+        restClient.post("posts/", params);
     }
 
     /**
