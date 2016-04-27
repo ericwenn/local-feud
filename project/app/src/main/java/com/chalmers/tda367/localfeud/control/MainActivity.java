@@ -3,7 +3,6 @@ package com.chalmers.tda367.localfeud.control;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -110,22 +109,26 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     public void onLikeClick(final Post post, final ImageButton imageButton) {
 //        Should check if post is liked
         final boolean isLiked = post.isLiked();
-        final int revertLikeDrawable;
-        if (isLiked) revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
-        else revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
+        final int revertLikeDrawable, originalLikeDrawable;
+        if (isLiked) {
+            revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+            originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
+        }
+        else {
+            revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
+            originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+        }
+        imageButton.setImageResource(revertLikeDrawable);
         IResponseListener responseListener = new IResponseListener() {
             @Override
             public void onResponseSuccess(IResponseAction source) {
-                imageButton.setImageResource(revertLikeDrawable);
                 post.setIsLiked(!isLiked);
             }
 
             @Override
             public void onResponseFailure(IResponseAction source) {
-                Snackbar.make(bottomBar,
-                        R.string.like_error_msg,
-                        Snackbar.LENGTH_LONG)
-                        .show();
+                imageButton.setImageResource(originalLikeDrawable);
+                showSnackbar(getString(R.string.like_error_msg));
             }
         };
 
@@ -135,9 +138,13 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     @Override
     public void onMoreClick(Post post) {
-        Snackbar.make(bottomBar,
-                "No more for you",
-                Snackbar.LENGTH_LONG)
-                .show();
+        showSnackbar("No more for you");
+    }
+
+    private void showSnackbar(String text) {
+        if (currentFragment.getClass() == FeedFragment.class) {
+            FeedFragment fragment = (FeedFragment) currentFragment;
+            fragment.showSnackbar(text);
+        }
     }
 }
