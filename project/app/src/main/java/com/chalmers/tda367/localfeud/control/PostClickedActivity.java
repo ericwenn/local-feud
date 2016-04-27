@@ -107,6 +107,7 @@ public class PostClickedActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         postClickedAdapter = new PostClickedAdapter(this);
         recyclerView.setAdapter(postClickedAdapter);
+        ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -115,7 +116,6 @@ public class PostClickedActivity extends AppCompatActivity {
                 ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
             }
         });
-        ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
     }
 
     public class RefreshCommentsResponseListener extends RequestCommentsResponseListener
