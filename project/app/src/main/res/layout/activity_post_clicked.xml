@@ -34,11 +34,13 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/post_clicked_refresh_layout"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_layout"
         android:layout_marginTop="?attr/actionBarSize">
 
         <TextView
