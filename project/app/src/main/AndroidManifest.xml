@@ -43,6 +43,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".control.MainActivity" />
         </activity>
+        <activity android:name=".permissionflow.PermissionFlow"
+            android:label="Local Feud" />
     </application>
 
 </manifest>
