@@ -1,6 +1,4 @@
-package com.chalmers.tda367.localfeud.auth;
-
-import com.loopj.android.http.AsyncHttpClient;
+package com.chalmers.tda367.localfeud.net.auth;
 
 import java.util.HashMap;
 

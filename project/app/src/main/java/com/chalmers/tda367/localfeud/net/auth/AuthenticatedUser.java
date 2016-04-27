@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.auth;
+package com.chalmers.tda367.localfeud.net.auth;
 
 import com.facebook.AccessToken;
 
