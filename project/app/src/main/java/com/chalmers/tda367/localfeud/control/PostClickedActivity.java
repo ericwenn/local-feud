@@ -17,7 +17,9 @@ import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestCommentsResponseListener;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -94,8 +96,8 @@ public class PostClickedActivity extends AppCompatActivity {
         postText.setText(post.getContent().getText());
         senderText.setText("" + post.getUser().getId());
         distanceText.setText("" + post.getLocation().getDistance());
-        timeText.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
-                post.getDatePosted().get(Calendar.MINUTE));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+        timeText.setText(simpleDateFormat.format(post.getDatePosted().getTime()));
         timeElapsedText.setText(timeSinceUpload);
 
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);

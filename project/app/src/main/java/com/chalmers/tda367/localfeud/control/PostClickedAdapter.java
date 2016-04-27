@@ -16,9 +16,11 @@ import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Daniel Ahlqvist on 2016-04-18.
@@ -47,8 +49,8 @@ public class PostClickedAdapter extends RecyclerView.Adapter<PostClickedAdapter.
     {
         final Comment comment = comments.get(position);
         holder.commentItemMsgTextView.setText(comment.getText());
-        holder.commentItemTimeTextView.setText(comment.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
-                comment.getDatePosted().get(Calendar.MINUTE));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+        holder.commentItemTimeTextView.setText(simpleDateFormat.format(comment.getDatePosted().getTime()));
         holder.commentItemSenderTextView.setText("" + comment.getUser().getId());
         Log.d(TagHandler.MAIN_TAG, "Comment: " + comment.getText());
     }
