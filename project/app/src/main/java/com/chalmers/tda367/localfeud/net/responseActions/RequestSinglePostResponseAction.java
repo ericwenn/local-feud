@@ -3,6 +3,7 @@ package com.chalmers.tda367.localfeud.net.responseActions;
 import android.util.Log;
 
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.ResponseError;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
@@ -28,7 +29,7 @@ public class RequestSinglePostResponseAction extends AbstractResponseAction {
     }
 
     @Override
-    public void onFailure(String responseBody){
+    public void onFailure(ResponseError error, String responseBody){
         this.setResponseBody(responseBody);
         this.notifyFailure();
     }
