@@ -2,12 +2,14 @@ package com.chalmers.tda367.localfeud.control;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
@@ -16,6 +18,7 @@ import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestCommentsResponseListener;
 import com.chalmers.tda367.localfeud.util.DateString;
+import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.Calendar;
@@ -30,6 +33,7 @@ public class PostClickedActivity extends AppCompatActivity {
     private Post post;
     private TextView postText, senderText, distanceText, timeText, timeElapsedText, toolbarTextView;
     private Toolbar toolbar;
+    private RelativeLayout postItemTopbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,10 @@ public class PostClickedActivity extends AppCompatActivity {
         initViews();
     }
 
-    private void initViews() {
+    private void initViews()
+    {
+        int distanceColor = DistanceColor.distanceColor(post.getLocation().getDistance());
+        int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
         postText = (TextView) findViewById(R.id.post_item_msg_textview);
@@ -67,9 +74,13 @@ public class PostClickedActivity extends AppCompatActivity {
         distanceText = (TextView) findViewById(R.id.post_item_distance_textview);
         timeText = (TextView) findViewById(R.id.post_item_time_textview);
         timeElapsedText = (TextView) findViewById(R.id.post_item_time_elapsed_textview);
+        postItemTopbar = (RelativeLayout) findViewById(R.id.post_item_topbar);
+        postItemTopbar.setBackgroundColor(ContextCompat.getColor(this, distanceColor));
         postText.setText(post.getContent().getText());
         senderText.setText("" + post.getUser().getId());
+        senderText.setTextColor(ContextCompat.getColor(this, distanceTextColor));
         distanceText.setText("" + post.getLocation().getDistance());
+        distanceText.setTextColor(ContextCompat.getColor(this, distanceTextColor));
 
         timeText.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
                 post.getDatePosted().get(Calendar.MINUTE));
