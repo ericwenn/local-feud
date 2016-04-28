@@ -14,8 +14,9 @@ import java.util.Locale;
  */
 public class Comment
 {
-    private int id, authorid, postid;
-    private String text;
+    private int id, postid;
+    private String content;
+    private User user;
     private String date_posted;
 
     public int getId()
@@ -27,13 +28,13 @@ public class Comment
         id = newId;
     }
 
-    public int getAuthor()
+    public User getUser()
     {
-        return authorid;
+        return user;
     }
-    public void setAuthor(int newId)
+    public void setUser(User newUser)
     {
-        authorid = newId;
+        user = newUser;
     }
 
     public int getPostId()
@@ -47,11 +48,11 @@ public class Comment
 
     public String getText()
     {
-        return text;
+        return content;
     }
     public void setText(String newText)
     {
-        text = newText;
+        content = newText;
     }
 
     public Calendar getDatePosted() {

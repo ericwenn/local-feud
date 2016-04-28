@@ -3,11 +3,11 @@ package com.chalmers.tda367.localfeud.control;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageButton;
 
 import com.chalmers.tda367.localfeud.R;
@@ -15,6 +15,9 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.ServerComm;
+import com.chalmers.tda367.localfeud.permission.PermissionHandler;
+import com.chalmers.tda367.localfeud.permissionflow.PermissionFlow;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -27,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        initPermissionFlow();
 
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -110,22 +116,25 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     public void onLikeClick(final Post post, final ImageButton imageButton) {
 //        Should check if post is liked
         final boolean isLiked = post.isLiked();
-        final int revertLikeDrawable;
-        if (isLiked) revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
-        else revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
+        final int revertLikeDrawable, originalLikeDrawable;
+        if (isLiked) {
+            revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+            originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
+        } else {
+            revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
+            originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+        }
+        imageButton.setImageResource(revertLikeDrawable);
         IResponseListener responseListener = new IResponseListener() {
             @Override
             public void onResponseSuccess(IResponseAction source) {
-                imageButton.setImageResource(revertLikeDrawable);
                 post.setIsLiked(!isLiked);
             }
 
             @Override
             public void onResponseFailure(IResponseAction source) {
-                Snackbar.make(bottomBar,
-                        R.string.like_error_msg,
-                        Snackbar.LENGTH_LONG)
-                        .show();
+                imageButton.setImageResource(originalLikeDrawable);
+                showSnackbar(getString(R.string.like_error_msg));
             }
         };
 
@@ -135,9 +144,37 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     @Override
     public void onMoreClick(Post post) {
-        Snackbar.make(bottomBar,
-                "No more for you",
-                Snackbar.LENGTH_LONG)
-                .show();
+        showSnackbar("No more for you");
+    }
+
+    private void showSnackbar(String text) {
+        if (currentFragment.getClass() == FeedFragment.class) {
+            FeedFragment fragment = (FeedFragment) currentFragment;
+            fragment.showSnackbar(text);
+        }
+    }
+
+
+    private void initPermissionFlow() {
+        //  Declare a new thread to do a preference check
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (!PermissionHandler.hasPermissions(getApplicationContext())) {
+
+                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions not granted.");
+
+                    Intent i = new Intent(MainActivity.this, PermissionFlow.class);
+                    startActivity(i);
+                    finish();
+
+                } else {
+                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions granted.");
+                }
+            }
+        });
+
+        // Start the thread
+        t.start();
     }
 }

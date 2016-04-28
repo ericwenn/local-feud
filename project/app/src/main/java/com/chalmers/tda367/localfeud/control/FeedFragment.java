@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -27,6 +29,7 @@ public class FeedFragment extends Fragment {
     private RequestPostsResponseListener requestPostsResponseListener;
     private FeedPagerAdapter feedPagerAdapter;
     private Toolbar toolbar;
+    private CoordinatorLayout root;
     private PostFragment postFragment, postFragment2;
 
     private final static String VIEW_PAGER_KEY = "viewPagerKey";
@@ -77,6 +80,8 @@ public class FeedFragment extends Fragment {
             }
         });
 
+        root = (CoordinatorLayout) view.findViewById(R.id.feed_fragment_root);
+
         viewPager = (ViewPager) view.findViewById(R.id.post_feed_viewpager);
 
         if (savedInstanceState != null)
@@ -118,5 +123,12 @@ public class FeedFragment extends Fragment {
         outState.putParcelable(VIEW_PAGER_KEY, viewPager.onSaveInstanceState());
         postFragment.onSaveInstanceState(outState);
         postFragment2.onSaveInstanceState(outState);
+    }
+
+    public void showSnackbar(String text) {
+        Snackbar.make(root,
+                text,
+                Snackbar.LENGTH_LONG)
+                .show();
     }
 }
