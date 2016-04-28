@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root"
     tools:context=".control.PostClickedActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -148,5 +149,36 @@
     </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/write_comment_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/posttext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:gravity="bottom|left"
+            android:hint="@string/comment_hint"
+            android:maxLength="240"
+            android:padding="10dp"
+            android:layout_margin="8dp"
+            android:textColor="@android:color/black" />
+
+        <ImageButton
+            android:id="@+id/post_button"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_send_white_24dp" />
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

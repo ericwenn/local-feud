@@ -1,6 +1,7 @@
 package com.chalmers.tda367.localfeud.net;
 
 import com.chalmers.tda367.localfeud.data.Chat;
+import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.User;
@@ -39,7 +40,7 @@ public interface IServerComm {
      * @param post
      * @param comment
      */
-    void commentPost(Post post, String comment, IResponseListener listener);
+    void commentPost(Post post, Comment comment, IResponseListener listener);
 
     void requestComments(Post post, IResponseListener listener);
 }
