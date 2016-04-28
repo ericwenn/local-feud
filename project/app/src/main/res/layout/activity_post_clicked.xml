@@ -57,6 +57,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+            <RelativeLayout
+                android:id="@+id/post_item_topbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff1111">
+
             <TextView
                 android:id="@+id/post_item_sender_textview"
                 android:layout_width="wrap_content"
@@ -74,6 +80,8 @@
                 android:layout_alignParentTop="true"
                 android:padding="@dimen/default_margin"
                 android:text="mindre än 500 m" />
+
+                </RelativeLayout>
 
             <View
                 android:id="@+id/post_item_top_divider"
