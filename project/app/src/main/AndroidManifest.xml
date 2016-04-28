@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.chalmers.tda367.localfeud">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -43,6 +47,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".control.MainActivity" />
         </activity>
+        <activity android:name=".permissionflow.PermissionFlow"
+            android:label="Local Feud" />
     </application>
 
 </manifest>

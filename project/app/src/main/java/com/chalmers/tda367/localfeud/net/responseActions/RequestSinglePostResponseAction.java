@@ -13,26 +13,24 @@ import java.util.List;
 /**
  * Created by Alfred on 2016-04-20.
  */
-public class RequestPostsResponseAction extends AbstractResponseAction {
-    private List<Post> posts;
+public class RequestSinglePostResponseAction extends AbstractResponseAction {
+    private Post post;
     private String responseBody;
 
     @Override
     public void onSuccess(String responseBody){
         // Convert string with JSON to a list with posts
-        ArrayList<Post> posts = GsonHandler.getInstance().toPostList(new String(responseBody));
+        Post post = GsonHandler.getInstance().toPost(new String(responseBody));
         // Store the list
-        this.setPosts(posts);
+        this.setPost(post);
         //Notify the listeners
         this.notifySuccess();
 
-        Log.d(TagHandler.MAIN_TAG, "onSuccess in serverComm. Posts: " + posts.size());
     }
 
     @Override
-    public void onFailure(ResponseError err, String responseBody){
+    public void onFailure(ResponseError error, String responseBody){
         this.setResponseBody(responseBody);
-        this.setResponseError(err);
         this.notifyFailure();
     }
 
@@ -49,13 +47,13 @@ public class RequestPostsResponseAction extends AbstractResponseAction {
         }
     }
 
-    private void setPosts(List<Post> posts){
-        this.posts = posts;
+    private void setPost(Post post){
+        this.post = post;
     }
 
-    public List<Post> getPosts(){
-        if(posts != null){
-            return posts;
+    public Post getPost(){
+        if(post != null){
+            return post;
         }
         else{
             throw new NullPointerException();

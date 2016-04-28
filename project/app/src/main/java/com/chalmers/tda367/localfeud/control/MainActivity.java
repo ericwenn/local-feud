@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageButton;
 
 import com.chalmers.tda367.localfeud.R;
@@ -14,6 +15,9 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.ServerComm;
+import com.chalmers.tda367.localfeud.permission.PermissionHandler;
+import com.chalmers.tda367.localfeud.permissionflow.PermissionFlow;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -26,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        initPermissionFlow();
 
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -113,8 +120,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         if (isLiked) {
             revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
-        }
-        else {
+        } else {
             revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
         }
@@ -141,10 +147,39 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         showSnackbar("No more for you");
     }
 
+    @Override
+    public void onShowSnackbar(String text) {
+        showSnackbar(text);
+    }
+
     private void showSnackbar(String text) {
         if (currentFragment.getClass() == FeedFragment.class) {
             FeedFragment fragment = (FeedFragment) currentFragment;
             fragment.showSnackbar(text);
         }
+    }
+
+
+    private void initPermissionFlow() {
+        //  Declare a new thread to do a preference check
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (!PermissionHandler.hasPermissions(getApplicationContext())) {
+
+                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions not granted.");
+
+                    Intent i = new Intent(MainActivity.this, PermissionFlow.class);
+                    startActivity(i);
+                    finish();
+
+                } else {
+                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions granted.");
+                }
+            }
+        });
+
+        // Start the thread
+        t.start();
     }
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.ResponseError;
 import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.TagHandler;
@@ -41,16 +42,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public PostAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-    }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         try {
             adapterCallback = (AdapterCallback) context;
         } catch (ClassCastException e) {
             throw new ClassCastException("PostAdapter: Activity must implement AdapterCallback.");
         }
+    }
 
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.post_list_item, parent, false);
         return new ViewHolder(view);
     }
@@ -125,6 +126,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
+    public void showError(ResponseError responseError) {
+        String errorText;
+        switch (responseError) {
+            case NOTFOUND:
+                errorText = context.getString(R.string.notfound_error_msg);
+                break;
+            case UNAUTHORIZED:
+                errorText = context.getString(R.string.unauthorized_error_msg);
+                break;
+            default:
+                errorText = context.getString(R.string.server_error_msg);
+                break;
+        }
+        Log.d(TagHandler.MAIN_TAG, "Error: " + errorText);
+        adapterCallback.onShowSnackbar(errorText);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView postItemMsgTextView;
@@ -158,5 +176,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         void onLikeClick(Post post, ImageButton imageButton);
 
         void onMoreClick(Post post);
+
+        void onShowSnackbar(String text);
     }
 }
