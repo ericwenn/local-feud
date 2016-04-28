@@ -1,10 +1,13 @@
 package com.chalmers.tda367.localfeud.net;
 
+import android.os.Looper;
 import android.util.Log;
 
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.SyncHttpClient;
 
 import java.util.Map;
 
@@ -15,41 +18,53 @@ import cz.msebera.android.httpclient.client.HttpResponseException;
  */
 public class RestClient {
     private final String BASE_URL = "http://api-local.ericwenn.se/";
-    private AsyncHttpClient client;
+    private AsyncHttpClient asyncClient;
+    private AsyncHttpClient syncClient;
     private RestResponseHandler responseHandler;
 
     public RestClient(IResponseAction action){
-
-        client = new AsyncHttpClient();
+        asyncClient = new AsyncHttpClient();
+        syncClient = new SyncHttpClient();
         responseHandler = new RestResponseHandler(action);
     }
 
     public void addHeader(String header, String value){
-        client.addHeader(header, value);
+        getClient().addHeader(header, value);
     }
 
     public void get(String url){
-        client.get(getAbsoluteUrl(url), null, responseHandler);
+        getClient().get(getAbsoluteUrl(url), null, responseHandler);
     }
 
     public void get(String url, Map<String, String> paramsMap){
         RequestParams params = new RequestParams(paramsMap);
-        client.get(getAbsoluteUrl(url), params, responseHandler);
+        getClient().get(getAbsoluteUrl(url), params, responseHandler);
     }
 
     public void post(String url, Map<String, String> paramsMap){
         RequestParams params = new RequestParams(paramsMap);
-        client.post(getAbsoluteUrl(url), params, responseHandler);
+        getClient().post(getAbsoluteUrl(url), params, responseHandler);
     }
 
     public void delete(String url, Map<String, String> paramsMap){
         RequestParams params = new RequestParams(paramsMap);
-        client.delete(getAbsoluteUrl(url), params, responseHandler);
+        getClient().delete(getAbsoluteUrl(url), params, responseHandler);
     }
 
     public void put(String url, Map<String, String> paramsMap) throws HttpResponseException{
         RequestParams params = new RequestParams(paramsMap);
-        client.put(getAbsoluteUrl(url), params, responseHandler);
+        getClient().put(getAbsoluteUrl(url), params, responseHandler);
+    }
+
+    /**
+     * @return an async client when calling from the main thread, otherwise a sync client.
+     */
+    private AsyncHttpClient getClient()
+    {
+        // Return the synchronous HTTP client when the thread is not prepared
+        if (Looper.myLooper() == null)
+            return syncClient;
+        return asyncClient;
     }
 
     private String getAbsoluteUrl(String relativeUrl) {
