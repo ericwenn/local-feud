@@ -144,7 +144,10 @@ public class PostClickedActivity extends AppCompatActivity {
                                 .show();
                     }
                 };
-                server.commentPost(post, comment, responseListener);
+                if(!comment.getText().equals(""))
+                {
+                    server.commentPost(post, comment, responseListener);
+                }
             }
         });
 
