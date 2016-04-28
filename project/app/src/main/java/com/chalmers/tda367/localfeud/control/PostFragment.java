@@ -39,20 +39,20 @@ public class PostFragment extends Fragment {
         return new PostFragment();
     }
 
-    public class RefreshPostsResponseListener extends RequestPostsResponseListener{
+    public class RefreshPostsResponseListener extends RequestPostsResponseListener {
 
-        public RefreshPostsResponseListener(PostAdapter adapter){
+        public RefreshPostsResponseListener(PostAdapter adapter) {
             super(adapter);
         }
 
         @Override
-        public void onResponseSuccess(IResponseAction source){
+        public void onResponseSuccess(IResponseAction source) {
             super.onResponseSuccess(source);
             swipeRefreshLayout.setRefreshing(false);
         }
 
         @Override
-        public void onResponseFailure(IResponseAction source){
+        public void onResponseFailure(IResponseAction source) {
             super.onResponseFailure(source);
             swipeRefreshLayout.setRefreshing(false);
         }

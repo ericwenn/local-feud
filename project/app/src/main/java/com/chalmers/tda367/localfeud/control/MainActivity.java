@@ -120,8 +120,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         if (isLiked) {
             revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
-        }
-        else {
+        } else {
             revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
         }
@@ -156,15 +155,12 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     }
 
 
-
     private void initPermissionFlow() {
         //  Declare a new thread to do a preference check
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-
-
-                if (!PermissionHandler.hasPermissions( getApplicationContext() )) {
+                if (!PermissionHandler.hasPermissions(getApplicationContext())) {
 
                     Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions not granted.");
 

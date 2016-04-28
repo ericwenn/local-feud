@@ -30,12 +30,10 @@ public class PermissionFlow extends AppIntro2 {
     @Override
     public void onDonePressed() {
         Log.d(TagHandler.PERMISSION_FLOW_TAG, "onDonePressed()");
-        // Do something when users tap on Done button.
     }
 
     @Override
     public void onSlideChanged() {
-
 
         Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permission check: " + PermissionHandler.hasPermissions(getApplicationContext()));
         if (!PermissionHandler.hasPermissions(getApplicationContext())) {
