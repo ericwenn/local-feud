@@ -1,16 +1,13 @@
 package com.chalmers.tda367.localfeud.util;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
 
 import com.chalmers.tda367.localfeud.data.Position;
 
 /**
- * Text om metoden
+ * Text om klassen
  *
  * @author David Söderberg
  * @since 16-04-27
@@ -27,7 +24,13 @@ public class PositionHandler {
 
     public Position getPosition(Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        return new Position(location.getLatitude(), location.getLongitude());
+        Location location = null;
+        try {
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            return new Position(location.getLatitude(), location.getLongitude());
+        } catch (SecurityException e) {
+//            TODO: Vad ska vi göra om detta uppstår?
+            return new Position(0, 0);
+        }
     }
 }
