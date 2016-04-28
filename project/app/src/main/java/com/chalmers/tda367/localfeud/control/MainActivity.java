@@ -147,6 +147,11 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         showSnackbar("No more for you");
     }
 
+    @Override
+    public void onShowSnackbar(String text) {
+        showSnackbar(text);
+    }
+
     private void showSnackbar(String text) {
         if (currentFragment.getClass() == FeedFragment.class) {
             FeedFragment fragment = (FeedFragment) currentFragment;

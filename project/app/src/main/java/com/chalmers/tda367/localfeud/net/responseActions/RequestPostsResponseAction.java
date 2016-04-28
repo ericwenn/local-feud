@@ -32,6 +32,7 @@ public class RequestPostsResponseAction extends AbstractResponseAction {
     @Override
     public void onFailure(ResponseError err, String responseBody){
         this.setResponseBody(responseBody);
+        this.setResponseError(err);
         this.notifyFailure();
     }
 
