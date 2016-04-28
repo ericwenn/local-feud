@@ -58,11 +58,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Post post = postList.get(position);
+        int distanceColor = DistanceColor.distanceColor(post.getLocation().getDistance());
+        int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
         holder.postItemMsgTextView.setText(post.getContent().getText());
-        holder.postItemTopbar.setBackgroundColor(ContextCompat.getColor(context, DistanceColor.distanceColor(post.getLocation().getDistance())));
+        holder.postItemTopbar.setBackgroundColor(ContextCompat.getColor(context, distanceColor));
         holder.postItemDistanceTextView.setText("" + post.getLocation().getDistance());
+        holder.postItemDistanceTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
         holder.postItemTimeTextView.setText(DateString.convert(post.getDatePosted()));
         holder.postItemSenderTextView.setText("" + post.getUser().getId());
+        holder.postItemSenderTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
         holder.postItemCommentTextView.setText("" + post.getNumberOfComments());
         holder.holderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
