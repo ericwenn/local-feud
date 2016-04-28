@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class PostClickedActivity extends AppCompatActivity {
     private TextView postText, senderText, distanceText, timeText, timeElapsedText, toolbarTextView;
     private Toolbar toolbar;
     private RelativeLayout postItemTopbar;
+    private LinearLayout commentBar;
     private EditText writeCommentText;
     private ImageButton postCommentButton;
     private CoordinatorLayout root;
@@ -75,6 +77,11 @@ public class PostClickedActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         initViews();
+
+        /*RelativeLayout.LayoutParams recyclerViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        recyclerViewParams.setMargins(0,0,0,commentBar.getHeight());
+        System.out.println("Commentbar: " + commentBar.getHeight());
+        recyclerView.setLayoutParams(recyclerViewParams);*/
     }
 
     private void initViews()
@@ -89,6 +96,7 @@ public class PostClickedActivity extends AppCompatActivity {
         timeText = (TextView) findViewById(R.id.post_item_time_textview);
         timeElapsedText = (TextView) findViewById(R.id.post_item_time_elapsed_textview);
         postItemTopbar = (RelativeLayout) findViewById(R.id.post_item_topbar);
+        commentBar = (LinearLayout) findViewById(R.id.write_comment_layout);
         postItemTopbar.setBackgroundColor(ContextCompat.getColor(this, distanceColor));
         postText.setText(post.getContent().getText());
         senderText.setText("" + post.getUser().getId());

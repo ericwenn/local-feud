@@ -142,7 +142,8 @@
             android:id="@+id/comment_feed_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/post_card_item">
+            android:layout_below="@id/post_card_item"
+            android:layout_marginBottom="?attr/actionBarSize">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -153,7 +154,7 @@
     <LinearLayout
         android:id="@+id/write_comment_layout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:layout_gravity="bottom"
         android:orientation="horizontal">
