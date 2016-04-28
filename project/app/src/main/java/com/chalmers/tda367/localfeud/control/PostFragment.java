@@ -101,8 +101,10 @@ public class PostFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        listState = recyclerView.getLayoutManager().onSaveInstanceState();
-        outState.putParcelable(LIST_STATE_KEY, listState);
+        if (recyclerView != null) {
+            listState = recyclerView.getLayoutManager().onSaveInstanceState();
+            outState.putParcelable(LIST_STATE_KEY, listState);
+        }
 
     }
 

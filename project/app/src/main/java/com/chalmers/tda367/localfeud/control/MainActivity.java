@@ -1,9 +1,7 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -172,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
                     Intent i = new Intent(MainActivity.this, PermissionFlow.class);
                     startActivity(i);
+                    finish();
 
                 } else {
                     Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions granted.");
