@@ -2,6 +2,8 @@ package com.chalmers.tda367.localfeud.control;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +11,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.Comment;
+import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
+import com.chalmers.tda367.localfeud.net.IResponseListener;
+import com.chalmers.tda367.localfeud.net.IServerComm;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestCommentsResponseListener;
 import com.chalmers.tda367.localfeud.util.DateString;
@@ -34,6 +43,10 @@ public class PostClickedActivity extends AppCompatActivity {
     private TextView postText, senderText, distanceText, timeText, timeElapsedText, toolbarTextView;
     private Toolbar toolbar;
     private RelativeLayout postItemTopbar;
+    private EditText writeCommentText;
+    private ImageButton postCommentButton;
+    private CoordinatorLayout root;
+    private IServerComm server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +56,7 @@ public class PostClickedActivity extends AppCompatActivity {
         post = (Post) bundle.getSerializable("post");
         //Log.d(TagHandler.MAIN_TAG, "Postid: " + post.getId());
         setContentView(R.layout.activity_post_clicked);
+        server = ServerComm.getInstance();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbarTextView = (TextView) findViewById(R.id.toolbar_title_textview);
@@ -104,6 +118,36 @@ public class PostClickedActivity extends AppCompatActivity {
                 ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
             }
         });
+        root = (CoordinatorLayout) findViewById(R.id.newPostRoot);
+        writeCommentText = (EditText) findViewById(R.id.posttext);
+        postCommentButton = (ImageButton) findViewById(R.id.post_button);
+
+        postCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Comment comment = new Comment();
+
+                comment.setText(writeCommentText.getText().toString());
+
+                IResponseListener responseListener = new IResponseListener() {
+                    @Override
+                    public void onResponseSuccess(IResponseAction source) {
+                        Log.d(TagHandler.MAIN_TAG, "Comment skickad");
+                        finish();
+                    }
+
+                    @Override
+                    public void onResponseFailure(IResponseAction source) {
+                        Snackbar.make(root,
+                                "Kommentar lyckades inte skickas.",
+                                Snackbar.LENGTH_LONG)
+                                .show();
+                    }
+                };
+                server.commentPost(post, comment, responseListener);
+            }
+        });
+
     }
 
     public class RefreshCommentsResponseListener extends RequestCommentsResponseListener

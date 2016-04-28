@@ -1,7 +1,9 @@
 package com.chalmers.tda367.localfeud.net;
 
+import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.responseActions.CommentPostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.CreatePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestSinglePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestCommentsResponseAction;
@@ -109,9 +111,17 @@ public class ServerComm implements IServerComm {
      * @param post
      * @param comment
      */
-    public void commentPost(Post post, String comment, IResponseListener listener)
+    public void commentPost(Post post, Comment comment, IResponseListener listener)
     {
+        System.out.println("Kraschad än? Postid: " + post.getId() + " " + comment.getText() + " RA: " + listener.toString());
+        IResponseAction action = new CommentPostResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
 
+        HashMap params = new HashMap();
+        params.put("content", comment.getText());
+
+        restClient.post("posts/" + post.getId() + "/comments/", params);
     }
 
     public void requestComments(Post post, IResponseListener listener)
@@ -122,8 +132,6 @@ public class ServerComm implements IServerComm {
 
         // Store parameters
         HashMap<String, String> param = new HashMap<>();
-        /*param.put("id", Double.toString(post.getId()));
-        Log.d(TagHandler.MAIN_TAG, "The hashmap: " + param.get("id"));*/
 
         restClient.get("posts/" + post.getId() + "/comments/", param);
     }
