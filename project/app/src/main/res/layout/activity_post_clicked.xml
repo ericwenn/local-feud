@@ -170,6 +170,7 @@
             android:maxLength="240"
             android:padding="10dp"
             android:layout_margin="8dp"
+            android:inputType="textCapSentences"
             android:textColor="@android:color/black" />
 
         <ImageButton
