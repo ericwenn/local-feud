@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Comment;
-import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
@@ -133,6 +132,7 @@ public class PostClickedActivity extends AppCompatActivity {
                     @Override
                     public void onResponseSuccess(IResponseAction source) {
                         Log.d(TagHandler.MAIN_TAG, "Comment skickad");
+//                        TODO: Uppdatera kommentarflödet istället för att skicka tillbaka till Main
                         finish();
                     }
 
