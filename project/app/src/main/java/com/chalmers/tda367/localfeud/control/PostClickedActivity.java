@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,16 +24,12 @@ import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.IServerComm;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestCommentsResponseListener;
-import com.chalmers.tda367.localfeud.util.DateString;
-import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.TagHandler;
-
-import java.util.Calendar;
 
 /**
  * Created by Daniel Ahlqvist on 2016-04-18.
  */
-public class PostClickedActivity extends AppCompatActivity {
+public class PostClickedActivity extends AppCompatActivity implements PostClickedAdapter.AdapterCallback {
     private RecyclerView recyclerView;
     private PostClickedAdapter postClickedAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -78,27 +73,27 @@ public class PostClickedActivity extends AppCompatActivity {
 
     private void initViews()
     {
-        int distanceColor = DistanceColor.distanceColor(post.getLocation().getDistance());
-        int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
+//        int distanceColor = DistanceColor.distanceColor(post.getLocation().getDistance());
+//        int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
+//
+//        postText = (TextView) findViewById(R.id.post_item_msg_textview);
+//        senderText = (TextView) findViewById(R.id.post_item_sender_textview);
+//        distanceText = (TextView) findViewById(R.id.post_item_distance_textview);
+//        timeText = (TextView) findViewById(R.id.post_item_time_textview);
+//        timeElapsedText = (TextView) findViewById(R.id.post_item_time_elapsed_textview);
+//        postItemTopbar = (RelativeLayout) findViewById(R.id.post_item_topbar);
+//        postItemTopbar.setBackgroundColor(ContextCompat.getColor(this, distanceColor));
+//        postText.setText(post.getContent().getText());
+//        senderText.setText("" + post.getUser().getId());
+//        senderText.setTextColor(ContextCompat.getColor(this, distanceTextColor));
+//        distanceText.setText("" + post.getLocation().getDistance());
+//        distanceText.setTextColor(ContextCompat.getColor(this, distanceTextColor));
+//
+//        timeText.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
+//                post.getDatePosted().get(Calendar.MINUTE));
+//        timeElapsedText.setText(DateString.convert( post.getDatePosted()));
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
-        postText = (TextView) findViewById(R.id.post_item_msg_textview);
-        senderText = (TextView) findViewById(R.id.post_item_sender_textview);
-        distanceText = (TextView) findViewById(R.id.post_item_distance_textview);
-        timeText = (TextView) findViewById(R.id.post_item_time_textview);
-        timeElapsedText = (TextView) findViewById(R.id.post_item_time_elapsed_textview);
-        postItemTopbar = (RelativeLayout) findViewById(R.id.post_item_topbar);
-        postItemTopbar.setBackgroundColor(ContextCompat.getColor(this, distanceColor));
-        postText.setText(post.getContent().getText());
-        senderText.setText("" + post.getUser().getId());
-        senderText.setTextColor(ContextCompat.getColor(this, distanceTextColor));
-        distanceText.setText("" + post.getLocation().getDistance());
-        distanceText.setTextColor(ContextCompat.getColor(this, distanceTextColor));
-
-        timeText.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
-                post.getDatePosted().get(Calendar.MINUTE));
-        timeElapsedText.setText(DateString.convert( post.getDatePosted()));
-
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
         if (recyclerView != null) {
             recyclerView.setHasFixedSize(true);
@@ -106,7 +101,8 @@ public class PostClickedActivity extends AppCompatActivity {
             Log.e(TagHandler.MAIN_TAG, "No RecyclerView found in activity_post_clicked.xml");
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        postClickedAdapter = new PostClickedAdapter(this);
+        recyclerView.setHasFixedSize(true);
+        postClickedAdapter = new PostClickedAdapter(this, post);
         recyclerView.setAdapter(postClickedAdapter);
         ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
@@ -151,6 +147,45 @@ public class PostClickedActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onLikeClick(final Post post, final ImageButton imageButton) {
+        final boolean isLiked = post.isLiked();
+        final int revertLikeDrawable, originalLikeDrawable;
+        if (isLiked) {
+            revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+            originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
+        } else {
+            revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
+            originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+        }
+        imageButton.setImageResource(revertLikeDrawable);
+        IResponseListener responseListener = new IResponseListener() {
+            @Override
+            public void onResponseSuccess(IResponseAction source) {
+                post.setIsLiked(!isLiked);
+            }
+
+            @Override
+            public void onResponseFailure(IResponseAction source) {
+                imageButton.setImageResource(originalLikeDrawable);
+                Snackbar.make(root, getString(R.string.like_error_msg), Snackbar.LENGTH_LONG).show();
+            }
+        };
+
+        if (!isLiked) ServerComm.getInstance().likePost(post, responseListener);
+        else ServerComm.getInstance().unlikePost(post, responseListener);
+    }
+
+    @Override
+    public void onMoreClick(Post post) {
+        Snackbar.make(root, "No more for you", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onShowSnackbar(String text) {
+        Snackbar.make(root, text, Snackbar.LENGTH_LONG).show();
     }
 
     public class RefreshCommentsResponseListener extends RequestCommentsResponseListener
