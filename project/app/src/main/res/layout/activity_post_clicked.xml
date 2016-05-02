@@ -2,9 +2,9 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root"
     tools:context=".control.PostClickedActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -31,122 +31,19 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/post_clicked_refresh_layout"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_layout">
-
-        <android.support.v7.widget.CardView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/post_card_item"
-            android:orientation="vertical"
-            android:layout_margin="4dp"
-            card_view:cardCornerRadius="@dimen/card_corner_radius"
-            android:layout_marginTop="?attr/actionBarSize">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            <RelativeLayout
-                android:id="@+id/post_item_topbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ff1111">
-
-            <TextView
-                android:id="@+id/post_item_sender_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:padding="@dimen/default_margin"
-                android:text="(Manssymbol) Rune, 98" />
-
-            <TextView
-                android:id="@+id/post_item_distance_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:padding="@dimen/default_margin"
-                android:text="mindre än 500 m" />
-
-                </RelativeLayout>
-
-            <View
-                android:id="@+id/post_item_top_divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/card_post_top_space"
-                android:alpha="0.12"
-                android:background="@color/black" />
-
-            <TextView
-                android:id="@+id/post_item_msg_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/post_item_top_divider"
-                android:padding="@dimen/default_margin"
-                android:text="Känner mig sjukt gammal idag... Nån annan som känner detsamma?"
-                android:textSize="@dimen/card_post_message_text_size" />
-
-            <TextView
-                android:id="@+id/post_item_time_elapsed_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/post_item_msg_textview"
-                android:paddingBottom="@dimen/default_margin"
-                android:paddingEnd="@dimen/default_margin"
-                android:paddingStart="@dimen/default_margin"
-                android:text="8 minuter sedan" />
-
-            <TextView
-                android:id="@+id/post_item_time_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/post_item_msg_textview"
-                android:layout_centerInParent="true"
-                android:paddingBottom="@dimen/default_margin"
-                android:paddingEnd="@dimen/default_margin"
-                android:paddingStart="@dimen/default_margin"
-                android:text="20:56" />
-
-            <!--Temporary TextView. Should be "settings" icon-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@id/post_item_msg_textview"
-                android:paddingBottom="@dimen/default_margin"
-                android:paddingEnd="@dimen/default_margin"
-                android:paddingStart="@dimen/default_margin"
-                android:text="More" />
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/comment_feed_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/post_card_item">
+            android:layout_below="@id/toolbar_layout">
 
         </android.support.v7.widget.RecyclerView>
-
-    </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -154,28 +51,28 @@
         android:id="@+id/write_comment_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
         android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/posttext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:background="#fff"
             android:gravity="bottom|left"
             android:hint="@string/comment_hint"
             android:maxLength="240"
             android:padding="10dp"
-            android:layout_margin="8dp"
             android:textColor="@android:color/black" />
 
         <ImageButton
             android:id="@+id/post_button"
-            android:layout_margin="@dimen/default_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
             android:background="@color/transparent"
             android:src="@drawable/ic_send_white_24dp" />
 
