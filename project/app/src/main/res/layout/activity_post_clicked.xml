@@ -5,7 +5,8 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".control.PostClickedActivity">
+    tools:context=".control.PostClickedActivity"
+    android:background="@color/bgcolor">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_layout"
@@ -37,23 +38,29 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar_layout">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/comment_feed_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/toolbar_layout">
-
+            android:layout_marginBottom="?attr/actionBarSize">
         </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
         android:id="@+id/write_comment_layout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
+        android:layout_gravity="bottom"
         android:orientation="horizontal">
+        <!--android:layout_height="wrap_content"-->
 
         <EditText
             android:id="@+id/posttext"
@@ -66,6 +73,7 @@
             android:hint="@string/comment_hint"
             android:maxLength="240"
             android:padding="10dp"
+            android:inputType="textCapSentences"
             android:textColor="@android:color/black" />
 
         <ImageButton

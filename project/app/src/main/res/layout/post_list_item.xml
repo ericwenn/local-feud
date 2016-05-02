@@ -6,7 +6,10 @@
     android:layout_height="wrap_content"
     android:id="@+id/post_list_item"
     android:orientation="vertical"
-    android:layout_margin="4dp"
+    android:layout_marginBottom="@dimen/card_post_margin_bottom"
+    android:layout_marginTop="@dimen/card_post_margin_top"
+    android:layout_marginLeft="@dimen/small_margin"
+    android:layout_marginRight="@dimen/small_margin"
     card_view:cardCornerRadius="@dimen/card_corner_radius">
     <RelativeLayout
         android:id="@+id/post_item_relative"

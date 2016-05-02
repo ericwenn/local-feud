@@ -2,14 +2,15 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="bgcolor">#cccccc</color>
     <color name="colorAccent">#FF4081</color>
     <color name="black">#000</color>
     <color name="white">#fff</color>
     <color name="transparent">#00ffffff</color>
     <color name="white70PTransparent">#B3FFFFFF</color>
-    <color name="distRed">#ff1111</color>
-    <color name="distOrange">#ff7e00</color>
+    <color name="distRed">#dc2f29</color>
+    <color name="distOrange">#efa443</color>
     <color name="distYellow">#ffcc00</color>
-    <color name="distGreen">#22cc22</color>
-    <color name="distBlue">#1111ff</color>
+    <color name="distGreen">#f4e880</color>
+    <color name="distBlue">#feffb8</color>
 </resources>

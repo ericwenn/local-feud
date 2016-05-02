@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,6 +26,8 @@ import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.IServerComm;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestCommentsResponseListener;
+import com.chalmers.tda367.localfeud.util.DateString;
+import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 /**
@@ -37,6 +41,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     private TextView postText, senderText, distanceText, timeText, timeElapsedText, toolbarTextView;
     private Toolbar toolbar;
     private RelativeLayout postItemTopbar;
+    private LinearLayout commentBar;
     private EditText writeCommentText;
     private ImageButton postCommentButton;
     private CoordinatorLayout root;
@@ -69,6 +74,11 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     protected void onResume() {
         super.onResume();
         initViews();
+
+        /*RelativeLayout.LayoutParams recyclerViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        recyclerViewParams.setMargins(0,0,0,commentBar.getHeight());
+        System.out.println("Commentbar: " + commentBar.getHeight());
+        recyclerView.setLayoutParams(recyclerViewParams);*/
     }
 
     private void initViews()
@@ -94,6 +104,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 //        timeElapsedText.setText(DateString.convert( post.getDatePosted()));
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
+
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
         if (recyclerView != null) {
             recyclerView.setHasFixedSize(true);
