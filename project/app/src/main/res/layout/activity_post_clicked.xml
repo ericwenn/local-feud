@@ -38,14 +38,18 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar_layout">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/comment_feed_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="?attr/actionBarSize"
-            android:layout_below="@id/toolbar_layout">
-
+            android:layout_marginBottom="?attr/actionBarSize">
         </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
