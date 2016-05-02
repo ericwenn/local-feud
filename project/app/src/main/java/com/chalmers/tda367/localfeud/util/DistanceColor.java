@@ -34,7 +34,7 @@ public class DistanceColor
     }
     public static int distanceTextColor(int color) throws NullPointerException
     {
-        if (color == R.color.distBlue || color == R.color.distRed)
+        if (color == R.color.distRed)
         {
             return R.color.white;
         }
