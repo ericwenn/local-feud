@@ -13,7 +13,7 @@ import java.util.Locale;
 /**
  * Created by Alfred on 2016-04-11.
  */
-public class Post implements Serializable {
+public class Post extends GeneralPost implements Serializable {
 
     private int id;
     private Position location;
