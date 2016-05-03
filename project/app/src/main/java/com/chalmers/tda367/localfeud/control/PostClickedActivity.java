@@ -2,7 +2,6 @@ package com.chalmers.tda367.localfeud.control;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -35,13 +34,12 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     private PostClickedAdapter postClickedAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Post post;
-    private TextView postText, senderText, distanceText, timeText, timeElapsedText, toolbarTextView;
+    private TextView toolbarTextView;
     private Toolbar toolbar;
     private RelativeLayout postItemTopbar;
     private LinearLayout commentBar;
     private EditText writeCommentText;
     private ImageButton postCommentButton;
-    private CoordinatorLayout root;
     private IServerComm server;
 
     @Override
@@ -50,7 +48,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         post = (Post) bundle.getSerializable("post");
-        //Log.d(TagHandler.MAIN_TAG, "Postid: " + post.getId());
         setContentView(R.layout.activity_post_clicked);
         server = ServerComm.getInstance();
 
@@ -71,35 +68,9 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     protected void onResume() {
         super.onResume();
         initViews();
-
-        /*RelativeLayout.LayoutParams recyclerViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        recyclerViewParams.setMargins(0,0,0,commentBar.getHeight());
-        System.out.println("Commentbar: " + commentBar.getHeight());
-        recyclerView.setLayoutParams(recyclerViewParams);*/
     }
 
-    private void initViews()
-    {
-//        int distanceColor = DistanceColor.distanceColor(post.getLocation().getDistance());
-//        int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
-//
-//        postText = (TextView) findViewById(R.id.post_item_msg_textview);
-//        senderText = (TextView) findViewById(R.id.post_item_sender_textview);
-//        distanceText = (TextView) findViewById(R.id.post_item_distance_textview);
-//        timeText = (TextView) findViewById(R.id.post_item_time_textview);
-//        timeElapsedText = (TextView) findViewById(R.id.post_item_time_elapsed_textview);
-//        postItemTopbar = (RelativeLayout) findViewById(R.id.post_item_topbar);
-//        postItemTopbar.setBackgroundColor(ContextCompat.getColor(this, distanceColor));
-//        postText.setText(post.getContent().getText());
-//        senderText.setText("" + post.getUser().getId());
-//        senderText.setTextColor(ContextCompat.getColor(this, distanceTextColor));
-//        distanceText.setText("" + post.getLocation().getDistance());
-//        distanceText.setTextColor(ContextCompat.getColor(this, distanceTextColor));
-//
-//        timeText.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
-//                post.getDatePosted().get(Calendar.MINUTE));
-//        timeElapsedText.setText(DateString.convert( post.getDatePosted()));
-
+    private void initViews() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
 
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
@@ -112,13 +83,13 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         recyclerView.setHasFixedSize(true);
         postClickedAdapter = new PostClickedAdapter(this, post);
         recyclerView.setAdapter(postClickedAdapter);
-        ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
+        ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter, false));
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
+                ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter, false));
             }
         });
         swipeRefreshLayout.post(new Runnable() {
@@ -127,36 +98,48 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
-        root = (CoordinatorLayout) findViewById(R.id.newPostRoot);
         writeCommentText = (EditText) findViewById(R.id.posttext);
         postCommentButton = (ImageButton) findViewById(R.id.post_button);
 
         postCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Comment comment = new Comment();
-
-                comment.setText(writeCommentText.getText().toString());
 
                 IResponseListener responseListener = new IResponseListener() {
                     @Override
                     public void onResponseSuccess(IResponseAction source) {
-                        Log.d(TagHandler.MAIN_TAG, "Comment skickad");
-//                        TODO: Uppdatera kommentarflödet istället för att skicka tillbaka till Main
-                        finish();
+                        swipeRefreshLayout.setRefreshing(false);
+                        ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter, true));
                     }
 
                     @Override
                     public void onResponseFailure(IResponseAction source) {
-                        Snackbar.make(root,
-                                "Kommentar lyckades inte skickas.",
+                        Snackbar.make(recyclerView,
+                                R.string.comment_failed_to_post_msg,
                                 Snackbar.LENGTH_LONG)
                                 .show();
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 };
-                if(!comment.getText().equals(""))
-                {
+                if (!writeCommentText.getText().toString().isEmpty()) {
+                    Comment comment = new Comment();
+                    comment.setText(writeCommentText.getText().toString());
+                    writeCommentText.setText("");
+                    /**
+                     *  TODO: VARFÖR POSTAS TVÅ KOMMENTARER?!?!?! PLEASE TELL ME
+                     */
+                    swipeRefreshLayout.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(true);
+                        }
+                    });
                     server.commentPost(post, comment, responseListener);
+                } else {
+                    Snackbar.make(recyclerView,
+                            R.string.empty_comment_error_msg,
+                            Snackbar.LENGTH_LONG)
+                            .show();
                 }
             }
         });
@@ -184,7 +167,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             @Override
             public void onResponseFailure(IResponseAction source) {
                 imageButton.setImageResource(originalLikeDrawable);
-                Snackbar.make(root, getString(R.string.like_error_msg), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(recyclerView, getString(R.string.like_error_msg), Snackbar.LENGTH_LONG).show();
             }
         };
 
@@ -194,28 +177,33 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
     @Override
     public void onMoreClick(Post post) {
-        Snackbar.make(root, "No more for you", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(recyclerView, "No more for you", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void onShowSnackbar(String text) {
-        Snackbar.make(root, text, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(recyclerView, text, Snackbar.LENGTH_LONG).show();
     }
 
-    public class RefreshCommentsResponseListener extends RequestCommentsResponseListener
-    {
-        public RefreshCommentsResponseListener(PostClickedAdapter adapter){
+    public class RefreshCommentsResponseListener extends RequestCommentsResponseListener {
+        private boolean isAfterCommentPosted;
+
+        public RefreshCommentsResponseListener(PostClickedAdapter adapter, boolean isAfterCommentPosted) {
             super(adapter);
+            this.isAfterCommentPosted = isAfterCommentPosted;
         }
 
         @Override
-        public void onResponseSuccess(IResponseAction source){
+        public void onResponseSuccess(IResponseAction source) {
             super.onResponseSuccess(source);
             swipeRefreshLayout.setRefreshing(false);
+            if (isAfterCommentPosted) {
+                recyclerView.scrollToPosition(postClickedAdapter.getItemCount() - 1);
+            }
         }
 
         @Override
-        public void onResponseFailure(IResponseAction source){
+        public void onResponseFailure(IResponseAction source) {
             super.onResponseFailure(source);
             swipeRefreshLayout.setRefreshing(false);
         }

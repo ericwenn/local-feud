@@ -99,7 +99,6 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             viewHolder.commentItemMsgTextView.setText(comment.getText());
             viewHolder.commentItemTimeTextView.setText(DateString.convert(comment.getDatePosted()));
             viewHolder.commentItemSenderTextView.setText("" + comment.getUser().getId());
-            Log.d(TagHandler.MAIN_TAG, "Comment: " + comment.getText());
         }
     }
 
