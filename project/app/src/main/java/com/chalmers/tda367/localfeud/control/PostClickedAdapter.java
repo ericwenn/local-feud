@@ -39,6 +39,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public PostClickedAdapter(Context context, Post post) {
         this.context = context;
         this.post = post;
+        clearAdapter();
         inflater = LayoutInflater.from(context);
 
         try {

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,8 +25,6 @@ import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.IServerComm;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestCommentsResponseListener;
-import com.chalmers.tda367.localfeud.util.DateString;
-import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 /**
@@ -122,6 +119,12 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             @Override
             public void onRefresh() {
                 ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
+            }
+        });
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
             }
         });
         root = (CoordinatorLayout) findViewById(R.id.newPostRoot);
