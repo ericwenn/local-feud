@@ -1,89 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".control.PostClickedActivity">
+    tools:context=".control.PostClickedActivity"
+    android:background="@color/bgcolor">
 
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:padding="@dimen/default_margin"
-            android:text="(Manssymbol) Rune, 98"
-            android:id="@+id/post_item_sender_textview"/>
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:padding="@dimen/default_margin"
-            android:text="mindre än 500 m"
-            android:id="@+id/post_item_distance_textview"
-            />
-        <View
-            android:id="@+id/post_item_top_divider"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/card_post_top_space"
-            android:alpha="0.12"
-            android:background="@color/black" />
+            android:layout_height="?attr/actionBarSize"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <TextView
-            android:layout_below="@id/post_item_top_divider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/post_item_msg_textview"
-            android:padding="@dimen/default_margin"
-            android:textSize="@dimen/card_post_message_text_size"
-            android:text="Känner mig sjukt gammal idag... Nån annan som känner detsamma?"/>
+            <TextView
+                android:id="@+id/toolbar_title_textview"
+                style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/app_name"
+                android:textColor="@android:color/white" />
 
-        <TextView
-            android:layout_below="@id/post_item_msg_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:paddingBottom="@dimen/default_margin"
-            android:paddingStart="@dimen/default_margin"
-            android:paddingEnd="@dimen/default_margin"
-            android:id="@+id/post_item_time_elapsed_textview"
-            android:text="8 minuter sedan"/>
+        </android.support.v7.widget.Toolbar>
 
-        <TextView
-            android:layout_below="@id/post_item_msg_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:paddingBottom="@dimen/default_margin"
-            android:paddingStart="@dimen/default_margin"
-            android:paddingEnd="@dimen/default_margin"
-            android:id="@+id/post_item_time_textview"
-            android:text="20:56"/>
+    </android.support.design.widget.AppBarLayout>
 
-        <!--Temporary TextView. Should be "settings" icon-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/post_item_msg_textview"
-            android:layout_alignParentEnd="true"
-            android:paddingBottom="@dimen/default_margin"
-            android:paddingStart="@dimen/default_margin"
-            android:paddingEnd="@dimen/default_margin"
-            android:text="More"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/comment_feed_recyclerview"
-        android:layout_below="@id/post_item_time_textview"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/post_clicked_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
-    </android.support.v7.widget.RecyclerView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar_layout">
 
-    </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/comment_feed_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="?attr/actionBarSize">
+        </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/write_comment_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+        <!--android:layout_height="wrap_content"-->
+
+        <EditText
+            android:id="@+id/posttext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:gravity="bottom|left"
+            android:hint="@string/comment_hint"
+            android:maxLength="240"
+            android:padding="10dp"
+            android:inputType="textCapSentences"
+            android:textColor="@android:color/black" />
+
+        <ImageButton
+            android:id="@+id/post_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_send_white_24dp" />
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

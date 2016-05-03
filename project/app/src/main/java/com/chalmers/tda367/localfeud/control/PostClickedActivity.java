@@ -2,38 +2,67 @@ package com.chalmers.tda367.localfeud.control;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.IResponseAction;
+import com.chalmers.tda367.localfeud.net.IResponseListener;
+import com.chalmers.tda367.localfeud.net.IServerComm;
+import com.chalmers.tda367.localfeud.net.ServerComm;
+import com.chalmers.tda367.localfeud.net.responseListeners.RequestCommentsResponseListener;
+import com.chalmers.tda367.localfeud.util.DateString;
+import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.TagHandler;
-
-import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Daniel Ahlqvist on 2016-04-18.
  */
-public class PostClickedActivity extends AppCompatActivity
-{
+public class PostClickedActivity extends AppCompatActivity implements PostClickedAdapter.AdapterCallback {
     private RecyclerView recyclerView;
     private PostClickedAdapter postClickedAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Post post;
-    private TextView postText, senderText, distanceText, timeText, timeElapsedText;
+    private TextView postText, senderText, distanceText, timeText, timeElapsedText, toolbarTextView;
+    private Toolbar toolbar;
+    private RelativeLayout postItemTopbar;
+    private LinearLayout commentBar;
+    private EditText writeCommentText;
+    private ImageButton postCommentButton;
+    private CoordinatorLayout root;
+    private IServerComm server;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         post = (Post) bundle.getSerializable("post");
         //Log.d(TagHandler.MAIN_TAG, "Postid: " + post.getId());
         setContentView(R.layout.activity_post_clicked);
+        server = ServerComm.getInstance();
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarTextView = (TextView) findViewById(R.id.toolbar_title_textview);
+        toolbarTextView.setText("Post ID: " + post.getId());
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.empty_string);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -45,63 +74,147 @@ public class PostClickedActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         initViews();
+
+        /*RelativeLayout.LayoutParams recyclerViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        recyclerViewParams.setMargins(0,0,0,commentBar.getHeight());
+        System.out.println("Commentbar: " + commentBar.getHeight());
+        recyclerView.setLayoutParams(recyclerViewParams);*/
     }
 
-    private void initViews() {
-        Calendar current = Calendar.getInstance();
-        long timeElapsedMs = current.getTimeInMillis() - post.getDatePosted().getTimeInMillis();
-        long timeElapsedMin = TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs);
-        long timeElapsedHour = TimeUnit.MILLISECONDS.toHours(timeElapsedMs);
-        long timeElapsedDay = TimeUnit.MILLISECONDS.toDays(timeElapsedMs);
+    private void initViews()
+    {
+//        int distanceColor = DistanceColor.distanceColor(post.getLocation().getDistance());
+//        int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
+//
+//        postText = (TextView) findViewById(R.id.post_item_msg_textview);
+//        senderText = (TextView) findViewById(R.id.post_item_sender_textview);
+//        distanceText = (TextView) findViewById(R.id.post_item_distance_textview);
+//        timeText = (TextView) findViewById(R.id.post_item_time_textview);
+//        timeElapsedText = (TextView) findViewById(R.id.post_item_time_elapsed_textview);
+//        postItemTopbar = (RelativeLayout) findViewById(R.id.post_item_topbar);
+//        postItemTopbar.setBackgroundColor(ContextCompat.getColor(this, distanceColor));
+//        postText.setText(post.getContent().getText());
+//        senderText.setText("" + post.getUser().getId());
+//        senderText.setTextColor(ContextCompat.getColor(this, distanceTextColor));
+//        distanceText.setText("" + post.getLocation().getDistance());
+//        distanceText.setTextColor(ContextCompat.getColor(this, distanceTextColor));
+//
+//        timeText.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
+//                post.getDatePosted().get(Calendar.MINUTE));
+//        timeElapsedText.setText(DateString.convert( post.getDatePosted()));
 
-        String timeSinceUpload;
-
-        if(timeElapsedDay >= 1)
-        {
-            if(timeElapsedDay == 1)
-                timeSinceUpload = "1 day ago";
-            else
-                timeSinceUpload = timeElapsedDay + " days ago";
-        }
-        else if(timeElapsedMin > 60)
-        {
-            if(timeElapsedHour == 1)
-                timeSinceUpload = "1 hour ago";
-            else
-                timeSinceUpload = timeElapsedHour + " hours ago";
-        }
-        else
-        {
-            if(timeElapsedMin == 1)
-                timeSinceUpload = "1 minute ago";
-            else
-                timeSinceUpload = timeElapsedMin + " minutes ago";
-        }
-
-        postText = (TextView) findViewById(R.id.post_item_msg_textview);
-        senderText = (TextView) findViewById(R.id.post_item_sender_textview);
-        distanceText = (TextView) findViewById(R.id.post_item_distance_textview);
-        timeText = (TextView) findViewById(R.id.post_item_time_textview);
-        timeElapsedText = (TextView) findViewById(R.id.post_item_time_elapsed_textview);
-        postText.setText(post.getContent().getText());
-        senderText.setText("" + post.getUser().getId());
-        distanceText.setText("" + post.getLocation().getDistance());
-        timeText.setText(post.getDatePosted().get(Calendar.HOUR_OF_DAY) + ":" +
-                post.getDatePosted().get(Calendar.MINUTE));
-        timeElapsedText.setText(timeSinceUpload);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
 
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
         if (recyclerView != null) {
             recyclerView.setHasFixedSize(true);
-        }
-        else {
+        } else {
             Log.e(TagHandler.MAIN_TAG, "No RecyclerView found in activity_post_clicked.xml");
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        postClickedAdapter = new PostClickedAdapter(this);
+        recyclerView.setHasFixedSize(true);
+        postClickedAdapter = new PostClickedAdapter(this, post);
         recyclerView.setAdapter(postClickedAdapter);
-        /*for (Comment comment : dummyCommentList) {
-            postClickedAdapter.addCommentToAdapter(comment);
-        }*/
+        ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorAccent);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter));
+            }
+        });
+        root = (CoordinatorLayout) findViewById(R.id.newPostRoot);
+        writeCommentText = (EditText) findViewById(R.id.posttext);
+        postCommentButton = (ImageButton) findViewById(R.id.post_button);
+
+        postCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Comment comment = new Comment();
+
+                comment.setText(writeCommentText.getText().toString());
+
+                IResponseListener responseListener = new IResponseListener() {
+                    @Override
+                    public void onResponseSuccess(IResponseAction source) {
+                        Log.d(TagHandler.MAIN_TAG, "Comment skickad");
+//                        TODO: Uppdatera kommentarflödet istället för att skicka tillbaka till Main
+                        finish();
+                    }
+
+                    @Override
+                    public void onResponseFailure(IResponseAction source) {
+                        Snackbar.make(root,
+                                "Kommentar lyckades inte skickas.",
+                                Snackbar.LENGTH_LONG)
+                                .show();
+                    }
+                };
+                if(!comment.getText().equals(""))
+                {
+                    server.commentPost(post, comment, responseListener);
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onLikeClick(final Post post, final ImageButton imageButton) {
+        final boolean isLiked = post.isLiked();
+        final int revertLikeDrawable, originalLikeDrawable;
+        if (isLiked) {
+            revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+            originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
+        } else {
+            revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
+            originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+        }
+        imageButton.setImageResource(revertLikeDrawable);
+        IResponseListener responseListener = new IResponseListener() {
+            @Override
+            public void onResponseSuccess(IResponseAction source) {
+                post.setIsLiked(!isLiked);
+            }
+
+            @Override
+            public void onResponseFailure(IResponseAction source) {
+                imageButton.setImageResource(originalLikeDrawable);
+                Snackbar.make(root, getString(R.string.like_error_msg), Snackbar.LENGTH_LONG).show();
+            }
+        };
+
+        if (!isLiked) ServerComm.getInstance().likePost(post, responseListener);
+        else ServerComm.getInstance().unlikePost(post, responseListener);
+    }
+
+    @Override
+    public void onMoreClick(Post post) {
+        Snackbar.make(root, "No more for you", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onShowSnackbar(String text) {
+        Snackbar.make(root, text, Snackbar.LENGTH_LONG).show();
+    }
+
+    public class RefreshCommentsResponseListener extends RequestCommentsResponseListener
+    {
+        public RefreshCommentsResponseListener(PostClickedAdapter adapter){
+            super(adapter);
+        }
+
+        @Override
+        public void onResponseSuccess(IResponseAction source){
+            super.onResponseSuccess(source);
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
+        @Override
+        public void onResponseFailure(IResponseAction source){
+            super.onResponseFailure(source);
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 }

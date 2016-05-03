@@ -1,8 +1,10 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,16 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.ResponseError;
+import com.chalmers.tda367.localfeud.util.DateString;
+import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Text om klassen
@@ -38,16 +42,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public PostAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-    }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         try {
             adapterCallback = (AdapterCallback) context;
         } catch (ClassCastException e) {
             throw new ClassCastException("PostAdapter: Activity must implement AdapterCallback.");
         }
+    }
 
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.post_list_item, parent, false);
         return new ViewHolder(view);
     }
@@ -55,11 +59,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Post post = postList.get(position);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+        int distanceColor = DistanceColor.distanceColor(post.getLocation().getDistance());
+        int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
         holder.postItemMsgTextView.setText(post.getContent().getText());
+        holder.postItemTopbar.setBackgroundColor(ContextCompat.getColor(context, distanceColor));
         holder.postItemDistanceTextView.setText("" + post.getLocation().getDistance());
-        holder.postItemTimeTextView.setText(simpleDateFormat.format(post.getDatePosted().getTime()));
+        holder.postItemDistanceTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
+        holder.postItemTimeTextView.setText(DateString.convert(post.getDatePosted()));
         holder.postItemSenderTextView.setText("" + post.getUser().getId());
+        holder.postItemSenderTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
         holder.postItemCommentTextView.setText("" + post.getNumberOfComments());
         holder.holderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +87,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 adapterCallback.onMoreClick(post);
             }
         });
+        if (post.isLiked())
+            holder.postItemLikeButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+        else holder.postItemLikeButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
     }
 
     @Override
@@ -100,19 +111,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         final int currentCount = this.postList.size();
         synchronized (this.postList) {
             Log.d(TagHandler.MAIN_TAG, "Uppdaterar inlägg...");
-//            TODO: Fixa en bra add metod
-            if (this.postList.containsAll(postList)) {
-                Log.d(TagHandler.MAIN_TAG, "Inga nya inlägg");
-            }
-            else {
-                clearAdapter();
-                this.postList.addAll(postList);
-            }
+            clearAdapter();
+            this.postList.addAll(postList);
         }
         if (Looper.getMainLooper() == Looper.myLooper()) {
             notifyItemRangeInserted(currentCount, postList.size());
-        }
-        else {
+        } else {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
@@ -120,6 +124,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 }
             });
         }
+    }
+
+    public void showError(ResponseError responseError) {
+        String errorText;
+        switch (responseError) {
+            case NOTFOUND:
+                errorText = context.getString(R.string.notfound_error_msg);
+                break;
+            case UNAUTHORIZED:
+                errorText = context.getString(R.string.unauthorized_error_msg);
+                break;
+            default:
+                errorText = context.getString(R.string.server_error_msg);
+                break;
+        }
+        Log.d(TagHandler.MAIN_TAG, "Error: " + errorText);
+        adapterCallback.onShowSnackbar(errorText);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -132,6 +153,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         private final CardView holderLayout;
         private final ImageButton postItemLikeButton;
         private final ImageButton postItemMoreButton;
+        private final RelativeLayout postItemTopbar;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -144,12 +166,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holderLayout = (CardView) itemView.findViewById(R.id.post_list_item);
             postItemLikeButton = (ImageButton) itemView.findViewById(R.id.post_item_like_button);
             postItemMoreButton = (ImageButton) itemView.findViewById(R.id.post_item_more_button);
+            postItemTopbar = (RelativeLayout) itemView.findViewById(R.id.post_item_topbar);
         }
     }
 
     public interface AdapterCallback {
         void onPostClick(Post post);
+
         void onLikeClick(Post post, ImageButton imageButton);
+
         void onMoreClick(Post post);
+
+        void onShowSnackbar(String text);
     }
 }

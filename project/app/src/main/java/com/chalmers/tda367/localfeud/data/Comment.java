@@ -12,46 +12,42 @@ import java.util.Locale;
 /**
  * Created by Daniel Ahlqvist on 2016-04-13.
  */
-public class Comment
-{
-    private int id, authorid, postid;
-    private String text;
+public class Comment extends GeneralPost {
+    private int id, postid;
+    private String content;
+    private User user;
     private String date_posted;
 
-    public int getId()
-    {
+    public int getId() {
         return id;
     }
-    public void setId(int newId)
-    {
+
+    public void setId(int newId) {
         id = newId;
     }
 
-    public int getAuthor()
-    {
-        return authorid;
-    }
-    public void setAuthor(int newId)
-    {
-        authorid = newId;
+    public User getUser() {
+        return user;
     }
 
-    public int getPostId()
-    {
+    public void setUser(User newUser) {
+        user = newUser;
+    }
+
+    public int getPostId() {
         return postid;
     }
-    public void setPostId(int newId)
-    {
+
+    public void setPostId(int newId) {
         postid = newId;
     }
 
-    public String getText()
-    {
-        return text;
+    public String getText() {
+        return content;
     }
-    public void setText(String newText)
-    {
-        text = newText;
+
+    public void setText(String newText) {
+        content = newText;
     }
 
     public Calendar getDatePosted() {

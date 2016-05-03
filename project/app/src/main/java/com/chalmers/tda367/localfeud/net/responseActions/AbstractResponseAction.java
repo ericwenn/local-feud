@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.net.responseActions;
 
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
+import com.chalmers.tda367.localfeud.net.ResponseError;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
  */
 public abstract class AbstractResponseAction implements IResponseAction {
     private ArrayList<IResponseListener> listeners;
+    private ResponseError error;
 
     public AbstractResponseAction(){
         this.listeners = new ArrayList<>();
@@ -36,10 +38,18 @@ public abstract class AbstractResponseAction implements IResponseAction {
         }
     }
 
+    protected synchronized void setResponseError(ResponseError error){
+        this.error = error;
+    }
+
+    public synchronized ResponseError getResponseError(){
+        return this.error;
+    }
+
     /**
      * A method that is called when the request was successful.
      * @param responseBody The body of the response (to be converted to an object through Gson or whatever)
      */
     public abstract void onSuccess(String responseBody);
-    public abstract void onFailure(String responseBody);
+    public abstract void onFailure(ResponseError err, String responseBody);
 }
