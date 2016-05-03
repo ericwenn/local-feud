@@ -1,7 +1,6 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;

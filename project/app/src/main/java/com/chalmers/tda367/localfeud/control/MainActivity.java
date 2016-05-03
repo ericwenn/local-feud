@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                     finish();
                 }
                 else {
+                    Log.d(TagHandler.MAIN_TAG, "Is logged in!!!");
                     if (!PermissionHandler.hasPermissions(getApplicationContext())) {
                         Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions not granted.");
 
