@@ -30,12 +30,12 @@ public class AuthenticatedUser implements IAuthenticatedUser  {
 
 
     @Override
-    public HashMap requestHeaders() {
+    public HashMap<String,String> requestHeaders() {
         HashMap map = new HashMap<String, String>();
 
         AccessToken at = AccessToken.getCurrentAccessToken();
 
-        map.put( "user_id", at.getUserId() );
+        map.put( "user-id", at.getUserId() );
         map.put( "token", at.getToken() );
         // TODO
         return map;
