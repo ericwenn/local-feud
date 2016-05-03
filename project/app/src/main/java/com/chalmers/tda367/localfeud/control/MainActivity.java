@@ -1,6 +1,7 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.ServerComm;
+import com.chalmers.tda367.localfeud.net.auth.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.permission.PermissionHandler;
 import com.chalmers.tda367.localfeud.permissionflow.PermissionFlow;
 import com.chalmers.tda367.localfeud.util.TagHandler;
@@ -31,23 +33,14 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        initPermissionFlow();
-
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+        initFlow();
 
         setContentView(R.layout.activity_main);
         initBottomBar(savedInstanceState);
 
-        /**
-         * Avkommentera detta när inloggning ska ske.
-         *
-         if( !AuthenticatedUser.getInstance().isLoggedIn() ) {
-         Intent i = new Intent( getApplicationContext(), LoginActivity.class );
-         startActivity(i);
-         }
-         */
     }
 
     private void initBottomBar(final Bundle savedInstanceState) {
@@ -159,27 +152,30 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         }
     }
 
+    private void initFlow() {
+        new AsyncTask<Void, Void, Void>() {
 
-    private void initPermissionFlow() {
-        //  Declare a new thread to do a preference check
-        Thread t = new Thread(new Runnable() {
             @Override
-            public void run() {
-                if (!PermissionHandler.hasPermissions(getApplicationContext())) {
-
-                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions not granted.");
-
-                    Intent i = new Intent(MainActivity.this, PermissionFlow.class);
+            protected Void doInBackground(Void... params) {
+                if (!AuthenticatedUser.getInstance().isLoggedIn()) {
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(i);
                     finish();
-
-                } else {
-                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions granted.");
                 }
-            }
-        });
+                else {
+                    if (!PermissionHandler.hasPermissions(getApplicationContext())) {
+                        Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions not granted.");
 
-        // Start the thread
-        t.start();
+                        Intent i = new Intent(MainActivity.this, PermissionFlow.class);
+                        startActivity(i);
+                        finish();
+
+                    } else {
+                        Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions granted.");
+                    }
+                }
+                return null;
+            }
+        }.execute();
     }
 }
