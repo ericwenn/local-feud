@@ -1,6 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/chat_top_bar">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_person_black_24dp"
+            android:layout_margin="20dp"
+            android:id="@id/profilepic"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hjördis, 98"
+            android:layout_toRightOf="@+id/profilepic"
+            android:layout_marginTop="20dp"
+            android:textSize="@dimen/card_post_message_text_size"/>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/chat_top_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.12"
+        android:background="@color/black"
+        android:layout_below="@+id/chat_top_bar"
+        />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/write_chat_message_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/posttext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:gravity="bottom|left"
+            android:hint="@string/chat_hint"
+            android:maxLength="240"
+            android:padding="10dp"
+            android:inputType="textCapSentences"
+            android:textColor="@android:color/black" />
+
+        <ImageButton
+            android:id="@+id/post_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_send_white_24dp" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
