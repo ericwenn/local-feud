@@ -17,7 +17,7 @@
             android:layout_height="30dp"
             android:src="@drawable/ic_person_black_24dp"
             android:layout_margin="20dp"
-            android:id="@id/profilepic"/>
+            android:id="@+id/profilepic"/>
 
         <TextView
             android:layout_width="wrap_content"
