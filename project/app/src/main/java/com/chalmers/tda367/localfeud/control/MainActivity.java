@@ -157,23 +157,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
             @Override
             protected Void doInBackground(Void... params) {
-                if (!AuthenticatedUser.getInstance().isLoggedIn()) {
-                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                if (!PermissionHandler.hasPermissions(getApplicationContext())) {
+                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions not granted.");
+
+                    Intent i = new Intent(MainActivity.this, PermissionFlow.class);
                     startActivity(i);
                     finish();
-                }
-                else {
-                    Log.d(TagHandler.MAIN_TAG, "Is logged in!!!");
-                    if (!PermissionHandler.hasPermissions(getApplicationContext())) {
-                        Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions not granted.");
 
-                        Intent i = new Intent(MainActivity.this, PermissionFlow.class);
-                        startActivity(i);
-                        finish();
-
-                    } else {
-                        Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions granted.");
-                    }
+                } else {
+                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions granted.");
                 }
                 return null;
             }
