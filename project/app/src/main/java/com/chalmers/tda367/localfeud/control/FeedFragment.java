@@ -17,8 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chalmers.tda367.localfeud.R;
-import com.chalmers.tda367.localfeud.net.ServerComm;
-import com.chalmers.tda367.localfeud.net.responseListeners.RequestPostsResponseListener;
 
 public class FeedFragment extends Fragment {
 
@@ -26,7 +24,6 @@ public class FeedFragment extends Fragment {
     private PostAdapter postAdapter;
     private ViewPager viewPager;
     private MainActivity activity;
-    private RequestPostsResponseListener requestPostsResponseListener;
     private FeedPagerAdapter feedPagerAdapter;
     private Toolbar toolbar;
     private CoordinatorLayout root;
@@ -38,7 +35,6 @@ public class FeedFragment extends Fragment {
         FeedFragment fragment = new FeedFragment();
         fragment.activity = mainActivity;
         fragment.postAdapter = new PostAdapter(fragment.activity);
-        fragment.requestPostsResponseListener = new RequestPostsResponseListener(fragment.postAdapter);
 
         fragment.postFragment = PostFragment.newInstance(fragment.postAdapter);
         fragment.postFragment2 = PostFragment.newInstance(fragment.postAdapter);
@@ -61,7 +57,6 @@ public class FeedFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ServerComm.getInstance().requestPosts(requestPostsResponseListener);
         initViews(view, savedInstanceState);
     }
 

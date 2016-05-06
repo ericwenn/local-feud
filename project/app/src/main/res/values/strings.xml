@@ -15,4 +15,6 @@
     <string name="server_error_msg">Couldn\'t get posts right now. Try again later.</string>
     <string name="notfound_error_msg">Couldn\'t load post.</string>
     <string name="unauthorized_error_msg">You need to be signed in.</string>
+    <string name="comment_failed_to_post_msg">Couldn\'t post comment.</string>
+    <string name="empty_comment_error_msg">You can\'t post a empty comment.</string>
 </resources>

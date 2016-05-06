@@ -3,12 +3,13 @@ package com.chalmers.tda367.localfeud.net;
 import android.os.Looper;
 import android.util.Log;
 
+import com.chalmers.tda367.localfeud.net.auth.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.client.HttpResponseException;
@@ -24,6 +25,11 @@ public class RestClient {
 
     public RestClient(IResponseAction action){
         asyncClient = new AsyncHttpClient();
+
+        HashMap<String,String> h = AuthenticatedUser.getInstance().requestHeaders();
+        for(Map.Entry<String, String> m : h.entrySet()) {
+            asyncClient.addHeader(m.getKey(),m.getValue());
+        }
         syncClient = new SyncHttpClient();
         responseHandler = new RestResponseHandler(action);
     }
