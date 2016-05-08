@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.net.auth;
+package com.chalmers.tda367.localfeud.authentication;
 
 import java.util.HashMap;
 

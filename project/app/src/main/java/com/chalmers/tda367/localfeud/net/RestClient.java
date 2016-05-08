@@ -3,7 +3,7 @@ package com.chalmers.tda367.localfeud.net;
 import android.os.Looper;
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.net.auth.AuthenticatedUser;
+import com.chalmers.tda367.localfeud.authentication.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;

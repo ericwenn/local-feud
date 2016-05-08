@@ -16,7 +16,6 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.ServerComm;
-import com.chalmers.tda367.localfeud.net.auth.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.permission.PermissionHandler;
 import com.chalmers.tda367.localfeud.permissionflow.PermissionFlow;
 import com.chalmers.tda367.localfeud.util.TagHandler;
