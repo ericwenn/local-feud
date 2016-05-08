@@ -51,7 +51,7 @@
         <activity
             android:name=".permissionflow.PermissionFlow"
             android:label="Local Feud" />
-        <activity android:name=".authentication.AuthenticationFlowActivity" android:label="Local Feud">
+        <activity android:name=".control.ChatActiveActivity" android:label="Local Feud">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
