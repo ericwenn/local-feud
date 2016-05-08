@@ -28,6 +28,7 @@ public class AuthenticationFlowActivity extends AppIntro {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
                 if( currentAccessToken != null) {
+                    // TODO Make sure all permissions are accepted
                     Log.i(TAG, "onCurrentAccessTokenChanged: " + currentAccessToken);
                     Intent i = new Intent( getApplicationContext(), MainActivity.class);
                     startActivity(i);
