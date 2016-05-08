@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
@@ -46,6 +47,9 @@ public class ChatActiveActivity extends AppCompatActivity
                         chatMessageInput.getText(),
                         Snackbar.LENGTH_LONG)
                         .show();
+
+                ChatMessage newMessage = new ChatMessage();
+                newMessage.setText(chatMessageInput.getText().toString());
             }
         });
     }
