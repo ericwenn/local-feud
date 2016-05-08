@@ -29,6 +29,7 @@ public class PostFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private Parcelable listState;
     private static final String LIST_STATE_KEY = "ListStateKey";
+    private RefreshPostsResponseListener requestPostsResponseListener;
 
     public PostFragment() {
 
@@ -63,6 +64,7 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.post_feed_fragment, null);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.post_feed_refresh_layout);
+        requestPostsResponseListener = new RefreshPostsResponseListener(postAdapter);
         recyclerView = (RecyclerView) view.findViewById(R.id.post_feed_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setHasFixedSize(true);
@@ -75,11 +77,18 @@ public class PostFragment extends Fragment {
                 ServerComm.getInstance().requestPosts(new RefreshPostsResponseListener(postAdapter));
             }
         });
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        ServerComm.getInstance().requestPosts(requestPostsResponseListener);
         super.onViewCreated(view, savedInstanceState);
     }
 

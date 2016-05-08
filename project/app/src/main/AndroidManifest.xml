@@ -14,41 +14,49 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        <activity android:name=".control.MainActivity"
-            android:screenOrientation="portrait">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
+        <activity
+            android:name=".control.SplashActivity"
+            android:theme="@style/SplashTheme">
+        </activity>
+        <activity
+            android:name=".control.MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".control.NewPostActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".control.MainActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".control.MainActivity" />
+        </activity>
+        <activity
+            android:name=".control.PostClickedActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".control.MainActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".control.MainActivity" />
+        </activity>
+        <activity
+            android:name=".permissionflow.PermissionFlow"
+            android:label="Local Feud" />
+        <activity android:name=".authentication.AuthenticationFlowActivity" android:label="Local Feud">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-        <activity android:name=".control.LoginActivity">
-
-        </activity>
-        <activity android:name=".control.NewPostActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".control.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".control.MainActivity" />
-        </activity>
-        <activity android:name=".control.PostClickedActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".control.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".control.MainActivity" />
-        </activity>
-        <activity android:name=".permissionflow.PermissionFlow"
-            android:label="Local Feud" />
     </application>
 
 </manifest>
