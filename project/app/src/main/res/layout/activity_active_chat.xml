@@ -40,6 +40,13 @@
 
     </RelativeLayout>
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/chat_message_list"
+        android:layout_marginTop="?attr/actionBarSize">
+    </ListView>
+
     <LinearLayout
         android:id="@+id/write_chat_message_layout"
         android:layout_width="fill_parent"
