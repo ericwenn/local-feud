@@ -172,14 +172,12 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private final TextView commentItemMsgTextView;
         private final TextView commentItemSenderTextView;
         private final TextView commentItemTimeTextView;
-        private final CardView holderLayout;
 
         public CommentViewHolder(View itemView) {
             super(itemView);
             commentItemSenderTextView = (TextView) itemView.findViewById(R.id.comment_item_sender_textview);
             commentItemMsgTextView = (TextView) itemView.findViewById(R.id.comment_item_msg_textview);
             commentItemTimeTextView = (TextView) itemView.findViewById(R.id.comment_item_time_textview);
-            holderLayout = (CardView) itemView.findViewById(R.id.comment_list_item);
         }
     }
 
