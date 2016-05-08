@@ -21,7 +21,6 @@ public class AuthenticatedUser implements IAuthenticatedUser  {
     private AuthenticatedUser() {
 
     }
-
     @Override
     public boolean isLoggedIn() {
         AccessToken at = AccessToken.getCurrentAccessToken();
