@@ -2,12 +2,22 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/feedColorPrimary</item>
+        <item name="colorPrimaryDark">@color/feedColorPrimaryDark</item>
+        <item name="colorAccent">@color/feedColorAccent</item>
     </style>
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash_drawable</item>
+    </style>
+
+    <style name="ChatAppTheme" parent="LightAppTheme">
+        <item name="colorPrimary">@color/chatColorPrimary</item>
+        <item name="colorPrimaryDark">@color/chatColorPrimaryDark</item>
+        <item name="colorAccent">@color/chatColorAccent</item>
+    </style>
+
+    <style name="LightAppTheme" parent="AppTheme">
+        <!--Ändringar sker bara på API23 och upp-->
     </style>
 
 </resources>

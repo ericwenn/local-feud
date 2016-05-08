@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.ImageButton;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
@@ -24,7 +25,7 @@ import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
-public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback {
+public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback, ChatListAdapter.AdapterCallback {
 
     private BottomBar bottomBar;
     private Fragment currentFragment;
@@ -68,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
             }
         });
 
-        bottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorPrimary));
-        bottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.colorAccent));
+        bottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.feedColorPrimary));
+        bottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.chatColorPrimary));
         bottomBar.mapColorForTab(2, "#FF9800");
     }
 
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 currentFragment = FeedFragment.newInstance(this);
         } else if (menuItemId == R.id.chat_item) {
             if (currentFragment == null || currentFragment.getClass() != ChatFragment.class)
-                currentFragment = ChatFragment.newInstance();
+                currentFragment = ChatFragment.newInstance(this);
         } else if (menuItemId == R.id.me_item) {
             if (currentFragment == null || currentFragment.getClass() != MeFragment.class)
                 currentFragment = MeFragment.newInstance();
@@ -150,6 +151,10 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
             FeedFragment fragment = (FeedFragment) currentFragment;
             fragment.showSnackbar(text);
         }
+        else if (currentFragment.getClass() == ChatFragment.class) {
+            ChatFragment fragment = (ChatFragment) currentFragment;
+            fragment.showSnackbar(text);
+        }
     }
 
     private void initFlow() {
@@ -178,5 +183,10 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 return null;
             }
         }.execute();
+    }
+
+    @Override
+    public void onChatClicked(Chat chat) {
+        showSnackbar(chat.getUserName());
     }
 }

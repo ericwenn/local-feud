@@ -84,8 +84,8 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         postClickedAdapter = new PostClickedAdapter(this, post);
         recyclerView.setAdapter(postClickedAdapter);
         ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter, false));
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
-                R.color.colorAccent);
+        swipeRefreshLayout.setColorSchemeResources(R.color.feedColorPrimary,
+                R.color.feedColorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
