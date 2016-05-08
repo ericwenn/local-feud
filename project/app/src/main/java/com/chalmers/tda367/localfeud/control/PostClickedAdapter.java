@@ -74,6 +74,8 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             viewHolder.postItemDistanceTextView.setText("" + post.getLocation().getDistance());
             viewHolder.postItemDistanceTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
             viewHolder.postItemTimeTextView.setText(DateString.convert(post.getDatePosted()));
+
+
             viewHolder.postItemSenderTextView.setText("" + post.getUser().getId());
             viewHolder.postItemSenderTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
             viewHolder.postItemCommentTextView.setText("" + post.getNumberOfComments());
