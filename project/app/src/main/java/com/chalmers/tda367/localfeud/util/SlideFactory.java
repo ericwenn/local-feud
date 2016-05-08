@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.permissionflow;
+package com.chalmers.tda367.localfeud.util;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

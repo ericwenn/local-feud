@@ -17,4 +17,7 @@
     <string name="unauthorized_error_msg">You need to be signed in.</string>
     <string name="comment_failed_to_post_msg">Couldn\'t post comment.</string>
     <string name="empty_comment_error_msg">You can\'t post a empty comment.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

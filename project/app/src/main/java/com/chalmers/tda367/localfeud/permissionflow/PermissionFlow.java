@@ -8,6 +8,7 @@ import android.util.Log;
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.MainActivity;
 import com.chalmers.tda367.localfeud.permission.PermissionHandler;
+import com.chalmers.tda367.localfeud.util.SlideFactory;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.github.paolorotolo.appintro.AppIntro2;
 
