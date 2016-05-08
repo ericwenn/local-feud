@@ -14,7 +14,8 @@ import java.util.Locale;
  */
 public class ChatMessage
 {
-    private int id, chatid;
+    private int id;
+    private Chat chatid;
     private String content;
     private User user;
     private String date_posted;
@@ -35,11 +36,11 @@ public class ChatMessage
         user = newUser;
     }
 
-    public int getChatId() {
+    public Chat getChatId() {
         return chatid;
     }
 
-    public void setChatId(int newId) {
+    public void setChatId(Chat newId) {
         chatid = newId;
     }
 
