@@ -17,7 +17,6 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.ServerComm;
-import com.chalmers.tda367.localfeud.net.auth.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.permission.PermissionHandler;
 import com.chalmers.tda367.localfeud.permissionflow.PermissionFlow;
 import com.chalmers.tda367.localfeud.util.TagHandler;
@@ -162,23 +161,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
             @Override
             protected Void doInBackground(Void... params) {
-                if (!AuthenticatedUser.getInstance().isLoggedIn()) {
-                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                if (!PermissionHandler.hasPermissions(getApplicationContext())) {
+                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions not granted.");
+
+                    Intent i = new Intent(MainActivity.this, PermissionFlow.class);
                     startActivity(i);
                     finish();
-                }
-                else {
-                    Log.d(TagHandler.MAIN_TAG, "Is logged in!!!");
-                    if (!PermissionHandler.hasPermissions(getApplicationContext())) {
-                        Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions not granted.");
 
-                        Intent i = new Intent(MainActivity.this, PermissionFlow.class);
-                        startActivity(i);
-                        finish();
-
-                    } else {
-                        Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions granted.");
-                    }
+                } else {
+                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions granted.");
                 }
                 return null;
             }

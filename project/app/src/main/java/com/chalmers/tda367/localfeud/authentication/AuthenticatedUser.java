@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.net.auth;
+package com.chalmers.tda367.localfeud.authentication;
 
 import com.facebook.AccessToken;
 
@@ -21,7 +21,6 @@ public class AuthenticatedUser implements IAuthenticatedUser  {
     private AuthenticatedUser() {
 
     }
-
     @Override
     public boolean isLoggedIn() {
         AccessToken at = AccessToken.getCurrentAccessToken();
