@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chalmers.tda367.localfeud.R;
+import com.facebook.login.widget.LoginButton;
 
 public class MeFragment extends Fragment {
 
@@ -33,4 +34,18 @@ public class MeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_me, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initViews(view);
+    }
+
+    private void initViews(View view) {
+        LoginButton loginButton = (LoginButton) view.findViewById(R.id.me_logout_btn);
+        loginButton.setFragment(this);
+    }
+
+    public static boolean isFragmentVisible() {
+        return false;
+    }
 }
