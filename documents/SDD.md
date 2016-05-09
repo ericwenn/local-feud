@@ -1,12 +1,10 @@
-System design document for NNN
+#System design document for NNN
 
-
-
-  Version: 
-
-  Date 
-
-  Author 
+  Version: 0.0.0
+  
+  Date: 9/5/2016 
+  
+  Author: Local Feud team yao 
 
 This version overrides all previous versions.
 
