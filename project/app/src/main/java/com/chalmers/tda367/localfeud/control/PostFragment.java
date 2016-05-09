@@ -88,7 +88,11 @@ public class PostFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        ServerComm.getInstance().requestPosts(requestPostsResponseListener);
+        try {
+            ServerComm.getInstance().requestPosts(requestPostsResponseListener);
+        } catch (NullPointerException e) {
+            getActivity().finish();
+        }
         super.onViewCreated(view, savedInstanceState);
     }
 
