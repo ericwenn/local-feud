@@ -1,7 +1,7 @@
 package com.chalmers.tda367.localfeud.util;
 
-import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.Comment;
+import com.chalmers.tda367.localfeud.data.Post;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

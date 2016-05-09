@@ -1,12 +1,12 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="MyAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/feedColorPrimary</item>
         <item name="colorPrimaryDark">@color/feedColorPrimaryDark</item>
         <item name="colorAccent">@color/feedColorAccent</item>
     </style>
-    <style name="SplashTheme" parent="AppTheme">
+    <style name="SplashTheme" parent="MyAppTheme">
         <item name="android:windowBackground">@drawable/splash_drawable</item>
     </style>
 
@@ -16,7 +16,7 @@
         <item name="colorAccent">@color/chatColorAccent</item>
     </style>
 
-    <style name="LightAppTheme" parent="AppTheme">
+    <style name="LightAppTheme" parent="MyAppTheme">
         <!--Ändringar sker bara på API23 och upp-->
     </style>
 
