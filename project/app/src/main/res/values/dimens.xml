@@ -1,9 +1,11 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="default_margin">16dp</dimen>
+    <dimen name="half_default_margin">8dp</dimen>
     <dimen name="small_margin">4dp</dimen>
     <dimen name="card_corner_radius">2dp</dimen>
     <dimen name="card_post_top_space">48dp</dimen>
     <dimen name="card_post_message_text_size">24sp</dimen>
     <dimen name="card_post_comment_text_size">18sp</dimen>
+    <dimen name="chat_list_image_size">48dp</dimen>
 </resources>
