@@ -1,6 +1,6 @@
 #System design document for NNN
 
-  *Version: 0.0.0*
+  *Version: 0.0.1*
   
   *Date: 9/5/2016*
   
@@ -11,6 +11,8 @@ This version overrides all previous versions.
 ##1 Introduction
 
 ###1.1 Design goals
+
+Vi kommer sträva efter en så löskopplad design som möjligt.
 
 ###1.2 Definitions, acronyms and abbreviations 
 
