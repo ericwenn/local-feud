@@ -57,6 +57,7 @@ public class AuthenticationFlowLoginSlide extends Fragment {
         View v = inflater.inflate(R.layout.fragment_authentication_flow_login_slide, container, false);
         LoginButton loginButton = (LoginButton) v.findViewById(R.id.fb_login);
         loginButton.setFragment(this);
+        loginButton.setReadPermissions("user_birthday");
 
 
         callbackManager = CallbackManager.Factory.create();

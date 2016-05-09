@@ -8,9 +8,7 @@ import android.util.Log;
 import com.chalmers.tda367.localfeud.control.MainActivity;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.facebook.login.widget.LoginButton;
 import com.github.paolorotolo.appintro.AppIntro;
 
 /**
@@ -28,9 +26,13 @@ public class AuthenticationFlowActivity extends AppIntro {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
                 if( currentAccessToken != null) {
+                    // TODO Make sure all permissions are accepted
                     Log.i(TAG, "onCurrentAccessTokenChanged: " + currentAccessToken);
                     Intent i = new Intent( getApplicationContext(), MainActivity.class);
                     startActivity(i);
+                    finish();
+                } else {
+                    Log.i(TAG, "onCurrentAccessTokenChanged: Not logged in");
                 }
             }
         };

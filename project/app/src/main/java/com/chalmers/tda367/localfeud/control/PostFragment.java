@@ -69,8 +69,8 @@ public class PostFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(postAdapter);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
-                R.color.colorAccent);
+        swipeRefreshLayout.setColorSchemeResources(R.color.feedColorPrimary,
+                R.color.feedColorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
