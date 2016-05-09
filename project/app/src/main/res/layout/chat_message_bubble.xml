@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:text="Message will be displayed here"
         android:padding="@dimen/default_margin"
-        android:background="@color/colorPrimary"
+        android:background="@color/feedColorPrimary"
         android:textColor="@color/white"
         android:layout_margin="@dimen/default_margin"/>
 

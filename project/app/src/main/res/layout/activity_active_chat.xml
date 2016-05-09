@@ -12,10 +12,10 @@
         android:layout_height="?attr/actionBarSize"
         android:id="@+id/chat_top_bar">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_person_black_24dp"
+            android:src="@drawable/com_facebook_profile_picture_blank_square"
             android:layout_marginTop="14dp"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
@@ -53,7 +53,7 @@
         android:id="@+id/write_chat_message_layout"
         android:layout_width="fill_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="@color/feedColorPrimary"
         android:layout_gravity="bottom"
         android:orientation="horizontal">
 
