@@ -30,6 +30,8 @@ public class AuthenticationFlowActivity extends AppIntro {
                     Intent i = new Intent( getApplicationContext(), MainActivity.class);
                     startActivity(i);
                     finish();
+                } else {
+                    Log.i(TAG, "onCurrentAccessTokenChanged: Not logged in");
                 }
             }
         };
