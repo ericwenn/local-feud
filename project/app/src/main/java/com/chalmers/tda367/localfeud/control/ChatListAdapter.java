@@ -56,7 +56,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Chat chat = chatList.get(position);
         holder.titleTextView.setText(chat.getChatName());
-        holder.msgTextView.setText(chat.getId());
+        holder.msgTextView.setText("Kim-Jong Un");
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,12 +1,12 @@
 package com.chalmers.tda367.localfeud.net.responseActions;
 
+import android.util.Log;
+
 import com.chalmers.tda367.localfeud.data.Chat;
-import com.chalmers.tda367.localfeud.net.IResponseAction;
-import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.ResponseError;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +23,11 @@ public class RequestChatsResponseAction extends AbstractResponseAction {
     @Override
     public void onSuccess(String responseBody) {
         ArrayList<Chat> chats = GsonHandler.getInstance().toChatList(responseBody);
+        for (Chat chat : chats) {
+            Log.d(TagHandler.MAIN_TAG, chat.getId() + ", " + chat.getChatName());
+        }
         setChats(chats);
         notifySuccess();
-
     }
 
     @Override
@@ -33,18 +35,13 @@ public class RequestChatsResponseAction extends AbstractResponseAction {
 
     }
 
-    @Override
-    public void addListener(IResponseListener listener) {
-
-    }
-
-    @Override
-    public void removeListener(IResponseListener listener) {
-
-    }
-
     public List<Chat> getChats() {
-        return chats;
+        if(chats != null){
+            return chats;
+        }
+        else{
+            throw new NullPointerException();
+        }
     }
 
     public void setChats(List<Chat> chats) {
