@@ -178,6 +178,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     @Override
     public void onChatClicked(Chat chat) {
-        showSnackbar(chat.getUserName());
+        showSnackbar(chat.getUsers().get(0).getFirstName());
     }
 }
