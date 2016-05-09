@@ -38,8 +38,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         chatList.add(new Chat("Eric", context.getString(R.string.really_long_text)));
         chatList.add(new Chat("Daniel", "Pladder"));
         chatList.add(new Chat("David", "Hej"));
-        chatList.add(new Chat("Chrille", context.getString(R.string.really_long_text)));
-        chatList.add(new Chat("Chrille", context.getString(R.string.really_long_text)));
         Log.d(TagHandler.MAIN_TAG, "Lägger till 4 chats");
 
         try {
