@@ -7,8 +7,8 @@ public class KnownUser extends User {
     private String firstname;
     private String lastname;
 
-    public KnownUser(int id, int age, Sex sex, String firstName, String lastName){
-        super(id, age, sex);
+    public KnownUser(int id, int age, Gender gender, String firstName, String lastName){
+        super(id, age, gender);
         this.firstname = firstName;
         this.lastname = lastName;
     }

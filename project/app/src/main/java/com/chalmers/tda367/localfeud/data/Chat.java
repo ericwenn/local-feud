@@ -40,7 +40,7 @@ public class Chat implements Serializable {
     private List<KnownUser> users;
 
     private enum Status {
-        ACCEPTED, PENDING
+        accepted, pending
     }
 
     public int getId() {
@@ -120,6 +120,6 @@ public class Chat implements Serializable {
 
     @Override
     public String toString() {
-        return "Chat id: " + getId() + ", Users: " + getUsers() + ", href: " + getHref();
+        return "Chat id: " + getId() + ", " + getStatus() + ".\nUsers: " + getChatName() + ", href: " + getHref();
     }
 }

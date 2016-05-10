@@ -5,7 +5,7 @@ package com.chalmers.tda367.localfeud.data;
  */
 public class MyUser extends KnownUser {
 
-    public MyUser(int id, int age, Sex sex, String firstName, String lastName){
-        super(id, age, sex, firstName, lastName);
+    public MyUser(int id, int age, Gender gender, String firstName, String lastName){
+        super(id, age, gender, firstName, lastName);
     }
 }
