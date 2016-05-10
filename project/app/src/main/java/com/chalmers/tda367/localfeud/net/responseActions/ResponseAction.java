@@ -3,6 +3,9 @@ package com.chalmers.tda367.localfeud.net.responseActions;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.ResponseError;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 
@@ -14,6 +17,7 @@ public class ResponseAction implements IResponseAction {
     private ArrayList<IResponseListener> listeners;
     private ResponseError error;
     private String responseBody;
+    private String errorMessage;
 
     public ResponseAction(){
         this.listeners = new ArrayList<>();
@@ -47,6 +51,14 @@ public class ResponseAction implements IResponseAction {
         return this.error;
     }
 
+    protected synchronized void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public synchronized String getErrorMessage() {
+        return errorMessage;
+    }
+
     protected synchronized void setResponseBody(String responseBody) {
         this.responseBody = responseBody;
     }
@@ -65,6 +77,12 @@ public class ResponseAction implements IResponseAction {
     }
     public void onFailure(ResponseError err, String responseBody){
         setResponseBody(responseBody);
+
+        JsonParser parser = new JsonParser();
+        JsonObject obj = parser.parse(responseBody).getAsJsonObject();
+        String errormsg = obj.get("message").getAsString();
+        setErrorMessage(errormsg);
+
         setResponseError(err);
         notifyFailure();
     }

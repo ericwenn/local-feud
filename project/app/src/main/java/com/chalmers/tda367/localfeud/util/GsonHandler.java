@@ -36,4 +36,5 @@ public class GsonHandler {
     public ArrayList<Comment> toCommentList(String json) {
         return gson.fromJson(json, new TypeToken<List<Comment>>(){}.getType());
     }
+
 }

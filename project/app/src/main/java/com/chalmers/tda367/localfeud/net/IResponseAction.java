@@ -10,4 +10,5 @@ public interface IResponseAction {
     void removeListener(IResponseListener listener);
     String getResponseBody();
     ResponseError getResponseError();
+    String getErrorMessage();
 }
