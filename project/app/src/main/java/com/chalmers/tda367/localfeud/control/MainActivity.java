@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TagHandler.MAIN_TAG, "onCreate: MAIN");
+        Log.d(TagHandler.MAIN_TAG, this + ", onCreate: MAIN");
 
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TagHandler.MAIN_TAG, "onDestroy: MAIN");
+        Log.d(TagHandler.MAIN_TAG, this + ", onDestroy: MAIN");
     }
 
     @Override
