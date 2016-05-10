@@ -17,6 +17,8 @@ import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.IServerComm;
 import com.chalmers.tda367.localfeud.net.ServerComm;
+import com.chalmers.tda367.localfeud.net.responseListeners.RequestChatMessageResponseListener;
+import com.chalmers.tda367.localfeud.net.responseListeners.RequestCommentsResponseListener;
 
 /**
  * Created by Daniel Ahlqvist on 2016-05-03.
@@ -59,5 +61,28 @@ public class ChatActiveActivity extends AppCompatActivity
                 newMessage.setText(chatMessageInput.getText().toString());
             }
         });
+    }
+
+    public class RefreshChatMessageResponseListener extends RequestChatMessageResponseListener
+    {
+        private boolean isAfterChatMessagePosted;
+
+        public RefreshChatMessageResponseListener(ChatActiveAdapter adapter, boolean isAfterChatMessagePosted)
+        {
+            super(adapter);
+            this.isAfterChatMessagePosted = isAfterChatMessagePosted;
+        }
+
+        @Override
+        public void onResponseSuccess(IResponseAction source)
+        {
+            super.onResponseSuccess(source);
+        }
+
+        @Override
+        public void onResponseFailure(IResponseAction source)
+        {
+            super.onResponseFailure(source);
+        }
     }
 }

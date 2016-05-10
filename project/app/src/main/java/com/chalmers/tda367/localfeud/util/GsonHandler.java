@@ -1,5 +1,6 @@
 package com.chalmers.tda367.localfeud.util;
 
+import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.google.gson.Gson;
@@ -35,5 +36,8 @@ public class GsonHandler {
     }
     public ArrayList<Comment> toCommentList(String json) {
         return gson.fromJson(json, new TypeToken<List<Comment>>(){}.getType());
+    }
+    public ArrayList<ChatMessage> toChatMessagesList(String json) {
+        return gson.fromJson(json, new TypeToken<List<ChatMessage>>(){}.getType());
     }
 }

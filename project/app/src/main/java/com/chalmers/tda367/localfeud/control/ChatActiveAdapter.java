@@ -8,14 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
-import com.chalmers.tda367.localfeud.data.Comment;
-import com.chalmers.tda367.localfeud.data.GeneralPost;
 import com.chalmers.tda367.localfeud.data.User;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
@@ -80,7 +77,8 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         User testuser = new User(1, 98, User.Sex.FEMALE);
         test.setText("Testtext");
         test.setUser(testuser);
-        messages.add(new ChatMessage());
+        messages.add(test);
+        System.out.println("Texten: " + messages.get(0).getText());
         notifyDataSetChanged();
     }
 
@@ -96,7 +94,7 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public void addMessageListToAdapter(final List<ChatMessage> messages) {
+    public void addChatMessageListToAdapter(final List<ChatMessage> messages) {
         final int currentCount = this.messages.size();
         synchronized (this.messages) {
             Log.d(TagHandler.MAIN_TAG, "Uppdaterar meddelanden...");
