@@ -67,7 +67,7 @@ public class Chat implements Serializable {
         this.date_started = dateStarted;
     }
 
-    public int getNumber_of_unread_messages() {
+    public int getNumberOfUnreadMessages() {
         return number_of_unread_messages;
     }
 
