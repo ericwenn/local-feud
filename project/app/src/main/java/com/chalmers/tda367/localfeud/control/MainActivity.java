@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 
 import com.chalmers.tda367.localfeud.R;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TagHandler.MAIN_TAG, "onCreate: MAIN");
 
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -70,19 +73,25 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
         bottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.feedColorPrimary));
         bottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.chatColorPrimary));
-        bottomBar.mapColorForTab(2, "#FF9800");
+        bottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.meColorPrimary));
     }
 
     private void switchFragment(int menuItemId) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         if (menuItemId == R.id.feed_item) {
             if (currentFragment == null || currentFragment.getClass() != FeedFragment.class)
+                window.setStatusBarColor(ContextCompat.getColor(this, R.color.feedColorPrimaryDark));
                 currentFragment = FeedFragment.newInstance(this);
         } else if (menuItemId == R.id.chat_item) {
             if (currentFragment == null || currentFragment.getClass() != ChatFragment.class)
+                window.setStatusBarColor(ContextCompat.getColor(this, R.color.chatColorPrimaryDark));
                 currentFragment = ChatFragment.newInstance(this);
         } else if (menuItemId == R.id.me_item) {
             if (currentFragment == null || currentFragment.getClass() != MeFragment.class)
+                window.setStatusBarColor(ContextCompat.getColor(this, R.color.meColorPrimaryDark));
                 currentFragment = MeFragment.newInstance();
         }
         transaction.replace(R.id.main_root, currentFragment);
@@ -177,7 +186,13 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TagHandler.MAIN_TAG, "onDestroy: MAIN");
+    }
+
+    @Override
     public void onChatClicked(Chat chat) {
-        showSnackbar(chat.getUserName());
+        showSnackbar(chat.getUsers().get(0).getFirstName());
     }
 }

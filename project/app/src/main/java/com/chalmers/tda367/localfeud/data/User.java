@@ -8,17 +8,17 @@ import java.io.Serializable;
 public class User implements Serializable {
     private int id;
     private int age;
-    private Sex sex;
+    private Gender gender;
     private String href;
 
-    public enum Sex{
-        MALE, FEMALE
+    public enum Gender {
+        male, female
     }
 
-    public User (int id, int age, Sex sex){
+    public User (int id, int age, Gender gender){
         this.id = id;
         this.age = age;
-        this.sex = sex;
+        this.gender = gender;
     }
 
     public int getId(){
@@ -29,8 +29,8 @@ public class User implements Serializable {
         return this.age;
     }
 
-    public Sex getSex(){
-        return this.sex;
+    public Gender getGender(){
+        return this.gender;
     }
 
     public boolean equals(Object o){
@@ -55,4 +55,5 @@ public class User implements Serializable {
     public void setHref(String href) {
         this.href = href;
     }
+
 }
