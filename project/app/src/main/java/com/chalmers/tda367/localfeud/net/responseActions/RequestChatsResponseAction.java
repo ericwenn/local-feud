@@ -32,7 +32,9 @@ public class RequestChatsResponseAction extends AbstractResponseAction {
 
     @Override
     public void onFailure(ResponseError error, String responseBody) {
-
+        setResponseBody(responseBody);
+        setResponseError(error);
+        notifyFailure();
     }
 
     public List<Chat> getChats() {
@@ -42,6 +44,14 @@ public class RequestChatsResponseAction extends AbstractResponseAction {
         else{
             throw new NullPointerException();
         }
+    }
+
+    public String getResponseBody() {
+        return responseBody;
+    }
+
+    public void setResponseBody(String responseBody) {
+        this.responseBody = responseBody;
     }
 
     public void setChats(List<Chat> chats) {

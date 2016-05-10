@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
@@ -30,6 +31,7 @@ public class ChatFragment extends Fragment {
     private Toolbar toolbar;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RequestChatsResponseListener requestChatsResponseListener;
+    private TextView textView;
 
     public ChatFragment() {
 
@@ -86,6 +88,8 @@ public class ChatFragment extends Fragment {
         root = (CoordinatorLayout) view.findViewById(R.id.chat_list_root);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.chat_list_refresh_layout);
         requestChatsResponseListener = new RefreshChatsResponseListener(chatListAdapter);
+        textView = (TextView) view.findViewById(R.id.chat_list_toolbar_title_textview);
+        textView.setText("Chat");
 
         recyclerView = (RecyclerView) view.findViewById(R.id.chat_list_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));

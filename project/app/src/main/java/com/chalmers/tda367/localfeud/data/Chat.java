@@ -40,7 +40,7 @@ public class Chat implements Serializable {
     private List<KnownUser> users;
 
     private enum Status {
-        accepted, pending
+        ACCEPTED, PENDING
     }
 
     public int getId() {
@@ -116,5 +116,10 @@ public class Chat implements Serializable {
             Log.e(TagHandler.MAIN_TAG, "Can't parse " + getStringDateStarted() + " to SimpleDateFormat");
         }
         return calendar;
+    }
+
+    @Override
+    public String toString() {
+        return "Chat id: " + getId() + ", Users: " + getUsers() + ", href: " + getHref();
     }
 }

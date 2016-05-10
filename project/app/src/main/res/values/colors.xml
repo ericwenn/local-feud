@@ -6,6 +6,9 @@
     <color name="chatColorPrimary">#8BC34A</color>
     <color name="chatColorPrimaryDark">#689F38</color>
     <color name="chatColorAccent">#795548</color>
+    <color name="meColorPrimary">#F44336</color>
+    <color name="meColorPrimaryDark">#D32F2F</color>
+    <color name="meColorAccent">#448AFF</color>
     <color name="bgcolor">#cccccc</color>
     <color name="black">#000</color>
     <color name="white">#fff</color>
