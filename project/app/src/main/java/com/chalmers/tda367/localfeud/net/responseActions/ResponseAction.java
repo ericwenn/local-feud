@@ -10,11 +10,12 @@ import java.util.ArrayList;
  * Created by Alfred on 2016-04-20.
  * The subclasses of this class is meant to handle the conversion of the response String to whatever object is required.
  */
-public abstract class AbstractResponseAction implements IResponseAction {
+public class ResponseAction implements IResponseAction {
     private ArrayList<IResponseListener> listeners;
     private ResponseError error;
+    private String responseBody;
 
-    public AbstractResponseAction(){
+    public ResponseAction(){
         this.listeners = new ArrayList<>();
     }
 
@@ -46,10 +47,25 @@ public abstract class AbstractResponseAction implements IResponseAction {
         return this.error;
     }
 
+    protected synchronized void setResponseBody(String responseBody) {
+        this.responseBody = responseBody;
+    }
+
+    public synchronized String getResponseBody() {
+        return responseBody;
+    }
+
     /**
      * A method that is called when the request was successful.
      * @param responseBody The body of the response (to be converted to an object through Gson or whatever)
      */
-    public abstract void onSuccess(String responseBody);
-    public abstract void onFailure(ResponseError err, String responseBody);
+    public void onSuccess(String responseBody){
+        setResponseBody(responseBody);
+        notifySuccess();
+    }
+    public void onFailure(ResponseError err, String responseBody){
+        setResponseBody(responseBody);
+        setResponseError(err);
+        notifyFailure();
+    }
 }

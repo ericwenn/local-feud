@@ -3,12 +3,10 @@ package com.chalmers.tda367.localfeud.net;
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.net.responseActions.CommentPostResponseAction;
-import com.chalmers.tda367.localfeud.net.responseActions.CreatePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestSinglePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestCommentsResponseAction;
-import com.chalmers.tda367.localfeud.net.responseActions.LikePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
+import com.chalmers.tda367.localfeud.net.responseActions.ResponseAction;
 
 import java.util.HashMap;
 
@@ -58,7 +56,7 @@ public class ServerComm implements IServerComm {
 
     public void createPost(Post post, IResponseListener listener){
         // Init restClient with a responseAction and its listener
-        IResponseAction action = new CreatePostResponseAction();
+        IResponseAction action = new ResponseAction();
         action.addListener(listener);
         RestClient restClient = new RestClient(action);
 
@@ -77,7 +75,7 @@ public class ServerComm implements IServerComm {
      */
     public void likePost(Post post, IResponseListener listener) {
         // Init restClient with a responseAction and its listener
-        IResponseAction action = new LikePostResponseAction();
+        IResponseAction action = new ResponseAction();
         action.addListener(listener);
         RestClient restClient = new RestClient(action);
 
@@ -92,7 +90,7 @@ public class ServerComm implements IServerComm {
      */
     public void unlikePost(Post post, IResponseListener listener){
         // Init restClient with a responseAction and its listener
-        IResponseAction action = new LikePostResponseAction();
+        IResponseAction action = new ResponseAction();
         action.addListener(listener);
         RestClient restClient = new RestClient(action);
 
@@ -114,7 +112,7 @@ public class ServerComm implements IServerComm {
     public void commentPost(Post post, Comment comment, IResponseListener listener)
     {
         System.out.println("Kraschad än? Postid: " + post.getId() + " " + comment.getText() + " RA: " + listener.toString());
-        IResponseAction action = new CommentPostResponseAction();
+        IResponseAction action = new ResponseAction();
         action.addListener(listener);
         RestClient restClient = new RestClient(action);
 
@@ -134,5 +132,18 @@ public class ServerComm implements IServerComm {
         HashMap<String, String> param = new HashMap<>();
 
         restClient.get("posts/" + post.getId() + "/comments/", param);
+    }
+
+    public void sendChatRequest(Post post, int userID, IResponseListener listener){
+        IResponseAction action = new ResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
+
+        // Store parameters
+        HashMap<String, String> param = new HashMap<>();
+        param.put("userid", Integer.toString(userID));
+        param.put("postid", Integer.toString(post.getId()));
+
+        restClient.post("chats/", param);
     }
 }

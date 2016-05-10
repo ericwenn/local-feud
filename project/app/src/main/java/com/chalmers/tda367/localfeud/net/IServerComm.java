@@ -43,4 +43,6 @@ public interface IServerComm {
     void commentPost(Post post, Comment comment, IResponseListener listener);
 
     void requestComments(Post post, IResponseListener listener);
+
+    void sendChatRequest(Post post, int userID, IResponseListener listener);
 }
