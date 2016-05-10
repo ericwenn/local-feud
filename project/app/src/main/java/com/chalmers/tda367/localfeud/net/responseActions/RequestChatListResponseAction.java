@@ -16,7 +16,7 @@ import java.util.List;
  * @author David Söderberg
  * @since 16-05-09
  */
-public class RequestChatsResponseAction extends AbstractResponseAction {
+public class RequestChatListResponseAction extends AbstractResponseAction {
     private List<Chat> chats;
     private String responseBody;
 

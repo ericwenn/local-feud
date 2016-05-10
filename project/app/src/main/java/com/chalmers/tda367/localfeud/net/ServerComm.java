@@ -5,7 +5,7 @@ import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.responseActions.CommentPostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.CreatePostResponseAction;
-import com.chalmers.tda367.localfeud.net.responseActions.RequestChatsResponseAction;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestChatListResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestSinglePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestCommentsResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.LikePostResponseAction;
@@ -139,7 +139,7 @@ public class ServerComm implements IServerComm {
 
     @Override
     public void requestChats(IResponseListener listener) {
-        IResponseAction action = new RequestChatsResponseAction();
+        IResponseAction action = new RequestChatListResponseAction();
         action.addListener(listener);
         RestClient restClient = new RestClient(action);
 

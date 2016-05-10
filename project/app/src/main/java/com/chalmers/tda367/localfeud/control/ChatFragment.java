@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.ServerComm;
-import com.chalmers.tda367.localfeud.net.responseListeners.RequestChatsResponseListener;
+import com.chalmers.tda367.localfeud.net.responseListeners.RequestChatListResponseListener;
 
 public class ChatFragment extends Fragment {
 
@@ -30,7 +30,7 @@ public class ChatFragment extends Fragment {
     private ChatListAdapter chatListAdapter;
     private Toolbar toolbar;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RequestChatsResponseListener requestChatsResponseListener;
+    private RequestChatListResponseListener requestChatListResponseListener;
     private TextView textView;
 
     public ChatFragment() {
@@ -44,9 +44,9 @@ public class ChatFragment extends Fragment {
         return fragment;
     }
 
-    public class RefreshChatsResponseListener extends RequestChatsResponseListener {
+    public class RefreshChatListResponseListener extends RequestChatListResponseListener {
 
-        public RefreshChatsResponseListener(ChatListAdapter adapter) {
+        public RefreshChatListResponseListener(ChatListAdapter adapter) {
             super(adapter);
         }
 
@@ -81,13 +81,13 @@ public class ChatFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view, savedInstanceState);
-        ServerComm.getInstance().requestChats(requestChatsResponseListener);
+        ServerComm.getInstance().requestChats(requestChatListResponseListener);
     }
 
     private void initViews(View view, @Nullable Bundle savedInstanceState) {
         root = (CoordinatorLayout) view.findViewById(R.id.chat_list_root);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.chat_list_refresh_layout);
-        requestChatsResponseListener = new RefreshChatsResponseListener(chatListAdapter);
+        requestChatListResponseListener = new RefreshChatListResponseListener(chatListAdapter);
         textView = (TextView) view.findViewById(R.id.chat_list_toolbar_title_textview);
         textView.setText("Chat");
 
@@ -101,7 +101,7 @@ public class ChatFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ServerComm.getInstance().requestPosts(new RefreshChatsResponseListener(chatListAdapter));
+                ServerComm.getInstance().requestPosts(new RefreshChatListResponseListener(chatListAdapter));
             }
         });
         swipeRefreshLayout.post(new Runnable() {

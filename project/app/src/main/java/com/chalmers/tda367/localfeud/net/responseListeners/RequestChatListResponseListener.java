@@ -4,7 +4,7 @@ import com.chalmers.tda367.localfeud.control.ChatListAdapter;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
-import com.chalmers.tda367.localfeud.net.responseActions.RequestChatsResponseAction;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestChatListResponseAction;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,18 +15,18 @@ import java.util.List;
  * @author David Söderberg
  * @since 16-05-09
  */
-public class RequestChatsResponseListener implements IResponseListener {
+public class RequestChatListResponseListener implements IResponseListener {
 
     private ChatListAdapter adapter;
 
-    public RequestChatsResponseListener(ChatListAdapter adapter) {
+    public RequestChatListResponseListener(ChatListAdapter adapter) {
         this.adapter = adapter;
     }
 
     @Override
     public void onResponseSuccess(IResponseAction source) {
-        if (source instanceof RequestChatsResponseAction){
-            RequestChatsResponseAction responseAction = (RequestChatsResponseAction) source;
+        if (source instanceof RequestChatListResponseAction){
+            RequestChatListResponseAction responseAction = (RequestChatListResponseAction) source;
             List<Chat> chatList = responseAction.getChats();
             Collections.reverse(chatList);
             adapter.addChatListToAdapter(chatList);
@@ -35,8 +35,8 @@ public class RequestChatsResponseListener implements IResponseListener {
 
     @Override
     public void onResponseFailure(IResponseAction source) {
-        if (source instanceof RequestChatsResponseAction) {
-            RequestChatsResponseAction responseAction = (RequestChatsResponseAction) source;
+        if (source instanceof RequestChatListResponseAction) {
+            RequestChatListResponseAction responseAction = (RequestChatListResponseAction) source;
             adapter.showError(responseAction.getResponseError());
         }
     }
