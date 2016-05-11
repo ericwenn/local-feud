@@ -161,6 +161,6 @@ public class ServerComm implements IServerComm {
         action.addListener(listener);
         RestClient restClient = new RestClient(action);
 
-        //restClient.get("/c")
+        restClient.get("/chatmessage");
     }
 }

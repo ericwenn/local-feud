@@ -8,11 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
+import com.chalmers.tda367.localfeud.data.Comment;
+import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.User;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
@@ -29,20 +32,26 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final LayoutInflater inflater;
     private Chat chat;
     private int myId;
+    private AdapterCallback adapterCallback;
 
     public ChatActiveAdapter(Context context)
     {
         this.context = context;
         inflater = LayoutInflater.from(context);
-        this.chat = chat;
+        //this.chat = chat;
         this.myId = 1;      // SKALL ÄNDRAS
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setText("Tjena");
+        messages.add(chatMessage);
+        Log.d(TagHandler.MAIN_TAG, "Lägger till ett meddelande");
+        addChatMessageListToAdapter(messages);
 
-        ChatMessage test = new ChatMessage();
-        User testuser = new User(1, 98, User.Gender.female);
-        test.setText("Testtext");
-        test.setUser(testuser);
-        messages.add(test);
-        System.out.println("Texten: " + messages.get(0).getText());
+        try {
+            adapterCallback = (AdapterCallback) this.context;
+        }
+        catch (ClassCastException e) {
+            throw new ClassCastException("ChatActiveAdapter: Activity must implement AdapterCallback.");
+        }
     }
 
     @Override
@@ -142,5 +151,9 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
             commentText = (TextView) itemView.findViewById(R.id.not_me_chat_text);
         }
+    }
+
+    public interface AdapterCallback {
+
     }
 }

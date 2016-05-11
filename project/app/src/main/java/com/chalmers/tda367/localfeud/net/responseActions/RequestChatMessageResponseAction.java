@@ -3,6 +3,7 @@ package com.chalmers.tda367.localfeud.net.responseActions;
 import android.util.Log;
 
 import com.chalmers.tda367.localfeud.data.ChatMessage;
+import com.chalmers.tda367.localfeud.data.User;
 import com.chalmers.tda367.localfeud.net.ResponseError;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.util.TagHandler;
@@ -30,25 +31,6 @@ public class RequestChatMessageResponseAction extends ResponseAction {
         Log.d(TagHandler.MAIN_TAG, "onSuccess in serverComm. Chat messages: " + messages.size());
     }
 
-    @Override
-    public void onFailure(ResponseError err, String responseBody) {
-        this.setResponseBody(responseBody);
-        this.notifyFailure();
-    }
-
-    public void setResponseBody(String responseBody){
-        this.responseBody = responseBody;
-    }
-
-    public String getResponseBody() {
-        if(responseBody != null){
-            return responseBody;
-        }
-        else{
-            throw new NullPointerException();
-        }
-    }
-
     private void setMessages(List<ChatMessage> messages)
     {
         this.messages = messages;
@@ -56,6 +38,13 @@ public class RequestChatMessageResponseAction extends ResponseAction {
 
     public List<ChatMessage> getMessages()
     {
+        ChatMessage test = new ChatMessage();
+        User testuser = new User(1, 98, User.Gender.female);
+        test.setText("Testtext");
+        test.setUser(testuser);
+        messages.add(test);
+        System.out.println("Texten: " + messages.get(0).getText());
+
         if(messages != null){
             return messages;
         }

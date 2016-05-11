@@ -3,6 +3,7 @@ package com.chalmers.tda367.localfeud.control;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
@@ -23,7 +24,7 @@ import com.chalmers.tda367.localfeud.net.responseListeners.RequestCommentsRespon
 /**
  * Created by Daniel Ahlqvist on 2016-05-03.
  */
-public class ChatActiveActivity extends AppCompatActivity
+public class ChatActiveActivity extends AppCompatActivity implements ChatActiveAdapter.AdapterCallback
 {
     private IServerComm server;
     private ImageButton postMessageButton;
@@ -31,24 +32,27 @@ public class ChatActiveActivity extends AppCompatActivity
     private EditText chatMessageInput;
     private ChatActiveAdapter chatActiveAdapter;
     private Chat chat;
+    private RequestChatMessageResponseListener requestChatMessagesResponseListener;
 
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_chat);
         initViews();
-        server = ServerComm.getInstance();
     }
 
     private void initViews()
     {
-        postMessageButton = (ImageButton) findViewById(R.id.post_button);
         chatMessageList = (RecyclerView) findViewById(R.id.chat_message_list);
         chatMessageInput = (EditText) findViewById(R.id.posttext);
+        postMessageButton = (ImageButton) findViewById(R.id.post_button);
 
         chatActiveAdapter = new ChatActiveAdapter(this);
+
+        chatMessageList.setLayoutManager(new LinearLayoutManager(this));
         chatMessageList.setAdapter(chatActiveAdapter);
 
+        requestChatMessagesResponseListener = new RequestChatMessageResponseListener(chatActiveAdapter);
         postMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
