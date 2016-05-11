@@ -7,11 +7,12 @@
         android:id="@+id/me_chat_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
+        android:layout_margin="@dimen/chat_bubble_margin"
         android:background="@color/distYellow"
         android:padding="@dimen/default_margin"
         android:text="Message will be displayed here"
         android:textColor="@color/white"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:maxWidth="300dp"/>
 
 </RelativeLayout>
