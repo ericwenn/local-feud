@@ -35,10 +35,6 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         inflater = LayoutInflater.from(context);
         this.myId = AuthenticatedUser.getInstance().getMe().getId();      // SKALL ÄNDRAS
         ArrayList<ChatMessage> newMessages = new ArrayList<>();
-        /*newMessages.add(new ChatMessage(new Chat(), "Tjabba", "", 2, new User(3, 12, User.Gender.female)));
-        newMessages.add(new ChatMessage(new Chat(), "Ge mig mina pengar", "", 2, new User(1, 12, User.Gender.female)));
-        newMessages.add(new ChatMessage(new Chat(), "Du får dom på måndag", "", 2, new User(3, 12, User.Gender.female)));
-        newMessages.add(new ChatMessage(new Chat(), "Ok", "", 2, new User(1, 12, User.Gender.female)));*/
         addChatMessageListToAdapter(newMessages);
 
         try {
