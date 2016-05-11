@@ -68,8 +68,14 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
                         chatMessageInput.getText(),
                         Snackbar.LENGTH_LONG)
                         .show();
+                refreshMessages();
             }
         });
+        refreshMessages();
+    }
+
+    public void refreshMessages()
+    {
         ServerComm.getInstance().requestChatMessages(chat, new RefreshChatMessageResponseListener(chatActiveAdapter, false));
     }
 
