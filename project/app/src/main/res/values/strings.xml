@@ -19,6 +19,5 @@
 
     <string name="search_view_hint">Search</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="chat_string">Chat</string>
 </resources>

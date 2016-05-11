@@ -89,7 +89,6 @@ public class ChatFragment extends Fragment {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.chat_list_refresh_layout);
         requestChatListResponseListener = new RefreshChatListResponseListener(chatListAdapter);
         textView = (TextView) view.findViewById(R.id.chat_list_toolbar_title_textview);
-        textView.setText("Chat");
 
         recyclerView = (RecyclerView) view.findViewById(R.id.chat_list_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));

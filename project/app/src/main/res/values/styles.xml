@@ -16,6 +16,12 @@
         <item name="colorAccent">@color/chatColorAccent</item>
     </style>
 
+    <style name="MeAppTheme" parent="MyAppTheme">
+        <item name="colorPrimary">@color/meColorPrimary</item>
+        <item name="colorPrimaryDark">@color/meColorPrimaryDark</item>
+        <item name="colorAccent">@color/meColorAccent</item>
+    </style>
+
     <style name="LightAppTheme" parent="MyAppTheme">
         <!--Ändringar sker bara på API23 och upp-->
     </style>
