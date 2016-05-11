@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         } else if (menuItemId == R.id.me_item) {
             if (currentFragment == null || currentFragment.getClass() != MeFragment.class)
                 window.setStatusBarColor(ContextCompat.getColor(this, R.color.meColorPrimaryDark));
-                currentFragment = MeFragment.newInstance();
+                currentFragment = MeFragment.newInstance(this);
         }
         transaction.replace(R.id.main_root, currentFragment);
         transaction.commit();

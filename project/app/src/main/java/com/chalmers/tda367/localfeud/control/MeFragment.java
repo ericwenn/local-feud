@@ -23,12 +23,24 @@ public class MeFragment extends Fragment {
     private Toolbar toolbar;
     private ViewPager viewPager;
 
+    private FeedPagerAdapter mePagerAdapter;
+    private MainActivity activity;
+
+    private NoticeFragment noticeFragment;
+    private SettingsFragment settingsFragment;
+
     public MeFragment() {
 
     }
 
-    public static MeFragment newInstance() {
+    public static MeFragment newInstance(MainActivity activity) {
         MeFragment fragment = new MeFragment();
+
+        fragment.activity = activity;
+
+        fragment.noticeFragment = NoticeFragment.newInstance(activity);
+        fragment.settingsFragment = SettingsFragment.newInstance(activity);
+
         return fragment;
     }
 
@@ -40,6 +52,7 @@ public class MeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mePagerAdapter = new FeedPagerAdapter(activity.getSupportFragmentManager());
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.MeAppTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         return localInflater.inflate(R.layout.fragment_me, container, false);
@@ -86,7 +99,9 @@ public class MeFragment extends Fragment {
     }
 
     private void addPages(ViewPager viewPager) {
-
+        mePagerAdapter.addPage(noticeFragment);
+        mePagerAdapter.addPage(settingsFragment);
+        viewPager.setAdapter(mePagerAdapter);
     }
 
     public static boolean isFragmentVisible() {

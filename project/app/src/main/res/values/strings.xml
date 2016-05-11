@@ -20,4 +20,7 @@
     <string name="search_view_hint">Search</string>
 
     <string name="chat_string">Chat</string>
+    <string name="notice_string">Notice</string>
+    <string name="settings_string">Settings</string>
+
 </resources>
