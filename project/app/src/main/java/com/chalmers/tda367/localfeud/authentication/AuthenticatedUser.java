@@ -1,5 +1,6 @@
 package com.chalmers.tda367.localfeud.authentication;
 
+import com.chalmers.tda367.localfeud.data.Me;
 import com.facebook.AccessToken;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.HashMap;
  */
 public class AuthenticatedUser implements IAuthenticatedUser  {
 
+    private Me me;
     private static AuthenticatedUser instance = null;
     public static AuthenticatedUser getInstance() {
         if( instance == null ) {
@@ -38,5 +40,13 @@ public class AuthenticatedUser implements IAuthenticatedUser  {
         map.put( "token", at.getToken() );
         // TODO
         return map;
+    }
+
+    public void setMe(Me me){
+        this.me = me;
+    }
+
+    public Me getMe(){
+        return this.me;
     }
 }

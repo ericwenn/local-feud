@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Comment;
+import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -44,5 +45,9 @@ public class GsonHandler {
         Log.d(TagHandler.MAIN_TAG, "JSON RESPONSE ON CHAT: \n\n" + json + "\n\n\n");
         ArrayList<Chat> testList = gson.fromJson(json, new TypeToken<List<Chat>>(){}.getType());
         return gson.fromJson(json, new TypeToken<List<Chat>>(){}.getType());
+    }
+
+    public Me toMe(String json){
+        return gson.fromJson(json, new TypeToken<Me>(){}.getType());
     }
 }
