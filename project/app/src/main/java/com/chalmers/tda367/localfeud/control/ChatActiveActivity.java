@@ -104,6 +104,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     public void refreshMessages()
     {
         ServerComm.getInstance().requestChatMessages(chat, new RefreshChatMessageResponseListener(chatActiveAdapter, false));
+        chatMessageList.scrollToPosition(chatActiveAdapter.getItemCount()-1);
     }
 
     public class RefreshChatMessageResponseListener extends RequestChatMessageResponseListener {

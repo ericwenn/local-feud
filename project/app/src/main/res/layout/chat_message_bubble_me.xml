@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="right">
+    android:layout_margin="@dimen/chat_bubble_margin">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:id="@+id/time_display"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/me_chat_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
         android:background="@color/distYellow"
         android:padding="@dimen/default_margin"
         android:text="Message will be displayed here"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_alignParentRight="true"
+        android:maxWidth="300dp"
+        android:layout_below="@+id/time_display"/>
 
-</LinearLayout>
+</RelativeLayout>

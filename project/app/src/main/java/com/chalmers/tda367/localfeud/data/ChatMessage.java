@@ -70,6 +70,6 @@ public class ChatMessage
     }
 
     public String getStringDatePosted() {
-        return timesent;
+        return timesent.substring(0,10) + " " + timesent.substring(11,16);
     }
 }
