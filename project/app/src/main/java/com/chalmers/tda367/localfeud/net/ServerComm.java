@@ -1,10 +1,7 @@
 package com.chalmers.tda367.localfeud.net;
 
 import com.chalmers.tda367.localfeud.data.Chat;
-<<<<<<< HEAD
-=======
 import com.chalmers.tda367.localfeud.data.ChatMessage;
->>>>>>> d4bf62715a9fa9fd771d233eac97e3f73d8c96bb
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
