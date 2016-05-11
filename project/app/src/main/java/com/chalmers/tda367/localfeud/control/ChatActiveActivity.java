@@ -12,8 +12,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.authentication.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Chat;
+import com.chalmers.tda367.localfeud.data.ChatMessage;
+import com.chalmers.tda367.localfeud.data.User;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
+import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.IServerComm;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestChatMessageResponseListener;
@@ -38,6 +42,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         chat = (Chat) bundle.getSerializable("chat");
+        server = ServerComm.getInstance();
         setContentView(R.layout.activity_active_chat);
     }
 
@@ -64,10 +69,32 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         postMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(chatMessageList,
-                        chatMessageInput.getText(),
-                        Snackbar.LENGTH_LONG)
-                        .show();
+                IResponseListener responseListener = new IResponseListener() {
+                    @Override
+                    public void onResponseSuccess(IResponseAction source)
+                    {
+                        refreshMessages();
+                    }
+
+                    @Override
+                    public void onResponseFailure(IResponseAction source) {
+                        Snackbar.make(chatMessageList,
+                                "Could not post message",
+                                Snackbar.LENGTH_LONG)
+                                .show();
+                    }
+                };
+                if (!chatMessageInput.getText().toString().isEmpty()) {
+                    String messageText = chatMessageInput.getText().toString();;
+                    ChatMessage message = new ChatMessage(chat,messageText, new User(AuthenticatedUser.getInstance().getMe().getId(), AuthenticatedUser.getInstance().getMe().getAge(), AuthenticatedUser.getInstance().getMe().getGender()));
+                    chatMessageInput.setText("");
+                    server.sendChatMessage(chat, message, responseListener);
+                } else {
+                    Snackbar.make(chatMessageList,
+                            "Are you sick in your brain?! You must enter something in the box you know!",
+                            Snackbar.LENGTH_LONG)
+                            .show();
+                }
                 refreshMessages();
             }
         });

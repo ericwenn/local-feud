@@ -20,11 +20,9 @@ public class ChatMessage
     private User user;
     private String timesent;
 
-    public ChatMessage(Chat chatid, String content, String timesent, int id, User user) {
+    public ChatMessage(Chat chatid, String content, User user) {
         this.chatid = chatid;
         this.content = content;
-        this.timesent = timesent;
-        this.id = id;
         this.user = user;
     }
 
