@@ -1,6 +1,7 @@
 package com.chalmers.tda367.localfeud.net;
 
 import com.chalmers.tda367.localfeud.data.Chat;
+import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
@@ -162,5 +163,21 @@ public class ServerComm implements IServerComm {
         RestClient restClient = new RestClient(action);
 
         restClient.get("/chats/"+chat.getId()+"/messages/");
+    }
+
+
+
+
+    public void sendChatMessage(Chat chat, ChatMessage message, IResponseListener listener) {
+        IResponseAction action = new ResponseAction();
+        action.addListener(listener);
+
+        RestClient restClient = new RestClient(action);
+
+        // Store parameters
+        HashMap<String, String> param = new HashMap<>();
+        param.put("message", message.getText() );
+
+        restClient.post("/chats/"+chat.getId()+"/messages/", param);
     }
 }
