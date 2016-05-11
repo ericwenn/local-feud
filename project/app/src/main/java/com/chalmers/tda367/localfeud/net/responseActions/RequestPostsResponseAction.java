@@ -19,7 +19,7 @@ public class RequestPostsResponseAction extends ResponseAction {
     @Override
     public void onSuccess(String responseBody){
         // Convert string with JSON to a list with posts
-        ArrayList<Post> posts = GsonHandler.getInstance().toPostList(new String(responseBody));
+        ArrayList<Post> posts = GsonHandler.getInstance().toPostList(responseBody);
         // Store the list
         this.setPosts(posts);
         //Notify the listeners

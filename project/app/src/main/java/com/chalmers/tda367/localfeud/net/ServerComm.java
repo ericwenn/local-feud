@@ -3,6 +3,7 @@ package com.chalmers.tda367.localfeud.net;
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestChatListResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestSinglePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestCommentsResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
@@ -134,7 +135,7 @@ public class ServerComm implements IServerComm {
         restClient.get("posts/" + post.getId() + "/comments/", param);
     }
 
-    public void sendChatRequest(Post post, int userID, IResponseListener listener){
+    public void sendChatRequest(Post post, int userID, IResponseListener listener) {
         IResponseAction action = new ResponseAction();
         action.addListener(listener);
         RestClient restClient = new RestClient(action);
@@ -145,5 +146,14 @@ public class ServerComm implements IServerComm {
         param.put("postid", Integer.toString(post.getId()));
 
         restClient.post("chats/", param);
+    }
+
+    @Override
+    public void requestChats(IResponseListener listener) {
+        IResponseAction action = new RequestChatListResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
+
+        restClient.get("chats/");
     }
 }
