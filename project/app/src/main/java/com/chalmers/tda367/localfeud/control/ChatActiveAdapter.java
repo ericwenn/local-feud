@@ -61,13 +61,40 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder.getClass() == MeViewHolder.class) {
             final ChatMessage message = messages.get(position);
             final MeViewHolder viewHolder = (MeViewHolder) holder;
+            viewHolder.messageText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v){
+                    if(viewHolder.timeDisplay.getVisibility() == (View.VISIBLE))
+                    {
+                        viewHolder.timeDisplay.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        viewHolder.timeDisplay.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
             viewHolder.messageText.setText(message.getText());
+            viewHolder.timeDisplay.setText(message.getStringDatePosted());
 
         } else if (holder.getClass() == NotMeViewHolder.class) {
             final ChatMessage message = messages.get(position);
             final NotMeViewHolder viewHolder = (NotMeViewHolder) holder;
+            viewHolder.messageText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v){
+                    if(viewHolder.timeDisplay.getVisibility() == (View.VISIBLE))
+                    {
+                        viewHolder.timeDisplay.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        viewHolder.timeDisplay.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
             viewHolder.messageText.setText(message.getText());
-
+            viewHolder.timeDisplay.setText(message.getStringDatePosted());
         }
     }
 
@@ -109,20 +136,22 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private class MeViewHolder extends RecyclerView.ViewHolder {
-        private final TextView messageText;
+        private final TextView messageText, timeDisplay;
 
         public MeViewHolder(View itemView) {
             super(itemView);
             messageText = (TextView) itemView.findViewById(R.id.me_chat_text);
+            timeDisplay = (TextView) itemView.findViewById(R.id.time_display);
         }
     }
 
     private class NotMeViewHolder extends RecyclerView.ViewHolder {
-        private final TextView messageText;
+        private final TextView messageText, timeDisplay;
 
         public NotMeViewHolder(View itemView) {
             super(itemView);
             messageText = (TextView) itemView.findViewById(R.id.not_me_chat_text);
+            timeDisplay = (TextView) itemView.findViewById(R.id.time_display);
         }
     }
 

@@ -118,7 +118,6 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         @Override
         public void onResponseSuccess(IResponseAction source) {
             super.onResponseSuccess(source);
-            refreshMessages();
         }
 
         @Override
