@@ -1,8 +1,11 @@
 package com.chalmers.tda367.localfeud.net.responseActions;
 
+import android.util.Log;
+
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.ResponseError;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -77,7 +80,7 @@ public class ResponseAction implements IResponseAction {
     }
     public void onFailure(ResponseError err, String responseBody){
         setResponseBody(responseBody);
-
+        Log.e(TagHandler.MAIN_TAG, "ResponseBody: " + responseBody);
         JsonParser parser = new JsonParser();
         JsonObject obj = parser.parse(responseBody).getAsJsonObject();
         String errormsg = obj.get("message").getAsString();

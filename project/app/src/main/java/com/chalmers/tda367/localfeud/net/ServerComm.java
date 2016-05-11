@@ -6,6 +6,7 @@ import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestChatListResponseAction;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestMeResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestChatMessageResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestSinglePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestCommentsResponseAction;
@@ -135,6 +136,14 @@ public class ServerComm implements IServerComm {
         restClient.get("posts/" + post.getId() + "/comments/");
     }
 
+    public void deleteComment(Comment comment, IResponseListener listener){
+        IResponseAction action = new ResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
+
+        restClient.delete("comments/" + Integer.toString(comment.getId()) + "/");
+    }
+
     public void sendChatRequest(Post post, int userID, IResponseListener listener) {
         IResponseAction action = new ResponseAction();
         action.addListener(listener);
@@ -180,5 +189,13 @@ public class ServerComm implements IServerComm {
         param.put("message", message.getText() );
 
         restClient.post("/chats/"+chat.getId()+"/messages/", param);
+    }
+
+    public void requestMe(IResponseListener listener) {
+        IResponseAction action = new RequestMeResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
+
+        restClient.get("me/");
     }
 }
