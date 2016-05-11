@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Daniel Ahlqvist on 2016-05-10.
  */
-public class RequestChatMessageResponseAction extends AbstractResponseAction {
+public class RequestChatMessageResponseAction extends ResponseAction {
     private List<ChatMessage> messages;
     private String responseBody;
 
@@ -36,7 +36,7 @@ public class RequestChatMessageResponseAction extends AbstractResponseAction {
         this.notifyFailure();
     }
 
-    private void setResponseBody(String responseBody){
+    public void setResponseBody(String responseBody){
         this.responseBody = responseBody;
     }
 

@@ -6,9 +6,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,7 +33,7 @@ import com.chalmers.tda367.localfeud.util.TagHandler;
 /**
  * Created by Daniel Ahlqvist on 2016-04-18.
  */
-public class PostClickedActivity extends AppCompatActivity implements PostClickedAdapter.AdapterCallback {
+public class PostClickedActivity extends AppCompatActivity implements PostClickedAdapter.AdapterCallback{
     private RecyclerView recyclerView;
     private PostClickedAdapter postClickedAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -176,8 +180,78 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     }
 
     @Override
-    public void onMoreClick(Post post) {
-        Snackbar.make(recyclerView, "No more for you", Snackbar.LENGTH_LONG).show();
+    // More-button on post is clicked
+    public void onMoreClick(ImageButton button) {
+        PopupMenu menu = new PopupMenu(this, button, Gravity.END);
+        MenuInflater inflater = menu.getMenuInflater();
+        inflater.inflate(R.menu.post_menu, menu.getMenu());
+
+        // Make the post accessible by the listener below
+        final Post post = this.post;
+
+        PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.send_chat_request:
+                        sendChatRequest(post, post.getUser().getId());
+                        return true;
+                    case R.id.report:
+                        Snackbar.make(recyclerView, "Wanna report huh?", Snackbar.LENGTH_LONG).show();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        };
+
+        menu.setOnMenuItemClickListener(listener);
+        menu.show();
+    }
+
+    @Override
+    public void onCommentMoreClick(final Comment comment, ImageButton button) {
+        PopupMenu menu = new PopupMenu(this, button, Gravity.END);
+        MenuInflater inflater = menu.getMenuInflater();
+        inflater.inflate(R.menu.post_menu, menu.getMenu());
+
+        // Make the post accessible by the listener below
+        final Post post = this.post;
+
+        PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.send_chat_request:
+                        sendChatRequest(post, comment.getUser().getId());
+                        return true;
+                    case R.id.report:
+                        Snackbar.make(recyclerView, "Wanna report huh?", Snackbar.LENGTH_LONG).show();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        };
+
+        menu.setOnMenuItemClickListener(listener);
+        menu.show();
+    }
+
+    private void sendChatRequest(Post post, int userID){
+        IResponseListener listener = new IResponseListener() {
+            @Override
+            public void onResponseSuccess(IResponseAction source) {
+                Snackbar.make(recyclerView, "Chat created successfully", Snackbar.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponseFailure(IResponseAction source) {
+                Snackbar.make(recyclerView, "Chat creation failed: " + source.getErrorMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        };
+
+        server.sendChatRequest(post, userID, listener);
     }
 
     @Override

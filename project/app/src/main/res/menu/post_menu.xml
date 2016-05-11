@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content">
+    <item
+        android:id="@+id/send_chat_request"
+        android:title="@string/send_chat_request"/>
+    <item
+        android:id="@+id/report"
+        android:title="@string/report"/>
+</menu>

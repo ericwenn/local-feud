@@ -3,6 +3,9 @@ package com.chalmers.tda367.localfeud.net.responseActions;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.ResponseError;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 
@@ -10,11 +13,13 @@ import java.util.ArrayList;
  * Created by Alfred on 2016-04-20.
  * The subclasses of this class is meant to handle the conversion of the response String to whatever object is required.
  */
-public abstract class AbstractResponseAction implements IResponseAction {
+public class ResponseAction implements IResponseAction {
     private ArrayList<IResponseListener> listeners;
     private ResponseError error;
+    private String responseBody;
+    private String errorMessage;
 
-    public AbstractResponseAction(){
+    public ResponseAction(){
         this.listeners = new ArrayList<>();
     }
 
@@ -46,10 +51,39 @@ public abstract class AbstractResponseAction implements IResponseAction {
         return this.error;
     }
 
+    protected synchronized void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public synchronized String getErrorMessage() {
+        return errorMessage;
+    }
+
+    protected synchronized void setResponseBody(String responseBody) {
+        this.responseBody = responseBody;
+    }
+
+    public synchronized String getResponseBody() {
+        return responseBody;
+    }
+
     /**
      * A method that is called when the request was successful.
      * @param responseBody The body of the response (to be converted to an object through Gson or whatever)
      */
-    public abstract void onSuccess(String responseBody);
-    public abstract void onFailure(ResponseError err, String responseBody);
+    public void onSuccess(String responseBody){
+        setResponseBody(responseBody);
+        notifySuccess();
+    }
+    public void onFailure(ResponseError err, String responseBody){
+        setResponseBody(responseBody);
+
+        JsonParser parser = new JsonParser();
+        JsonObject obj = parser.parse(responseBody).getAsJsonObject();
+        String errormsg = obj.get("message").getAsString();
+        setErrorMessage(errormsg);
+
+        setResponseError(err);
+        notifyFailure();
+    }
 }

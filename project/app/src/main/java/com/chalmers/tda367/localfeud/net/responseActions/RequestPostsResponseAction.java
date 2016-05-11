@@ -13,9 +13,8 @@ import java.util.List;
 /**
  * Created by Alfred on 2016-04-20.
  */
-public class RequestPostsResponseAction extends AbstractResponseAction {
+public class RequestPostsResponseAction extends ResponseAction {
     private List<Post> posts;
-    private String responseBody;
 
     @Override
     public void onSuccess(String responseBody){
@@ -34,19 +33,6 @@ public class RequestPostsResponseAction extends AbstractResponseAction {
         this.setResponseBody(responseBody);
         this.setResponseError(err);
         this.notifyFailure();
-    }
-
-    private void setResponseBody(String responseBody){
-        this.responseBody = responseBody;
-    }
-
-    public String getResponseBody() {
-        if(responseBody != null){
-            return responseBody;
-        }
-        else{
-            throw new NullPointerException();
-        }
     }
 
     private void setPosts(List<Post> posts){

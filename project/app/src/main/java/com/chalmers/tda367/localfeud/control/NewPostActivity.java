@@ -69,7 +69,7 @@ public class NewPostActivity extends AppCompatActivity {
                     @Override
                     public void onResponseFailure(IResponseAction source) {
                         Snackbar.make(root,
-                                "Fel",
+                                "Fel:" + source.getResponseError().toString(),
                                 Snackbar.LENGTH_LONG)
                                 .show();
                     }

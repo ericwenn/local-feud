@@ -22,4 +22,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="send_chat_request">Send chat request</string>
+    <string name="report">Report</string>
 </resources>
