@@ -93,9 +93,6 @@ public class MeFragment extends Fragment {
 
             }
         });
-
-//        LoginButton loginButton = (LoginButton) view.findViewById(R.id.me_logout_btn);
-//        loginButton.setFragment(this);
     }
 
     private void addPages(ViewPager viewPager) {

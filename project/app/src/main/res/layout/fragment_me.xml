@@ -58,26 +58,4 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center">-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/temp_me_text"-->
-            <!--android:textSize="@dimen/card_post_message_text_size"-->
-            <!--android:text="Push the button at your own risk!"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_centerHorizontal="true" />-->
-
-        <!--<com.facebook.login.widget.LoginButton-->
-            <!--android:id="@+id/me_logout_btn"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/temp_me_text"-->
-            <!--android:layout_marginTop="@dimen/default_margin"-->
-            <!--android:layout_centerHorizontal="true" />-->
-    <!--</RelativeLayout>-->
-
 </android.support.design.widget.CoordinatorLayout>
