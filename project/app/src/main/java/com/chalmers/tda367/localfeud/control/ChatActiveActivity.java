@@ -70,6 +70,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
                         .show();
             }
         });
+        ServerComm.getInstance().requestChatMessages(chat, new RefreshChatMessageResponseListener(chatActiveAdapter, false));
     }
 
     public class RefreshChatMessageResponseListener extends RequestChatMessageResponseListener {
