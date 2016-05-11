@@ -50,7 +50,6 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     protected void onResume() {
         super.onResume();
         initViews();
-        refreshMessages();
     }
 
     private void initViews() {
