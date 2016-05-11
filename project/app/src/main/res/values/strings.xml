@@ -23,4 +23,6 @@
     <string name="notice_string">Notice</string>
     <string name="settings_string">Settings</string>
 
+    <string name="send_chat_request">Send chat request</string>
+    <string name="report">Report</string>
 </resources>

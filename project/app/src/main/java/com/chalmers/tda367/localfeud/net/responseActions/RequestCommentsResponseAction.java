@@ -13,9 +13,8 @@ import java.util.List;
 /**
  * Created by Daniel Ahlqvist on 2016-04-24.
  */
-public class RequestCommentsResponseAction extends AbstractResponseAction {
+public class RequestCommentsResponseAction extends ResponseAction {
     private List<Comment> comments;
-    private String responseBody;
 
     @Override
     public void onSuccess(String responseBody){
@@ -27,25 +26,6 @@ public class RequestCommentsResponseAction extends AbstractResponseAction {
         this.notifySuccess();
 
         Log.d(TagHandler.MAIN_TAG, "onSuccess in serverComm. Comments: " + comments.size());
-    }
-
-    @Override
-    public void onFailure(ResponseError err, String responseBody) {
-        this.setResponseBody(responseBody);
-        this.notifyFailure();
-    }
-
-    private void setResponseBody(String responseBody){
-        this.responseBody = responseBody;
-    }
-
-    public String getResponseBody() {
-        if(responseBody != null){
-            return responseBody;
-        }
-        else{
-            throw new NullPointerException();
-        }
     }
 
     private void setComments(List<Comment> comments){
