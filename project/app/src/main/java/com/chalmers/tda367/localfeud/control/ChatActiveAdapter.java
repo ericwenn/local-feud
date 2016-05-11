@@ -38,7 +38,7 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.myId = 1;      // SKALL ÄNDRAS
 
         ChatMessage test = new ChatMessage();
-        User testuser = new User(1, 98, User.Sex.FEMALE);
+        User testuser = new User(1, 98, User.Gender.female);
         test.setText("Testtext");
         test.setUser(testuser);
         messages.add(test);
