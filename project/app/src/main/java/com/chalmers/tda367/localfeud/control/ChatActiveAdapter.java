@@ -31,7 +31,6 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public ChatActiveAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-        //this.chat = chat;
         this.myId = 1;      // SKALL ÄNDRAS
         ArrayList<ChatMessage> newMessages = new ArrayList<>();
         newMessages.add(new ChatMessage(new Chat(), "Tjabba", "", 2, new User(3, 12, User.Gender.female)));
