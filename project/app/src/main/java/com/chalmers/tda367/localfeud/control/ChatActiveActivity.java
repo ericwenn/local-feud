@@ -50,6 +50,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     protected void onResume() {
         super.onResume();
         initViews();
+        refreshMessages();
     }
 
     private void initViews() {
@@ -104,6 +105,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     public void refreshMessages()
     {
         ServerComm.getInstance().requestChatMessages(chat, new RefreshChatMessageResponseListener(chatActiveAdapter, false));
+        chatMessageList.scrollToPosition(chatActiveAdapter.getItemCount()-1);
     }
 
     public class RefreshChatMessageResponseListener extends RequestChatMessageResponseListener {
@@ -117,6 +119,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         @Override
         public void onResponseSuccess(IResponseAction source) {
             super.onResponseSuccess(source);
+            refreshMessages();
         }
 
         @Override
