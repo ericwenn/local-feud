@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.authentication.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
+import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.User;
 
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public ChatActiveAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-        this.myId = 9;      // SKALL ÄNDRAS
+        this.myId = AuthenticatedUser.getInstance().getMe().getId();      // SKALL ÄNDRAS
         ArrayList<ChatMessage> newMessages = new ArrayList<>();
         /*newMessages.add(new ChatMessage(new Chat(), "Tjabba", "", 2, new User(3, 12, User.Gender.female)));
         newMessages.add(new ChatMessage(new Chat(), "Ge mig mina pengar", "", 2, new User(1, 12, User.Gender.female)));
