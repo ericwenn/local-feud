@@ -115,6 +115,16 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     }
 
     @Override
+    public void onChatClicked(Chat chat)
+    {
+        Intent i = new Intent(getApplicationContext(), ChatActiveActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("chat", chat);
+        i.putExtras(bundle);
+        startActivity(i);
+    }
+
+    @Override
     public void onLikeClick(final Post post, final ImageButton imageButton) {
 //        Should check if post is liked
         final boolean isLiked = post.isLiked();
@@ -189,10 +199,5 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TagHandler.MAIN_TAG, this + ", onDestroy: MAIN");
-    }
-
-    @Override
-    public void onChatClicked(Chat chat) {
-        showSnackbar(chat.getUsers().get(0).getFirstName());
     }
 }

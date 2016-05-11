@@ -16,15 +16,13 @@ public class ChatMessage
 {
     private int id;
     private Chat chatid;
-    private String content;
+    private String message;
     private User user;
-    private String date_posted;
+    private String timesent;
 
-    public ChatMessage(Chat chatid, String content, String date_posted, int id, User user) {
+    public ChatMessage(Chat chatid, String message, User user) {
         this.chatid = chatid;
-        this.content = content;
-        this.date_posted = date_posted;
-        this.id = id;
+        this.message = message;
         this.user = user;
     }
 
@@ -53,11 +51,11 @@ public class ChatMessage
     }
 
     public String getText() {
-        return content;
+        return message;
     }
 
     public void setText(String newText) {
-        content = newText;
+        message = newText;
     }
 
     public Calendar getDatePosted() {
@@ -72,6 +70,6 @@ public class ChatMessage
     }
 
     public String getStringDatePosted() {
-        return date_posted;
+        return timesent;
     }
 }

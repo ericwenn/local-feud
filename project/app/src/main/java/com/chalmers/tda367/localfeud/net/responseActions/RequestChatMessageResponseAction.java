@@ -21,7 +21,7 @@ public class RequestChatMessageResponseAction extends ResponseAction {
     @Override
     public void onSuccess(String responseBody) {
         // Convert string with JSON to a list with messages
-        ArrayList<ChatMessage> comments = GsonHandler.getInstance().toChatMessagesList(new String(responseBody));
+        ArrayList<ChatMessage> messages = GsonHandler.getInstance().toChatMessagesList(new String(responseBody));
         // Store the list
         this.setMessages(messages);
         //Notify the listeners
@@ -35,13 +35,6 @@ public class RequestChatMessageResponseAction extends ResponseAction {
     }
 
     public List<ChatMessage> getMessages() {
-        ChatMessage test = new ChatMessage(new Chat(), "", "", 0, new User(1, 1, User.Gender.female));
-        User testuser = new User(1, 98, User.Gender.female);
-        test.setText("Testtext");
-        test.setUser(testuser);
-        messages.add(test);
-        System.out.println("Texten: " + messages.get(0).getText());
-
         if (messages != null) {
             return messages;
         } else {

@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.authentication.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
+import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.User;
 
 import java.util.ArrayList;
@@ -31,13 +33,12 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public ChatActiveAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-        //this.chat = chat;
-        this.myId = 1;      // SKALL ÄNDRAS
+        this.myId = AuthenticatedUser.getInstance().getMe().getId();      // SKALL ÄNDRAS
         ArrayList<ChatMessage> newMessages = new ArrayList<>();
-        newMessages.add(new ChatMessage(new Chat(), "Tjabba", "", 2, new User(3, 12, User.Gender.female)));
+        /*newMessages.add(new ChatMessage(new Chat(), "Tjabba", "", 2, new User(3, 12, User.Gender.female)));
         newMessages.add(new ChatMessage(new Chat(), "Ge mig mina pengar", "", 2, new User(1, 12, User.Gender.female)));
         newMessages.add(new ChatMessage(new Chat(), "Du får dom på måndag", "", 2, new User(3, 12, User.Gender.female)));
-        newMessages.add(new ChatMessage(new Chat(), "Ok", "", 2, new User(1, 12, User.Gender.female)));
+        newMessages.add(new ChatMessage(new Chat(), "Ok", "", 2, new User(1, 12, User.Gender.female)));*/
         addChatMessageListToAdapter(newMessages);
 
         try {
@@ -64,12 +65,12 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder.getClass() == MeViewHolder.class) {
             final ChatMessage message = messages.get(position);
             final MeViewHolder viewHolder = (MeViewHolder) holder;
-            viewHolder.commentText.setText(message.getText());
+            viewHolder.messageText.setText(message.getText());
 
         } else if (holder.getClass() == NotMeViewHolder.class) {
             final ChatMessage message = messages.get(position);
             final NotMeViewHolder viewHolder = (NotMeViewHolder) holder;
-            viewHolder.commentText.setText(message.getText());
+            viewHolder.messageText.setText(message.getText());
 
         }
     }
@@ -112,20 +113,20 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private class MeViewHolder extends RecyclerView.ViewHolder {
-        private final TextView commentText;
+        private final TextView messageText;
 
         public MeViewHolder(View itemView) {
             super(itemView);
-            commentText = (TextView) itemView.findViewById(R.id.me_chat_text);
+            messageText = (TextView) itemView.findViewById(R.id.me_chat_text);
         }
     }
 
     private class NotMeViewHolder extends RecyclerView.ViewHolder {
-        private final TextView commentText;
+        private final TextView messageText;
 
         public NotMeViewHolder(View itemView) {
             super(itemView);
-            commentText = (TextView) itemView.findViewById(R.id.not_me_chat_text);
+            messageText = (TextView) itemView.findViewById(R.id.not_me_chat_text);
         }
     }
 

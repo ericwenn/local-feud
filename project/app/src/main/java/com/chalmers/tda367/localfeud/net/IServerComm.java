@@ -1,5 +1,7 @@
 package com.chalmers.tda367.localfeud.net;
 
+import com.chalmers.tda367.localfeud.data.Chat;
+import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
@@ -47,4 +49,6 @@ public interface IServerComm {
     void requestChats(IResponseListener listener);
 
     void requestMe(IResponseListener listener);
+
+    void sendChatMessage(Chat chat, ChatMessage message, IResponseListener listener);
 }

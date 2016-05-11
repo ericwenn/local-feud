@@ -7,7 +7,8 @@ import java.io.Serializable;
  */
 public class Me implements Serializable {
     private int id, age;
-    private String firstname, lastname, gender;
+    private String firstname, lastname;
+    private User.Gender gender;
 
     public String getFirstname() {
         return firstname;
@@ -25,7 +26,7 @@ public class Me implements Serializable {
         return id;
     }
 
-    public String getGender() {
+    public User.Gender getGender() {
         return gender;
     }
 }
