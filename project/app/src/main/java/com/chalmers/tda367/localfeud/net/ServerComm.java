@@ -5,6 +5,7 @@ import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestChatListResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestMeResponseAction;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestChatMessageResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestSinglePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestCommentsResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
@@ -163,7 +164,16 @@ public class ServerComm implements IServerComm {
         restClient.get("chats/");
     }
 
-    public void requestMe(IResponseListener listener){
+    public void requestChatMessages(IResponseListener listener)
+    {
+        IResponseAction action = new RequestChatMessageResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
+
+        restClient.get("/chatmessage");
+    }
+
+    public void requestMe(IResponseListener listener) {
         IResponseAction action = new RequestMeResponseAction();
         action.addListener(listener);
         RestClient restClient = new RestClient(action);
