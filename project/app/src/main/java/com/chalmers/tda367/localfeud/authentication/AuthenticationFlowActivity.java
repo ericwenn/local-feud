@@ -7,6 +7,11 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.chalmers.tda367.localfeud.control.MainActivity;
+import com.chalmers.tda367.localfeud.net.IResponseAction;
+import com.chalmers.tda367.localfeud.net.IResponseListener;
+import com.chalmers.tda367.localfeud.net.ServerComm;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestMeResponseAction;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
@@ -33,6 +38,25 @@ public class AuthenticationFlowActivity extends AppIntro {
                 if (currentAccessToken != null) {
                     // TODO Make sure all permissions are accepted
                     Log.i(TAG, "onCurrentAccessTokenChanged: " + currentAccessToken);
+
+                    // Fetch data about myself!
+                    IResponseListener listener = new IResponseListener() {
+                        @Override
+                        public void onResponseSuccess(IResponseAction source) {
+                            if (source instanceof RequestMeResponseAction){
+                                RequestMeResponseAction action = (RequestMeResponseAction) source;
+                                Log.d(TagHandler.MAIN_TAG, "Du heter: " + action.getMe().getFirstname());
+                                AuthenticatedUser.getInstance().setMe(action.getMe());
+                            }
+                        }
+
+                        @Override
+                        public void onResponseFailure(IResponseAction source) {
+                            Log.e(TagHandler.MAIN_TAG, "Couldn't fetch myself: " + source.getErrorMessage());
+                        }
+                    };
+                    ServerComm.getInstance().requestMe(listener);
+
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(i);
                     finish();

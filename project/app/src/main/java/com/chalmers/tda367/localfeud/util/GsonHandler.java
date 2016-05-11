@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Comment;
+import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -59,5 +60,9 @@ public class GsonHandler
         }.getType());
         return gson.fromJson(json, new TypeToken<List<Chat>>() {
         }.getType());
+    }
+
+    public Me toMe(String json){
+        return gson.fromJson(json, new TypeToken<Me>(){}.getType());
     }
 }

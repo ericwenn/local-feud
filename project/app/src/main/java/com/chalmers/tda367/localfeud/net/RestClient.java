@@ -52,9 +52,17 @@ public class RestClient {
         getClient().post(getAbsoluteUrl(url), params, responseHandler);
     }
 
+    public void post(String url) {
+        getClient().post(getAbsoluteUrl(url), null, responseHandler);
+    }
+
     public void delete(String url, Map<String, String> paramsMap){
         RequestParams params = new RequestParams(paramsMap);
         getClient().delete(getAbsoluteUrl(url), params, responseHandler);
+    }
+
+    public void delete(String url){
+        getClient().delete(getAbsoluteUrl(url), null, responseHandler);
     }
 
     public void put(String url, Map<String, String> paramsMap) throws HttpResponseException{

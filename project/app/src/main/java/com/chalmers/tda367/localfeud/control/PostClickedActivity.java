@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.ActionMenuItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.authentication.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
@@ -129,9 +132,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                     Comment comment = new Comment();
                     comment.setText(writeCommentText.getText().toString());
                     writeCommentText.setText("");
-                    /**
-                     *  TODO: VARFÖR POSTAS TVÅ KOMMENTARER?!?!?! PLEASE TELL ME
-                     */
                     swipeRefreshLayout.post(new Runnable() {
                         @Override
                         public void run() {
@@ -212,8 +212,23 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     @Override
     public void onCommentMoreClick(final Comment comment, ImageButton button) {
         PopupMenu menu = new PopupMenu(this, button, Gravity.END);
-        MenuInflater inflater = menu.getMenuInflater();
-        inflater.inflate(R.menu.post_menu, menu.getMenu());
+        /*MenuInflater inflater = menu.getMenuInflater();
+        inflater.inflate(R.menu.post_menu, menu.getMenu());*/
+
+        final MenuItem deleteCommentMenuItem = menu.getMenu().add(Menu.NONE, 1, Menu.NONE, R.string.delete_comment);
+        final MenuItem sendChatRequestMenuItem = menu.getMenu().add(Menu.NONE, 2, Menu.NONE, R.string.send_chat_request);
+        final MenuItem reportMenuItem = menu.getMenu().add(Menu.NONE, 3, Menu.NONE, R.string.report);
+
+        if (AuthenticatedUser.getInstance().getMe().getId() == comment.getUser().getId()) { //if comment is made by me
+            menu.getMenu().removeItem(sendChatRequestMenuItem.getItemId());
+            menu.getMenu().removeItem(reportMenuItem.getItemId());
+            Log.d(TagHandler.MAIN_TAG, "Send: " + Integer.toString(sendChatRequestMenuItem.getItemId()));
+            Log.d(TagHandler.MAIN_TAG, "Report: " + Integer.toString(reportMenuItem.getItemId()));
+        }else{ //if comment is made by someone else
+            menu.getMenu().removeItem(deleteCommentMenuItem.getItemId());
+            Log.d(TagHandler.MAIN_TAG, "Delete: " + Integer.toString(deleteCommentMenuItem.getItemId()));
+            Log.d(TagHandler.MAIN_TAG, "Send: " + Integer.toString(sendChatRequestMenuItem.getItemId()));
+        }
 
         // Make the post accessible by the listener below
         final Post post = this.post;
@@ -221,15 +236,39 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.send_chat_request:
-                        sendChatRequest(post, comment.getUser().getId());
-                        return true;
-                    case R.id.report:
-                        Snackbar.make(recyclerView, "Wanna report huh?", Snackbar.LENGTH_LONG).show();
-                        return true;
-                    default:
-                        return false;
+                if (item.getItemId() == deleteCommentMenuItem.getItemId()){
+                    IResponseListener listener1 = new IResponseListener() {
+                        @Override
+                        public void onResponseSuccess(IResponseAction source) {
+                            swipeRefreshLayout.setRefreshing(false);
+                            ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter, true));
+                            Snackbar.make(recyclerView, "Comment deleted successfully", Snackbar.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onResponseFailure(IResponseAction source) {
+                            Snackbar.make(recyclerView, "Comment failed to be deleted: " + source.getErrorMessage(), Snackbar.LENGTH_LONG).show();
+                        }
+                    };
+                    swipeRefreshLayout.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(true);
+                        }
+                    });
+                    server.deleteComment(comment, listener1);
+                    return true;
+                }
+                else if(item.getItemId() == sendChatRequestMenuItem.getItemId()) {
+                    sendChatRequest(post, comment.getUser().getId());
+                    return true;
+                }
+                else if(item.getItemId() == reportMenuItem.getItemId()) {
+                    Snackbar.make(recyclerView, "Wanna report huh?", Snackbar.LENGTH_LONG).show();
+                    return true;
+                }
+                else{
+                    return false;
                 }
             }
         };

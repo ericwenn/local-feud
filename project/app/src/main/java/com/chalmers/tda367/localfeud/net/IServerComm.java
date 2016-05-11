@@ -40,7 +40,11 @@ public interface IServerComm {
 
     void requestComments(Post post, IResponseListener listener);
 
+    void deleteComment(Comment comment, IResponseListener listener);
+
     void sendChatRequest(Post post, int userID, IResponseListener listener);
 
     void requestChats(IResponseListener listener);
+
+    void requestMe(IResponseListener listener);
 }
