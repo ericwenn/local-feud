@@ -8,24 +8,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Chat;
-import com.chalmers.tda367.localfeud.data.ChatMessage;
-import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
-import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.IServerComm;
-import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestChatMessageResponseListener;
-import com.chalmers.tda367.localfeud.net.responseListeners.RequestCommentsResponseListener;
 
 /**
  * Created by Daniel Ahlqvist on 2016-05-03.
  */
-public class ChatActiveActivity extends AppCompatActivity implements ChatActiveAdapter.AdapterCallback
-{
+public class ChatActiveActivity extends AppCompatActivity implements ChatActiveAdapter.AdapterCallback {
     private IServerComm server;
     private ImageButton postMessageButton;
     private RecyclerView chatMessageList;
@@ -34,22 +27,32 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     private Chat chat;
     private RequestChatMessageResponseListener requestChatMessagesResponseListener;
 
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null && bundle.getSerializable("null") != null) {
+            chat = (Chat) bundle.getSerializable("chat");
+        } else {
+            chat = new Chat();
+        }
         setContentView(R.layout.activity_active_chat);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initViews();
     }
 
-    private void initViews()
-    {
+    private void initViews() {
         chatMessageList = (RecyclerView) findViewById(R.id.chat_message_list);
         chatMessageInput = (EditText) findViewById(R.id.posttext);
         postMessageButton = (ImageButton) findViewById(R.id.post_button);
 
-        chatActiveAdapter = new ChatActiveAdapter(this);
-
         chatMessageList.setLayoutManager(new LinearLayoutManager(this));
+        chatMessageList.setHasFixedSize(true);
+
+        chatActiveAdapter = new ChatActiveAdapter(this);
         chatMessageList.setAdapter(chatActiveAdapter);
 
         requestChatMessagesResponseListener = new RequestChatMessageResponseListener(chatActiveAdapter);
@@ -60,32 +63,25 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
                         chatMessageInput.getText(),
                         Snackbar.LENGTH_LONG)
                         .show();
-
-                ChatMessage newMessage = new ChatMessage();
-                newMessage.setText(chatMessageInput.getText().toString());
             }
         });
     }
 
-    public class RefreshChatMessageResponseListener extends RequestChatMessageResponseListener
-    {
+    public class RefreshChatMessageResponseListener extends RequestChatMessageResponseListener {
         private boolean isAfterChatMessagePosted;
 
-        public RefreshChatMessageResponseListener(ChatActiveAdapter adapter, boolean isAfterChatMessagePosted)
-        {
+        public RefreshChatMessageResponseListener(ChatActiveAdapter adapter, boolean isAfterChatMessagePosted) {
             super(adapter);
             this.isAfterChatMessagePosted = isAfterChatMessagePosted;
         }
 
         @Override
-        public void onResponseSuccess(IResponseAction source)
-        {
+        public void onResponseSuccess(IResponseAction source) {
             super.onResponseSuccess(source);
         }
 
         @Override
-        public void onResponseFailure(IResponseAction source)
-        {
+        public void onResponseFailure(IResponseAction source) {
             super.onResponseFailure(source);
         }
     }

@@ -20,6 +20,14 @@ public class ChatMessage
     private User user;
     private String date_posted;
 
+    public ChatMessage(Chat chatid, String content, String date_posted, int id, User user) {
+        this.chatid = chatid;
+        this.content = content;
+        this.date_posted = date_posted;
+        this.id = id;
+        this.user = user;
+    }
+
     public int getId() {
         return id;
     }
