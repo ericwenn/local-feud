@@ -52,6 +52,19 @@
         android:textSize="@dimen/card_post_comment_text_size"
         android:text="Detta är en vansinnigt bra kommentar! Väldigt innehållsrik måste jag säga!"/>
 
+    <ImageButton
+        android:id="@+id/comment_item_more_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_item_msg_textview"
+        android:layout_alignParentEnd="true"
+        android:paddingBottom="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        android:paddingEnd="@dimen/default_margin"
+        android:src="@drawable/ic_more_horiz_black_24dp"
+        android:alpha="0.54"
+        android:background="@color/transparent"/>
+
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

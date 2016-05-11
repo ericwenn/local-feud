@@ -8,4 +8,7 @@ public interface IResponseAction {
     void onFailure(ResponseError error, String responseBody);
     void addListener(IResponseListener listener);
     void removeListener(IResponseListener listener);
+    String getResponseBody();
+    ResponseError getResponseError();
+    String getErrorMessage();
 }

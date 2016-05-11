@@ -88,7 +88,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             viewHolder.postItemMoreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    adapterCallback.onMoreClick(post);
+                    adapterCallback.onMoreClick(viewHolder.postItemMoreButton);
                 }
             });
             if (post.isLiked())
@@ -101,6 +101,12 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             viewHolder.commentItemMsgTextView.setText(comment.getText());
             viewHolder.commentItemTimeTextView.setText(DateString.convert(comment.getDatePosted()));
             viewHolder.commentItemSenderTextView.setText("" + comment.getUser().getId());
+            viewHolder.commentItemMoreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    adapterCallback.onCommentMoreClick(comment, viewHolder.commentItemMoreButton);
+                }
+            });
         }
     }
 
@@ -173,12 +179,14 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private final TextView commentItemSenderTextView;
         private final TextView commentItemTimeTextView;
         private final CardView holderLayout;
+        private final ImageButton commentItemMoreButton;
 
         public CommentViewHolder(View itemView) {
             super(itemView);
             commentItemSenderTextView = (TextView) itemView.findViewById(R.id.comment_item_sender_textview);
             commentItemMsgTextView = (TextView) itemView.findViewById(R.id.comment_item_msg_textview);
             commentItemTimeTextView = (TextView) itemView.findViewById(R.id.comment_item_time_textview);
+            commentItemMoreButton = (ImageButton) itemView.findViewById(R.id.comment_item_more_button);
             holderLayout = (CardView) itemView.findViewById(R.id.comment_list_item);
         }
     }
@@ -214,7 +222,9 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public interface AdapterCallback {
         void onLikeClick(Post post, ImageButton imageButton);
 
-        void onMoreClick(Post post);
+        void onMoreClick(ImageButton imageButton);
+
+        void onCommentMoreClick(Comment comment, ImageButton imageButton);
 
         void onShowSnackbar(String text);
     }
