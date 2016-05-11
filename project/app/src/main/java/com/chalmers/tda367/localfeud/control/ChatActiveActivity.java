@@ -46,7 +46,7 @@ public class ChatActiveActivity extends AppCompatActivity
         chatMessageList = (RecyclerView) findViewById(R.id.chat_message_list);
         chatMessageInput = (EditText) findViewById(R.id.posttext);
 
-        chatActiveAdapter = new ChatActiveAdapter(this, chat);
+        chatActiveAdapter = new ChatActiveAdapter(this);
         chatMessageList.setAdapter(chatActiveAdapter);
 
         postMessageButton.setOnClickListener(new View.OnClickListener() {

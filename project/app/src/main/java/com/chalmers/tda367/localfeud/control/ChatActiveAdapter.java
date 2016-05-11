@@ -30,13 +30,19 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Chat chat;
     private int myId;
 
-    public ChatActiveAdapter(Context context, Chat chat)
+    public ChatActiveAdapter(Context context)
     {
         this.context = context;
+        inflater = LayoutInflater.from(context);
         this.chat = chat;
         this.myId = 1;      // SKALL ÄNDRAS
-        clearAdapter();
-        inflater = LayoutInflater.from(context);
+
+        ChatMessage test = new ChatMessage();
+        User testuser = new User(1, 98, User.Sex.FEMALE);
+        test.setText("Testtext");
+        test.setUser(testuser);
+        messages.add(test);
+        System.out.println("Texten: " + messages.get(0).getText());
     }
 
     @Override
@@ -73,12 +79,6 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private void clearAdapter()
     {
         messages.clear();
-        ChatMessage test = new ChatMessage();
-        User testuser = new User(1, 98, User.Sex.FEMALE);
-        test.setText("Testtext");
-        test.setUser(testuser);
-        messages.add(test);
-        System.out.println("Texten: " + messages.get(0).getText());
         notifyDataSetChanged();
     }
 
