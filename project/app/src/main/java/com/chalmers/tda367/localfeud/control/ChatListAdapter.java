@@ -1,7 +1,7 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.CardView;
@@ -56,8 +56,13 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Chat chat = chatList.get(position);
+        
         holder.titleTextView.setText(chat.getChatName());
         holder.msgTextView.setText("" + chat);
+
+        if (chat.getNumberOfUnreadMessages() > 0)
+            holder.msgTextView.setTypeface(null, Typeface.BOLD);
+
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

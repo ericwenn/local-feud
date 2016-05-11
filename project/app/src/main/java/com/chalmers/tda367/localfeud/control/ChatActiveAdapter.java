@@ -13,8 +13,6 @@ import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.authentication.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
-import com.chalmers.tda367.localfeud.data.Me;
-import com.chalmers.tda367.localfeud.data.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +56,8 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        final ChatMessage message = messages.get(position);
         if (holder.getClass() == MeViewHolder.class) {
-            final ChatMessage message = messages.get(position);
             final MeViewHolder viewHolder = (MeViewHolder) holder;
             viewHolder.messageText.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,7 +76,6 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             viewHolder.timeDisplay.setText(message.getStringDatePosted());
 
         } else if (holder.getClass() == NotMeViewHolder.class) {
-            final ChatMessage message = messages.get(position);
             final NotMeViewHolder viewHolder = (NotMeViewHolder) holder;
             viewHolder.messageText.setOnClickListener(new View.OnClickListener() {
                 @Override
