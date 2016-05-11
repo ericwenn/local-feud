@@ -98,7 +98,7 @@ public class Chat implements Serializable {
             return "UNKNOWN";
         }
         else if (users.size() == 1) {
-            return users.get(0).getFirstName() + " " + users.get(0).getLastName();
+            return users.get(0).getFirstName() + " " + users.get(0).getLastName() + ", " + users.get(0).getAge();
         }
         else {
             String chatName = "";
