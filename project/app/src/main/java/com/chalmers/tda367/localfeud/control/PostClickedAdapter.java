@@ -181,7 +181,8 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private final CardView holderLayout;
         private final ImageButton commentItemMoreButton;
 
-        public CommentViewHolder(View itemView) {
+        public CommentViewHolder(View itemView)
+        {
             super(itemView);
             commentItemSenderTextView = (TextView) itemView.findViewById(R.id.comment_item_sender_textview);
             commentItemMsgTextView = (TextView) itemView.findViewById(R.id.comment_item_msg_textview);

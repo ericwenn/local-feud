@@ -1,11 +1,9 @@
 package com.chalmers.tda367.localfeud.net.responseListeners;
 
-import com.chalmers.tda367.localfeud.control.PostAdapter;
 import com.chalmers.tda367.localfeud.control.PostClickedAdapter;
 import com.chalmers.tda367.localfeud.net.IResponseAction;
 import com.chalmers.tda367.localfeud.net.IResponseListener;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestCommentsResponseAction;
-import com.chalmers.tda367.localfeud.net.responseActions.RequestPostsResponseAction;
 
 /**
  * Created by Daniel Ahlqvist on 2016-04-26.

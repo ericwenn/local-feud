@@ -20,11 +20,10 @@
 
         <activity
             android:name=".control.SplashActivity"
-            android:theme="@style/SplashTheme">
-        </activity>
+            android:theme="@style/SplashTheme"></activity>
         <activity
             android:name=".control.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -51,6 +50,13 @@
         <activity
             android:name=".permissionflow.PermissionFlow"
             android:label="Local Feud" />
+        <activity
+            android:name=".control.ChatActiveActivity"
+            android:label="Local Feud">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".control.MainActivity" />
+        </activity>
         <activity
             android:name=".authentication.AuthenticationFlowActivity"
             android:label="Local Feud">

@@ -30,12 +30,14 @@ public class Chat implements Serializable {
     private String date_started;
     private int number_of_unread_messages;
     private String href;
+
     /**
      * id : 1
      * firstname : Karl
      * lastname : Karlsson
      * href : http://localhost/local-feud_backend/src/users/1/
      */
+
 
     private List<KnownUser> users;
 

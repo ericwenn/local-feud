@@ -1,6 +1,7 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.CardView;
@@ -61,6 +62,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 adapterCallback.onChatClicked(chat);
+                /*Snackbar.make(v,
+                        chat.getUserName(),
+                        Snackbar.LENGTH_LONG)
+                        .show();*/
+                Intent intent = new Intent(context, ChatActiveActivity.class);
+                context.startActivity(intent);
             }
         });
     }
