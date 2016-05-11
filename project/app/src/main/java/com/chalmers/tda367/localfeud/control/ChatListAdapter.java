@@ -1,7 +1,8 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,9 +13,11 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Chat;
+import com.chalmers.tda367.localfeud.net.ResponseError;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,11 +38,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     public ChatListAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-        chatList.add(new Chat("Alfred", "Tjena tjena"));
-        chatList.add(new Chat("Eric", context.getString(R.string.really_long_text)));
-        chatList.add(new Chat("Daniel", "Pladder"));
-        chatList.add(new Chat("David", "Hej"));
-        Log.d(TagHandler.MAIN_TAG, "Lägger till 4 chats");
 
         try {
             adapterCallback = (AdapterCallback) context;
@@ -57,8 +55,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Chat chat = chatList.get(position);
-        holder.titleTextView.setText(chat.getUserName());
-        holder.msgTextView.setText(chat.getMsg());
+        holder.titleTextView.setText(chat.getChatName());
+        holder.msgTextView.setText("" + chat);
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +72,53 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     @Override
     public int getItemCount() {
         return chatList.size();
+    }
+
+    private void clearAdapter() {
+        chatList.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addChatToAdapter(Chat chat) {
+        chatList.add(chat);
+        notifyItemChanged(chatList.size());
+    }
+
+    public void addChatListToAdapter(final List<Chat> chatList) {
+        Log.d(TagHandler.MAIN_TAG, "Trying to add " + chatList.size() + " chats");
+        final int currentCount = this.chatList.size();
+        synchronized (this.chatList) {
+            Log.d(TagHandler.MAIN_TAG, "Uppdaterar inlägg...");
+            clearAdapter();
+            this.chatList.addAll(chatList);
+        }
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            notifyItemRangeInserted(currentCount, chatList.size());
+        } else {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    notifyItemRangeInserted(currentCount, chatList.size());
+                }
+            });
+        }
+    }
+
+    public void showError(ResponseError responseError) {
+        String errorText;
+        switch (responseError) {
+            case NOTFOUND:
+                errorText = context.getString(R.string.notfound_error_msg);
+                break;
+            case UNAUTHORIZED:
+                errorText = context.getString(R.string.unauthorized_error_msg);
+                break;
+            default:
+                errorText = context.getString(R.string.server_error_msg);
+                break;
+        }
+        Log.d(TagHandler.MAIN_TAG, "Error: " + errorText);
+        adapterCallback.onShowSnackbar(errorText);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.net.IResponseAction;
+import com.chalmers.tda367.localfeud.net.ServerComm;
+import com.chalmers.tda367.localfeud.net.responseListeners.RequestChatListResponseListener;
 
 public class ChatFragment extends Fragment {
 
@@ -24,6 +29,9 @@ public class ChatFragment extends Fragment {
     private MainActivity activity;
     private ChatListAdapter chatListAdapter;
     private Toolbar toolbar;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RequestChatListResponseListener requestChatListResponseListener;
+    private TextView textView;
 
     public ChatFragment() {
 
@@ -34,6 +42,25 @@ public class ChatFragment extends Fragment {
         fragment.activity = activity;
         fragment.chatListAdapter = new ChatListAdapter(fragment.activity);
         return fragment;
+    }
+
+    public class RefreshChatListResponseListener extends RequestChatListResponseListener {
+
+        public RefreshChatListResponseListener(ChatListAdapter adapter) {
+            super(adapter);
+        }
+
+        @Override
+        public void onResponseSuccess(IResponseAction source) {
+            super.onResponseSuccess(source);
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
+        @Override
+        public void onResponseFailure(IResponseAction source) {
+            super.onResponseFailure(source);
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -54,20 +81,35 @@ public class ChatFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view, savedInstanceState);
+        ServerComm.getInstance().requestChats(requestChatListResponseListener);
     }
 
     private void initViews(View view, @Nullable Bundle savedInstanceState) {
         root = (CoordinatorLayout) view.findViewById(R.id.chat_list_root);
-
-//        CollapsingToolbarLayout collapsingToolbarLayout =
-//                (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar_layout);
-//        collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
-//        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.chat_list_refresh_layout);
+        requestChatListResponseListener = new RefreshChatListResponseListener(chatListAdapter);
+        textView = (TextView) view.findViewById(R.id.chat_list_toolbar_title_textview);
+        textView.setText("Chat");
 
         recyclerView = (RecyclerView) view.findViewById(R.id.chat_list_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(chatListAdapter);
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.chatColorPrimary,
+                R.color.chatColorAccent);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ServerComm.getInstance().requestPosts(new RefreshChatListResponseListener(chatListAdapter));
+            }
+        });
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
     }
 
     public void showSnackbar(String text) {

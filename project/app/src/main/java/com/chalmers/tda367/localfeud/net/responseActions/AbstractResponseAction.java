@@ -38,7 +38,7 @@ public abstract class AbstractResponseAction implements IResponseAction {
         }
     }
 
-    protected synchronized void setResponseError(ResponseError error){
+    public synchronized void setResponseError(ResponseError error){
         this.error = error;
     }
 

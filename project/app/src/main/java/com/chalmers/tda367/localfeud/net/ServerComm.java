@@ -5,6 +5,7 @@ import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.net.responseActions.CommentPostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.CreatePostResponseAction;
+import com.chalmers.tda367.localfeud.net.responseActions.RequestChatListResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestSinglePostResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.RequestCommentsResponseAction;
 import com.chalmers.tda367.localfeud.net.responseActions.LikePostResponseAction;
@@ -134,5 +135,14 @@ public class ServerComm implements IServerComm {
         HashMap<String, String> param = new HashMap<>();
 
         restClient.get("posts/" + post.getId() + "/comments/", param);
+    }
+
+    @Override
+    public void requestChats(IResponseListener listener) {
+        IResponseAction action = new RequestChatListResponseAction();
+        action.addListener(listener);
+        RestClient restClient = new RestClient(action);
+
+        restClient.get("chats/");
     }
 }

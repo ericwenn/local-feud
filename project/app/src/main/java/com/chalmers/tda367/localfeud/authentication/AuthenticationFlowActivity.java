@@ -25,15 +25,15 @@ public class AuthenticationFlowActivity extends AppIntro {
     @Override
     public void init(@Nullable Bundle savedInstanceState) {
 
-        FacebookSdk.sdkInitialize( getApplicationContext() );
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         final AccessTokenTracker tokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                if( currentAccessToken != null) {
+                if (currentAccessToken != null) {
                     // TODO Make sure all permissions are accepted
                     Log.i(TAG, "onCurrentAccessTokenChanged: " + currentAccessToken);
-                    Intent i = new Intent( getApplicationContext(), MainActivity.class);
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(i);
                     finish();
                 } else {
@@ -42,7 +42,7 @@ public class AuthenticationFlowActivity extends AppIntro {
                         if (activity.getClass() == MainActivity.class) {
                             activity.finish();
                             Intent i = getBaseContext().getPackageManager()
-                                    .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+                                    .getLaunchIntentForPackage(getBaseContext().getPackageName());
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(i);
                             finish();
