@@ -53,7 +53,8 @@
             android:padding="@dimen/default_margin"
             android:src="@drawable/ic_favorite_border_black_24dp"
             android:alpha="0.54"
-            android:background="@color/transparent"/>
+            android:background="@color/transparent"
+            android:contentDescription="@string/like_post" />
 
         <TextView
             android:layout_below="@id/post_item_top_divider"
@@ -85,7 +86,8 @@
             android:layout_marginTop="2dp"
             android:paddingEnd="@dimen/default_margin"
             android:alpha="0.54"
-            android:src="@drawable/ic_comment_black_24dp"/>
+            android:src="@drawable/ic_comment_black_24dp"
+            android:contentDescription="@string/comment_post" />
 
         <TextView
             android:layout_below="@id/post_item_msg_textview"
@@ -110,7 +112,8 @@
             android:paddingEnd="@dimen/default_margin"
             android:src="@drawable/ic_more_horiz_black_24dp"
             android:alpha="0.54"
-            android:background="@color/transparent"/>
+            android:background="@color/transparent"
+            android:contentDescription="@string/more" />
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

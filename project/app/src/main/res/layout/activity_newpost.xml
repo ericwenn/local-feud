@@ -26,7 +26,8 @@
                 android:paddingBottom="@dimen/toolbar_back_button_margin"
                 android:paddingEnd="@dimen/toolbar_back_button_margin"
                 android:layout_marginEnd="@dimen/toolbar_back_button_margin"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/back_button" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -50,7 +51,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_send_white_24dp" />
+                    android:src="@drawable/ic_send_white_24dp"
+                    android:contentDescription="@string/send_post_button" />
             </RelativeLayout>
 
 

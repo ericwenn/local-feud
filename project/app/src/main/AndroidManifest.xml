@@ -19,9 +19,6 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".control.SplashActivity"
-            android:theme="@style/SplashTheme"></activity>
-        <activity
             android:name=".control.MainActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -30,7 +27,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".control.NewPostActivity"
+            android:name=".control.post.NewPostActivity"
             android:label="@string/app_name"
             android:parentActivityName=".control.MainActivity"
             android:screenOrientation="portrait">
@@ -39,7 +36,7 @@
                 android:value=".control.MainActivity" />
         </activity>
         <activity
-            android:name=".control.PostClickedActivity"
+            android:name=".control.post.PostClickedActivity"
             android:label="@string/app_name"
             android:parentActivityName=".control.MainActivity"
             android:screenOrientation="portrait">
@@ -48,17 +45,17 @@
                 android:value=".control.MainActivity" />
         </activity>
         <activity
-            android:name=".permissionflow.PermissionFlow"
+            android:name=".control.permission.PermissionFlow"
             android:label="@string/app_name" />
         <activity
-            android:name=".control.ChatActiveActivity"
+            android:name=".control.chat.ChatActiveActivity"
             android:label="@string/app_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".control.MainActivity" />
         </activity>
         <activity
-            android:name=".authentication.AuthenticationFlowActivity"
+            android:name=".control.authentication.AuthenticationFlowActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

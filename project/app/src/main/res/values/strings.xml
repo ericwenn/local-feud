@@ -27,4 +27,10 @@
     <string name="send_chat_request">Send chat request</string>
     <string name="report">Report</string>
     <string name="delete_comment">Delete comment</string>
+    <string name="back_button">Back Button</string>
+    <string name="send_post_button">Send Post</string>
+    <string name="like_post">Like Post</string>
+    <string name="more">More</string>
+    <string name="comment_post">Comment Post</string>
+    <string name="send_chat_message">Send Chat Message</string>
 </resources>
