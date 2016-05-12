@@ -17,10 +17,14 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <ImageButton
+                android:id="@+id/chat_view_back_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_back_white_24dp"
-                android:layout_margin="@dimen/toolbar_back_button_margin"
+                android:paddingTop="@dimen/toolbar_back_button_margin"
+                android:paddingBottom="@dimen/toolbar_back_button_margin"
+                android:paddingEnd="@dimen/toolbar_back_button_margin"
+                android:layout_marginEnd="@dimen/toolbar_back_button_margin"
                 android:background="@android:color/transparent"/>
 
             <de.hdodenhof.circleimageview.CircleImageView

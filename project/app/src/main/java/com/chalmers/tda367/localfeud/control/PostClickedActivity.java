@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.ActionMenuItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +46,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     private LinearLayout commentBar;
     private EditText writeCommentText;
     private ImageButton postCommentButton;
+    private ImageButton backButton;
     private IServerComm server;
 
     @Override
@@ -61,9 +61,13 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbarTextView = (TextView) findViewById(R.id.toolbar_title_textview);
         toolbarTextView.setText("Post ID: " + post.getId());
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.empty_string);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        backButton = (ImageButton) findViewById(R.id.post_clicked_back_btn);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

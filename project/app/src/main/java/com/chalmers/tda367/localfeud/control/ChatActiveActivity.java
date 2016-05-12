@@ -28,7 +28,7 @@ import com.chalmers.tda367.localfeud.net.responseListeners.RequestChatMessageRes
  */
 public class ChatActiveActivity extends AppCompatActivity implements ChatActiveAdapter.AdapterCallback {
     private IServerComm server;
-    private ImageButton postMessageButton;
+    private ImageButton postMessageButton, backButton;
     private RecyclerView chatMessageList;
     private EditText chatMessageInput;
     private TextView chatTitle;
@@ -60,6 +60,13 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         chatTitle = (TextView) findViewById(R.id.chat_title);
         chatTitle.setText(chat.getChatName());
         toolbar = (Toolbar) findViewById(R.id.chat_view_toolbar);
+        backButton = (ImageButton) findViewById(R.id.chat_view_back_btn);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         chatMessageList.setLayoutManager(new LinearLayoutManager(this));
         chatMessageList.setHasFixedSize(true);
