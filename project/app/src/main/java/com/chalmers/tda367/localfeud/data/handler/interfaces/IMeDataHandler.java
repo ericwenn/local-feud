@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.data.handler;
+package com.chalmers.tda367.localfeud.data.handler.interfaces;
 
 import com.chalmers.tda367.localfeud.data.Me;
 

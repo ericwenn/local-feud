@@ -2,6 +2,8 @@ package com.chalmers.tda367.localfeud.data.handler;
 
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.IPostDataHandler;
 import com.chalmers.tda367.localfeud.service.RestClient;
 import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
 import com.chalmers.tda367.localfeud.service.responseActions.RequestPostsResponseAction;
