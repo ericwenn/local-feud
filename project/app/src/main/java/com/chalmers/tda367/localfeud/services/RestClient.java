@@ -61,8 +61,7 @@ public class RestClient {
 
 
     public void get(String url, IResponseAction action ) {
-
-        getClient().get(getAbsoluteUrl(url), null, responseHandler);
+        getClient().get(getAbsoluteUrl(url), null, new RestResponseHandler(action));
     }
 
 
@@ -70,32 +69,34 @@ public class RestClient {
 
 
 
-    public void get(String url, Map<String, String> paramsMap){
+    public void get(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);
-        getClient().get(getAbsoluteUrl(url), params, responseHandler);
+        getClient().get(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
 
-    public void post(String url, Map<String, String> paramsMap){
+
+
+    public void post(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);
-        getClient().post(getAbsoluteUrl(url), params, responseHandler);
+        getClient().post(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
 
-    public void post(String url) {
-        getClient().post(getAbsoluteUrl(url), null, responseHandler);
+    public void post(String url, IResponseAction action) {
+        getClient().post(getAbsoluteUrl(url), null, new RestResponseHandler(action));
     }
 
-    public void delete(String url, Map<String, String> paramsMap){
+    public void delete(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);
-        getClient().delete(getAbsoluteUrl(url), params, responseHandler);
+        getClient().delete(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
 
-    public void delete(String url){
-        getClient().delete(getAbsoluteUrl(url), null, responseHandler);
+    public void delete(String url, IResponseAction action){
+        getClient().delete(getAbsoluteUrl(url), null, new RestResponseHandler(action)r);
     }
 
-    public void put(String url, Map<String, String> paramsMap) throws HttpResponseException{
+    public void put(String url, Map<String, String> paramsMap, IResponseAction action) throws HttpResponseException{
         RequestParams params = new RequestParams(paramsMap);
-        getClient().put(getAbsoluteUrl(url), params, responseHandler);
+        getClient().put(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
 
     /**

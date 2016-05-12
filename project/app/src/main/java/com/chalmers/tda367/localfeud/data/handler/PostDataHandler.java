@@ -7,6 +7,7 @@ import com.chalmers.tda367.localfeud.data.handler.interfaces.IPostDataHandler;
 import com.chalmers.tda367.localfeud.services.RestClient;
 import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
 import com.chalmers.tda367.localfeud.service.responseActions.RequestPostsResponseAction;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,19 @@ import java.util.List;
  * Created by ericwenn on 5/12/16.
  */
 public class PostDataHandler extends AbstractDataHandler implements IPostDataHandler {
+    private static PostDataHandler instance = null;
+
+    public synchronized static PostDataHandler getInstance() {
+        if( instance == null) {
+            instance = new PostDataHandler();
+        }
+        return instance;
+    }
+
+    private PostDataHandler() {
+
+    }
+
 
     public void getList(Position pos, DataResponseListener<List<Post>> listener) {
 
@@ -26,19 +40,13 @@ public class PostDataHandler extends AbstractDataHandler implements IPostDataHan
          */
 
 
-
-
         // Store parameters
         HashMap<String, String> param = new HashMap<>();
         param.put("latitude", Double.toString(pos.getLatitude()));
         param.put("longitude", Double.toString(pos.getLongitude()));
 
 
-        getClient().get( "asdasdasd", new RestResponseAction(listener));
-
-
-
-
+        getClient().get( "/posts/", param, new RestResponseAction(listener));
 
 
     }

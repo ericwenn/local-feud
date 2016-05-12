@@ -12,19 +12,27 @@ import com.chalmers.tda367.localfeud.data.handler.interfaces.IPostDataHandler;
  */
 public class DataHandlerFacade {
     public static IPostDataHandler getPostDataHandler() {
-
+        return PostDataHandler.getInstance();
     }
 
     public static ILikeDataHandler getLikeDataHandler() {
-
+        return null;
     }
 
-    public static ICommentDataHandler getCommentDataHandler() {}
+    public static ICommentDataHandler getCommentDataHandler() {
+        return null;
+    }
 
-    public static IChatDataHandler getChatDataHandler() {}
+    public static IChatDataHandler getChatDataHandler() {
+        return null;
+    }
 
-    public static IChatMessageDataHandler getChatMessageDataHandler() {}
+    public static IChatMessageDataHandler getChatMessageDataHandler() {
+        return null;
+    }
 
-    public static IMeDataHandler getMeDataHandler() {}
+    public static IMeDataHandler getMeDataHandler() {
+        return null;
+    }
 
 }

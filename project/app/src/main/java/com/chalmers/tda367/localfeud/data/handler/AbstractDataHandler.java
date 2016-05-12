@@ -3,6 +3,7 @@ package com.chalmers.tda367.localfeud.data.handler;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
 import com.chalmers.tda367.localfeud.services.IResponseAction;
 import com.chalmers.tda367.localfeud.services.RestClient;
+import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.google.gson.reflect.TypeToken;
 
 /**
@@ -17,9 +18,17 @@ public abstract class AbstractDataHandler {
         }
         
         public void onSuccess( String responseBody ) {
-
-
             // Parse GSON
+
+            Object data = GsonHandler.getInstance().fromJson( responseBody, listener.getType());
+
+            if( data.getClass() == listener.getType()) {
+                listener.onSuccess(data);
+            } else {
+                listener.onFailure(DataResponseError.REALLYBAD, "Typecheck failed");
+            }
+
+
         }
 
 
@@ -57,4 +66,7 @@ public abstract class AbstractDataHandler {
     protected RestClient getClient() {
         return RestClient.getInstance();
     }
+
+
+
 }
