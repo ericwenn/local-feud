@@ -7,13 +7,10 @@ import java.lang.reflect.Type;
  */
 public abstract class AbstractDataResponseListener<D> implements DataResponseListener<D> {
 
-    private Type type;
 
-    public AbstractDataResponseListener( Class<D> type) {
-
-        this.type = type;
-    }
     public Type getType() {
-        return type;
+
+        Class<?> c = this.getClass();
+        return c.getGenericSuperclass();
     }
 }
