@@ -22,6 +22,36 @@
         <item name="colorAccent">@color/meColorAccent</item>
     </style>
 
+    <style name="DistRedTheme" parent="MyAppTheme">
+        <item name="colorPrimary">@color/distRed</item>
+        <item name="colorPrimaryDark">@color/distRed</item>
+        <item name="colorAccent">@color/distRed</item>
+    </style>
+
+    <style name="DistOrangeTheme" parent="MyAppTheme">
+        <item name="colorPrimary">@color/distOrange</item>
+        <item name="colorPrimaryDark">@color/distOrange</item>
+        <item name="colorAccent">@color/distOrange</item>
+    </style>
+
+    <style name="DistYellowTheme" parent="MyAppTheme">
+        <item name="colorPrimary">@color/distYellow</item>
+        <item name="colorPrimaryDark">@color/distYellow</item>
+        <item name="colorAccent">@color/distYellow</item>
+    </style>
+
+    <style name="DistGreenTheme" parent="MyAppTheme">
+        <item name="colorPrimary">@color/distGreen</item>
+        <item name="colorPrimaryDark">@color/distGreen</item>
+        <item name="colorAccent">@color/distGreen</item>
+    </style>
+
+    <style name="DistBlueTheme" parent="MyAppTheme">
+        <item name="colorPrimary">@color/distBlue</item>
+        <item name="colorPrimaryDark">@color/distBlue</item>
+        <item name="colorAccent">@color/distBlue</item>
+    </style>
+
     <style name="LightAppTheme" parent="MyAppTheme">
         <!--Ändringar sker bara på API23 och upp-->
     </style>
