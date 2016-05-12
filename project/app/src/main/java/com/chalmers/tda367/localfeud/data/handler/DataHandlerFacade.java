@@ -16,7 +16,8 @@ public class DataHandlerFacade {
 
     public static IChatDataHandler getChatDataHandler() {}
 
-    public static IMeDataHandler getMeDataHandler() {}
+    public static IChatMessageDataHandler getChatMessageDataHandler() {}
 
+    public static IMeDataHandler getMeDataHandler() {}
 
 }
