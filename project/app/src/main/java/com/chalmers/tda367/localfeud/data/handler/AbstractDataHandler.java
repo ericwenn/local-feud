@@ -4,7 +4,6 @@ import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListene
 import com.chalmers.tda367.localfeud.services.IResponseAction;
 import com.chalmers.tda367.localfeud.services.RestClient;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * Created by ericwenn on 5/12/16.

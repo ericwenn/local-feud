@@ -7,14 +7,26 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.Position;
+import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
+import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
 import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
 import com.chalmers.tda367.localfeud.service.ServerComm;
 import com.chalmers.tda367.localfeud.service.responseListeners.RequestPostsResponseListener;
+import com.chalmers.tda367.localfeud.util.TagHandler;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Text om klassen
@@ -74,7 +86,18 @@ public class PostFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ServerComm.getInstance().requestPosts(new RefreshPostsResponseListener(postAdapter));
+                //ServerComm.getInstance().requestPosts(new RefreshPostsResponseListener(postAdapter));
+                DataHandlerFacade.getPostDataHandler().getList(new Position(53.123123, 11.123123), new AbstractDataResponseListener<List<Post>>() {
+                    @Override
+                    public void onSuccess(List<Post> data) {
+                        postAdapter.addPostListToAdapter(data);
+                    }
+
+                    @Override
+                    public void onFailure(DataResponseError error, String errormessage) {
+                        Log.e(TagHandler.MAIN_TAG, "ERROR: " + errormessage);
+                    }
+                });
             }
         });
         swipeRefreshLayout.post(new Runnable() {

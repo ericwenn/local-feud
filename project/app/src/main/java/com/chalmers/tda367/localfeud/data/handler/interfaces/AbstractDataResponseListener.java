@@ -1,5 +1,7 @@
 package com.chalmers.tda367.localfeud.data.handler.interfaces;
 
+import android.util.Log;
+
 import java.lang.reflect.Type;
 
 /**
@@ -11,6 +13,7 @@ public abstract class AbstractDataResponseListener<D> implements DataResponseLis
     public Type getType() {
 
         Class<?> c = this.getClass();
+        Log.d("HEJHEJHEJ", c.getGenericSuperclass().toString());
         return c.getGenericSuperclass();
     }
 }

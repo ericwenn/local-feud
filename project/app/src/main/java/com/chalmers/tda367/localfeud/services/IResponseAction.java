@@ -1,5 +1,7 @@
 package com.chalmers.tda367.localfeud.services;
 
+import java.lang.reflect.Type;
+
 /**
  * Created by ericwenn on 5/12/16.
  */
