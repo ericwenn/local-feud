@@ -5,7 +5,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".control.PostClickedActivity"
+    tools:context=".control.post.PostClickedActivity"
     android:background="@color/bgcolor">
 
     <android.support.design.widget.AppBarLayout
@@ -28,7 +28,8 @@
                 android:paddingBottom="@dimen/toolbar_back_button_margin"
                 android:paddingEnd="@dimen/toolbar_back_button_margin"
                 android:layout_marginEnd="@dimen/toolbar_back_button_margin"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/back_button" />
 
             <TextView
                 android:id="@+id/toolbar_title_textview"
@@ -93,7 +94,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_margin"
             android:background="@color/transparent"
-            android:src="@drawable/ic_send_white_24dp" />
+            android:src="@drawable/ic_send_white_24dp"
+            android:contentDescription="@string/send_post_button" />
 
     </LinearLayout>
 

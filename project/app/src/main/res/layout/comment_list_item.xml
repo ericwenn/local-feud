@@ -63,7 +63,8 @@
         android:paddingEnd="@dimen/default_margin"
         android:src="@drawable/ic_more_horiz_black_24dp"
         android:alpha="0.54"
-        android:background="@color/transparent"/>
+        android:background="@color/transparent"
+        android:contentDescription="@string/more" />
 
     </RelativeLayout>
 

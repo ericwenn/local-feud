@@ -4,7 +4,7 @@
     android:id="@+id/chat_list_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.chalmers.tda367.localfeud.control.ChatFragment"
+    tools:context=".control.chat.ChatFragment"
     >
 
     <android.support.design.widget.AppBarLayout
