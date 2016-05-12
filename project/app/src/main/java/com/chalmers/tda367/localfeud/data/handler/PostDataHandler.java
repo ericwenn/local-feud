@@ -4,7 +4,7 @@ import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.IPostDataHandler;
-import com.chalmers.tda367.localfeud.service.RestClient;
+import com.chalmers.tda367.localfeud.services.RestClient;
 import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
 import com.chalmers.tda367.localfeud.service.responseActions.RequestPostsResponseAction;
 
@@ -17,18 +17,15 @@ import java.util.List;
 public class PostDataHandler extends AbstractDataHandler implements IPostDataHandler {
 
     public void getList(Position pos, DataResponseListener<List<Post>> listener) {
-        /**
-         * Ersätts av GsonHandler.getInstance().getJSON()...
-         */
-        // Init restClient with a responseAction and its listener
-        IResponseAction action = new RequestPostsResponseAction();
-        action.addListener(listener);
+
+
 
 
         /**
          * Göra RestClient till Singleton och den ska fortfrande var i services paketet.
          */
-        RestClient restClient = new RestClient(action);
+
+
 
 
         // Store parameters
@@ -36,10 +33,28 @@ public class PostDataHandler extends AbstractDataHandler implements IPostDataHan
         param.put("latitude", Double.toString(pos.getLatitude()));
         param.put("longitude", Double.toString(pos.getLongitude()));
 
-        restClient.get("posts/", param);
+
+        getClient().get( "asdasdasd", new RestResponseAction(listener));
 
 
 
+
+
+
+    }
+
+    @Override
+    public void getSingle(int id, DataResponseListener<Post> listener) {
+
+    }
+
+    @Override
+    public void create(Post post, DataResponseListener<Post> listener) {
+
+    }
+
+    @Override
+    public void delete(Post post, DataResponseListener<Void> listener) {
 
     }
 }

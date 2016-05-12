@@ -1,10 +1,9 @@
-package com.chalmers.tda367.localfeud.service;
+package com.chalmers.tda367.localfeud.services;
 
 import android.os.Looper;
 import android.util.Log;
 
 import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
-import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
@@ -24,24 +23,52 @@ public class RestClient {
     private AsyncHttpClient syncClient;
     private RestResponseHandler responseHandler;
 
-    public RestClient(IResponseAction action){
+    private static RestClient instance = null;
+
+    public synchronized static RestClient getInstance() {
+        if( instance == null) {
+            instance = new RestClient();
+        }
+
+        return instance;
+    }
+
+
+
+
+
+
+    public RestClient(){
         asyncClient = new AsyncHttpClient();
+        syncClient = new SyncHttpClient();
 
         HashMap<String,String> h = AuthenticatedUser.getInstance().requestHeaders();
         for(Map.Entry<String, String> m : h.entrySet()) {
             asyncClient.addHeader(m.getKey(),m.getValue());
         }
-        syncClient = new SyncHttpClient();
-        responseHandler = new RestResponseHandler(action);
+
     }
 
     public void addHeader(String header, String value){
         getClient().addHeader(header, value);
     }
 
-    public void get(String url){
+
+
+
+
+
+
+
+    public void get(String url, IResponseAction action ) {
+
         getClient().get(getAbsoluteUrl(url), null, responseHandler);
     }
+
+
+
+
+
 
     public void get(String url, Map<String, String> paramsMap){
         RequestParams params = new RequestParams(paramsMap);

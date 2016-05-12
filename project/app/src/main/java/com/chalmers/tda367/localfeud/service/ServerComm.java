@@ -14,6 +14,7 @@ import com.chalmers.tda367.localfeud.service.responseActions.RequestCommentsResp
 import com.chalmers.tda367.localfeud.service.responseActions.RequestPostsResponseAction;
 import com.chalmers.tda367.localfeud.service.responseActions.ResponseAction;
 import com.chalmers.tda367.localfeud.service.responseListeners.IResponseListener;
+import com.chalmers.tda367.localfeud.services.RestClient;
 
 import java.util.HashMap;
 

@@ -1,8 +1,7 @@
-package com.chalmers.tda367.localfeud.service;
+package com.chalmers.tda367.localfeud.services;
 
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.ResponseHandlerInterface;
@@ -31,23 +30,7 @@ public class RestResponseHandler extends AsyncHttpResponseHandler implements Res
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
         Log.e(TagHandler.MAIN_TAG, "Failure");
         Log.e(TagHandler.MAIN_TAG, "Status code:" + Integer.toString(statusCode));
-        ResponseError err;
-        switch (statusCode) {
-            case 404:
-                err = ResponseError.NOTFOUND;
-                break;
-            case 400:
-                err = ResponseError.BADREQUEST;
-                break;
-            case 500:
-                err = ResponseError.REALLYBAD;
-                break;
-            case 401:
-                err = ResponseError.UNAUTHORIZED;
-                break;
-            default:
-                err = ResponseError.REALLYBAD;
-        }
-        this.action.onFailure(err, new String(responseBody));
+
+        this.action.onFailure(statusCode, new String(responseBody));
     }
 }
