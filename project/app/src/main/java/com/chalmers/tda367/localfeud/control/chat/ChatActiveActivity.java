@@ -6,7 +6,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -17,10 +16,10 @@ import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.User;
-import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
-import com.chalmers.tda367.localfeud.service.responseListeners.IResponseListener;
 import com.chalmers.tda367.localfeud.service.IServerComm;
 import com.chalmers.tda367.localfeud.service.ServerComm;
+import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
+import com.chalmers.tda367.localfeud.service.responseListeners.IResponseListener;
 import com.chalmers.tda367.localfeud.service.responseListeners.RequestChatMessageResponseListener;
 
 /**
@@ -28,14 +27,10 @@ import com.chalmers.tda367.localfeud.service.responseListeners.RequestChatMessag
  */
 public class ChatActiveActivity extends AppCompatActivity implements ChatActiveAdapter.AdapterCallback {
     private IServerComm server;
-    private ImageButton postMessageButton, backButton;
     private RecyclerView chatMessageList;
     private EditText chatMessageInput;
-    private TextView chatTitle;
-    private Toolbar toolbar;
     private ChatActiveAdapter chatActiveAdapter;
     private Chat chat;
-    private RequestChatMessageResponseListener requestChatMessagesResponseListener;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,17 +51,20 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     private void initViews() {
         chatMessageList = (RecyclerView) findViewById(R.id.chat_message_list);
         chatMessageInput = (EditText) findViewById(R.id.posttext);
-        postMessageButton = (ImageButton) findViewById(R.id.post_button);
-        chatTitle = (TextView) findViewById(R.id.chat_title);
-        chatTitle.setText(chat.getChatName());
-        toolbar = (Toolbar) findViewById(R.id.chat_view_toolbar);
-        backButton = (ImageButton) findViewById(R.id.chat_view_back_btn);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        ImageButton postMessageButton = (ImageButton) findViewById(R.id.post_button);
+        TextView chatTitle = (TextView) findViewById(R.id.chat_title);
+        if (chatTitle != null) {
+            chatTitle.setText(chat.getChatName());
+        }
+        ImageButton backButton = (ImageButton) findViewById(R.id.chat_view_back_btn);
+        if (backButton != null) {
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
 
         chatMessageList.setLayoutManager(new LinearLayoutManager(this));
         chatMessageList.setHasFixedSize(true);
@@ -74,39 +72,41 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         chatActiveAdapter = new ChatActiveAdapter(this);
         chatMessageList.setAdapter(chatActiveAdapter);
 
-        requestChatMessagesResponseListener = new RequestChatMessageResponseListener(chatActiveAdapter);
-        postMessageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IResponseListener responseListener = new IResponseListener() {
-                    @Override
-                    public void onResponseSuccess(IResponseAction source)
-                    {
-                        refreshMessages();
-                    }
+        RequestChatMessageResponseListener requestChatMessagesResponseListener = new RequestChatMessageResponseListener(chatActiveAdapter);
+        if (postMessageButton != null) {
+            postMessageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    IResponseListener responseListener = new IResponseListener() {
+                        @Override
+                        public void onResponseSuccess(IResponseAction source)
+                        {
+                            refreshMessages();
+                        }
 
-                    @Override
-                    public void onResponseFailure(IResponseAction source) {
+                        @Override
+                        public void onResponseFailure(IResponseAction source) {
+                            Snackbar.make(chatMessageList,
+                                    "Could not post message",
+                                    Snackbar.LENGTH_LONG)
+                                    .show();
+                        }
+                    };
+                    if (!chatMessageInput.getText().toString().isEmpty()) {
+                        String messageText = chatMessageInput.getText().toString();;
+                        ChatMessage message = new ChatMessage(chat,messageText, new User(AuthenticatedUser.getInstance().getMe().getId(), AuthenticatedUser.getInstance().getMe().getAge(), AuthenticatedUser.getInstance().getMe().getGender()));
+                        chatMessageInput.setText("");
+                        server.sendChatMessage(chat, message, responseListener);
+                    } else {
                         Snackbar.make(chatMessageList,
-                                "Could not post message",
+                                "Are you sick in your brain?! You must enter something in the box you know!",
                                 Snackbar.LENGTH_LONG)
                                 .show();
                     }
-                };
-                if (!chatMessageInput.getText().toString().isEmpty()) {
-                    String messageText = chatMessageInput.getText().toString();;
-                    ChatMessage message = new ChatMessage(chat,messageText, new User(AuthenticatedUser.getInstance().getMe().getId(), AuthenticatedUser.getInstance().getMe().getAge(), AuthenticatedUser.getInstance().getMe().getGender()));
-                    chatMessageInput.setText("");
-                    server.sendChatMessage(chat, message, responseListener);
-                } else {
-                    Snackbar.make(chatMessageList,
-                            "Are you sick in your brain?! You must enter something in the box you know!",
-                            Snackbar.LENGTH_LONG)
-                            .show();
+                    refreshMessages();
                 }
-                refreshMessages();
-            }
-        });
+            });
+        }
         chatMessageInput.setOnClickListener(new View.OnClickListener()
         {
              @Override

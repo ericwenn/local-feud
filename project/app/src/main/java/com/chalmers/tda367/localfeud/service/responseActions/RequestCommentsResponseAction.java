@@ -18,7 +18,7 @@ public class RequestCommentsResponseAction extends ResponseAction {
     @Override
     public void onSuccess(String responseBody){
         // Convert string with JSON to a list with comments
-        ArrayList<Comment> comments = GsonHandler.getInstance().toCommentList(new String(responseBody));
+        ArrayList<Comment> comments = GsonHandler.getInstance().toCommentList(responseBody);
         // Store the list
         this.setComments(comments);
         //Notify the listeners

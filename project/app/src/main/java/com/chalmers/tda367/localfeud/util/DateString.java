@@ -1,7 +1,5 @@
 package com.chalmers.tda367.localfeud.util;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 

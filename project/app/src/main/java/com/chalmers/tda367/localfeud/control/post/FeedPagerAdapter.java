@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @since 16-04-18
  */
 public class FeedPagerAdapter extends FragmentStatePagerAdapter {
-    ArrayList<Fragment> pages = new ArrayList<>();
+    private final ArrayList<Fragment> pages = new ArrayList<>();
 
     public FeedPagerAdapter(FragmentManager fm) {
         super(fm);

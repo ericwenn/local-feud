@@ -19,7 +19,7 @@ public class RequestChatMessageResponseAction extends ResponseAction {
     @Override
     public void onSuccess(String responseBody) {
         // Convert string with JSON to a list with messages
-        ArrayList<ChatMessage> messages = GsonHandler.getInstance().toChatMessagesList(new String(responseBody));
+        ArrayList<ChatMessage> messages = GsonHandler.getInstance().toChatMessagesList(responseBody);
         // Store the list
         this.setMessages(messages);
         //Notify the listeners

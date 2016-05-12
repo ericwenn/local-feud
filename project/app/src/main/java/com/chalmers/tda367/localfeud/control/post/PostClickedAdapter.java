@@ -1,5 +1,6 @@
 package com.chalmers.tda367.localfeud.control.post;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -62,6 +63,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder.getClass() == PostViewHolder.class) {

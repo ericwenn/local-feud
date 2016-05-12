@@ -42,10 +42,10 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initViews(view, savedInstanceState);
+        initViews(view);
     }
 
-    private void initViews(View view, Bundle savedInstanceState) {
+    private void initViews(View view) {
         LoginButton loginButton = (LoginButton) view.findViewById(R.id.me_logout_btn);
         loginButton.setFragment(this);
     }

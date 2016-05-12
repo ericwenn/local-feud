@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -17,18 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
-import com.chalmers.tda367.localfeud.service.responseListeners.IResponseListener;
 import com.chalmers.tda367.localfeud.service.IServerComm;
 import com.chalmers.tda367.localfeud.service.ServerComm;
+import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
+import com.chalmers.tda367.localfeud.service.responseListeners.IResponseListener;
 import com.chalmers.tda367.localfeud.service.responseListeners.RequestCommentsResponseListener;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
@@ -40,13 +37,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     private PostClickedAdapter postClickedAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Post post;
-    private TextView toolbarTextView;
-    private Toolbar toolbar;
-    private RelativeLayout postItemTopbar;
-    private LinearLayout commentBar;
     private EditText writeCommentText;
-    private ImageButton postCommentButton;
-    private ImageButton backButton;
     private IServerComm server;
 
     @Override
@@ -58,21 +49,19 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         setContentView(R.layout.activity_post_clicked);
         server = ServerComm.getInstance();
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbarTextView = (TextView) findViewById(R.id.toolbar_title_textview);
-        toolbarTextView.setText("Post ID: " + post.getId());
-        backButton = (ImageButton) findViewById(R.id.post_clicked_back_btn);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
+        TextView toolbarTextView = (TextView) findViewById(R.id.toolbar_title_textview);
+        if (toolbarTextView != null) {
+            toolbarTextView.setText(getString(R.string.app_name));
+        }
+        ImageButton backButton = (ImageButton) findViewById(R.id.post_clicked_back_btn);
+        if (backButton != null) {
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
     }
 
     @Override
@@ -110,47 +99,49 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             }
         });
         writeCommentText = (EditText) findViewById(R.id.posttext);
-        postCommentButton = (ImageButton) findViewById(R.id.post_button);
+        ImageButton postCommentButton = (ImageButton) findViewById(R.id.post_button);
 
-        postCommentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (postCommentButton != null) {
+            postCommentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                IResponseListener responseListener = new IResponseListener() {
-                    @Override
-                    public void onResponseSuccess(IResponseAction source) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter, true));
-                    }
+                    IResponseListener responseListener = new IResponseListener() {
+                        @Override
+                        public void onResponseSuccess(IResponseAction source) {
+                            swipeRefreshLayout.setRefreshing(false);
+                            ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter, true));
+                        }
 
-                    @Override
-                    public void onResponseFailure(IResponseAction source) {
+                        @Override
+                        public void onResponseFailure(IResponseAction source) {
+                            Snackbar.make(recyclerView,
+                                    R.string.comment_failed_to_post_msg,
+                                    Snackbar.LENGTH_LONG)
+                                    .show();
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    };
+                    if (!writeCommentText.getText().toString().isEmpty()) {
+                        Comment comment = new Comment();
+                        comment.setText(writeCommentText.getText().toString());
+                        writeCommentText.setText("");
+                        swipeRefreshLayout.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeRefreshLayout.setRefreshing(true);
+                            }
+                        });
+                        server.commentPost(post, comment, responseListener);
+                    } else {
                         Snackbar.make(recyclerView,
-                                R.string.comment_failed_to_post_msg,
+                                R.string.empty_comment_error_msg,
                                 Snackbar.LENGTH_LONG)
                                 .show();
-                        swipeRefreshLayout.setRefreshing(false);
                     }
-                };
-                if (!writeCommentText.getText().toString().isEmpty()) {
-                    Comment comment = new Comment();
-                    comment.setText(writeCommentText.getText().toString());
-                    writeCommentText.setText("");
-                    swipeRefreshLayout.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            swipeRefreshLayout.setRefreshing(true);
-                        }
-                    });
-                    server.commentPost(post, comment, responseListener);
-                } else {
-                    Snackbar.make(recyclerView,
-                            R.string.empty_comment_error_msg,
-                            Snackbar.LENGTH_LONG)
-                            .show();
                 }
-            }
-        });
+            });
+        }
 
     }
 

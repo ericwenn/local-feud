@@ -9,7 +9,7 @@ import com.chalmers.tda367.localfeud.service.responseActions.RequestCommentsResp
  */
 public class RequestCommentsResponseListener implements IResponseListener {
 
-    private PostClickedAdapter adapter;
+    private final PostClickedAdapter adapter;
 
     public RequestCommentsResponseListener(PostClickedAdapter adapter)
     {

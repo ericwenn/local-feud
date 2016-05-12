@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class RequestChatListResponseListener implements IResponseListener {
 
-    private ChatListAdapter adapter;
+    private final ChatListAdapter adapter;
 
     public RequestChatListResponseListener(ChatListAdapter adapter) {
         this.adapter = adapter;
