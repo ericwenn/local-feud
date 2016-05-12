@@ -39,9 +39,13 @@ public class User implements Serializable {
         {
             return "♂";
         }
-        else
+        else if(gender.equals(Gender.female))
         {
             return "♀";
+        }
+        else
+        {
+            return "Unknown gender";
         }
     }
     public boolean equals(Object o){
