@@ -9,4 +9,6 @@
     <dimen name="card_post_message_text_size">24sp</dimen>
     <dimen name="card_post_comment_text_size">18sp</dimen>
     <dimen name="chat_list_image_size">48dp</dimen>
+    <dimen name="chat_view_image_size">40dp</dimen>
+    <dimen name="toolbar_back_button_margin">8dp</dimen>
 </resources>

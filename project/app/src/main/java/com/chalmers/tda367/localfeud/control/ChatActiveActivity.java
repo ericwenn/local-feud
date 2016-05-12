@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,17 +23,16 @@ import com.chalmers.tda367.localfeud.net.IServerComm;
 import com.chalmers.tda367.localfeud.net.ServerComm;
 import com.chalmers.tda367.localfeud.net.responseListeners.RequestChatMessageResponseListener;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by Daniel Ahlqvist on 2016-05-03.
  */
 public class ChatActiveActivity extends AppCompatActivity implements ChatActiveAdapter.AdapterCallback {
     private IServerComm server;
-    private ImageButton postMessageButton;
+    private ImageButton postMessageButton, backButton;
     private RecyclerView chatMessageList;
     private EditText chatMessageInput;
     private TextView chatTitle;
+    private Toolbar toolbar;
     private ChatActiveAdapter chatActiveAdapter;
     private Chat chat;
     private RequestChatMessageResponseListener requestChatMessagesResponseListener;
@@ -43,6 +43,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         Bundle bundle = intent.getExtras();
         chat = (Chat) bundle.getSerializable("chat");
         server = ServerComm.getInstance();
+        setTheme(R.style.ChatAppTheme);
         setContentView(R.layout.activity_active_chat);
     }
 
@@ -58,6 +59,14 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         postMessageButton = (ImageButton) findViewById(R.id.post_button);
         chatTitle = (TextView) findViewById(R.id.chat_title);
         chatTitle.setText(chat.getChatName());
+        toolbar = (Toolbar) findViewById(R.id.chat_view_toolbar);
+        backButton = (ImageButton) findViewById(R.id.chat_view_back_btn);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         chatMessageList.setLayoutManager(new LinearLayoutManager(this));
         chatMessageList.setHasFixedSize(true);

@@ -24,6 +24,7 @@ import com.chalmers.tda367.localfeud.util.TagHandler;
  */
 public class NewPostActivity extends AppCompatActivity {
     private ImageButton postButton;
+    private ImageButton backButton;
     private EditText postEditText;
     private Toolbar toolbar;
     private IServerComm server;
@@ -39,9 +40,14 @@ public class NewPostActivity extends AppCompatActivity {
 
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.posttoolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.empty_string);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        backButton = (ImageButton) findViewById(R.id.new_post_back_btn);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         postEditText = (EditText) findViewById(R.id.posttext);
         postButton = (ImageButton) findViewById(R.id.post_button);
         root = (CoordinatorLayout) findViewById(R.id.newPostRoot);
