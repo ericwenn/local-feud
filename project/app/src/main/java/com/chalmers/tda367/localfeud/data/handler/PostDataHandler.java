@@ -26,6 +26,10 @@ public class PostDataHandler extends AbstractDataHandler implements IPostDataHan
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void getList(Position pos, DataResponseListener<List<Post>> listener) {
 
         // Store parameters
@@ -46,6 +50,14 @@ public class PostDataHandler extends AbstractDataHandler implements IPostDataHan
 
     @Override
     public void create(Post post, DataResponseListener<Post> listener) {
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("latitude", Double.toString(post.getLocation().getLatitude()));
+        params.put("longitude", Double.toString(post.getLocation().getLongitude()));
+        params.put("content_type", post.getContent().getType());
+        params.put("text", post.getContent().getText());
+
+        getClient().post("/posts/", params, new RestResponseAction(listener));
 
     }
 

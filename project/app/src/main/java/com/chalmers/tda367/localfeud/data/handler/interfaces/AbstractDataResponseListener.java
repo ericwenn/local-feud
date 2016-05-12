@@ -11,6 +11,10 @@ import java.lang.reflect.Type;
 public abstract class AbstractDataResponseListener<D> implements DataResponseListener<D> {
 
 
+    /**
+     * Returns the generic type D
+     * @return Type generic type
+     */
     public Type getType() {
 
         Class<?> c = this.getClass();
@@ -19,7 +23,6 @@ public abstract class AbstractDataResponseListener<D> implements DataResponseLis
 
         ParameterizedType parameterized = (ParameterizedType) t;
 
-        Log.d("HEJHEJHEJ", parameterized.getActualTypeArguments()[0].toString());
         return parameterized.getActualTypeArguments()[0];
 
     }

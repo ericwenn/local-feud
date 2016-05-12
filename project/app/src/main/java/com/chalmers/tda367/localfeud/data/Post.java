@@ -147,9 +147,5 @@ public class Post extends GeneralPost implements Serializable {
             this.text = text;
         }
     }
-
-
-    public String toString() {
-        return getContent().getText();
-    }
+    
 }

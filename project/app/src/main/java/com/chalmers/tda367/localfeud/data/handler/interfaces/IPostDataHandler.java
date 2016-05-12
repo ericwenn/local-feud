@@ -10,12 +10,29 @@ import java.util.List;
  */
 public interface IPostDataHandler {
 
+
+    /**
+     * Get a list of Posts around a Position
+     * @param pos A position around which the posts will be
+     * @param listener Listener for when the fetch is completed
+     */
     void getList( Position pos, DataResponseListener<List<Post>> listener );
 
     void getSingle( int id, DataResponseListener<Post> listener );
 
+    /**
+     * Store a new Post
+     * @param post The post to store
+     * @param listener Listener for when the store is completed
+     */
     void create( Post post, DataResponseListener<Post> listener );
 
+
+    /**
+     * Delete a Post
+     * @param post The post to delete
+     * @param listener Listener for when the deletion is completed
+     */
     void delete( Post post, DataResponseListener<Void> listener );
 
 
