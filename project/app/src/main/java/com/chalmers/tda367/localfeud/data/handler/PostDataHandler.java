@@ -12,13 +12,22 @@ import java.util.List;
 /**
  * Created by ericwenn on 5/12/16.
  */
-public class PostDataHandler extends AbstractDataHandler {
-    public static void getList(Position pos, DataResponseListener<List<Post>> listener) {
+public class PostDataHandler extends AbstractDataHandler implements IPostDataHandler {
 
+    public void getList(Position pos, DataResponseListener<List<Post>> listener) {
+        /**
+         * Ersätts av GsonHandler.getInstance().getJSON()...
+         */
         // Init restClient with a responseAction and its listener
         IResponseAction action = new RequestPostsResponseAction();
         action.addListener(listener);
+
+
+        /**
+         * Göra RestClient till Singleton och den ska fortfrande var i services paketet.
+         */
         RestClient restClient = new RestClient(action);
+
 
         // Store parameters
         HashMap<String, String> param = new HashMap<>();
