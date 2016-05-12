@@ -70,7 +70,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.postItemTimeTextView.setText(DateString.convert(post.getDatePosted()));
         holder.postItemMsgTextView.setText(post.getContent().getText());
 
-        //holder.postItemSenderTextView.setText("" + post.getUser().getId());
+        holder.postItemSenderTextView.setText(post.getUser().getGender().toString() + " " + post.getUser().getAge());
         holder.postItemSenderTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
         holder.postItemCommentTextView.setText("" + post.getNumberOfComments());
         holder.holderLayout.setOnClickListener(new View.OnClickListener() {
