@@ -1,5 +1,7 @@
 package com.chalmers.tda367.localfeud.data.handler;
 
+import android.util.Log;
+
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
 import com.chalmers.tda367.localfeud.services.IResponseAction;
 import com.chalmers.tda367.localfeud.services.RestClient;
@@ -19,13 +21,8 @@ public abstract class AbstractDataHandler {
         public void onSuccess( String responseBody ) {
             // Parse GSON
 
-            Object data = GsonHandler.getInstance().fromJson( responseBody, listener.getType());
-
-            if( data.getClass() == listener.getType()) {
-                listener.onSuccess(data);
-            } else {
-                listener.onFailure(DataResponseError.REALLYBAD, "Typecheck failed");
-            }
+            Log.d("testst", GsonHandler.getInstance().fromJson( responseBody, listener.getType()).toString());
+            listener.onSuccess(GsonHandler.getInstance().fromJson( responseBody, listener.getType()));
 
 
         }

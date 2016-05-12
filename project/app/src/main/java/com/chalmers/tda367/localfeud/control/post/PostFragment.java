@@ -41,7 +41,11 @@ public class PostFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private Parcelable listState;
     private static final String LIST_STATE_KEY = "ListStateKey";
-    private RefreshPostsResponseListener requestPostsResponseListener;
+
+
+    private DataResponseListener<List<Post>> requestPostsResponseListener;
+
+
 
     public PostFragment() {
 
@@ -76,7 +80,26 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.post_feed_fragment, null);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.post_feed_refresh_layout);
-        requestPostsResponseListener = new RefreshPostsResponseListener(postAdapter);
+
+
+
+
+        requestPostsResponseListener = new AbstractDataResponseListener<List<Post>>() {
+            @Override
+            public void onSuccess(List<Post> data) {
+                postAdapter.addPostListToAdapter(data);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(DataResponseError error, String errormessage) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        };
+
+
+
+
         recyclerView = (RecyclerView) view.findViewById(R.id.post_feed_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setHasFixedSize(true);
@@ -87,17 +110,7 @@ public class PostFragment extends Fragment {
             @Override
             public void onRefresh() {
                 //ServerComm.getInstance().requestPosts(new RefreshPostsResponseListener(postAdapter));
-                DataHandlerFacade.getPostDataHandler().getList(new Position(53.123123, 11.123123), new AbstractDataResponseListener<List<Post>>() {
-                    @Override
-                    public void onSuccess(List<Post> data) {
-                        postAdapter.addPostListToAdapter(data);
-                    }
-
-                    @Override
-                    public void onFailure(DataResponseError error, String errormessage) {
-                        Log.e(TagHandler.MAIN_TAG, "ERROR: " + errormessage);
-                    }
-                });
+                DataHandlerFacade.getPostDataHandler().getList(new Position(53.123123, 11.123123), requestPostsResponseListener);
             }
         });
         swipeRefreshLayout.post(new Runnable() {
@@ -112,7 +125,8 @@ public class PostFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         try {
-            ServerComm.getInstance().requestPosts(requestPostsResponseListener);
+            DataHandlerFacade.getPostDataHandler().getList(new Position(52.123, 42.123123), requestPostsResponseListener);
+
         } catch (NullPointerException e) {
             getActivity().finish();
         }

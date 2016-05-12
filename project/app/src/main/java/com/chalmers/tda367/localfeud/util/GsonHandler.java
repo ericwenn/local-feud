@@ -69,6 +69,7 @@ public class GsonHandler
 
     // Kanske använda E istället för Type type.
     public <E> E fromJson(String json, Type type) {
+        Log.d("gson", type.toString());
         return gson.fromJson(json, type);
     }
 }

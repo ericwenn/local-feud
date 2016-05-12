@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.data.handler.interfaces;
 
 import android.util.Log;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
@@ -13,7 +14,13 @@ public abstract class AbstractDataResponseListener<D> implements DataResponseLis
     public Type getType() {
 
         Class<?> c = this.getClass();
-        Log.d("HEJHEJHEJ", c.getGenericSuperclass().toString());
-        return c.getGenericSuperclass();
+
+        Type t = c.getGenericSuperclass();
+
+        ParameterizedType parameterized = (ParameterizedType) t;
+
+        Log.d("HEJHEJHEJ", parameterized.getActualTypeArguments()[0].toString());
+        return parameterized.getActualTypeArguments()[0];
+
     }
 }
