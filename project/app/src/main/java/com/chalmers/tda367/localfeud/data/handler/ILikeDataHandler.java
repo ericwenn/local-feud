@@ -9,7 +9,7 @@ import java.util.List;
  * Created by ericwenn on 5/12/16.
  */
 public interface ILikeDataHandler {
-    void getList(Post post, DataResponseListener<List<Like>> listener);
+    void getList( Post post, DataResponseListener<List<Like>> listener);
 
     void create( Post post, DataResponseListener<Like> listener);
 
