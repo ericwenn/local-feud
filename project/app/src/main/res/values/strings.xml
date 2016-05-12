@@ -2,7 +2,7 @@
     <!--App-->
     <string name="app_name">Edda</string>
     <string name="facebook_app_id">1552907468343208</string>
-    <string name="create_new_post">Create new post</string>
+    <string name="create_new_post">Write a new edd!</string>
     <string name="feed_menu_button">Feed</string>
     <string name="chat_menu_button">Chat</string>
     <string name="me_menu_button">Me</string>
