@@ -87,10 +87,11 @@
             android:layout_marginBottom="@dimen/input_margin"
             android:layout_marginTop="@dimen/input_margin"
             android:layout_weight="1"
+            android:maxLines="3"
             android:background="#fff"
             android:gravity="bottom|left"
             android:hint="@string/chat_hint"
-            android:inputType="textCapSentences"
+            android:inputType="textCapSentences|textMultiLine"
             android:maxLength="240"
             android:padding="10dp"
             android:textColor="@android:color/black" />
