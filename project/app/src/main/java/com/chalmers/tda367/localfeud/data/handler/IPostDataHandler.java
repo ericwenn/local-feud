@@ -10,13 +10,13 @@ import java.util.List;
  */
 public interface IPostDataHandler {
 
-    void getList(Position pos, DataResponseListener<List<Post>> listener);
+    void getList( Position pos, DataResponseListener<List<Post>> listener );
 
-    void getSingle( int id, DataResponseListener<Post> listener);
+    void getSingle( int id, DataResponseListener<Post> listener );
 
-    void create( Post post, DataResponseListener<Post> listener);
+    void create( Post post, DataResponseListener<Post> listener );
 
-    void delete( Post post, DataResponseListener<Void> listener);
+    void delete( Post post, DataResponseListener<Void> listener );
 
 
 }
