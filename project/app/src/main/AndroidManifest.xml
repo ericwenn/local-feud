@@ -49,17 +49,17 @@
         </activity>
         <activity
             android:name=".permissionflow.PermissionFlow"
-            android:label="Local Feud" />
+            android:label="@string/app_name" />
         <activity
             android:name=".control.ChatActiveActivity"
-            android:label="Local Feud">
+            android:label="@string/app_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".control.MainActivity" />
         </activity>
         <activity
             android:name=".authentication.AuthenticationFlowActivity"
-            android:label="Local Feud">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
