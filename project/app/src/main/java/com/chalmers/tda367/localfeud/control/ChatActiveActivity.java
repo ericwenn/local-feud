@@ -98,12 +98,23 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
                 refreshMessages();
             }
         });
+        chatMessageInput.setOnClickListener(new View.OnClickListener()
+        {
+             @Override
+             public void onClick(View v) {
+                scrollToBottom();
+             }
+         });
         refreshMessages();
     }
 
     public void refreshMessages()
     {
         ServerComm.getInstance().requestChatMessages(chat, new RefreshChatMessageResponseListener(chatActiveAdapter, false));
+        scrollToBottom();
+    }
+    public void scrollToBottom()
+    {
         chatMessageList.scrollToPosition(chatActiveAdapter.getItemCount()-1);
     }
 
@@ -118,6 +129,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         @Override
         public void onResponseSuccess(IResponseAction source) {
             super.onResponseSuccess(source);
+            scrollToBottom();
         }
 
         @Override
