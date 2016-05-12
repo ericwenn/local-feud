@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -24,6 +25,7 @@
                 android:src="@drawable/ic_arrow_back_white_24dp"
                 android:paddingTop="@dimen/toolbar_back_button_margin"
                 android:paddingBottom="@dimen/toolbar_back_button_margin"
+                android:paddingStart="@dimen/nothing"
                 android:paddingEnd="@dimen/toolbar_back_button_margin"
                 android:layout_marginEnd="@dimen/toolbar_back_button_margin"
                 android:background="@android:color/transparent"
@@ -42,7 +44,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="@string/create_new_post"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    tools:ignore="RelativeOverlap" />
 
                 <ImageButton
                     android:id="@+id/post_button"
@@ -69,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#fff"
-            android:gravity="top|left"
+            android:gravity="top|start"
             android:hint="@string/new_post_hint"
             android:inputType="textMultiLine|textCapSentences"
             android:maxLength="240"

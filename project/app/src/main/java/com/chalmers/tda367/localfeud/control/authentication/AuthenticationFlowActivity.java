@@ -64,7 +64,7 @@ public class AuthenticationFlowActivity extends AppIntro {
                 } else {
                     try {
                         Activity activity = getActivity();
-                        if (activity.getClass() == MainActivity.class) {
+                        if (activity != null && activity.getClass() == MainActivity.class) {
                             activity.finish();
                             Intent i = getBaseContext().getPackageManager()
                                     .getLaunchIntentForPackage(getBaseContext().getPackageName());
@@ -108,7 +108,7 @@ public class AuthenticationFlowActivity extends AppIntro {
 
     }
 
-    public static Activity getActivity() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+    private static Activity getActivity() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
         Class activityThreadClass = Class.forName("android.app.ActivityThread");
         Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
         Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
@@ -121,8 +121,7 @@ public class AuthenticationFlowActivity extends AppIntro {
             if (!pausedField.getBoolean(activityRecord)) {
                 Field activityField = activityRecordClass.getDeclaredField("activity");
                 activityField.setAccessible(true);
-                Activity activity = (Activity) activityField.get(activityRecord);
-                return activity;
+                return (Activity) activityField.get(activityRecord);
             }
         }
         return null;

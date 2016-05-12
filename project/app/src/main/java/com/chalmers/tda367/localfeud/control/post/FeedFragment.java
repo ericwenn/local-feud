@@ -11,7 +11,6 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +20,10 @@ import com.chalmers.tda367.localfeud.control.MainActivity;
 
 public class FeedFragment extends Fragment {
 
-    private FloatingActionButton createNewFab;
     private PostAdapter postAdapter;
     private ViewPager viewPager;
     private MainActivity activity;
     private FeedPagerAdapter feedPagerAdapter;
-    private Toolbar toolbar;
     private CoordinatorLayout root;
     private PostFragment postFragment, postFragment2;
 
@@ -65,9 +62,8 @@ public class FeedFragment extends Fragment {
         CollapsingToolbarLayout collapsingToolbarLayout =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar_layout);
         collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
 
-        createNewFab = (FloatingActionButton) view.findViewById(R.id.post_feed_create_new_fab);
+        FloatingActionButton createNewFab = (FloatingActionButton) view.findViewById(R.id.post_feed_create_new_fab);
         createNewFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

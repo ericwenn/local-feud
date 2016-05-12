@@ -9,7 +9,7 @@ import com.chalmers.tda367.localfeud.service.responseActions.RequestChatMessageR
  */
 public class RequestChatMessageResponseListener implements IResponseListener {
 
-    private ChatActiveAdapter adapter;
+    private final ChatActiveAdapter adapter;
 
     public RequestChatMessageResponseListener(ChatActiveAdapter adapter)
     {

@@ -10,7 +10,7 @@ import com.chalmers.tda367.localfeud.service.responseActions.RequestPostsRespons
  */
 public class RequestPostsResponseListener implements IResponseListener {
 
-    private PostAdapter adapter;
+    private final PostAdapter adapter;
 
     public RequestPostsResponseListener(PostAdapter adapter){
         this.adapter = adapter;

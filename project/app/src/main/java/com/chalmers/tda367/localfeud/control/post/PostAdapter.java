@@ -63,7 +63,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         int distanceColor = DistanceColor.distanceColor(post.getLocation().getDistance());
         int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
         holder.postItemTopbar.setBackgroundColor(ContextCompat.getColor(context, distanceColor));
-        holder.postItemDistanceTextView.setText("" + post.getLocation().getDistance());
+        String distance = "" + post.getLocation().getDistance();
+        holder.postItemDistanceTextView.setText(distance);
         holder.postItemDistanceTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
 
 
@@ -72,7 +73,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         //holder.postItemSenderTextView.setText("" + post.getUser().getId());
         holder.postItemSenderTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
-        holder.postItemCommentTextView.setText("" + post.getNumberOfComments());
+        String numberOfComments = "" + post.getNumberOfComments();
+        holder.postItemCommentTextView.setText(numberOfComments);
         holder.holderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

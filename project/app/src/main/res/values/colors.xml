@@ -9,7 +9,6 @@
     <color name="meColorPrimary">#F44336</color>
     <color name="meColorPrimaryDark">#D32F2F</color>
     <color name="meColorAccent">#448AFF</color>
-    <color name="bgcolor">#cccccc</color>
     <color name="black">#000</color>
     <color name="white">#fff</color>
     <color name="transparent">#00ffffff</color>

@@ -1,7 +1,6 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="default_margin">16dp</dimen>
-    <dimen name="half_default_margin">8dp</dimen>
     <dimen name="small_margin">4dp</dimen>
     <dimen name="chat_bubble_margin">10dp</dimen>
     <dimen name="card_corner_radius">2dp</dimen>
@@ -11,4 +10,5 @@
     <dimen name="chat_list_image_size">48dp</dimen>
     <dimen name="chat_view_image_size">40dp</dimen>
     <dimen name="toolbar_back_button_margin">8dp</dimen>
+    <dimen name="nothing">0dp</dimen>
 </resources>
