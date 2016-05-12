@@ -33,6 +33,17 @@ public class User implements Serializable {
         return this.gender;
     }
 
+    public String getGenderSymbol()
+    {
+        if(gender.equals(Gender.male))
+        {
+            return "♂";
+        }
+        else
+        {
+            return "♀";
+        }
+    }
     public boolean equals(Object o){
         if (o == null){
             return false;

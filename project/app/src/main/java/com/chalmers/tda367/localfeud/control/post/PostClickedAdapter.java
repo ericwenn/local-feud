@@ -76,7 +76,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             viewHolder.postItemTimeTextView.setText(DateString.convert(post.getDatePosted()));
 
 
-            viewHolder.postItemSenderTextView.setText(post.getUser().getGender().toString() + " " + post.getUser().getAge());
+            viewHolder.postItemSenderTextView.setText(post.getUser().getGenderSymbol() + " " + post.getUser().getAge());
             viewHolder.postItemSenderTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
             viewHolder.postItemCommentTextView.setText("" + post.getNumberOfComments());
             viewHolder.postItemLikeButton.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +100,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             final CommentViewHolder viewHolder = (CommentViewHolder) holder;
             viewHolder.commentItemMsgTextView.setText(comment.getText());
             viewHolder.commentItemTimeTextView.setText(DateString.convert(comment.getDatePosted()));
-            viewHolder.commentItemSenderTextView.setText(comment.getUser().getGender().toString() + " " + comment.getUser().getAge());
+            viewHolder.commentItemSenderTextView.setText(comment.getUser().getGenderSymbol() + " " + comment.getUser().getAge());
             viewHolder.commentItemMoreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
