@@ -101,6 +101,7 @@ public class PostFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
+
         return view;
     }
 

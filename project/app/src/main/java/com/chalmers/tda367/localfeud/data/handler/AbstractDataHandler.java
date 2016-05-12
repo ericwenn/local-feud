@@ -20,8 +20,6 @@ public abstract class AbstractDataHandler {
         
         public void onSuccess( String responseBody ) {
             // Parse GSON
-
-            Log.d("testst", GsonHandler.getInstance().fromJson( responseBody, listener.getType()).toString());
             listener.onSuccess(GsonHandler.getInstance().fromJson( responseBody, listener.getType()));
 
 

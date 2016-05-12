@@ -25,12 +25,18 @@ import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
+import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
 import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
 import com.chalmers.tda367.localfeud.service.responseListeners.IResponseListener;
 import com.chalmers.tda367.localfeud.service.IServerComm;
 import com.chalmers.tda367.localfeud.service.ServerComm;
 import com.chalmers.tda367.localfeud.service.responseListeners.RequestCommentsResponseListener;
 import com.chalmers.tda367.localfeud.util.TagHandler;
+
+import java.util.List;
 
 /**
  * Created by Daniel Ahlqvist on 2016-04-18.
@@ -48,6 +54,11 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     private ImageButton postCommentButton;
     private ImageButton backButton;
     private IServerComm server;
+
+    // Tag for logging
+    private static final String TAG = "PostClickedActivity";
+
+    private DataResponseListener<List<Comment>> refreshCommentsListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,35 +93,14 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     }
 
     private void initViews() {
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
 
-        recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
-        if (recyclerView != null) {
-            recyclerView.setHasFixedSize(true);
-        } else {
-            Log.e(TagHandler.MAIN_TAG, "No RecyclerView found in activity_post_clicked.xml");
-        }
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        postClickedAdapter = new PostClickedAdapter(this, post);
-        recyclerView.setAdapter(postClickedAdapter);
-        ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter, false));
-        swipeRefreshLayout.setColorSchemeResources(R.color.feedColorPrimary,
-                R.color.feedColorAccent);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter, false));
-            }
-        });
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-            }
-        });
+        initRecyclerView();
+        initSwipeRefreshLayout();
+
+
         writeCommentText = (EditText) findViewById(R.id.posttext);
         postCommentButton = (ImageButton) findViewById(R.id.post_button);
+
 
         postCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +110,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                     @Override
                     public void onResponseSuccess(IResponseAction source) {
                         swipeRefreshLayout.setRefreshing(false);
-                        ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter, true));
+                        DataHandlerFacade.getCommentDataHandler().getList( post, refreshCommentsListener );
                     }
 
                     @Override
@@ -153,6 +143,74 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         });
 
     }
+
+
+
+    private void initRecyclerView() {
+        recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
+        if (recyclerView != null) {
+            recyclerView.setHasFixedSize(true);
+        } else {
+            Log.e(TagHandler.MAIN_TAG, "No RecyclerView found in activity_post_clicked.xml");
+        }
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+
+        postClickedAdapter = new PostClickedAdapter(this, post);
+        recyclerView.setAdapter(postClickedAdapter);
+    }
+
+
+    private void initSwipeRefreshLayout() {
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
+
+
+
+        refreshCommentsListener = new AbstractDataResponseListener<List<Comment>>() {
+            @Override
+            public void onSuccess(List<Comment> data) {
+                postClickedAdapter.addCommentListToAdapter(data);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(DataResponseError error, String errormessage) {
+                Log.i(TAG, "onFailure: " + errormessage);
+            }
+        };
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.feedColorPrimary,
+                R.color.feedColorAccent);
+
+
+        DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
+
+
+
+
+
+
+        
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                DataHandlerFacade.getCommentDataHandler().getList( post, refreshCommentsListener );
+            }
+        });
+
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
+
+
+    }
+
+
 
     @Override
     public void onLikeClick(final Post post, final ImageButton imageButton) {
