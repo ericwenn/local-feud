@@ -2,9 +2,20 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="#222222"
+    android:background="#ffffff"
     android:layout_weight="10"
     android:id="@+id/main">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/edda_logo"
+        android:padding="50dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/app_logo"
+        />
 
     <TextView
         android:layout_width="300sp"
@@ -12,14 +23,13 @@
         android:layout_gravity="center"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-thin"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         android:textSize="28sp"
         android:text="Authenticate"
         android:textStyle="bold"
         android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp" />
+        android:layout_below="@+id/app_logo"
+        android:layout_centerHorizontal="true" />
 
 
     <TextView
@@ -27,9 +37,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_vertical"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         android:textSize="16sp"
-        android:text="Change permissions in your device's app settings. Give Local Feud access to the the device's Location."
+        android:text="Change permissions in your device's app settings. Give Edda access to the the device's location."
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
