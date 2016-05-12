@@ -32,7 +32,9 @@ public class RequestPostsResponseListener implements IResponseListener {
     public void onResponseFailure(IResponseAction source){
         if (source instanceof RequestPostsResponseAction) {
             RequestPostsResponseAction responseAction = (RequestPostsResponseAction) source;
-            adapter.showError(responseAction.getResponseError());
+            if (adapter != null) {
+                adapter.showError(responseAction.getResponseError());
+            }
         }
     }
 }
