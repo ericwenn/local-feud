@@ -24,11 +24,7 @@ import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
-import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
-import com.chalmers.tda367.localfeud.service.ServerComm;
-import com.chalmers.tda367.localfeud.service.responseListeners.RequestChatListResponseListener;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,24 +49,7 @@ public class ChatFragment extends Fragment {
         return fragment;
     }
 
-    public class RefreshChatListResponseListener extends RequestChatListResponseListener {
 
-        public RefreshChatListResponseListener(ChatListAdapter adapter) {
-            super(adapter);
-        }
-
-        @Override
-        public void onResponseSuccess(IResponseAction source) {
-            super.onResponseSuccess(source);
-            swipeRefreshLayout.setRefreshing(false);
-        }
-
-        @Override
-        public void onResponseFailure(IResponseAction source) {
-            super.onResponseFailure(source);
-            swipeRefreshLayout.setRefreshing(false);
-        }
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
