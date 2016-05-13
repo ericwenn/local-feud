@@ -20,7 +20,6 @@ public class DataHandlerFacade {
     }
 
     public static ICommentDataHandler getCommentDataHandler() {
-
         return CommentDataHandler.getInstance();
     }
 

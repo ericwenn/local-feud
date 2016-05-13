@@ -107,22 +107,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             @Override
             public void onClick(View v) {
 
-                IResponseListener responseListener = new IResponseListener() {
-                    @Override
-                    public void onResponseSuccess(IResponseAction source) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        DataHandlerFacade.getCommentDataHandler().getList( post, refreshCommentsListener );
-                    }
 
-                    @Override
-                    public void onResponseFailure(IResponseAction source) {
-                        Snackbar.make(recyclerView,
-                                R.string.comment_failed_to_post_msg,
-                                Snackbar.LENGTH_LONG)
-                                .show();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                };
                 if (!writeCommentText.getText().toString().isEmpty()) {
                     Comment comment = new Comment();
                     comment.setText(writeCommentText.getText().toString());
@@ -133,7 +118,22 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                             swipeRefreshLayout.setRefreshing(true);
                         }
                     });
-                    server.commentPost(post, comment, responseListener);
+                    DataHandlerFacade.getCommentDataHandler().create(post, comment, new AbstractDataResponseListener<Comment>() {
+                        @Override
+                        public void onSuccess(Comment data) {
+                            swipeRefreshLayout.setRefreshing(false);
+                            DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
+                        }
+
+                        @Override
+                        public void onFailure(DataResponseError error, String errormessage) {
+                            Snackbar.make(recyclerView,
+                                    R.string.comment_failed_to_post_msg,
+                                    Snackbar.LENGTH_LONG)
+                                    .show();
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    });
                 } else {
                     Snackbar.make(recyclerView,
                             R.string.empty_comment_error_msg,

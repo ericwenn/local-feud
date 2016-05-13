@@ -83,6 +83,7 @@ public class ServerComm implements IServerComm {
      * Sends a request to like a post
      * @param post The Post to like
      */
+    @Deprecated
     public void likePost(Post post, IResponseListener listener) {
         // Init restClient with a responseAction and its listener
         IResponseAction action = new ResponseAction();
@@ -98,6 +99,7 @@ public class ServerComm implements IServerComm {
      * Sends a request to unlike a post
      * @param post The Post to unlike
      */
+    @Deprecated
     public void unlikePost(Post post, IResponseListener listener){
         // Init restClient with a responseAction and its listener
         IResponseAction action = new ResponseAction();
