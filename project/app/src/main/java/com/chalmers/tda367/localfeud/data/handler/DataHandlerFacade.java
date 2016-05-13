@@ -24,7 +24,7 @@ public class DataHandlerFacade {
     }
 
     public static IChatDataHandler getChatDataHandler() {
-        return null;
+        return ChatDataHandler.getInstance();
     }
 
     public static IChatMessageDataHandler getChatMessageDataHandler() {

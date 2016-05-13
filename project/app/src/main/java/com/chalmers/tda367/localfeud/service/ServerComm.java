@@ -121,6 +121,7 @@ public class ServerComm implements IServerComm {
      * @param post
      * @param comment
      */
+    @Deprecated
     public void commentPost(Post post, Comment comment, IResponseListener listener)
     {
         System.out.println("Kraschad än? Postid: " + post.getId() + " " + comment.getText() + " RA: " + listener.toString());
@@ -134,6 +135,7 @@ public class ServerComm implements IServerComm {
         restClient.post("posts/" + post.getId() + "/comments/", params);
     }
 
+    @Deprecated
     public void requestComments(Post post, IResponseListener listener)
     {
         IResponseAction action = new RequestCommentsResponseAction();
@@ -143,6 +145,7 @@ public class ServerComm implements IServerComm {
         restClient.get("posts/" + post.getId() + "/comments/");
     }
 
+    @Deprecated
     public void deleteComment(Comment comment, IResponseListener listener){
         IResponseAction action = new ResponseAction();
         action.addListener(listener);
@@ -151,6 +154,7 @@ public class ServerComm implements IServerComm {
         restClient.delete("comments/" + Integer.toString(comment.getId()) + "/");
     }
 
+    @Deprecated
     public void sendChatRequest(Post post, int userID, IResponseListener listener) {
         IResponseAction action = new ResponseAction();
         action.addListener(listener);
@@ -165,6 +169,7 @@ public class ServerComm implements IServerComm {
     }
 
     @Override
+    @Deprecated
     public void requestChats(IResponseListener listener) {
         IResponseAction action = new RequestChatListResponseAction();
         action.addListener(listener);

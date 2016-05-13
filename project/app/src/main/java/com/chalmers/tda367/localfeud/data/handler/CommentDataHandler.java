@@ -37,7 +37,7 @@ public class CommentDataHandler extends AbstractDataHandler implements ICommentD
 
     @Override
     public void getSingle(int id, DataResponseListener<Comment> listener) {
-
+        // TODO
     }
 
     @Override

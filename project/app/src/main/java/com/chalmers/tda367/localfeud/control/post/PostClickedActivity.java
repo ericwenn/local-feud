@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
+import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Like;
 import com.chalmers.tda367.localfeud.data.Post;
@@ -359,19 +360,20 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     }
 
     private void sendChatRequest(Post post, int userID){
-        IResponseListener listener = new IResponseListener() {
+
+        DataHandlerFacade.getChatDataHandler().sendRequest(post, userID, new AbstractDataResponseListener<Chat>() {
             @Override
-            public void onResponseSuccess(IResponseAction source) {
+            public void onSuccess(Chat data) {
                 Snackbar.make(recyclerView, "Chat created successfully", Snackbar.LENGTH_LONG).show();
+                // TODO Start chat activity?
             }
 
             @Override
-            public void onResponseFailure(IResponseAction source) {
-                Snackbar.make(recyclerView, "Chat creation failed: " + source.getErrorMessage(), Snackbar.LENGTH_LONG).show();
-            }
-        };
+            public void onFailure(DataResponseError error, String errormessage) {
+                Snackbar.make(recyclerView, "Chat creation failed: " + errormessage, Snackbar.LENGTH_LONG).show();
 
-        server.sendChatRequest(post, userID, listener);
+            }
+        });
     }
 
     @Override
