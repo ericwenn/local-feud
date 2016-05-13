@@ -29,9 +29,7 @@ public class PermissionFlow extends AppIntro2 {
 
 
     @Override
-    public void onDonePressed() {
-        Log.d(TagHandler.PERMISSION_FLOW_TAG, "onDonePressed()");
-    }
+    public void onDonePressed() {}
 
     @Override
     public void onSlideChanged() {
@@ -54,7 +52,6 @@ public class PermissionFlow extends AppIntro2 {
 
     @Override
     public void onNextPressed() {
-        Log.d(TagHandler.PERMISSION_FLOW_TAG, "onNextPressed()");
         // Do something when users tap on Next button.
     }
 

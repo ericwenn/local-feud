@@ -115,7 +115,6 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             clearAdapter();
             this.messages.addAll(messages);
         }
-        if (Looper.getMainLooper() == Looper.myLooper()) {
             notifyItemRangeInserted(currentCount, messages.size());
         } else {
             new Handler(Looper.getMainLooper()).post(new Runnable() {

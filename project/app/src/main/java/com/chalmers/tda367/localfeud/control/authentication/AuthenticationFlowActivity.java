@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.chalmers.tda367.localfeud.control.MainActivity;
@@ -39,8 +38,6 @@ public class AuthenticationFlowActivity extends AppIntro {
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
                 if (currentAccessToken != null) {
                     // TODO Make sure all permissions are accepted
-                    Log.i(TAG, "onCurrentAccessTokenChanged: " + currentAccessToken);
-
 
                     DataHandlerFacade.getMeDataHandler().get(new AbstractDataResponseListener<Me>() {
                         @Override
@@ -51,7 +48,6 @@ public class AuthenticationFlowActivity extends AppIntro {
                         @Override
                         public void onFailure(DataResponseError error, String errormessage) {
                             Log.e(TagHandler.MAIN_TAG, "Couldn't fetch myself: " + errormessage);
-
                         }
                     });
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);

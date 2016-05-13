@@ -292,12 +292,8 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         if (AuthenticatedUser.getInstance().getMe().getId() == comment.getUser().getId()) { //if comment is made by me
             menu.getMenu().removeItem(sendChatRequestMenuItem.getItemId());
             menu.getMenu().removeItem(reportMenuItem.getItemId());
-            Log.d(TagHandler.MAIN_TAG, "Send: " + Integer.toString(sendChatRequestMenuItem.getItemId()));
-            Log.d(TagHandler.MAIN_TAG, "Report: " + Integer.toString(reportMenuItem.getItemId()));
         } else { //if comment is made by someone else
             menu.getMenu().removeItem(deleteCommentMenuItem.getItemId());
-            Log.d(TagHandler.MAIN_TAG, "Delete: " + Integer.toString(deleteCommentMenuItem.getItemId()));
-            Log.d(TagHandler.MAIN_TAG, "Send: " + Integer.toString(sendChatRequestMenuItem.getItemId()));
         }
 
         // Make the post accessible by the listener below

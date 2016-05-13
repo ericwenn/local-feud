@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -29,7 +28,6 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.util.PermissionHandler;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -44,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TagHandler.MAIN_TAG, this + ", onCreate: MAIN");
 
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -207,14 +204,10 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
             @Override
             protected Void doInBackground(Void... params) {
                 if (!PermissionHandler.hasPermissions(getApplicationContext())) {
-                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions not granted.");
-
                     Intent i = new Intent(MainActivity.this, PermissionFlow.class);
                     startActivity(i);
                     finish();
 
-                } else {
-                    Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permissions granted.");
                 }
                 return null;
             }
@@ -224,6 +217,5 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TagHandler.MAIN_TAG, this + ", onDestroy: MAIN");
     }
 }

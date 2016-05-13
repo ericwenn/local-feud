@@ -132,7 +132,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
 
             @Override
             public void onFailure(DataResponseError error, String errormessage) {
-                Log.i(TAG, "onFailure: "+ errormessage);
+                Log.e(TAG, "onFailure: "+ errormessage);
             }
         });
     }
