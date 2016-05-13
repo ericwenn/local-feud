@@ -24,12 +24,20 @@ public class ChatMessageDataHandler extends AbstractDataHandler implements IChat
 
     private ChatMessageDataHandler() {}
 
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void getList(Chat chat, DataResponseListener<List<ChatMessage>> listener) {
 
         getClient().get("/chats/"+chat.getId()+"/messages/", new RestResponseAction(listener));
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void send(Chat chat, ChatMessage message, DataResponseListener<ChatMessage> listener) {
         HashMap<String, String> param = new HashMap<>();
