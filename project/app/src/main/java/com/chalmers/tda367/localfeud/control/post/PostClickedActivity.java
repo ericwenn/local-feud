@@ -32,7 +32,7 @@ import com.chalmers.tda367.localfeud.util.TagHandler;
 /**
  * Created by Daniel Ahlqvist on 2016-04-18.
  */
-public class PostClickedActivity extends AppCompatActivity implements PostClickedAdapter.AdapterCallback{
+public class PostClickedActivity extends AppCompatActivity implements PostClickedAdapter.AdapterCallback {
     private RecyclerView recyclerView;
     private PostClickedAdapter postClickedAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -219,7 +219,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             menu.getMenu().removeItem(reportMenuItem.getItemId());
             Log.d(TagHandler.MAIN_TAG, "Send: " + Integer.toString(sendChatRequestMenuItem.getItemId()));
             Log.d(TagHandler.MAIN_TAG, "Report: " + Integer.toString(reportMenuItem.getItemId()));
-        }else{ //if comment is made by someone else
+        } else { //if comment is made by someone else
             menu.getMenu().removeItem(deleteCommentMenuItem.getItemId());
             Log.d(TagHandler.MAIN_TAG, "Delete: " + Integer.toString(deleteCommentMenuItem.getItemId()));
             Log.d(TagHandler.MAIN_TAG, "Send: " + Integer.toString(sendChatRequestMenuItem.getItemId()));
@@ -231,7 +231,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == deleteCommentMenuItem.getItemId()){
+                if (item.getItemId() == deleteCommentMenuItem.getItemId()) {
                     IResponseListener listener1 = new IResponseListener() {
                         @Override
                         public void onResponseSuccess(IResponseAction source) {
@@ -253,16 +253,13 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                     });
                     server.deleteComment(comment, listener1);
                     return true;
-                }
-                else if(item.getItemId() == sendChatRequestMenuItem.getItemId()) {
+                } else if (item.getItemId() == sendChatRequestMenuItem.getItemId()) {
                     sendChatRequest(post, comment.getUser().getId());
                     return true;
-                }
-                else if(item.getItemId() == reportMenuItem.getItemId()) {
+                } else if (item.getItemId() == reportMenuItem.getItemId()) {
                     Snackbar.make(recyclerView, "Wanna report huh?", Snackbar.LENGTH_LONG).show();
                     return true;
-                }
-                else{
+                } else {
                     return false;
                 }
             }
@@ -272,7 +269,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         menu.show();
     }
 
-    private void sendChatRequest(Post post, int userID){
+    private void sendChatRequest(Post post, int userID) {
         IResponseListener listener = new IResponseListener() {
             @Override
             public void onResponseSuccess(IResponseAction source) {
