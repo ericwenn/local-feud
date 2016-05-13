@@ -299,26 +299,27 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == deleteCommentMenuItem.getItemId()){
-                    IResponseListener listener1 = new IResponseListener() {
-                        @Override
-                        public void onResponseSuccess(IResponseAction source) {
-                            swipeRefreshLayout.setRefreshing(false);
-                            ServerComm.getInstance().requestComments(post, new RefreshCommentsResponseListener(postClickedAdapter, true));
-                            Snackbar.make(recyclerView, "Comment deleted successfully", Snackbar.LENGTH_LONG).show();
-                        }
 
-                        @Override
-                        public void onResponseFailure(IResponseAction source) {
-                            Snackbar.make(recyclerView, "Comment failed to be deleted: " + source.getErrorMessage(), Snackbar.LENGTH_LONG).show();
-                        }
-                    };
                     swipeRefreshLayout.post(new Runnable() {
                         @Override
                         public void run() {
                             swipeRefreshLayout.setRefreshing(true);
                         }
                     });
-                    server.deleteComment(comment, listener1);
+
+                    DataHandlerFacade.getCommentDataHandler().delete(comment, new AbstractDataResponseListener<Void>() {
+                        @Override
+                        public void onSuccess(Void data) {
+                            swipeRefreshLayout.setRefreshing(false);
+                            DataHandlerFacade.getCommentDataHandler().getList( post, refreshCommentsListener );
+                            Snackbar.make(recyclerView, "Comment deleted successfully", Snackbar.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onFailure(DataResponseError error, String errormessage) {
+                            Snackbar.make(recyclerView, "Comment failed to be deleted: " + errormessage, Snackbar.LENGTH_LONG).show();
+                        }
+                    });
                     return true;
                 }
                 else if(item.getItemId() == sendChatRequestMenuItem.getItemId()) {
@@ -360,27 +361,5 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         Snackbar.make(recyclerView, text, Snackbar.LENGTH_LONG).show();
     }
 
-    public class RefreshCommentsResponseListener extends RequestCommentsResponseListener {
-        private boolean isAfterCommentPosted;
 
-        public RefreshCommentsResponseListener(PostClickedAdapter adapter, boolean isAfterCommentPosted) {
-            super(adapter);
-            this.isAfterCommentPosted = isAfterCommentPosted;
-        }
-
-        @Override
-        public void onResponseSuccess(IResponseAction source) {
-            super.onResponseSuccess(source);
-            swipeRefreshLayout.setRefreshing(false);
-            if (isAfterCommentPosted) {
-                recyclerView.scrollToPosition(postClickedAdapter.getItemCount() - 1);
-            }
-        }
-
-        @Override
-        public void onResponseFailure(IResponseAction source) {
-            super.onResponseFailure(source);
-            swipeRefreshLayout.setRefreshing(false);
-        }
-    }
 }

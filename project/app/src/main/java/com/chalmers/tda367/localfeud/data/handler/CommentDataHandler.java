@@ -7,6 +7,7 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.ICommentDataHandler;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -41,11 +42,15 @@ public class CommentDataHandler extends AbstractDataHandler implements ICommentD
 
     @Override
     public void delete(Comment comment, DataResponseListener<Void> listener) {
-
+        getClient().delete("comments/" + Integer.toString(comment.getId()) + "/", new RestResponseAction(listener));
     }
 
     @Override
     public void create(Post post, Comment comment, DataResponseListener<Comment> listener) {
 
+        HashMap params = new HashMap();
+        params.put("content", comment.getText());
+
+        getClient().post("posts/" + post.getId() + "/comments/", params, new RestResponseAction(listener));
     }
 }
