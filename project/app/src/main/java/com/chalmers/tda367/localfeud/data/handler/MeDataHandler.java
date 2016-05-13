@@ -19,6 +19,9 @@ public class MeDataHandler extends AbstractDataHandler implements IMeDataHandler
 
     private MeDataHandler() {}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void get(DataResponseListener<Me> listener) {
         getClient().get("me/", new RestResponseAction(listener));
