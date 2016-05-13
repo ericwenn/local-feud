@@ -69,7 +69,7 @@
         android:id="@+id/write_comment_layout"
         android:layout_width="fill_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/feedColorPrimary"
+        android:background="@color/white"
         android:layout_gravity="bottom"
         android:orientation="horizontal">
         <!--android:layout_height="wrap_content"-->
@@ -77,13 +77,13 @@
         <EditText
             android:id="@+id/posttext"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/input_margin"
             android:layout_marginBottom="@dimen/input_margin"
             android:layout_marginTop="@dimen/input_margin"
             android:layout_weight="1"
             android:background="#fff"
-            android:gravity="bottom|start"
+            android:gravity="top|start"
             android:hint="@string/comment_hint"
             android:maxLength="240"
             android:padding="10dp"
@@ -94,7 +94,7 @@
             android:id="@+id/post_button"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/transparent"
+            android:background="@color/feedColorPrimary"
             android:src="@drawable/ic_send_white_24dp"
             android:contentDescription="@string/send_post_button" />
 

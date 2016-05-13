@@ -77,20 +77,20 @@
         android:layout_width="fill_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
-        android:background="@color/feedColorPrimary"
+        android:background="@color/white"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/posttext"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/input_margin"
             android:layout_marginBottom="@dimen/input_margin"
             android:layout_marginTop="@dimen/input_margin"
             android:layout_weight="1"
             android:maxLines="3"
             android:background="#fff"
-            android:gravity="bottom|start"
+            android:gravity="top|start"
             android:hint="@string/chat_hint"
             android:inputType="textCapSentences|textMultiLine"
             android:maxLength="240"
@@ -101,7 +101,7 @@
             android:id="@+id/post_button"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/transparent"
+            android:background="@color/chatColorPrimary"
             android:src="@drawable/ic_send_white_24dp"
             android:contentDescription="@string/send_chat_message" />
 
