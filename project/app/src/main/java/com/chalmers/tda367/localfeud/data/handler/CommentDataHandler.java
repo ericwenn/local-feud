@@ -29,22 +29,36 @@ public class CommentDataHandler extends AbstractDataHandler implements ICommentD
     private CommentDataHandler() {}
 
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void getList(Post post, DataResponseListener<List<Comment>> listener) {
         getClient().get( "posts/" + post.getId() + "/comments/", new RestResponseAction(listener));
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void getSingle(int id, DataResponseListener<Comment> listener) {
         // TODO
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(Comment comment, DataResponseListener<Void> listener) {
         getClient().delete("comments/" + Integer.toString(comment.getId()) + "/", new RestResponseAction(listener));
     }
 
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void create(Post post, Comment comment, DataResponseListener<Comment> listener) {
 
