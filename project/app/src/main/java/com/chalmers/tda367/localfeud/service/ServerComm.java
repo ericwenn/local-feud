@@ -32,7 +32,8 @@ public class ServerComm implements IServerComm {
         }
         return instance;
     }
-    
+
+
     public void requestPosts(Position pos, IResponseListener listener) {
         // Init restClient with a responseAction and its listener
         IResponseAction action = new RequestPostsResponseAction();
@@ -52,6 +53,7 @@ public class ServerComm implements IServerComm {
         requestPosts(new Position(53.123123, 11.123123), listener);
     }
 
+    @Deprecated
     public void requestSinglePost(int postID, IResponseListener listener){
         // Init restClient with a responseAction and its listener
         IResponseAction action = new RequestSinglePostResponseAction();
@@ -61,6 +63,7 @@ public class ServerComm implements IServerComm {
         restClient.get("posts/" + Integer.toString(postID) + "/");
     }
 
+    @Deprecated
     public void createPost(Post post, IResponseListener listener){
         // Init restClient with a responseAction and its listener
         IResponseAction action = new ResponseAction();

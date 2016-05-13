@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Comment;
+import com.chalmers.tda367.localfeud.data.Like;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
@@ -224,22 +225,39 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
         }
         imageButton.setImageResource(revertLikeDrawable);
-        IResponseListener responseListener = new IResponseListener() {
-            @Override
-            public void onResponseSuccess(IResponseAction source) {
-                post.setIsLiked(!isLiked);
-            }
 
-            @Override
-            public void onResponseFailure(IResponseAction source) {
-                imageButton.setImageResource(originalLikeDrawable);
-                Snackbar.make(recyclerView, getString(R.string.like_error_msg), Snackbar.LENGTH_LONG).show();
-            }
-        };
 
-        if (!isLiked) ServerComm.getInstance().likePost(post, responseListener);
-        else ServerComm.getInstance().unlikePost(post, responseListener);
+        if (!isLiked) {
+            DataHandlerFacade.getLikeDataHandler().create( post, new AbstractDataResponseListener<Like>() {
+                @Override
+                public void onSuccess(Like data) {
+                    post.setIsLiked(!isLiked);
+                }
+
+                @Override
+                public void onFailure(DataResponseError error, String errormessage) {
+                    imageButton.setImageResource(originalLikeDrawable);
+                    Snackbar.make(recyclerView, getString(R.string.like_error_msg), Snackbar.LENGTH_LONG).show();
+                }
+            } );
+        }
+        else {
+            DataHandlerFacade.getLikeDataHandler().delete( post, new AbstractDataResponseListener<Void>() {
+                @Override
+                public void onSuccess(Void data) {
+                    post.setIsLiked(!isLiked);
+                }
+
+                @Override
+                public void onFailure(DataResponseError error, String errormessage) {
+                    imageButton.setImageResource(originalLikeDrawable);
+                    Snackbar.make(recyclerView, getString(R.string.like_error_msg), Snackbar.LENGTH_LONG).show();
+                }
+            });
+        }
     }
+
+
 
     @Override
     // More-button on post is clicked

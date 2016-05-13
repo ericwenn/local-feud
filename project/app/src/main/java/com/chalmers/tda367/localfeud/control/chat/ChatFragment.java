@@ -104,6 +104,7 @@ public class ChatFragment extends Fragment {
                 ServerComm.getInstance().requestPosts(new RefreshChatListResponseListener(chatListAdapter));
             }
         });
+
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {

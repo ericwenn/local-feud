@@ -16,7 +16,7 @@ public class DataHandlerFacade {
     }
 
     public static ILikeDataHandler getLikeDataHandler() {
-        return null;
+        return LikeDataHandler.getInstance();
     }
 
     public static ICommentDataHandler getCommentDataHandler() {
