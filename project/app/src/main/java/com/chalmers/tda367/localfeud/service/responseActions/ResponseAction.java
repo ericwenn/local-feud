@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * The subclasses of this class is meant to handle the conversion of the response String to whatever object is required.
  */
 public class ResponseAction implements IResponseAction {
-    private ArrayList<IResponseListener> listeners;
+    private final ArrayList<IResponseListener> listeners;
     private ResponseError error;
     private String responseBody;
     private String errorMessage;

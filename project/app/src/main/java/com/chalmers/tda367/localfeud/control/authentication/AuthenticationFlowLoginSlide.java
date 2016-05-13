@@ -1,6 +1,5 @@
 package com.chalmers.tda367.localfeud.control.authentication;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -43,14 +42,6 @@ public class AuthenticationFlowLoginSlide extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -63,20 +54,6 @@ public class AuthenticationFlowLoginSlide extends Fragment {
         callbackManager = CallbackManager.Factory.create();
         return v;
     }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        //mListener = null;
-    }
-
-
 
 
     @Override

@@ -1,16 +1,22 @@
 <resources>
+    <!--App-->
     <string name="app_name">Edda</string>
-    <string name="new_post_hint">What would you like to tell the world?</string>
-    <string name="comment_hint">Write a comment...</string>
-    <string name="chat_hint">Write message...</string>
+    <string name="facebook_app_id">1552907468343208</string>
     <string name="create_new_post">Write a new edd!</string>
-    <string name="empty_string" />
     <string name="feed_menu_button">Feed</string>
     <string name="chat_menu_button">Chat</string>
     <string name="me_menu_button">Me</string>
-    <string name="really_long_text">Message with max characters. Bacon ipsum dolor amet ball tip kevin corned beef boudin shank tenderloin swine cupim strip steak sirloin. Doner ground round hamburger, boudin short ribs frankfurter brisket pork turducken. Bacon ipsum dolor amet ball tip....</string>
-    <string name="facebook_app_id">1552907468343208</string>
-
+    <string name="chat_string">Chat</string>
+    <string name="notice_string">Notice</string>
+    <string name="settings_string">Settings</string>
+    <string name="send_chat_request">Send chat request</string>
+    <string name="report">Report</string>
+    <string name="delete_comment">Delete comment</string>
+    <string name="grant_access">Grant access</string>
+    <string name="authenticate">Authenticate</string>
+    <string name="get_location_permission">Change permissions in your device\'s app settings. Give Edda access to the device\'s Location.</string>
+    <string name="distance">Distance</string>
+    <!--Error Messages-->
     <string name="like_error_msg">Couldn\'t like right now. Try again later.</string>
     <string name="server_error_msg">Couldn\'t get posts right now. Try again later.</string>
     <string name="notfound_error_msg">Couldn\'t load post.</string>
@@ -18,19 +24,26 @@
     <string name="comment_failed_to_post_msg">Couldn\'t post comment.</string>
     <string name="empty_comment_error_msg">You can\'t post a empty comment.</string>
 
-    <string name="search_view_hint">Search</string>
+    <!--Hints-->
+    <string name="new_post_hint">What would you like to tell the world?</string>
+    <string name="comment_hint">Write a comment...</string>
+    <string name="chat_hint">Write message...</string>
 
-    <string name="chat_string">Chat</string>
-    <string name="notice_string">Notice</string>
-    <string name="settings_string">Settings</string>
 
-    <string name="send_chat_request">Send chat request</string>
-    <string name="report">Report</string>
-    <string name="delete_comment">Delete comment</string>
+    <!--Accessibility-->
     <string name="back_button">Back Button</string>
     <string name="send_post_button">Send Post</string>
     <string name="like_post">Like Post</string>
     <string name="more">More</string>
     <string name="comment_post">Comment Post</string>
     <string name="send_chat_message">Send Chat Message</string>
+    <string name="app_logo">App Logo</string>
+
+    <!--Dummy strings-->
+    <string name="empty_string" />
+    <string name="dummy_text">Lorem ipsum</string>
+    <string name="really_long_text">Message with max characters. Bacon ipsum dolor amet ball tip kevin corned beef boudin shank tenderloin swine cupim strip steak sirloin. Doner ground round hamburger, boudin short ribs frankfurter brisket pork turducken. Bacon ipsum dolor amet ball tip....</string>
+    <string name="time_dummy">13:37</string>
+    <string name="dummy_user">Elvis, 80</string>
+    <string name="dummy_user_anon">M, 22</string>
 </resources>

@@ -13,8 +13,6 @@ import com.loopj.android.http.SyncHttpClient;
 import java.util.HashMap;
 import java.util.Map;
 
-import cz.msebera.android.httpclient.client.HttpResponseException;
-
 /**
  * Created by Alfred on 2016-04-12.
  */
@@ -66,7 +64,7 @@ public class RestClient {
         getClient().delete(getAbsoluteUrl(url), null, responseHandler);
     }
 
-    public void put(String url, Map<String, String> paramsMap) throws HttpResponseException{
+    public void put(String url, Map<String, String> paramsMap) {
         RequestParams params = new RequestParams(paramsMap);
         getClient().put(getAbsoluteUrl(url), params, responseHandler);
     }

@@ -24,7 +24,7 @@ public class PositionHandler {
 
     public Position getPosition(Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        Location location = null;
+        Location location;
         try {
             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             return new Position(location.getLatitude(), location.getLongitude());

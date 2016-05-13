@@ -25,7 +25,7 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final Context context;
     private final LayoutInflater inflater;
     private Chat chat;
-    private int myId;
+    private final int myId;
     private AdapterCallback adapterCallback;
 
     public ChatActiveAdapter(Context context) {

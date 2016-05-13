@@ -1,7 +1,5 @@
 package com.chalmers.tda367.localfeud.util;
 
-import android.graphics.Color;
-
 import com.chalmers.tda367.localfeud.R;
 
 /**

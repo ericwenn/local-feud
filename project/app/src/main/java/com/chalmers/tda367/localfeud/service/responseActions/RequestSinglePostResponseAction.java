@@ -12,7 +12,7 @@ public class RequestSinglePostResponseAction extends ResponseAction {
     @Override
     public void onSuccess(String responseBody){
         // Convert string with JSON to a list with posts
-        Post post = GsonHandler.getInstance().toPost(new String(responseBody));
+        Post post = GsonHandler.getInstance().toPost(responseBody);
         // Store the list
         this.setPost(post);
         //Notify the listeners

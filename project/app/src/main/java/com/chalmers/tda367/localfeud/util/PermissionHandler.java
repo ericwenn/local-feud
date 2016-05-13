@@ -13,9 +13,7 @@ public class PermissionHandler {
         int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_COARSE_LOCATION);
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION);
 
-        boolean sufficientPermission = hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED &&
+        return hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED &&
                 hasFineLocationPermission == PackageManager.PERMISSION_GRANTED;
-
-        return sufficientPermission;
     }
 }
