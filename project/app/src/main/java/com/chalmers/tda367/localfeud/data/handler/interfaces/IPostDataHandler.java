@@ -18,6 +18,11 @@ public interface IPostDataHandler {
      */
     void getList( Position pos, DataResponseListener<List<Post>> listener );
 
+    /**
+     * Get a single Post
+     * @param id ID of the Post to get
+     * @param listener Listening to when the request is finished
+     */
     void getSingle( int id, DataResponseListener<Post> listener );
 
     /**

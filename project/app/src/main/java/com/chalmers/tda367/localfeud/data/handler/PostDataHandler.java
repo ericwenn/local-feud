@@ -43,11 +43,17 @@ public class PostDataHandler extends AbstractDataHandler implements IPostDataHan
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void getSingle(int id, DataResponseListener<Post> listener) {
-
+        // TODO
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void create(Post post, DataResponseListener<Post> listener) {
 
@@ -61,8 +67,11 @@ public class PostDataHandler extends AbstractDataHandler implements IPostDataHan
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(Post post, DataResponseListener<Void> listener) {
-
+        // TODO
     }
 }
