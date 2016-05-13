@@ -61,7 +61,7 @@ public class Chat implements Serializable {
         this.status = status;
     }
 
-    public String getStringDateStarted() {
+    private String getStringDateStarted() {
         return date_started;
     }
 

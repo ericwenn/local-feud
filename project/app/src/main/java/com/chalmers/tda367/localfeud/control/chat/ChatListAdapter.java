@@ -57,7 +57,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         final Chat chat = chatList.get(position);
         
         holder.titleTextView.setText(chat.getChatName());
-        holder.msgTextView.setText("" + chat);
+        String chatMessage = chat.toString();
+        holder.msgTextView.setText(chatMessage);
 
         if (chat.getNumberOfUnreadMessages() > 0)
             holder.msgTextView.setTypeface(null, Typeface.BOLD);

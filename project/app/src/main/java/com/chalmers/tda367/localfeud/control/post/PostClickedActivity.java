@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -17,8 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
@@ -31,6 +28,7 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
+
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.List;
@@ -38,16 +36,13 @@ import java.util.List;
 /**
  * Created by Daniel Ahlqvist on 2016-04-18.
  */
-public class PostClickedActivity extends AppCompatActivity implements PostClickedAdapter.AdapterCallback{
+public class PostClickedActivity extends AppCompatActivity implements PostClickedAdapter.AdapterCallback {
     private RecyclerView recyclerView;
     private PostClickedAdapter postClickedAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Post post;
-    private TextView toolbarTextView;
-    private Toolbar toolbar;
-    private RelativeLayout postItemTopbar;
-    private LinearLayout commentBar;
     private EditText writeCommentText;
+
     private ImageButton postCommentButton;
     private ImageButton backButton;
 
@@ -55,6 +50,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     private static final String TAG = "PostClickedActivity";
 
     private DataResponseListener<List<Comment>> refreshCommentsListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,21 +60,19 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         post = (Post) bundle.getSerializable("post");
         setContentView(R.layout.activity_post_clicked);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbarTextView = (TextView) findViewById(R.id.toolbar_title_textview);
-        toolbarTextView.setText("Post ID: " + post.getId());
-        backButton = (ImageButton) findViewById(R.id.post_clicked_back_btn);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
+        TextView toolbarTextView = (TextView) findViewById(R.id.toolbar_title_textview);
+        if (toolbarTextView != null) {
+            toolbarTextView.setText(getString(R.string.app_name));
+        }
+        ImageButton backButton = (ImageButton) findViewById(R.id.post_clicked_back_btn);
+        if (backButton != null) {
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
     }
 
     @Override
@@ -94,48 +88,50 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
 
         writeCommentText = (EditText) findViewById(R.id.posttext);
-        postCommentButton = (ImageButton) findViewById(R.id.post_button);
+        ImageButton postCommentButton = (ImageButton) findViewById(R.id.post_button);
+
+        if (postCommentButton != null) {
+            postCommentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
 
-        postCommentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    if (!writeCommentText.getText().toString().isEmpty()) {
+                        Comment comment = new Comment();
+                        comment.setText(writeCommentText.getText().toString());
+                        writeCommentText.setText("");
+                        swipeRefreshLayout.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeRefreshLayout.setRefreshing(true);
+                            }
+                        });
+                        DataHandlerFacade.getCommentDataHandler().create(post, comment, new AbstractDataResponseListener<Comment>() {
+                            @Override
+                            public void onSuccess(Comment data) {
+                                swipeRefreshLayout.setRefreshing(false);
+                                DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
+                            }
 
+                            @Override
+                            public void onFailure(DataResponseError error, String errormessage) {
 
-                if (!writeCommentText.getText().toString().isEmpty()) {
-                    Comment comment = new Comment();
-                    comment.setText(writeCommentText.getText().toString());
-                    writeCommentText.setText("");
-                    swipeRefreshLayout.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            swipeRefreshLayout.setRefreshing(true);
-                        }
-                    });
-                    DataHandlerFacade.getCommentDataHandler().create(post, comment, new AbstractDataResponseListener<Comment>() {
-                        @Override
-                        public void onSuccess(Comment data) {
-                            swipeRefreshLayout.setRefreshing(false);
-                            DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
-                        }
-
-                        @Override
-                        public void onFailure(DataResponseError error, String errormessage) {
-                            Snackbar.make(recyclerView,
-                                    R.string.comment_failed_to_post_msg,
-                                    Snackbar.LENGTH_LONG)
-                                    .show();
-                            swipeRefreshLayout.setRefreshing(false);
-                        }
-                    });
-                } else {
-                    Snackbar.make(recyclerView,
-                            R.string.empty_comment_error_msg,
-                            Snackbar.LENGTH_LONG)
-                            .show();
+                                Snackbar.make(recyclerView,
+                                        R.string.comment_failed_to_post_msg,
+                                        Snackbar.LENGTH_LONG)
+                                        .show();
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+                    } else {
+                        Snackbar.make(recyclerView,
+                                R.string.empty_comment_error_msg,
+                                Snackbar.LENGTH_LONG)
+                                .show();
+                    }
                 }
-            }
-        });
+            });
+        }
 
     }
 
@@ -298,7 +294,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             menu.getMenu().removeItem(reportMenuItem.getItemId());
             Log.d(TagHandler.MAIN_TAG, "Send: " + Integer.toString(sendChatRequestMenuItem.getItemId()));
             Log.d(TagHandler.MAIN_TAG, "Report: " + Integer.toString(reportMenuItem.getItemId()));
-        }else{ //if comment is made by someone else
+        } else { //if comment is made by someone else
             menu.getMenu().removeItem(deleteCommentMenuItem.getItemId());
             Log.d(TagHandler.MAIN_TAG, "Delete: " + Integer.toString(deleteCommentMenuItem.getItemId()));
             Log.d(TagHandler.MAIN_TAG, "Send: " + Integer.toString(sendChatRequestMenuItem.getItemId()));
@@ -313,6 +309,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                 if (item.getItemId() == deleteCommentMenuItem.getItemId()){
 
                     swipeRefreshLayout.post(new Runnable() {
+
                         @Override
                         public void run() {
                             swipeRefreshLayout.setRefreshing(true);
@@ -333,16 +330,13 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                         }
                     });
                     return true;
-                }
-                else if(item.getItemId() == sendChatRequestMenuItem.getItemId()) {
+                } else if (item.getItemId() == sendChatRequestMenuItem.getItemId()) {
                     sendChatRequest(post, comment.getUser().getId());
                     return true;
-                }
-                else if(item.getItemId() == reportMenuItem.getItemId()) {
+                } else if (item.getItemId() == reportMenuItem.getItemId()) {
                     Snackbar.make(recyclerView, "Wanna report huh?", Snackbar.LENGTH_LONG).show();
                     return true;
-                }
-                else{
+                } else {
                     return false;
                 }
             }
@@ -355,6 +349,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     private void sendChatRequest(Post post, int userID){
 
         DataHandlerFacade.getChatDataHandler().sendRequest(post, userID, new AbstractDataResponseListener<Chat>() {
+
             @Override
             public void onSuccess(Chat data) {
                 Snackbar.make(recyclerView, "Chat created successfully", Snackbar.LENGTH_LONG).show();

@@ -4,9 +4,7 @@ import com.chalmers.tda367.localfeud.util.DateString;
 
 import org.junit.Test;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.regex.Matcher;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;

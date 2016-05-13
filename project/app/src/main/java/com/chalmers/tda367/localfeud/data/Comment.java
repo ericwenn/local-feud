@@ -61,7 +61,7 @@ public class Comment extends GeneralPost {
         return calendar;
     }
 
-    public String getStringDatePosted() {
+    private String getStringDatePosted() {
         return date_posted;
     }
 }

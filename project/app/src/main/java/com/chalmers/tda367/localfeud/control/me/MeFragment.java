@@ -10,7 +10,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.view.ContextThemeWrapper;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import com.chalmers.tda367.localfeud.control.post.FeedPagerAdapter;
 public class MeFragment extends Fragment {
 
     private CoordinatorLayout root;
-    private Toolbar toolbar;
     private ViewPager viewPager;
 
     private FeedPagerAdapter mePagerAdapter;
@@ -47,11 +45,6 @@ public class MeFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mePagerAdapter = new FeedPagerAdapter(activity.getSupportFragmentManager());
@@ -72,7 +65,6 @@ public class MeFragment extends Fragment {
         CollapsingToolbarLayout collapsingToolbarLayout =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar_layout);
         collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
 
         viewPager = (ViewPager) view.findViewById(R.id.me_viewpager);
         addPages(viewPager);
@@ -101,9 +93,5 @@ public class MeFragment extends Fragment {
         mePagerAdapter.addPage(noticeFragment);
         mePagerAdapter.addPage(settingsFragment);
         viewPager.setAdapter(mePagerAdapter);
-    }
-
-    public static boolean isFragmentVisible() {
-        return false;
     }
 }

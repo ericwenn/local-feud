@@ -6,7 +6,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -24,6 +23,7 @@ import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataRespons
 
 import java.util.List;
 
+
 /**
  * Created by Daniel Ahlqvist on 2016-05-03.
  */
@@ -32,10 +32,9 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     private static final String TAG = "ChatActiveActivity";
 
     private ImageButton postMessageButton, backButton;
+
     private RecyclerView chatMessageList;
     private EditText chatMessageInput;
-    private TextView chatTitle;
-    private Toolbar toolbar;
     private ChatActiveAdapter chatActiveAdapter;
     private Chat chat;
 
@@ -57,17 +56,20 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     private void initViews() {
         chatMessageList = (RecyclerView) findViewById(R.id.chat_message_list);
         chatMessageInput = (EditText) findViewById(R.id.posttext);
-        postMessageButton = (ImageButton) findViewById(R.id.post_button);
-        chatTitle = (TextView) findViewById(R.id.chat_title);
-        chatTitle.setText(chat.getChatName());
-        toolbar = (Toolbar) findViewById(R.id.chat_view_toolbar);
-        backButton = (ImageButton) findViewById(R.id.chat_view_back_btn);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        ImageButton postMessageButton = (ImageButton) findViewById(R.id.post_button);
+        TextView chatTitle = (TextView) findViewById(R.id.chat_title);
+        if (chatTitle != null) {
+            chatTitle.setText(chat.getChatName());
+        }
+        ImageButton backButton = (ImageButton) findViewById(R.id.chat_view_back_btn);
+        if (backButton != null) {
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
 
         chatMessageList.setLayoutManager(new LinearLayoutManager(this));
         chatMessageList.setHasFixedSize(true);
@@ -75,36 +77,40 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         chatActiveAdapter = new ChatActiveAdapter(this);
         chatMessageList.setAdapter(chatActiveAdapter);
 
-        postMessageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (postMessageButton != null) {
+            postMessageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                if (!chatMessageInput.getText().toString().isEmpty()) {
-                    String messageText = chatMessageInput.getText().toString();
-                    ChatMessage message = new ChatMessage(chat,messageText, new User(AuthenticatedUser.getInstance().getMe().getId(), AuthenticatedUser.getInstance().getMe().getAge(), AuthenticatedUser.getInstance().getMe().getGender()));
-                    chatMessageInput.setText("");
-                    DataHandlerFacade.getChatMessageDataHandler().send(chat, message, new AbstractDataResponseListener<ChatMessage>() {
-                        @Override
-                        public void onSuccess(ChatMessage data) {
-                            refreshMessages();
-                        }
+                    if (!chatMessageInput.getText().toString().isEmpty()) {
+                        String messageText = chatMessageInput.getText().toString();
+                        ChatMessage message = new ChatMessage(chat, messageText, new User(AuthenticatedUser.getInstance().getMe().getId(), AuthenticatedUser.getInstance().getMe().getAge(), AuthenticatedUser.getInstance().getMe().getGender()));
+                        chatMessageInput.setText("");
+                        DataHandlerFacade.getChatMessageDataHandler().send(chat, message, new AbstractDataResponseListener<ChatMessage>() {
+                            @Override
+                            public void onSuccess(ChatMessage data) {
+                                refreshMessages();
+                            }
 
-                        @Override
-                        public void onFailure(DataResponseError error, String errormessage) {
-                            Snackbar.make(chatMessageList,
-                                    "Could not post message",
-                                    Snackbar.LENGTH_LONG)
-                                    .show();
-                        }
-                    });
-                } else {
-                    Snackbar.make(chatMessageList,
-                            "Are you sick in your brain?! You must enter something in the box you know!",
-                            Snackbar.LENGTH_LONG)
-                            .show();
+                            @Override
+                            public void onFailure(DataResponseError error, String errormessage) {
+
+                                Snackbar.make(chatMessageList,
+                                        "Could not post message",
+                                        Snackbar.LENGTH_LONG)
+                                        .show();
+                            }
+                        });
+                    } else {
+                        Snackbar.make(chatMessageList,
+                                "Are you sick in your brain?! You must enter something in the box you know!",
+                                Snackbar.LENGTH_LONG)
+                                .show();
+                    }
                 }
-            }
-        });
+            });
+        }
+
         chatMessageInput.setOnClickListener(new View.OnClickListener()
         {
              @Override

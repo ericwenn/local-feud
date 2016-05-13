@@ -11,7 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +30,10 @@ import java.util.List;
 public class ChatFragment extends Fragment {
     private static final String TAG = "ChatFragment";
     private CoordinatorLayout root;
-    private RecyclerView recyclerView;
     private MainActivity activity;
     private ChatListAdapter chatListAdapter;
-    private Toolbar toolbar;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView textView;
+
 
     public ChatFragment() {
 
@@ -52,11 +49,6 @@ public class ChatFragment extends Fragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.ChatAppTheme);
@@ -68,7 +60,7 @@ public class ChatFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initViews(view, savedInstanceState);
+        initViews(view);
         DataHandlerFacade.getChatDataHandler().getList(new AbstractDataResponseListener<List<Chat>>() {
             @Override
             public void onSuccess(List<Chat> data) {
@@ -83,14 +75,16 @@ public class ChatFragment extends Fragment {
                 Log.i(TAG, "onFailure: "+ errormessage);
             }
         });
+
     }
 
-    private void initViews(View view, @Nullable Bundle savedInstanceState) {
+    private void initViews(View view) {
         root = (CoordinatorLayout) view.findViewById(R.id.chat_list_root);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.chat_list_refresh_layout);
-        textView = (TextView) view.findViewById(R.id.chat_list_toolbar_title_textview);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.chat_list_recyclerview);
+        TextView textView = (TextView) view.findViewById(R.id.chat_list_toolbar_title_textview);
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.chat_list_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(chatListAdapter);

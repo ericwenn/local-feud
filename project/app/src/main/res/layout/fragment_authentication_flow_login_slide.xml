@@ -2,7 +2,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="#ffffff"
     android:layout_weight="10"
     android:id="@+id/main">
 
@@ -15,7 +14,7 @@
         android:padding="50dp"
         android:layout_marginTop="20dp"
         android:id="@+id/app_logo"
-        />
+        android:contentDescription="@string/app_logo" />
 
     <TextView
         android:layout_width="300sp"
@@ -25,7 +24,7 @@
         android:fontFamily="sans-serif-thin"
         android:textColor="#000000"
         android:textSize="28sp"
-        android:text="Authenticate"
+        android:text="@string/authenticate"
         android:textStyle="bold"
         android:id="@+id/textView"
         android:layout_below="@+id/app_logo"
@@ -39,7 +38,7 @@
         android:gravity="center_vertical"
         android:textColor="#000000"
         android:textSize="16sp"
-        android:text="Change permissions in your device's app settings. Give Edda access to the the device's location."
+        android:text="@string/get_location_permission"
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />

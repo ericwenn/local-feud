@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time"
+        android:text="@string/time_dummy"
         android:layout_marginBottom="@dimen/small_margin"
         android:id="@+id/time_display"
         android:visibility="gone"/>
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/not_me_chat_text"
-        android:text="Message will be displayed here"
+        android:text="@string/dummy_text"
         android:padding="@dimen/default_margin"
         android:background="@color/feedColorPrimary"
         android:textColor="@color/white"

@@ -5,8 +5,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".control.post.PostClickedActivity"
-    android:background="@color/bgcolor">
+    tools:context=".control.post.PostClickedActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_layout"
@@ -26,6 +25,7 @@
                 android:src="@drawable/ic_arrow_back_white_24dp"
                 android:paddingTop="@dimen/toolbar_back_button_margin"
                 android:paddingBottom="@dimen/toolbar_back_button_margin"
+                android:paddingStart="@dimen/nothing"
                 android:paddingEnd="@dimen/toolbar_back_button_margin"
                 android:layout_marginEnd="@dimen/toolbar_back_button_margin"
                 android:background="@android:color/transparent"
@@ -76,12 +76,14 @@
 
         <EditText
             android:id="@+id/posttext"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginLeft="@dimen/input_margin"
+            android:layout_marginBottom="@dimen/input_margin"
+            android:layout_marginTop="@dimen/input_margin"
             android:layout_weight="1"
             android:background="#fff"
-            android:gravity="bottom|left"
+            android:gravity="bottom|start"
             android:hint="@string/comment_hint"
             android:maxLength="240"
             android:padding="10dp"
@@ -90,9 +92,8 @@
 
         <ImageButton
             android:id="@+id/post_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
             android:background="@color/transparent"
             android:src="@drawable/ic_send_white_24dp"
             android:contentDescription="@string/send_post_button" />
