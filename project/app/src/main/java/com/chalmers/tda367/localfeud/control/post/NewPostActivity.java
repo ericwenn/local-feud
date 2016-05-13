@@ -15,6 +15,7 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.services.Location;
 
 
 /**
@@ -60,7 +61,7 @@ public class NewPostActivity extends AppCompatActivity {
                     content.setType("text");
                     content.setText(postEditText.getText().toString());
 
-                    post.setLocation(new Position(53.123123, 11.123123));
+                    post.setLocation(new Position(Location.getInstance().getLocation()));
                     post.setContent(content);
 
                     DataHandlerFacade.getPostDataHandler().create(post, new AbstractDataResponseListener<Post>() {

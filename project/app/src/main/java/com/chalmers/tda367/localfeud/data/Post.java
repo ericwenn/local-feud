@@ -26,6 +26,9 @@ public class Post extends GeneralPost implements Serializable {
     private int number_of_likes;
     private String href;
 
+
+    private boolean current_user_has_liked;
+
     public boolean isLiked() {
         return current_user_has_liked;
     }
@@ -34,7 +37,8 @@ public class Post extends GeneralPost implements Serializable {
         this.current_user_has_liked = currentUserHasLiked;
     }
 
-    private boolean current_user_has_liked;
+
+
 
     public int getId() {
         return id;
@@ -44,6 +48,9 @@ public class Post extends GeneralPost implements Serializable {
         this.id = id;
     }
 
+
+
+
     public Position getLocation() {
         return location;
     }
@@ -51,6 +58,9 @@ public class Post extends GeneralPost implements Serializable {
     public void setLocation(Position location) {
         this.location = location;
     }
+
+
+
 
     public User getUser() {
         return user;
@@ -60,6 +70,9 @@ public class Post extends GeneralPost implements Serializable {
         this.user = user;
     }
 
+
+
+
     public double getReach() {
         return reach;
     }
@@ -68,6 +81,9 @@ public class Post extends GeneralPost implements Serializable {
         this.reach = reach;
     }
 
+
+
+
     public Content getContent() {
         return content;
     }
@@ -75,6 +91,10 @@ public class Post extends GeneralPost implements Serializable {
     public void setContent(Content content) {
         this.content = content;
     }
+
+
+
+
 
     public Calendar getDatePosted() {
         Calendar calendar = Calendar.getInstance();
@@ -95,6 +115,11 @@ public class Post extends GeneralPost implements Serializable {
         this.date_posted = date_posted;
     }
 
+
+
+
+
+
     public boolean isIsDeleted() {
         return is_deleted;
     }
@@ -102,6 +127,10 @@ public class Post extends GeneralPost implements Serializable {
     public void setIsDeleted(boolean is_deleted) {
         this.is_deleted = is_deleted;
     }
+
+
+
+
 
     public int getNumberOfComments() {
         return number_of_comments;
@@ -111,6 +140,8 @@ public class Post extends GeneralPost implements Serializable {
         this.number_of_comments = number_of_comments;
     }
 
+
+
     public int getNumberOfLikes() {
         return number_of_likes;
     }
@@ -119,6 +150,8 @@ public class Post extends GeneralPost implements Serializable {
         this.number_of_likes = number_of_likes;
     }
 
+
+
     public String getHref() {
         return href;
     }
@@ -126,6 +159,10 @@ public class Post extends GeneralPost implements Serializable {
     public void setHref(String href) {
         this.href = href;
     }
+
+
+
+
 
     public static class Content implements Serializable {
         private String type;

@@ -34,8 +34,9 @@ public class PostDataHandler extends AbstractDataHandler implements IPostDataHan
 
         // Store parameters
         HashMap<String, String> param = new HashMap<>();
-        param.put("latitude", Double.toString(pos.getLatitude()));
-        param.put("longitude", Double.toString(pos.getLongitude()));
+        param.put("lat", Double.toString(pos.getLatitude()));
+        param.put("lon", Double.toString(pos.getLongitude()));
+
 
 
         getClient().get( "posts/", param, new RestResponseAction(listener));

@@ -13,6 +13,7 @@ import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.services.Location;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -33,6 +34,8 @@ public class AuthenticationFlowActivity extends AppIntro {
     public void init(@Nullable Bundle savedInstanceState) {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+        Location.getInstance().startTracking(getApplicationContext());
 
         final AccessTokenTracker tokenTracker = new AccessTokenTracker() {
             @Override

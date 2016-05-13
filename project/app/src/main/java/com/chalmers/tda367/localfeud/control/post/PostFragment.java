@@ -1,5 +1,8 @@
 package com.chalmers.tda367.localfeud.control.post;
 
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -85,7 +88,9 @@ public class PostFragment extends Fragment {
             @Override
             public void onRefresh() {
                 //ServerComm.getInstance().requestPosts(new RefreshPostsResponseListener(postAdapter));
-                DataHandlerFacade.getPostDataHandler().getList(new Position(53.123123, 11.123123), requestPostsResponseListener);
+                Location loc = com.chalmers.tda367.localfeud.services.Location.getInstance().getLocation();
+
+                DataHandlerFacade.getPostDataHandler().getList(new Position(loc.getLatitude(), loc.getLongitude()), requestPostsResponseListener);
             }
         });
         swipeRefreshLayout.post(new Runnable() {
@@ -95,13 +100,18 @@ public class PostFragment extends Fragment {
             }
         });
 
+
+
+        LocationManager l = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        Location loc = com.chalmers.tda367.localfeud.services.Location.getInstance().getLocation();
         try {
-            DataHandlerFacade.getPostDataHandler().getList(new Position(52.123, 42.123123), requestPostsResponseListener);
+            DataHandlerFacade.getPostDataHandler().getList(new Position(loc.getLatitude(), loc.getLongitude()), requestPostsResponseListener);
 
         } catch (NullPointerException e) {
             getActivity().finish();
