@@ -55,7 +55,7 @@ public class CommentDataHandler extends AbstractDataHandler implements ICommentD
         getClient().delete("comments/" + Integer.toString(comment.getId()) + "/", new RestResponseAction(listener));
     }
 
-    
+
     /**
      * {@inheritDoc}
      */

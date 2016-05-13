@@ -24,12 +24,17 @@ public class LikeDataHandler extends AbstractDataHandler implements ILikeDataHan
     private LikeDataHandler() {}
 
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void getList(Post post, DataResponseListener<List<Like>> listener) {
         // TODO
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void create(Post post, DataResponseListener<Like> listener) {
 
@@ -38,6 +43,9 @@ public class LikeDataHandler extends AbstractDataHandler implements ILikeDataHan
         getClient().post("posts/"+postID+"/likes/", new RestResponseAction(listener));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(Post post, DataResponseListener<Void> listener) {
         int postID = post.getId();
