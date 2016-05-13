@@ -25,6 +25,9 @@ public class ChatDataHandler extends AbstractDataHandler implements IChatDataHan
     private ChatDataHandler() {}
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sendRequest(Post post, int userID, DataResponseListener<Chat> listener) {
 
@@ -36,6 +39,9 @@ public class ChatDataHandler extends AbstractDataHandler implements IChatDataHan
         getClient().post("chats/", params, new RestResponseAction(listener));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void getList(DataResponseListener<List<Chat>> listener) {
         getClient().get("chats/", new RestResponseAction(listener));
