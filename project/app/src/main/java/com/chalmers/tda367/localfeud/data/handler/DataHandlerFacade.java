@@ -28,7 +28,7 @@ public class DataHandlerFacade {
     }
 
     public static IChatMessageDataHandler getChatMessageDataHandler() {
-        return null;
+        return ChatMessageDataHandler.getInstance();
     }
 
     public static IMeDataHandler getMeDataHandler() {

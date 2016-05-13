@@ -178,6 +178,7 @@ public class ServerComm implements IServerComm {
         restClient.get("chats/");
     }
 
+    @Deprecated
     public void requestChatMessages(Chat chat, IResponseListener listener)
     {
         IResponseAction action = new RequestChatMessageResponseAction();
