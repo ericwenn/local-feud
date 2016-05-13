@@ -32,7 +32,7 @@ public class DataHandlerFacade {
     }
 
     public static IMeDataHandler getMeDataHandler() {
-        return null;
+        return MeDataHandler.getInstance();
     }
 
 }

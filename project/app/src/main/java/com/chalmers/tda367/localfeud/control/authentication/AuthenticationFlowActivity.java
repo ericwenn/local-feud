@@ -8,6 +8,10 @@ import android.util.Log;
 
 import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.control.MainActivity;
+import com.chalmers.tda367.localfeud.data.Me;
+import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
+import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
 import com.chalmers.tda367.localfeud.service.responseListeners.IResponseListener;
 import com.chalmers.tda367.localfeud.service.ServerComm;
@@ -40,24 +44,19 @@ public class AuthenticationFlowActivity extends AppIntro {
                     // TODO Make sure all permissions are accepted
                     Log.i(TAG, "onCurrentAccessTokenChanged: " + currentAccessToken);
 
-                    // Fetch data about myself!
-                    IResponseListener listener = new IResponseListener() {
+
+                    DataHandlerFacade.getMeDataHandler().get(new AbstractDataResponseListener<Me>() {
                         @Override
-                        public void onResponseSuccess(IResponseAction source) {
-                            if (source instanceof RequestMeResponseAction){
-                                RequestMeResponseAction action = (RequestMeResponseAction) source;
-                                Log.d(TagHandler.MAIN_TAG, "Du heter: " + action.getMe().getFirstname());
-                                AuthenticatedUser.getInstance().setMe(action.getMe());
-                            }
+                        public void onSuccess(Me data) {
+                            AuthenticatedUser.getInstance().setMe(data);
                         }
 
                         @Override
-                        public void onResponseFailure(IResponseAction source) {
-                            Log.e(TagHandler.MAIN_TAG, "Couldn't fetch myself: " + source.getErrorMessage());
-                        }
-                    };
-                    ServerComm.getInstance().requestMe(listener);
+                        public void onFailure(DataResponseError error, String errormessage) {
+                            Log.e(TagHandler.MAIN_TAG, "Couldn't fetch myself: " + errormessage);
 
+                        }
+                    });
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(i);
                     finish();
