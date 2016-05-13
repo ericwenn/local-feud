@@ -31,11 +31,6 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
-import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
-import com.chalmers.tda367.localfeud.service.responseListeners.IResponseListener;
-import com.chalmers.tda367.localfeud.service.IServerComm;
-import com.chalmers.tda367.localfeud.service.ServerComm;
-import com.chalmers.tda367.localfeud.service.responseListeners.RequestCommentsResponseListener;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.List;
@@ -55,7 +50,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     private EditText writeCommentText;
     private ImageButton postCommentButton;
     private ImageButton backButton;
-    private IServerComm server;
 
     // Tag for logging
     private static final String TAG = "PostClickedActivity";
@@ -69,7 +63,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         Bundle bundle = intent.getExtras();
         post = (Post) bundle.getSerializable("post");
         setContentView(R.layout.activity_post_clicked);
-        server = ServerComm.getInstance();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbarTextView = (TextView) findViewById(R.id.toolbar_title_textview);

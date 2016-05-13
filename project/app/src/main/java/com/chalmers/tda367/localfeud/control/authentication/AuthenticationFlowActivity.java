@@ -6,16 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.control.MainActivity;
+import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
-import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
-import com.chalmers.tda367.localfeud.service.responseListeners.IResponseListener;
-import com.chalmers.tda367.localfeud.service.ServerComm;
-import com.chalmers.tda367.localfeud.service.responseActions.RequestMeResponseAction;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;

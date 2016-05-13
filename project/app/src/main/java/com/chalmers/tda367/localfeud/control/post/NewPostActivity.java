@@ -16,11 +16,6 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
-import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
-import com.chalmers.tda367.localfeud.service.responseListeners.IResponseListener;
-import com.chalmers.tda367.localfeud.service.IServerComm;
-import com.chalmers.tda367.localfeud.service.ServerComm;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 
 /**
  * Created by Daniel Ahlqvist on 2016-04-14.
@@ -30,7 +25,6 @@ public class NewPostActivity extends AppCompatActivity {
     private ImageButton backButton;
     private EditText postEditText;
     private Toolbar toolbar;
-    private IServerComm server;
     private CoordinatorLayout root;
 
     private static final String TAG = "NewPostActivity";
@@ -40,7 +34,6 @@ public class NewPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newpost);
         initViews();
-        server = ServerComm.getInstance();
     }
 
     private void initViews() {
