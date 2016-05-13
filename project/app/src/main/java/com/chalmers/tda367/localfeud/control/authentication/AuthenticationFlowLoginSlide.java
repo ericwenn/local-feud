@@ -2,10 +2,12 @@ package com.chalmers.tda367.localfeud.control.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.facebook.CallbackManager;
@@ -49,7 +51,16 @@ public class AuthenticationFlowLoginSlide extends Fragment {
         LoginButton loginButton = (LoginButton) v.findViewById(R.id.fb_login);
         loginButton.setFragment(this);
         loginButton.setReadPermissions("user_birthday");
-
+        TextView termsButton = (TextView) v.findViewById(R.id.terms_button);
+        termsButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v,
+                        "To use this application, you need to be at least 18 years old. Being an idiot is prohibited.",
+                        Snackbar.LENGTH_LONG)
+                        .show();
+            }
+        });
 
         callbackManager = CallbackManager.Factory.create();
         return v;
