@@ -38,7 +38,7 @@ public class PostDataHandler extends AbstractDataHandler implements IPostDataHan
         param.put("longitude", Double.toString(pos.getLongitude()));
 
 
-        getClient().get( "/posts/", param, new RestResponseAction(listener));
+        getClient().get( "posts/", param, new RestResponseAction(listener));
 
 
     }
