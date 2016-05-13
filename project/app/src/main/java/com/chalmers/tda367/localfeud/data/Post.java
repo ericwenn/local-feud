@@ -147,4 +147,5 @@ public class Post extends GeneralPost implements Serializable {
             this.text = text;
         }
     }
+
 }

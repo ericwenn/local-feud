@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.service.ResponseError;
 import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.TagHandler;
@@ -132,22 +131,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
-    public void showError(ResponseError responseError) {
-        String errorText;
-        switch (responseError) {
-            case NOTFOUND:
-                errorText = context.getString(R.string.notfound_error_msg);
-                break;
-            case UNAUTHORIZED:
-                errorText = context.getString(R.string.unauthorized_error_msg);
-                break;
-            default:
-                errorText = context.getString(R.string.server_error_msg);
-                break;
-        }
-        Log.d(TagHandler.MAIN_TAG, "Error: " + errorText);
-        adapterCallback.onShowSnackbar(errorText);
-    }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
 

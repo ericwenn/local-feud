@@ -18,22 +18,25 @@ import com.chalmers.tda367.localfeud.control.chat.ChatActiveActivity;
 import com.chalmers.tda367.localfeud.control.chat.ChatFragment;
 import com.chalmers.tda367.localfeud.control.chat.ChatListAdapter;
 import com.chalmers.tda367.localfeud.control.me.MeFragment;
+import com.chalmers.tda367.localfeud.control.permission.PermissionFlow;
 import com.chalmers.tda367.localfeud.control.post.FeedFragment;
 import com.chalmers.tda367.localfeud.control.post.PostAdapter;
 import com.chalmers.tda367.localfeud.control.post.PostClickedActivity;
 import com.chalmers.tda367.localfeud.data.Chat;
+import com.chalmers.tda367.localfeud.data.Like;
 import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
-import com.chalmers.tda367.localfeud.service.responseListeners.IResponseListener;
-import com.chalmers.tda367.localfeud.service.ServerComm;
+import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
+import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.util.PermissionHandler;
-import com.chalmers.tda367.localfeud.control.permission.PermissionFlow;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback, ChatListAdapter.AdapterCallback {
+
+    private static final String TAG = "MainActivity";
 
     private BottomBar bottomBar;
     private Fragment currentFragment;
@@ -144,21 +147,37 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
             originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
         }
         imageButton.setImageResource(revertLikeDrawable);
-        IResponseListener responseListener = new IResponseListener() {
-            @Override
-            public void onResponseSuccess(IResponseAction source) {
-                post.setIsLiked(!isLiked);
-            }
 
-            @Override
-            public void onResponseFailure(IResponseAction source) {
-                imageButton.setImageResource(originalLikeDrawable);
-                showSnackbar(getString(R.string.like_error_msg));
-            }
-        };
 
-        if (!isLiked) ServerComm.getInstance().likePost(post, responseListener);
-        else ServerComm.getInstance().unlikePost(post, responseListener);
+
+        if (!isLiked) {
+            DataHandlerFacade.getLikeDataHandler().create( post, new AbstractDataResponseListener<Like>() {
+                @Override
+                public void onSuccess(Like data) {
+                    post.setIsLiked(!isLiked);
+                }
+
+                @Override
+                public void onFailure(DataResponseError error, String errormessage) {
+                    imageButton.setImageResource(originalLikeDrawable);
+                    showSnackbar(getString(R.string.like_error_msg));
+                }
+            } );
+        }
+        else {
+            DataHandlerFacade.getLikeDataHandler().delete( post, new AbstractDataResponseListener<Void>() {
+                @Override
+                public void onSuccess(Void data) {
+                    post.setIsLiked(!isLiked);
+                }
+
+                @Override
+                public void onFailure(DataResponseError error, String errormessage) {
+                    imageButton.setImageResource(originalLikeDrawable);
+                    showSnackbar(getString(R.string.like_error_msg));
+                }
+            });
+        }
     }
 
     @Override

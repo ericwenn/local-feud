@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Chat;
-import com.chalmers.tda367.localfeud.service.ResponseError;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.ArrayList;
@@ -107,22 +106,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         }
     }
 
-    public void showError(ResponseError responseError) {
-        String errorText;
-        switch (responseError) {
-            case NOTFOUND:
-                errorText = context.getString(R.string.notfound_error_msg);
-                break;
-            case UNAUTHORIZED:
-                errorText = context.getString(R.string.unauthorized_error_msg);
-                break;
-            default:
-                errorText = context.getString(R.string.server_error_msg);
-                break;
-        }
-        Log.d(TagHandler.MAIN_TAG, "Error: " + errorText);
-        adapterCallback.onShowSnackbar(errorText);
-    }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView titleTextView;

@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +19,21 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.MainActivity;
-import com.chalmers.tda367.localfeud.service.ServerComm;
-import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
-import com.chalmers.tda367.localfeud.service.responseListeners.RequestChatListResponseListener;
+import com.chalmers.tda367.localfeud.data.Chat;
+import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
+import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+
+import java.util.Collections;
+import java.util.List;
 
 public class ChatFragment extends Fragment {
-
+    private static final String TAG = "ChatFragment";
     private CoordinatorLayout root;
     private MainActivity activity;
     private ChatListAdapter chatListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RequestChatListResponseListener requestChatListResponseListener;
+
 
     public ChatFragment() {
 
@@ -41,24 +46,7 @@ public class ChatFragment extends Fragment {
         return fragment;
     }
 
-    public class RefreshChatListResponseListener extends RequestChatListResponseListener {
 
-        public RefreshChatListResponseListener(ChatListAdapter adapter) {
-            super(adapter);
-        }
-
-        @Override
-        public void onResponseSuccess(IResponseAction source) {
-            super.onResponseSuccess(source);
-            swipeRefreshLayout.setRefreshing(false);
-        }
-
-        @Override
-        public void onResponseFailure(IResponseAction source) {
-            super.onResponseFailure(source);
-            swipeRefreshLayout.setRefreshing(false);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,13 +61,27 @@ public class ChatFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
-        ServerComm.getInstance().requestChats(requestChatListResponseListener);
+        DataHandlerFacade.getChatDataHandler().getList(new AbstractDataResponseListener<List<Chat>>() {
+            @Override
+            public void onSuccess(List<Chat> data) {
+                swipeRefreshLayout.setRefreshing(false);
+                Collections.reverse(data);
+                chatListAdapter.addChatListToAdapter( data );
+            }
+
+            @Override
+            public void onFailure(DataResponseError error, String errormessage) {
+                swipeRefreshLayout.setRefreshing(false);
+                Log.i(TAG, "onFailure: "+ errormessage);
+            }
+        });
+
     }
 
     private void initViews(View view) {
         root = (CoordinatorLayout) view.findViewById(R.id.chat_list_root);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.chat_list_refresh_layout);
-        requestChatListResponseListener = new RefreshChatListResponseListener(chatListAdapter);
+
         TextView textView = (TextView) view.findViewById(R.id.chat_list_toolbar_title_textview);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.chat_list_recyclerview);
@@ -92,9 +94,23 @@ public class ChatFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ServerComm.getInstance().requestPosts(new RefreshChatListResponseListener(chatListAdapter));
+                DataHandlerFacade.getChatDataHandler().getList(new AbstractDataResponseListener<List<Chat>>() {
+                    @Override
+                    public void onSuccess(List<Chat> data) {
+                        Collections.reverse(data);
+                        chatListAdapter.addChatListToAdapter(data);
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onFailure(DataResponseError error, String errormessage) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        Log.i(TAG, "onFailure: "+ errormessage);
+                    }
+                });
             }
         });
+
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {

@@ -1,10 +1,9 @@
-package com.chalmers.tda367.localfeud.service;
+package com.chalmers.tda367.localfeud.services;
 
 import android.os.Looper;
 import android.util.Log;
 
 import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
-import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
@@ -22,51 +21,80 @@ public class RestClient {
     private AsyncHttpClient syncClient;
     private RestResponseHandler responseHandler;
 
-    public RestClient(IResponseAction action){
+    private static RestClient instance = null;
+
+    public synchronized static RestClient getInstance() {
+        if( instance == null) {
+            instance = new RestClient();
+        }
+
+        return instance;
+    }
+
+
+
+
+
+
+    public RestClient(){
         asyncClient = new AsyncHttpClient();
+        syncClient = new SyncHttpClient();
 
         HashMap<String,String> h = AuthenticatedUser.getInstance().requestHeaders();
         for(Map.Entry<String, String> m : h.entrySet()) {
             asyncClient.addHeader(m.getKey(),m.getValue());
         }
-        syncClient = new SyncHttpClient();
-        responseHandler = new RestResponseHandler(action);
+
     }
 
     public void addHeader(String header, String value){
         getClient().addHeader(header, value);
     }
 
-    public void get(String url){
-        getClient().get(getAbsoluteUrl(url), null, responseHandler);
+
+
+
+
+
+
+
+    public void get(String url, IResponseAction action ) {
+        getClient().get(getAbsoluteUrl(url), null, new RestResponseHandler(action));
     }
 
-    public void get(String url, Map<String, String> paramsMap){
+
+
+
+
+
+    public void get(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);
-        getClient().get(getAbsoluteUrl(url), params, responseHandler);
+        getClient().get(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
 
-    public void post(String url, Map<String, String> paramsMap){
+
+
+    public void post(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);
-        getClient().post(getAbsoluteUrl(url), params, responseHandler);
+        getClient().post(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
 
-    public void post(String url) {
-        getClient().post(getAbsoluteUrl(url), null, responseHandler);
+    public void post(String url, IResponseAction action) {
+        getClient().post(getAbsoluteUrl(url), null, new RestResponseHandler(action));
     }
 
-    public void delete(String url, Map<String, String> paramsMap){
+    public void delete(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);
-        getClient().delete(getAbsoluteUrl(url), params, responseHandler);
+        getClient().delete(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
 
-    public void delete(String url){
-        getClient().delete(getAbsoluteUrl(url), null, responseHandler);
+    public void delete(String url, IResponseAction action){
+        getClient().delete(getAbsoluteUrl(url), null, new RestResponseHandler(action));
     }
 
-    public void put(String url, Map<String, String> paramsMap) {
+    public void put(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);
-        getClient().put(getAbsoluteUrl(url), params, responseHandler);
+        getClient().put(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
 
     /**

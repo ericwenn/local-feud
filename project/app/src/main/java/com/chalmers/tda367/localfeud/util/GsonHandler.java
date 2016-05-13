@@ -10,6 +10,7 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,5 +63,10 @@ public class GsonHandler
 
     public Me toMe(String json){
         return gson.fromJson(json, new TypeToken<Me>(){}.getType());
+    }
+
+    // Kanske använda E istället för Type type.
+    public <E> E fromJson(String json, Type type) {
+        return gson.fromJson(json, type);
     }
 }

@@ -12,26 +12,26 @@ import android.widget.ImageButton;
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.service.IServerComm;
-import com.chalmers.tda367.localfeud.service.ServerComm;
-import com.chalmers.tda367.localfeud.service.responseActions.IResponseAction;
-import com.chalmers.tda367.localfeud.service.responseListeners.IResponseListener;
-import com.chalmers.tda367.localfeud.util.TagHandler;
+import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
+import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+
 
 /**
  * Created by Daniel Ahlqvist on 2016-04-14.
  */
 public class NewPostActivity extends AppCompatActivity {
     private EditText postEditText;
-    private IServerComm server;
+
     private CoordinatorLayout root;
+
+    private static final String TAG = "NewPostActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newpost);
         initViews();
-        server = ServerComm.getInstance();
     }
 
     private void initViews() {
@@ -63,25 +63,21 @@ public class NewPostActivity extends AppCompatActivity {
                     post.setLocation(new Position(53.123123, 11.123123));
                     post.setContent(content);
 
-                    IResponseListener responseListener = new IResponseListener() {
+                    DataHandlerFacade.getPostDataHandler().create(post, new AbstractDataResponseListener<Post>() {
                         @Override
-                        public void onResponseSuccess(IResponseAction source) {
-                            Log.d(TagHandler.MAIN_TAG, "Post successfully created");
+                        public void onSuccess(Post data) {
+                            Log.d(TAG, "Post successfully created");
                             finish();
                         }
 
                         @Override
-                        public void onResponseFailure(IResponseAction source) {
-                            Snackbar.make(root,
-                                    "Fel:" + source.getResponseError().toString(),
-                                    Snackbar.LENGTH_LONG)
-                                    .show();
+                        public void onFailure(DataResponseError error, String errormessage) {
+                            Snackbar.make(root, "Fel:" + errormessage, Snackbar.LENGTH_LONG).show();
                         }
-                    };
-
-                    server.createPost(post, responseListener);
+                    });
                 }
             });
+
         }
     }
 }
