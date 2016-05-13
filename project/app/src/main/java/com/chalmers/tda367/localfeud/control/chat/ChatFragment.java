@@ -121,7 +121,20 @@ public class ChatFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ServerComm.getInstance().requestPosts(new RefreshChatListResponseListener(chatListAdapter));
+                DataHandlerFacade.getChatDataHandler().getList(new AbstractDataResponseListener<List<Chat>>() {
+                    @Override
+                    public void onSuccess(List<Chat> data) {
+                        Collections.reverse(data);
+                        chatListAdapter.addChatListToAdapter(data);
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onFailure(DataResponseError error, String errormessage) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        Log.i(TAG, "onFailure: "+ errormessage);
+                    }
+                });
             }
         });
 
