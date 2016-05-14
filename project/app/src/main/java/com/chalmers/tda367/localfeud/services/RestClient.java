@@ -1,10 +1,8 @@
 package com.chalmers.tda367.localfeud.services;
 
 import android.os.Looper;
-import android.util.Log;
 
 import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
@@ -109,7 +107,6 @@ public class RestClient {
     }
 
     private String getAbsoluteUrl(String relativeUrl) {
-        Log.e(TagHandler.MAIN_TAG, BASE_URL + relativeUrl);
         return BASE_URL + relativeUrl;
     }
 }

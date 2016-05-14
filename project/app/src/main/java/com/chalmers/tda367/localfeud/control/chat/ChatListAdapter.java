@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Chat;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,10 +85,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     }
 
     public void addChatListToAdapter(final List<Chat> chatList) {
-        Log.d(TagHandler.MAIN_TAG, "Trying to add " + chatList.size() + " chats");
         final int currentCount = this.chatList.size();
         synchronized (this.chatList) {
-            Log.d(TagHandler.MAIN_TAG, "Uppdaterar inlägg...");
             clearAdapter();
             this.chatList.addAll(chatList);
         }

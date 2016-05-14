@@ -7,7 +7,6 @@ import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import com.chalmers.tda367.localfeud.data.GeneralPost;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.DistanceColor;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +135,6 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void addCommentListToAdapter(final List<Comment> comments) {
         final int currentCount = this.comments.size();
         synchronized (this.comments) {
-            Log.d(TagHandler.MAIN_TAG, "Uppdaterar kommentarer...");
             clearAdapter();
             this.comments.addAll(comments);
         }

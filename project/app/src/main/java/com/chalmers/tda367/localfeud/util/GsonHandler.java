@@ -1,7 +1,5 @@
 package com.chalmers.tda367.localfeud.util;
 
-import android.util.Log;
-
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.Comment;
@@ -56,7 +54,6 @@ public class GsonHandler
     }
     public ArrayList<Chat> toChatList(String json)
     {
-        Log.d(TagHandler.MAIN_TAG, "JSON RESPONSE ON CHAT: \n\n" + json + "\n\n\n");
         return gson.fromJson(json, new TypeToken<List<Chat>>() {
         }.getType());
     }

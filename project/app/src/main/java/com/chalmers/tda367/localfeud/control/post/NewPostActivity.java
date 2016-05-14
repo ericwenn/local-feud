@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -67,7 +66,6 @@ public class NewPostActivity extends AppCompatActivity {
                     DataHandlerFacade.getPostDataHandler().create(post, new AbstractDataResponseListener<Post>() {
                         @Override
                         public void onSuccess(Post data) {
-                            Log.d(TAG, "Post successfully created");
                             finish();
                         }
 

@@ -1,7 +1,5 @@
 package com.chalmers.tda367.localfeud.data.handler;
 
-import android.util.Log;
-
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
