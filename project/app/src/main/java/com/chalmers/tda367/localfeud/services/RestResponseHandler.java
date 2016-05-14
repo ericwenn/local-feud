@@ -26,7 +26,7 @@ public class RestResponseHandler extends AsyncHttpResponseHandler implements Res
 
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        Log.e(TagHandler.MAIN_TAG, "Failure. Status code:" + Integer.toString(statusCode));
+        Log.e(TagHandler.MAIN_TAG, "Failure. Status code:" + statusCode);
 
         this.action.onFailure(statusCode, new String(responseBody));
     }
