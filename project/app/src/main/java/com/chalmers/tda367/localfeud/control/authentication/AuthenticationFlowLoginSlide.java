@@ -4,14 +4,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,8 +59,8 @@ public class AuthenticationFlowLoginSlide extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_authentication_flow_login_slide, container, false);
-        LoginButton loginButton = (LoginButton) v.findViewById(R.id.fb_login);
+        final View v = inflater.inflate(R.layout.fragment_authentication_flow_login_slide, container, false);
+        final LoginButton loginButton = (LoginButton) v.findViewById(R.id.fb_login);
         loginButton.setFragment(this);
         loginButton.setReadPermissions("user_birthday");
         TextView termsButton = (TextView) v.findViewById(R.id.terms_button);
@@ -62,7 +74,16 @@ public class AuthenticationFlowLoginSlide extends Fragment {
             }
         });
 
+        Button fbLoginButton = (Button) v.findViewById(R.id.btn_fb_login);
+        fbLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginButton.performClick();
+            }
+        });
+
         callbackManager = CallbackManager.Factory.create();
+
         return v;
     }
 
