@@ -2,28 +2,36 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
+    android:background="@color/feedColorPrimary"
     android:layout_weight="10"
     android:id="@+id/main">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/turtle_back"
+        android:scaleType="centerCrop" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/edda_logo"
+        android:src="@drawable/edda_logo_simple_w"
         android:padding="50dp"
         android:layout_marginTop="20dp"
         android:id="@+id/app_logo"
         android:contentDescription="@string/app_logo" />
 
     <TextView
-        android:layout_width="300sp"
-        android:layout_height="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-thin"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textSize="28sp"
+        android:layout_marginBottom="20dp"
         android:text="@string/authenticate"
         android:textStyle="bold"
         android:id="@+id/textView"
@@ -36,19 +44,50 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_vertical"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textSize="16sp"
         android:text="@string/get_location_permission"
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/fb_login"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="100dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:paddingBottom="90dp">
+
+        <Button
+            android:id="@+id/btn_fb_login"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_centerHorizontal="true"
+            android:text="@string/login_button"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
+            android:background="@color/white"
+            android:textColor="@color/feedColorPrimaryDark"
+            android:textSize="16sp"/>
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/fb_login"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_fb_login"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/terms_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Terms and conditions"
+                android:layout_below="@id/fb_login"
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="#ffffff"
+                android:textStyle="bold"/>
+    </RelativeLayout>
 </RelativeLayout>

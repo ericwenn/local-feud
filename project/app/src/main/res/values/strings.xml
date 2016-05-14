@@ -15,6 +15,7 @@
     <string name="grant_access">Grant access</string>
     <string name="authenticate">Authenticate</string>
     <string name="get_location_permission">Change permissions in your device\'s app settings. Give Edda access to the device\'s Location.</string>
+    <string name="login_button">Log in to Edda with Facebook!</string>
     <string name="distance">Distance</string>
     <!--Error Messages-->
     <string name="like_error_msg">Couldn\'t like right now. Try again later.</string>
