@@ -60,7 +60,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         int distanceColor = DistanceColor.distanceColor(post.getLocation().getDistance());
         int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
         holder.postItemTopbar.setBackgroundColor(ContextCompat.getColor(context, distanceColor));
-        String distance = "" + post.getLocation().getDistance();
+        String distance = "" + post.getDistance();
         holder.postItemDistanceTextView.setText(distance);
         holder.postItemDistanceTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
 

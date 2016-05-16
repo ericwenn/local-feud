@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.data;
 
 import android.util.Log;
 
+import com.chalmers.tda367.localfeud.services.Location;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.io.Serializable;
@@ -19,15 +20,15 @@ public class Post extends GeneralPost implements Serializable {
     private Position location;
     private User user;
     private double reach;
+    private int distance;
     private Content content;
     private String date_posted;
     private boolean is_deleted;
     private int number_of_comments;
     private int number_of_likes;
     private String href;
-
-
     private boolean current_user_has_liked;
+
 
     public boolean isLiked() {
         return current_user_has_liked;
@@ -38,8 +39,6 @@ public class Post extends GeneralPost implements Serializable {
     }
 
 
-
-
     public int getId() {
         return id;
     }
@@ -48,10 +47,8 @@ public class Post extends GeneralPost implements Serializable {
         this.id = id;
     }
 
-
-
-
     public Position getLocation() {
+        setDistance();
         return location;
     }
 
@@ -60,6 +57,32 @@ public class Post extends GeneralPost implements Serializable {
     }
 
 
+    public void setDistance()
+    {
+        int globeRadius = 6371000;
+        double myLatitude = Location.getInstance().getLocation().getLatitude();
+        double myLongitude = Location.getInstance().getLocation().getLongitude();
+
+        double phi1 = Math.toRadians(location.getLatitude());
+        double phi2 = Math.toRadians(Location.getInstance().getLocation().getLatitude());
+
+        double delta_lat = Math.toRadians(myLatitude - location.getLatitude());
+        double delta_lon = Math.toRadians(myLongitude - location.getLongitude());
+
+        double a = Math.sin(delta_lat/2) * Math.sin(delta_lon/2)
+                + Math.cos(phi1) * Math.cos(phi2) *
+                Math.sin(delta_lon/2) * Math.sin(delta_lat/2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        double distanceDouble = globeRadius * c;
+        distance = (int) Math.round(distanceDouble);
+    }
+
+    public int getDistance()
+    {
+        return distance;
+    }
 
 
     public User getUser() {
