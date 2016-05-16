@@ -19,7 +19,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
-import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Like;
@@ -289,7 +288,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         final MenuItem sendChatRequestMenuItem = menu.getMenu().add(Menu.NONE, 2, Menu.NONE, R.string.send_chat_request);
         final MenuItem reportMenuItem = menu.getMenu().add(Menu.NONE, 3, Menu.NONE, R.string.report);
 
-        if (AuthenticatedUser.getInstance().getMe().getId() == comment.getUser().getId()) { //if comment is made by me
+        if (DataHandlerFacade.getMeDataHandler().getMe().getId() == comment.getUser().getId()) { //if comment is made by me
             menu.getMenu().removeItem(sendChatRequestMenuItem.getItemId());
             menu.getMenu().removeItem(reportMenuItem.getItemId());
         } else { //if comment is made by someone else

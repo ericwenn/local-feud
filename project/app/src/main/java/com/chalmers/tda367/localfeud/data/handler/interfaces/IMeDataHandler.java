@@ -11,4 +11,10 @@ public interface IMeDataHandler {
      * @param listener Listening to when the request is finished
      */
     void get(DataResponseListener<Me> listener);
+
+
+
+    void setMe( Me me );
+
+    Me getMe() throws NullPointerException;
 }
