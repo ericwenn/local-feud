@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.List;
 
@@ -114,7 +116,7 @@ public class PostFragment extends Fragment {
             DataHandlerFacade.getPostDataHandler().getList(new Position(loc.getLatitude(), loc.getLongitude()), requestPostsResponseListener);
 
         } catch (NullPointerException e) {
-            getActivity().finish();
+            Log.e(TagHandler.MAIN_TAG, e.getMessage());
         }
         super.onViewCreated(view, savedInstanceState);
     }

@@ -1,6 +1,7 @@
 package com.chalmers.tda367.localfeud.control.post;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,23 +17,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chalmers.tda367.localfeud.R;
-import com.chalmers.tda367.localfeud.control.MainActivity;
 
 public class FeedFragment extends Fragment {
 
     private PostAdapter postAdapter;
     private ViewPager viewPager;
-    private MainActivity activity;
     private FeedPagerAdapter feedPagerAdapter;
     private CoordinatorLayout root;
     private PostFragment postFragment, postFragment2;
 
     private final static String VIEW_PAGER_KEY = "viewPagerKey";
 
-    public static FeedFragment newInstance(MainActivity mainActivity) {
+    public static FeedFragment newInstance(Context context) {
         FeedFragment fragment = new FeedFragment();
-        fragment.activity = mainActivity;
-        fragment.postAdapter = new PostAdapter(fragment.activity);
+        fragment.postAdapter = new PostAdapter(context);
 
         fragment.postFragment = PostFragment.newInstance(fragment.postAdapter);
         fragment.postFragment2 = PostFragment.newInstance(fragment.postAdapter);
@@ -42,13 +40,13 @@ public class FeedFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        feedPagerAdapter = new FeedPagerAdapter(getActivity().getSupportFragmentManager());
         setRetainInstance(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        feedPagerAdapter = new FeedPagerAdapter(activity.getSupportFragmentManager());
         return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
@@ -67,7 +65,7 @@ public class FeedFragment extends Fragment {
         createNewFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(activity, NewPostActivity.class);
+                Intent i = new Intent(getActivity(), NewPostActivity.class);
                 startActivity(i);
             }
         });
@@ -79,6 +77,7 @@ public class FeedFragment extends Fragment {
         if (savedInstanceState != null)
             viewPager.onRestoreInstanceState(savedInstanceState.getBundle(VIEW_PAGER_KEY));
 
+        feedPagerAdapter = new FeedPagerAdapter(getActivity().getSupportFragmentManager());
         addPages(viewPager);
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.main_tablayout);
         tabLayout.setupWithViewPager(viewPager);
