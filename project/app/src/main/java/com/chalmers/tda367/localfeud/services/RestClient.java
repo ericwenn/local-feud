@@ -2,7 +2,6 @@ package com.chalmers.tda367.localfeud.services;
 
 import android.os.Looper;
 
-import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
@@ -38,7 +37,7 @@ public class RestClient {
         asyncClient = new AsyncHttpClient();
         syncClient = new SyncHttpClient();
 
-        HashMap<String,String> h = AuthenticatedUser.getInstance().requestHeaders();
+        HashMap<String,String> h = Authentication.getInstance().getRequestHeaders();
         for(Map.Entry<String, String> m : h.entrySet()) {
             asyncClient.addHeader(m.getKey(),m.getValue());
         }
