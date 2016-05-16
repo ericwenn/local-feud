@@ -4,19 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 
 import com.chalmers.tda367.localfeud.control.MainActivity;
-import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.services.Authentication;
+import com.chalmers.tda367.localfeud.services.IAuthentication;
 import com.chalmers.tda367.localfeud.services.Location;
-import com.chalmers.tda367.localfeud.util.TagHandler;
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.FacebookSdk;
 import com.github.paolorotolo.appintro.AppIntro;
 
 import java.lang.reflect.Field;
@@ -32,53 +31,46 @@ public class AuthenticationFlowActivity extends AppIntro {
     @Override
     public void init(@Nullable Bundle savedInstanceState) {
 
-        Log.d(TagHandler.MAIN_TAG, "INIT AUTH FLOW");
-
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        final View v = this.getCurrentFocus();
 
         Location.getInstance().startTracking(getApplicationContext());
 
-        final AccessTokenTracker tokenTracker = new AccessTokenTracker() {
+        IAuthentication authService = Authentication.getInstance( );
+        authService.startTracking(getApplicationContext(), new IAuthentication.IAuthenticationListener() {
             @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                if (currentAccessToken != null) {
-                    // TODO Make sure all permissions are accepted
+            public void onLogInSuccessful() {
 
-                    Log.d(TagHandler.MAIN_TAG, "Ej autentiserad");
-
-                    DataHandlerFacade.getMeDataHandler().get(new AbstractDataResponseListener<Me>() {
-                        @Override
-                        public void onSuccess(Me data) {
-                            AuthenticatedUser.getInstance().setMe(data);
-                        }
-
-                        @Override
-                        public void onFailure(DataResponseError error, String errormessage) {
-                            Log.e(TagHandler.MAIN_TAG, "Couldn't fetch myself: " + errormessage);
-                        }
-                    });
-                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(i);
-                    finish();
-                } else {
-                    Log.d(TagHandler.MAIN_TAG, "Autentiserad");
-                    try {
-                        Activity activity = getActivity();
-                        if (activity != null && activity.getClass() == MainActivity.class) {
-                            activity.finish();
-                            Intent i = getBaseContext().getPackageManager()
-                                    .getLaunchIntentForPackage(getBaseContext().getPackageName());
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(i);
-                            finish();
-                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, "onCurrentAccessTokenChanged: " + e);
+                DataHandlerFacade
+                        .getMeDataHandler().get(new AbstractDataResponseListener<Me>() {
+                    @Override
+                    public void onSuccess(Me data) {
+                        DataHandlerFacade.getMeDataHandler().setMe( data );
                     }
-                    Log.i(TAG, "onCurrentAccessTokenChanged: Not logged in");
-                }
+
+                    @Override
+                    public void onFailure(DataResponseError error, String errormessage) {
+                    }
+                });
+
+
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
+                finish();
             }
-        };
+
+            @Override
+            public void onLoginFailed(IAuthentication.AuthenticationError err) {
+                Snackbar.make( v, "All permission must be accepted", Snackbar.LENGTH_LONG);
+            }
+
+            @Override
+            public void onLogOut() {
+                Intent i = new Intent(getApplicationContext(), AuthenticationFlowActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
         AuthenticationFlowLoginSlide f = AuthenticationFlowLoginSlide.newInstance();
         addSlide(f);
 
