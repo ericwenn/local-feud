@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -28,7 +29,12 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.util.PermissionHandler;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
@@ -45,6 +51,13 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+        // Check if Google Play APK is available
+        if(GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS){
+            //TODO: Make this error dialog
+            //GoogleApiAvailability.showErrorDialogFragment(this,GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(getApplicationContext()),);
+            Log.e(TagHandler.MAIN_TAG, "Google Play APK is missing");
+        }
 
         initFlow();
 

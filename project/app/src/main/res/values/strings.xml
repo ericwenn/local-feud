@@ -47,4 +47,7 @@
     <string name="time_dummy">13:37</string>
     <string name="dummy_user">Elvis, 80</string>
     <string name="dummy_user_anon">M, 22</string>
+
+    <!--GCM-->
+    <string name="project_number">517596981987</string>
 </resources>

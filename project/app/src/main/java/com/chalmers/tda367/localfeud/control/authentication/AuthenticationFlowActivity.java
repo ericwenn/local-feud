@@ -32,6 +32,8 @@ public class AuthenticationFlowActivity extends AppIntro {
     @Override
     public void init(@Nullable Bundle savedInstanceState) {
 
+        Log.d(TagHandler.MAIN_TAG, "INIT AUTH FLOW");
+
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         Location.getInstance().startTracking(getApplicationContext());
@@ -41,6 +43,8 @@ public class AuthenticationFlowActivity extends AppIntro {
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
                 if (currentAccessToken != null) {
                     // TODO Make sure all permissions are accepted
+
+                    Log.d(TagHandler.MAIN_TAG, "Ej autentiserad");
 
                     DataHandlerFacade.getMeDataHandler().get(new AbstractDataResponseListener<Me>() {
                         @Override
@@ -57,6 +61,7 @@ public class AuthenticationFlowActivity extends AppIntro {
                     startActivity(i);
                     finish();
                 } else {
+                    Log.d(TagHandler.MAIN_TAG, "Autentiserad");
                     try {
                         Activity activity = getActivity();
                         if (activity != null && activity.getClass() == MainActivity.class) {
