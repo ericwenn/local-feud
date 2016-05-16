@@ -31,9 +31,12 @@ public class Location {
     public void startTracking(Context context) {
         this.context = context;
 
+
         // Acquire a reference to the system Location Manager
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
+        lastKnownLocation = locationManager.getLastKnownLocation( LocationManager.GPS_PROVIDER );
+        
         // Define a listener that responds to location updates
         LocationListener locationListener = new LocationListener() {
             @Override
@@ -64,7 +67,7 @@ public class Location {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
     }
 
