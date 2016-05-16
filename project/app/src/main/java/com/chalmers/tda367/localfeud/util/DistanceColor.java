@@ -38,7 +38,7 @@ public class DistanceColor
         }
         else
         {
-            return R.color.black;
+            return R.color.alphaBlack;
         }
     }
 

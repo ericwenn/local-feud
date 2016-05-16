@@ -10,6 +10,7 @@
     <color name="meColorPrimaryDark">#D32F2F</color>
     <color name="meColorAccent">#448AFF</color>
     <color name="black">#000</color>
+    <color name="alphaBlack">#8c000000</color>
     <color name="white">#fff</color>
     <color name="transparent">#00ffffff</color>
     <color name="white70PTransparent">#B3FFFFFF</color>
