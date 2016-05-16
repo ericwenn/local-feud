@@ -46,13 +46,14 @@ public class NewPostActivity extends AppCompatActivity {
         }
 
         postEditText = (EditText) findViewById(R.id.posttext);
-        ImageButton postButton = (ImageButton) findViewById(R.id.post_button);
+        final ImageButton postButton = (ImageButton) findViewById(R.id.post_button);
         root = (CoordinatorLayout) findViewById(R.id.newPostRoot);
 
         if (postButton != null) {
             postButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    postButton.setEnabled(false);
                     Post post = new Post();
                     Post.Content content = new Post.Content();
 
