@@ -7,7 +7,7 @@ import com.chalmers.tda367.localfeud.R;
  */
 public class DistanceColor
 {
-    public static int distanceColor(Double distance) throws NullPointerException
+    public static int distanceColor(int distance) throws NullPointerException
     {
         if (distance < 500)
         {

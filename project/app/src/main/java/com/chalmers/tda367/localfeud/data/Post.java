@@ -48,7 +48,6 @@ public class Post extends GeneralPost implements Serializable {
     }
 
     public Position getLocation() {
-        setDistance();
         return location;
     }
 
@@ -78,11 +77,13 @@ public class Post extends GeneralPost implements Serializable {
         double distanceDouble = globeRadius * c;
         distance = (int) Math.round(distanceDouble);
 
+        Log.d(TagHandler.MAIN_TAG, "test");
         Log.d(TagHandler.MAIN_TAG, " myLat: " + myLatitude + " myLong: " + myLongitude + " phi1: " + phi1 + " phi2: " + phi2 + " delta_lat: " + delta_lat + " delta_long: " + delta_lon + " a: " + a + " c: " + c+ " distance: " + distance);
     }
 
     public int getDistance()
     {
+        setDistance();
         return distance;
     }
 

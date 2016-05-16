@@ -66,7 +66,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (holder.getClass() == PostViewHolder.class) {
             final Post post = (Post) comments.get(position);
             final PostViewHolder viewHolder = (PostViewHolder) holder;
-            int distanceColor = DistanceColor.distanceColor(post.getLocation().getDistance());
+            int distanceColor = DistanceColor.distanceColor(post.getDistance());
             int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
             viewHolder.postItemMsgTextView.setText(post.getContent().getText());
             viewHolder.postItemTopbar.setBackgroundColor(ContextCompat.getColor(context, distanceColor));
