@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.data;
 
 import android.util.Log;
 
+import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.services.Location;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 

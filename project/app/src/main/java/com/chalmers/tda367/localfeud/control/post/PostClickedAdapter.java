@@ -20,6 +20,7 @@ import com.chalmers.tda367.localfeud.data.GeneralPost;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.DistanceColor;
+import com.chalmers.tda367.localfeud.util.DistanceString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
             viewHolder.postItemMsgTextView.setText(post.getContent().getText());
             viewHolder.postItemTopbar.setBackgroundColor(ContextCompat.getColor(context, distanceColor));
-            viewHolder.postItemDistanceTextView.setText("" + post.getDistance());
+            viewHolder.postItemDistanceTextView.setText(DistanceString.getDistanceString(context, post.getDistance()));
             viewHolder.postItemDistanceTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
             viewHolder.postItemTimeTextView.setText(DateString.convert(post.getDatePosted()));
 
