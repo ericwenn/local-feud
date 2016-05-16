@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
-import com.chalmers.tda367.localfeud.data.AuthenticatedUser;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.User;
@@ -84,7 +83,9 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
 
                     if (!chatMessageInput.getText().toString().isEmpty()) {
                         String messageText = chatMessageInput.getText().toString();
-                        ChatMessage message = new ChatMessage(chat, messageText, new User(AuthenticatedUser.getInstance().getMe().getId(), AuthenticatedUser.getInstance().getMe().getAge(), AuthenticatedUser.getInstance().getMe().getGender()));
+
+                        ChatMessage message = new ChatMessage(chat, messageText, new User(DataHandlerFacade.getMeDataHandler().getMe()));
+
                         chatMessageInput.setText("");
                         DataHandlerFacade.getChatMessageDataHandler().send(chat, message, new AbstractDataResponseListener<ChatMessage>() {
                             @Override

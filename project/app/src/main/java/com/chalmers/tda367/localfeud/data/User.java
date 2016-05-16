@@ -21,6 +21,12 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
+    public User( Me user ) {
+        this.id = user.getId();
+        this.age = user.getAge();
+        this.gender = user.getGender();
+    }
+
     public int getId(){
         return this.id;
     }
