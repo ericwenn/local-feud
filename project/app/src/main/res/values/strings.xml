@@ -32,9 +32,9 @@
 
     <!--Distances-->
     <string name="dist500">less than 500 meters away</string>
-    <string name="dist5001000">500 - 1000 meters away</string>
-    <string name="dist10002000">1000 - 2000 meters away</string>
-    <string name="dist20003000">2000 - 3000 meters away</string>
+    <string name="dist5001000">500 – 1000 meters away</string>
+    <string name="dist10002000">1000 – 2000 meters away</string>
+    <string name="dist20003000">2000 – 3000 meters away</string>
     <string name="distmore3000">more than 3000 meters away</string>
 
     <!--Accessibility-->
