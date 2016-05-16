@@ -69,14 +69,16 @@ public class Post extends GeneralPost implements Serializable {
         double delta_lat = Math.toRadians(myLatitude - location.getLatitude());
         double delta_lon = Math.toRadians(myLongitude - location.getLongitude());
 
-        double a = Math.sin(delta_lat/2) * Math.sin(delta_lon/2)
+        double a = Math.abs(Math.sin(delta_lat/2) * Math.sin(delta_lon/2)
                 + Math.cos(phi1) * Math.cos(phi2) *
-                Math.sin(delta_lon/2) * Math.sin(delta_lat/2);
+                Math.sin(delta_lon/2) * Math.sin(delta_lat/2));
 
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
         double distanceDouble = globeRadius * c;
         distance = (int) Math.round(distanceDouble);
+
+        Log.d(TagHandler.MAIN_TAG, " myLat: " + myLatitude + " myLong: " + myLongitude + " phi1: " + phi1 + " phi2: " + phi2 + " delta_lat: " + delta_lat + " delta_long: " + delta_lon + " a: " + a + " c: " + c+ " distance: " + distance);
     }
 
     public int getDistance()
