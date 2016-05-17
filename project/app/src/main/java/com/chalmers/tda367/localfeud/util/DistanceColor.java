@@ -34,7 +34,7 @@ public class DistanceColor
     {
         if (color == R.color.distRed)
         {
-            return R.color.white;
+            return android.R.color.white;
         }
         else
         {

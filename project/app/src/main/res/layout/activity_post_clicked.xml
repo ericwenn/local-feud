@@ -69,10 +69,9 @@
         android:id="@+id/write_comment_layout"
         android:layout_width="fill_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:background="@android:color/white"
         android:layout_gravity="bottom"
         android:orientation="horizontal">
-        <!--android:layout_height="wrap_content"-->
 
         <EditText
             android:id="@+id/posttext"

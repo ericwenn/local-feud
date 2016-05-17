@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:alpha="0.12"
-        android:background="@color/black" />
+        android:background="@android:color/black" />
 
     <TextView
         android:layout_below="@id/post_item_top_divider"
@@ -65,7 +65,7 @@
         android:paddingEnd="@dimen/default_margin"
         android:src="@drawable/ic_more_horiz_black_24dp"
         android:alpha="0.54"
-        android:background="@color/transparent"
+        android:background="@android:color/transparent"
         android:contentDescription="@string/more" />
 
     </RelativeLayout>
