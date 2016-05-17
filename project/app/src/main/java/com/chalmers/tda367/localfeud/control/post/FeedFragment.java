@@ -17,6 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.Post;
+
+import java.util.Comparator;
 
 public class FeedFragment extends Fragment {
 
@@ -27,13 +30,29 @@ public class FeedFragment extends Fragment {
     private PostFragment postFragment, postFragment2;
 
     private final static String VIEW_PAGER_KEY = "viewPagerKey";
+    private PostAdapter postAdapter2;
 
     public static FeedFragment newInstance(Context context) {
         FeedFragment fragment = new FeedFragment();
-        fragment.postAdapter = new PostAdapter(context);
+
+        // Sort on date/ID
+        fragment.postAdapter = new PostAdapter(context, new Comparator<Post>() {
+            @Override
+            public int compare(Post lhs, Post rhs) {
+                return lhs.getId() - rhs.getId();
+            }
+        });
+
+        // sort on distance
+        fragment.postAdapter2 = new PostAdapter(context, new Comparator<Post>() {
+            @Override
+            public int compare(Post lhs, Post rhs) {
+                return (int)lhs.getLocation().getDistance() - (int)rhs.getLocation().getDistance();
+            }
+        });
 
         fragment.postFragment = PostFragment.newInstance(fragment.postAdapter);
-        fragment.postFragment2 = PostFragment.newInstance(fragment.postAdapter);
+        fragment.postFragment2 = PostFragment.newInstance(fragment.postAdapter2);
         return fragment;
     }
 
