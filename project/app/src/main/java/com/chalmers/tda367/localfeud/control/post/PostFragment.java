@@ -1,8 +1,5 @@
 package com.chalmers.tda367.localfeud.control.post;
 
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -16,15 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chalmers.tda367.localfeud.R;
-import com.chalmers.tda367.localfeud.data.Position;
-import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
 import com.chalmers.tda367.localfeud.util.TagHandler;
-
-import java.util.List;
 
 /**
  * Text om klassen
@@ -35,14 +24,13 @@ import java.util.List;
 public class PostFragment extends Fragment {
 
     private PostAdapter postAdapter;
-    private static SwipeRefreshLayout.OnRefreshListener listener;
 
     private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    public SwipeRefreshLayout swipeRefreshLayout;
     private Parcelable listState;
     private static final String LIST_STATE_KEY = "ListStateKey";
     private FragmentCallback callback;
-
+    private String name;
 
     public PostFragment() {
 
@@ -67,7 +55,7 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.post_feed_fragment, null);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.post_feed_refresh_layout);
-        listener = new SwipeRefreshLayout.OnRefreshListener() {
+        SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 callback.updatePosts(swipeRefreshLayout);
@@ -80,7 +68,7 @@ public class PostFragment extends Fragment {
         recyclerView.setAdapter(postAdapter);
         swipeRefreshLayout.setColorSchemeResources(R.color.feedColorPrimary,
                 R.color.feedColorAccent);
-        swipeRefreshLayout.setOnRefreshListener( listener );
+        swipeRefreshLayout.setOnRefreshListener(listener);
 
         swipeRefreshLayout.post(new Runnable() {
             @Override
@@ -88,10 +76,6 @@ public class PostFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
-
-
-
-        LocationManager l = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
 
         return view;
     }
@@ -105,11 +89,6 @@ public class PostFragment extends Fragment {
         }
     }
 
-
-    @Override
-    public String toString() {
-        return "Post Feed";
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -136,7 +115,20 @@ public class PostFragment extends Fragment {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+
     public interface FragmentCallback {
-        void updatePosts( SwipeRefreshLayout l);
+        void updatePosts(SwipeRefreshLayout l);
     }
 }

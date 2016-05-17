@@ -30,7 +30,6 @@ import java.util.List;
 
 public class FeedFragment extends Fragment implements PostFragment.FragmentCallback {
 
-    private AbstractDataResponseListener<List<Post>> requestPostsResponseListener;
     private PostAdapter postAdapter;
     private ViewPager viewPager;
     private FeedPagerAdapter feedPagerAdapter;
@@ -41,15 +40,9 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
     private PostAdapter postAdapter2;
 
 
-
     public static FeedFragment newInstance(Context context) {
         FeedFragment fragment = new FeedFragment();
 
-
-
-
-
-        // Skapa 2 PostAdapters med olika COmparator
         // Sort on date/ID
         fragment.postAdapter = new PostAdapter(context, new Comparator<Post>() {
             @Override
@@ -58,43 +51,21 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
             }
         });
 
-        // sort on distance
+        // Sort on distance
         fragment.postAdapter2 = new PostAdapter(context, new Comparator<Post>() {
             @Override
             public int compare(Post lhs, Post rhs) {
-                return (int)rhs.getLocation().getDistance() - (int)lhs.getLocation().getDistance();
+                return (int) rhs.getLocation().getDistance() - (int) lhs.getLocation().getDistance();
             }
         });
 
-        // Skapa 2 PostFragments med PostAdapter som argument
         fragment.postFragment = PostFragment.newInstance(fragment.postAdapter, fragment);
+        fragment.postFragment.setName(context.getResources().getString(R.string.latest_messages));
         fragment.postFragment2 = PostFragment.newInstance(fragment.postAdapter2, fragment);
-
-
-
-        // FeedFragment behöver veta när PostFragment vill uppdateras.
-        // PostFragment behöver veta när FeedFragment har uppdaterats så swipeToRefresh kan sättas till false
-
-
-        // PostFragment behöver
-
-
-
-        // Lyssna på när Postfragment uppdateras
-
-            // Hämta nya inlägg
-            // Lägga till dem i postadapter
-            // Säga till postfragment att vi är färdiga
-
-
-
-
-
+        fragment.postFragment2.setName(context.getResources().getString(R.string.nearest_messages));
 
         return fragment;
     }
-
-
 
 
     @Override
@@ -192,16 +163,24 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
             public void onSuccess(List<Post> data) {
                 postAdapter.addPostListToAdapter(data);
                 postAdapter2.addPostListToAdapter(data);
-                if(l != null) {
+                if (l != null) {
                     l.setRefreshing(false);
+                }
+                else {
+                    postFragment.swipeRefreshLayout.setRefreshing(false);
+                    postFragment2.swipeRefreshLayout.setRefreshing(false);
                 }
             }
 
             @Override
             public void onFailure(DataResponseError error, String errormessage) {
-                // Show snackbar
-                if(l != null) {
+//                TODO: Show snackbar onFailure
+                if (l != null) {
                     l.setRefreshing(false);
+                }
+                else {
+                    postFragment.swipeRefreshLayout.setRefreshing(false);
+                    postFragment2.swipeRefreshLayout.setRefreshing(false);
                 }
             }
         });
