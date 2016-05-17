@@ -18,7 +18,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 /**
  * Created by Alfred on 2016-05-16.
  */
-public class GCMListenerService extends GcmListenerService {
+public class EddaGcmListenerService extends GcmListenerService {
 
     /**
      * Called when message is received.
@@ -30,6 +30,7 @@ public class GCMListenerService extends GcmListenerService {
     // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
+        Log.d(TagHandler.MAIN_TAG, "MESSAGE RECIEVED");
         String message = data.getString("message");
         Log.d(TagHandler.MAIN_TAG, "From: " + from);
         Log.d(TagHandler.MAIN_TAG, "Message: " + message);

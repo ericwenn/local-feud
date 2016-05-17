@@ -30,14 +30,13 @@ public class NotificationFacade {
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                SharedPreferences sharedPreferences =
-                        PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                 boolean sentToken = sharedPreferences
                         .getBoolean(GCMPreferences.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
                     Log.d(TagHandler.MAIN_TAG, "Token sent");
 
-                    String token = sharedPreferences.getString(GCMPreferences.GCM_TOKEN, "");
+                    String token = sharedPreferences.getString(GCMPreferences.GCM_TOKEN, "token");
 
                     HashMap params = new HashMap<String, String>();
                     params.put("token", token);

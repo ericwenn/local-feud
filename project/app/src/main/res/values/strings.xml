@@ -50,4 +50,5 @@
 
     <!--GCM-->
     <string name="project_number">517596981987</string>
+    <string name="gcm_token"></string>
 </resources>
