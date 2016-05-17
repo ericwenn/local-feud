@@ -30,6 +30,7 @@ import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.services.NotificationFacade;
 import com.chalmers.tda367.localfeud.util.PermissionHandler;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -69,7 +70,10 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         // Registering BroadcastReceiver
         registerReceiver();*/
 
-        NotificationFacade.registerForNotifications(this);
+        if(NotificationFacade.checkPlayServices(this)){
+            NotificationFacade.registerForNotifications(this);
+        }
+
 
         initFlow();
 

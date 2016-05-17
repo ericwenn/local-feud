@@ -18,7 +18,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 /**
  * Created by Alfred on 2016-05-16.
  */
-public class MyGcmListenerService extends GcmListenerService {
+public class GCMListenerService extends GcmListenerService {
 
     /**
      * Called when message is received.

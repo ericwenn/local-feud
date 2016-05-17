@@ -23,7 +23,7 @@ import java.util.HashMap;
  */
 public class NotificationFacade {
 
-    public static void registerForNotifications(final Activity activity){
+    public static void registerForNotifications(Context context){
         BroadcastReceiver mRegistrationBroadcastReceiver;
         boolean isReceiverRegistered = false;
 
@@ -60,27 +60,13 @@ public class NotificationFacade {
         };
 
         if(!isReceiverRegistered) {
-            LocalBroadcastManager.getInstance(activity).registerReceiver(mRegistrationBroadcastReceiver,
+            LocalBroadcastManager.getInstance(context).registerReceiver(mRegistrationBroadcastReceiver,
                     new IntentFilter(GCMPreferences.REGISTRATION_COMPLETE));
             isReceiverRegistered = true;
         }
 
-        if (checkPlayServices(activity)) {
-            // Start IntentService to register this application with GCM.
-            /*activity.bindService(new Intent(activity, RegistrationIntentService.class), new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                    Log.d(TagHandler.MAIN_TAG, "Service connected");
-                }
-
-                @Override
-                public void onServiceDisconnected(ComponentName componentName) {
-                    Log.d(TagHandler.MAIN_TAG, "Service disconnected");
-                }
-            }, Context.BIND_AUTO_CREATE);*/
-            Intent intent = new Intent(activity, RegistrationIntentService.class);
-            activity.startService(intent);
-        }
+        Intent intent = new Intent(context, RegistrationIntentService.class);
+        context.startService(intent);
     }
 
     /**
@@ -115,7 +101,7 @@ public class NotificationFacade {
      * it doesn't, display a dialog that allows users to download the APK from
      * the Google Play Store or enable it in the device's system settings.
      */
-    private static boolean checkPlayServices(Activity activity) {
+    public static boolean checkPlayServices(Activity activity) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(activity);
         if (resultCode != ConnectionResult.SUCCESS) {
