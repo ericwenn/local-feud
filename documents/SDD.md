@@ -1,4 +1,4 @@
-﻿#System design document for NNN
+#System design document for NNN
 
   *Version: 0.0.1*
   
@@ -34,8 +34,8 @@ Applikationen kommer att använda sig av MVC. Vyerna är uppdelade i olika aktiv
 
 ####2.2.1 General
 
-Package diagram. For each package an UML class diagram in 
-appendix
+Applikationens paket är uppdelade på följande sätt:
+![Packages](https://raw.githubusercontent.com/ericwenn/local-feud/master/documents/packages.png)
 
 ####2.2.2 Decomposition into subsystems 
 
