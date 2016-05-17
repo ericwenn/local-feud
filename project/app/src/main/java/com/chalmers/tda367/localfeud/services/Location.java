@@ -34,6 +34,9 @@ public class Location {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         lastKnownLocation = locationManager.getLastKnownLocation( LocationManager.GPS_PROVIDER );
+        if( lastKnownLocation == null ) {
+            lastKnownLocation = locationManager.getLastKnownLocation( LocationManager.NETWORK_PROVIDER );
+        }
         
         // Define a listener that responds to location updates
         LocationListener locationListener = new LocationListener() {
