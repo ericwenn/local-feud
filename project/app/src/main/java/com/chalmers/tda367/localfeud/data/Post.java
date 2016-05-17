@@ -2,6 +2,8 @@ package com.chalmers.tda367.localfeud.data;
 
 import android.util.Log;
 
+import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.services.Location;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.io.Serializable;
@@ -9,6 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import static android.location.Location.distanceBetween;
 
 /**
  * Created by Alfred on 2016-04-11.
@@ -19,15 +23,15 @@ public class Post extends GeneralPost implements Serializable {
     private Position location;
     private User user;
     private double reach;
+    private int distance;
     private Content content;
     private String date_posted;
     private boolean is_deleted;
     private int number_of_comments;
     private int number_of_likes;
     private String href;
-
-
     private boolean current_user_has_liked;
+
 
     public boolean isLiked() {
         return current_user_has_liked;
@@ -38,8 +42,6 @@ public class Post extends GeneralPost implements Serializable {
     }
 
 
-
-
     public int getId() {
         return id;
     }
@@ -47,9 +49,6 @@ public class Post extends GeneralPost implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-
-
-
 
     public Position getLocation() {
         return location;
@@ -60,6 +59,21 @@ public class Post extends GeneralPost implements Serializable {
     }
 
 
+    public void setDistance()
+    {
+        double myLatitude = Location.getInstance().getLocation().getLatitude();
+        double myLongitude = Location.getInstance().getLocation().getLongitude();
+
+        float[] dist = new float[1];
+        android.location.Location.distanceBetween(myLatitude, myLongitude, location.getLatitude(), location.getLongitude(), dist);
+        distance = (int) Math.round(dist[0]);
+    }
+
+    public int getDistance()
+    {
+        setDistance();
+        return distance;
+    }
 
 
     public User getUser() {
