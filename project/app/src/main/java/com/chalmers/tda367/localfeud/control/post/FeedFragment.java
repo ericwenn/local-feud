@@ -3,6 +3,7 @@ package com.chalmers.tda367.localfeud.control.post;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,13 +13,22 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.Position;
+import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
+import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
 
-public class FeedFragment extends Fragment {
+import java.util.Comparator;
+import java.util.List;
+
+public class FeedFragment extends Fragment implements PostFragment.FragmentCallback {
 
     private PostAdapter postAdapter;
     private ViewPager viewPager;
@@ -27,21 +37,43 @@ public class FeedFragment extends Fragment {
     private PostFragment postFragment, postFragment2;
 
     private final static String VIEW_PAGER_KEY = "viewPagerKey";
+    private PostAdapter postAdapter2;
+
 
     public static FeedFragment newInstance(Context context) {
         FeedFragment fragment = new FeedFragment();
-        fragment.postAdapter = new PostAdapter(context);
 
-        fragment.postFragment = PostFragment.newInstance(fragment.postAdapter);
-        fragment.postFragment2 = PostFragment.newInstance(fragment.postAdapter);
+        // Sort on date/ID
+        fragment.postAdapter = new PostAdapter(context, new Comparator<Post>() {
+            @Override
+            public int compare(Post lhs, Post rhs) {
+                return rhs.getId() - lhs.getId();
+            }
+        });
+
+        // Sort on distance
+        fragment.postAdapter2 = new PostAdapter(context, new Comparator<Post>() {
+            @Override
+            public int compare(Post lhs, Post rhs) {
+                return (int) rhs.getLocation().getDistance() - (int) lhs.getLocation().getDistance();
+            }
+        });
+
+        fragment.postFragment = PostFragment.newInstance(fragment.postAdapter, fragment);
+        fragment.postFragment.setName(context.getResources().getString(R.string.latest_messages));
+        fragment.postFragment2 = PostFragment.newInstance(fragment.postAdapter2, fragment);
+        fragment.postFragment2.setName(context.getResources().getString(R.string.nearest_messages));
+
         return fragment;
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         feedPagerAdapter = new FeedPagerAdapter(getActivity().getSupportFragmentManager());
         setRetainInstance(true);
+        updatePosts(null);
     }
 
     @Override
@@ -121,5 +153,36 @@ public class FeedFragment extends Fragment {
                 text,
                 Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    @Override
+    public void updatePosts(final SwipeRefreshLayout l) {
+        Location loc = com.chalmers.tda367.localfeud.services.Location.getInstance().getLocation();
+        DataHandlerFacade.getPostDataHandler().getList(new Position(loc), new AbstractDataResponseListener<List<Post>>() {
+            @Override
+            public void onSuccess(List<Post> data) {
+                postAdapter.addPostListToAdapter(data);
+                postAdapter2.addPostListToAdapter(data);
+                if (l != null) {
+                    l.setRefreshing(false);
+                }
+                else {
+                    postFragment.swipeRefreshLayout.setRefreshing(false);
+                    postFragment2.swipeRefreshLayout.setRefreshing(false);
+                }
+            }
+
+            @Override
+            public void onFailure(DataResponseError error, String errormessage) {
+//                TODO: Show snackbar onFailure
+                if (l != null) {
+                    l.setRefreshing(false);
+                }
+                else {
+                    postFragment.swipeRefreshLayout.setRefreshing(false);
+                    postFragment2.swipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        });
     }
 }

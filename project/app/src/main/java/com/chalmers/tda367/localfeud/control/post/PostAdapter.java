@@ -19,6 +19,8 @@ import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.DistanceColor;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -30,13 +32,15 @@ import java.util.List;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private final Context context;
+    private Comparator<Post> comparator;
     private final LayoutInflater inflater;
     private AdapterCallback adapterCallback;
 
     private final ArrayList<Post> postList = new ArrayList<>();
 
-    public PostAdapter(Context context) {
+    public PostAdapter(Context context, Comparator<Post> comparator) {
         this.context = context;
+        this.comparator = comparator;
         inflater = LayoutInflater.from(context);
 
         try {
@@ -112,7 +116,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public void addPostListToAdapter(final List<Post> postList) {
         final int currentCount = this.postList.size();
+
         synchronized (this.postList) {
+            Collections.sort(postList, comparator);
+
             clearAdapter();
             this.postList.addAll(postList);
         }
