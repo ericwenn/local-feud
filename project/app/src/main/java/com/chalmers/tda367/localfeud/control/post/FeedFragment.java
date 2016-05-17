@@ -39,7 +39,7 @@ public class FeedFragment extends Fragment {
         fragment.postAdapter = new PostAdapter(context, new Comparator<Post>() {
             @Override
             public int compare(Post lhs, Post rhs) {
-                return lhs.getId() - rhs.getId();
+                return rhs.getId() - lhs.getId();
             }
         });
 
@@ -47,7 +47,7 @@ public class FeedFragment extends Fragment {
         fragment.postAdapter2 = new PostAdapter(context, new Comparator<Post>() {
             @Override
             public int compare(Post lhs, Post rhs) {
-                return (int)lhs.getLocation().getDistance() - (int)rhs.getLocation().getDistance();
+                return (int)rhs.getLocation().getDistance() - (int)lhs.getLocation().getDistance();
             }
         });
 
