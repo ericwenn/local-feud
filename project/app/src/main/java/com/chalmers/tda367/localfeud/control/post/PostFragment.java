@@ -34,7 +34,7 @@ import java.util.List;
  */
 public class PostFragment extends Fragment {
 
-    private static PostAdapter postAdapter;
+    private PostAdapter postAdapter;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Parcelable listState;
@@ -50,8 +50,9 @@ public class PostFragment extends Fragment {
     }
 
     public static PostFragment newInstance(PostAdapter adapter) {
-        postAdapter = adapter;
-        return new PostFragment();
+        PostFragment fragment = new PostFragment();
+        fragment.postAdapter = adapter;
+        return fragment;
     }
 
 
