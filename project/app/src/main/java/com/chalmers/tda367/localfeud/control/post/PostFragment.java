@@ -36,6 +36,7 @@ public class PostFragment extends Fragment {
 
     private PostAdapter postAdapter;
     private static SwipeRefreshLayout.OnRefreshListener listener;
+
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Parcelable listState;
