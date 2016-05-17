@@ -49,8 +49,86 @@ Applikationens paket är uppdelade på följande sätt:
 	* **services** är det paket som sköter nätverksdelen med servern.
 	* **util** innehåller de övriga verktyg som behövs för applikationen.
 
-####2.2.2 Decomposition into subsystems 
+####2.2.2 Decomposition into subsystems
+Ett interface vi har skapat är **DataResponseListener**, som håller reda på huruvida datan lyckades/misslyckades hämtas från antingen servern eller ett lokalt system.
+	public interface DataResponseListener<D> {
+	
+    void onSuccess( D data );
+    
+    void onFailure(DataResponseError error, String errormessage );
 
+    Type getType();
+    
+	}
+
+Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmänna funktionerna för *alla* chatter, såsom om man vill skapa en ny chat med någon eller få en lista på de man redan chattar med.
+	public interface IChatDataHandler {
+
+    void sendRequest(Post post, int userID, DataResponseListener<Chat> listener);
+
+    void getList(DataResponseListener<List<Chat>> listener);
+    
+	}
+	
+**IChatMessageDataHandler** är det interface som har hand om de funktionerna för *en specifik* chat. Här finns möjlighet att få listan med meddelanden samt skicka ett nytt meddelande.
+	public interface IChatMessageDataHandler {
+
+    void getList(Chat chat, DataResponseListener<List<ChatMessage>> listener);
+
+    void send(Chat chat, ChatMessage message, DataResponseListener<ChatMessage> listener );
+    
+	}
+	
+
+**ICommentDataHandler** sköter kommentarerna på en post, både hämta, skapa och ta bort.
+	public interface ICommentDataHandler {
+
+    void getList(Post post, DataResponseListener<List<Comment>> listener );
+
+    void getSingle( int id, DataResponseListener<Comment> listener);
+
+    void delete( Comment comment, DataResponseListener<Void> listener);
+
+    void create( Post post, Comment comment, DataResponseListener<Comment> listener);
+
+	}
+
+**ILikeDataHandler** fungerar precis som *ICommentDataHandler*, fast med gillningar på en post istället för kommentarer.
+
+	public interface ILikeDataHandler {
+
+    void getList( Post post, DataResponseListener<List<Like>> listener);
+
+    void create( Post post, DataResponseListener<Like> listener);
+
+    void delete( Post post, DataResponseListener<Void> listener);
+    
+	}
+
+**IMeDataHandler** sköter information angående användaren.
+	public interface IMeDataHandler {
+
+    void get(DataResponseListener<Me> listener);
+
+    void setMe( Me me );
+
+    Me getMe() throws NullPointerException;
+    
+	}
+
+**IPostDataHandler** innehåller funktioner som har med posts att göra. 
+
+	public interface IPostDataHandler {
+
+    void getList( Position pos, DataResponseListener<List<Post>> listener );
+
+    void getSingle( int id, DataResponseListener<Post> listener );
+
+    void create( Post post, DataResponseListener<Post> listener );
+
+    void delete( Post post, DataResponseListener<Void> listener );
+
+	}
 ####2.2.3 Layering
 
 ####2.2.4 Dependency analysis
