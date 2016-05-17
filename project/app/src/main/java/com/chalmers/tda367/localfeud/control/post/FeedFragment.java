@@ -55,7 +55,7 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
         fragment.postAdapter2 = new PostAdapter(context, new Comparator<Post>() {
             @Override
             public int compare(Post lhs, Post rhs) {
-                return (int) rhs.getLocation().getDistance() - (int) lhs.getLocation().getDistance();
+                return lhs.getDistance() - rhs.getDistance();
             }
         });
 

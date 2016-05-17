@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,20 +118,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public void addPostListToAdapter(final List<Post> postList) {
         final int currentCount = this.postList.size();
+        final List<Post> newPostList = (List<Post>)((ArrayList<Post>) postList).clone();
+        Log.i("pust", "addPostListToAdapter: "+this);
+        Log.i("postadapted", "addPostListToAdapte1r: "+newPostList.get(0));
+        Collections.sort(newPostList, comparator);
+        Log.i("postadapted", "addPostListToAdapte1r: "+newPostList.get(0));
+
+
 
         synchronized (this.postList) {
-            Collections.sort(postList, comparator);
 
             clearAdapter();
-            this.postList.addAll(postList);
+            this.postList.addAll(newPostList);
         }
         if (Looper.getMainLooper() == Looper.myLooper()) {
-            notifyItemRangeInserted(currentCount, postList.size());
+            notifyItemRangeInserted(currentCount, newPostList.size());
         } else {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    notifyItemRangeInserted(currentCount, postList.size());
+                    notifyItemRangeInserted(currentCount, newPostList.size());
                 }
             });
         }
