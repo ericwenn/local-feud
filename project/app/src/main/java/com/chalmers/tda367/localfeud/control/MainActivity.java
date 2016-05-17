@@ -1,12 +1,18 @@
 package com.chalmers.tda367.localfeud.control;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
@@ -28,6 +34,9 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.services.gcm.QuickstartPreferences;
+import com.chalmers.tda367.localfeud.services.gcm.RegistrationIntentService;
+import com.chalmers.tda367.localfeud.services.gcm.TestIntentService;
 import com.chalmers.tda367.localfeud.util.PermissionHandler;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
@@ -44,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     private BottomBar bottomBar;
     private Fragment currentFragment;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private boolean isReceiverRegistered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +63,28 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
 
-        // Check if Google Play APK is available
-        if(GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS){
-            //TODO: Make this error dialog
-            //GoogleApiAvailability.showErrorDialogFragment(this,GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(getApplicationContext()),);
-            Log.e(TagHandler.MAIN_TAG, "Google Play APK is missing");
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                if (sentToken) {
+                    Log.d(TagHandler.MAIN_TAG, "Token sent to GCM");
+                } else {
+                    Log.d(TagHandler.MAIN_TAG, "Token not sent to GCM");
+                }
+            }
+        };
+
+        // Registering BroadcastReceiver
+        registerReceiver();
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
         }
 
         initFlow();
@@ -64,6 +92,49 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         setContentView(R.layout.activity_main);
         initBottomBar(savedInstanceState);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        isReceiverRegistered = false;
+        super.onPause();
+    }
+
+    private void registerReceiver(){
+        if(!isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                    new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+            isReceiverRegistered = true;
+        }
+    }
+
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TagHandler.MAIN_TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 
     private void initBottomBar(final Bundle savedInstanceState) {
