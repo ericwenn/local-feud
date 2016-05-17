@@ -54,11 +54,11 @@ Ett interface vi har skapat är **DataResponseListener**, som håller reda på h
 	
 	public interface DataResponseListener<D> {
 	
-    void onSuccess( D data );
+	    void onSuccess( D data );
     
-    void onFailure(DataResponseError error, String errormessage );
+	    void onFailure(DataResponseError error, String errormessage );
 
-    Type getType();
+	    Type getType();
     
 	}
 
@@ -66,9 +66,9 @@ Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmä
 	
 	public interface IChatDataHandler {
 
-    void sendRequest(Post post, int userID, DataResponseListener<Chat> listener);
+	    void sendRequest(Post post, int userID, DataResponseListener<Chat> listener);
 
-    void getList(DataResponseListener<List<Chat>> listener);
+	    void getList(DataResponseListener<List<Chat>> listener);
     
 	}
 	
@@ -76,9 +76,9 @@ Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmä
 	
 	public interface IChatMessageDataHandler {
 
-    void getList(Chat chat, DataResponseListener<List<ChatMessage>> listener);
+	    void getList(Chat chat, DataResponseListener<List<ChatMessage>> listener);
 
-    void send(Chat chat, ChatMessage message, DataResponseListener<ChatMessage> listener );
+	    void send(Chat chat, ChatMessage message, DataResponseListener<ChatMessage> listener );
     
 	}
 	
@@ -87,13 +87,13 @@ Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmä
 	
 	public interface ICommentDataHandler {
 	
-    void getList(Post post, DataResponseListener<List<Comment>> listener );
+	    void getList(Post post, DataResponseListener<List<Comment>> listener );
 
-    void getSingle( int id, DataResponseListener<Comment> listener);
+	    void getSingle( int id, DataResponseListener<Comment> listener);
 
-    void delete( Comment comment, DataResponseListener<Void> listener);
+	    void delete( Comment comment, DataResponseListener<Void> listener);
 
-    void create( Post post, Comment comment, DataResponseListener<Comment> listener);
+	    void create( Post post, Comment comment, DataResponseListener<Comment> listener);
 
 	}
 
@@ -101,11 +101,11 @@ Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmä
 
 	public interface ILikeDataHandler {
 
-    void getList( Post post, DataResponseListener<List<Like>> listener);
+	    void getList( Post post, DataResponseListener<List<Like>> listener);
 
-    void create( Post post, DataResponseListener<Like> listener);
+	    void create( Post post, DataResponseListener<Like> listener);
 
-    void delete( Post post, DataResponseListener<Void> listener);
+	    void delete( Post post, DataResponseListener<Void> listener);
     
 	}
 
@@ -113,11 +113,11 @@ Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmä
 	
 	public interface IMeDataHandler {
 
-    void get(DataResponseListener<Me> listener);
+	    void get(DataResponseListener<Me> listener);
 
-    void setMe( Me me );
+	    void setMe( Me me );
 
-    Me getMe() throws NullPointerException;
+	    Me getMe() throws NullPointerException;
     
 	}
 
@@ -125,13 +125,13 @@ Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmä
 
 	public interface IPostDataHandler {
 
-    void getList( Position pos, DataResponseListener<List<Post>> listener );
+	    void getList( Position pos, DataResponseListener<List<Post>> listener );
 
-    void getSingle( int id, DataResponseListener<Post> listener );
+	    void getSingle( int id, DataResponseListener<Post> listener );
 
-    void create( Post post, DataResponseListener<Post> listener );
+	    void create( Post post, DataResponseListener<Post> listener );
 
-    void delete( Post post, DataResponseListener<Void> listener );
+	    void delete( Post post, DataResponseListener<Void> listener );
 
 	}
 ####2.2.3 Layering
