@@ -1,20 +1,14 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -35,13 +29,8 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.services.NotificationFacade;
-import com.chalmers.tda367.localfeud.services.gcm.QuickstartPreferences;
-import com.chalmers.tda367.localfeud.services.gcm.RegistrationIntentService;
 import com.chalmers.tda367.localfeud.util.PermissionHandler;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
@@ -68,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(context);
                 boolean sentToken = sharedPreferences
-                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                        .getBoolean(GCMPreferences.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
                     Log.d(TagHandler.MAIN_TAG, "Token sent to GCM");
                 } else {
