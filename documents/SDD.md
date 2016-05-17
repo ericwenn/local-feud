@@ -14,15 +14,23 @@ This version overrides all previous versions.
 
 Vi kommer sträva efter en så löskopplad design som möjligt.
 
-###1.2 Definitions, acronyms and abbreviations 
+###1.2 Definitions, acronyms and abbreviations
+* Android, ett operativsystem för mobiltelefoner.
+* Gradle, ett verktyg som hanterar systemets beroende av andra bibliotek.
+* Java, ett programmeringsspråk som är plattformsoberoende.
+* GUI, grafiskt användargränssnitt
+* MVC, ett sätt att bygga ett program med GUI där man delar upp GUI-koden, programkoden och all data i strikta delar.
+* Feed, appens flöde av innehåll.
+* Post, ett inlägg i appens flöde.
+* Chat, en konversation mellan två personer.
 
 ##2 System design
 
-###2.1 Overview 
-
-In this section we explain the overall design choices.
+###2.1 Overview
+Applikationen kommer att använda sig av MVC.
 
 ###2.2 Software decomposition
+
 
 ####2.2.1 General
 
