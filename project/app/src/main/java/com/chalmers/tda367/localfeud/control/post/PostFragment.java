@@ -34,24 +34,30 @@ import java.util.List;
  */
 public class PostFragment extends Fragment {
 
-    private static PostAdapter postAdapter;
+    private PostAdapter postAdapter;
+    private static SwipeRefreshLayout.OnRefreshListener listener;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Parcelable listState;
     private static final String LIST_STATE_KEY = "ListStateKey";
-
-
-    private DataResponseListener<List<Post>> requestPostsResponseListener;
-
+    private FragmentCallback callback;
 
 
     public PostFragment() {
 
     }
 
-    public static PostFragment newInstance(PostAdapter adapter) {
-        postAdapter = adapter;
-        return new PostFragment();
+    public static PostFragment newInstance(PostAdapter adapter, Fragment feedFragment) {
+        PostFragment fragment = new PostFragment();
+        fragment.postAdapter = adapter;
+
+        try {
+            fragment.callback = (FragmentCallback) feedFragment;
+        } catch (ClassCastException e) {
+            Log.e(TagHandler.MAIN_TAG, fragment.getClass() + " must implement PostFragment.FragmentCallback");
+        }
+
+        return fragment;
     }
 
 
@@ -60,25 +66,12 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.post_feed_fragment, null);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.post_feed_refresh_layout);
-
-
-
-
-        requestPostsResponseListener = new AbstractDataResponseListener<List<Post>>() {
+        listener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onSuccess(List<Post> data) {
-                postAdapter.addPostListToAdapter(data);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(DataResponseError error, String errormessage) {
-                swipeRefreshLayout.setRefreshing(false);
+            public void onRefresh() {
+                callback.updatePosts(swipeRefreshLayout);
             }
         };
-
-
-
 
         recyclerView = (RecyclerView) view.findViewById(R.id.post_feed_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
@@ -86,15 +79,8 @@ public class PostFragment extends Fragment {
         recyclerView.setAdapter(postAdapter);
         swipeRefreshLayout.setColorSchemeResources(R.color.feedColorPrimary,
                 R.color.feedColorAccent);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //ServerComm.getInstance().requestPosts(new RefreshPostsResponseListener(postAdapter));
-                Location loc = com.chalmers.tda367.localfeud.services.Location.getInstance().getLocation();
+        swipeRefreshLayout.setOnRefreshListener( listener );
 
-                DataHandlerFacade.getPostDataHandler().getList(new Position(loc.getLatitude(), loc.getLongitude()), requestPostsResponseListener);
-            }
-        });
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -107,18 +93,6 @@ public class PostFragment extends Fragment {
         LocationManager l = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
 
         return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Location loc = com.chalmers.tda367.localfeud.services.Location.getInstance().getLocation();
-        try {
-            DataHandlerFacade.getPostDataHandler().getList(new Position(loc.getLatitude(), loc.getLongitude()), requestPostsResponseListener);
-
-        } catch (NullPointerException e) {
-            Log.e(TagHandler.MAIN_TAG, e.getMessage());
-        }
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -159,5 +133,9 @@ public class PostFragment extends Fragment {
         if (savedInstanceState != null) {
             listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
         }
+    }
+
+    public interface FragmentCallback {
+        void updatePosts( SwipeRefreshLayout l);
     }
 }

@@ -3,6 +3,7 @@ package com.chalmers.tda367.localfeud.control.post;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,17 +13,24 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
+import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
 
 import java.util.Comparator;
+import java.util.List;
 
-public class FeedFragment extends Fragment {
+public class FeedFragment extends Fragment implements PostFragment.FragmentCallback {
 
+    private AbstractDataResponseListener<List<Post>> requestPostsResponseListener;
     private PostAdapter postAdapter;
     private ViewPager viewPager;
     private FeedPagerAdapter feedPagerAdapter;
@@ -32,9 +40,16 @@ public class FeedFragment extends Fragment {
     private final static String VIEW_PAGER_KEY = "viewPagerKey";
     private PostAdapter postAdapter2;
 
+
+
     public static FeedFragment newInstance(Context context) {
         FeedFragment fragment = new FeedFragment();
 
+
+
+
+
+        // Skapa 2 PostAdapters med olika COmparator
         // Sort on date/ID
         fragment.postAdapter = new PostAdapter(context, new Comparator<Post>() {
             @Override
@@ -51,16 +66,43 @@ public class FeedFragment extends Fragment {
             }
         });
 
-        fragment.postFragment = PostFragment.newInstance(fragment.postAdapter);
-        fragment.postFragment2 = PostFragment.newInstance(fragment.postAdapter2);
+        // Skapa 2 PostFragments med PostAdapter som argument
+        fragment.postFragment = PostFragment.newInstance(fragment.postAdapter, fragment);
+        fragment.postFragment2 = PostFragment.newInstance(fragment.postAdapter2, fragment);
+
+
+
+        // FeedFragment behöver veta när PostFragment vill uppdateras.
+        // PostFragment behöver veta när FeedFragment har uppdaterats så swipeToRefresh kan sättas till false
+
+
+        // PostFragment behöver
+
+
+
+        // Lyssna på när Postfragment uppdateras
+
+            // Hämta nya inlägg
+            // Lägga till dem i postadapter
+            // Säga till postfragment att vi är färdiga
+
+
+
+
+
+
         return fragment;
     }
+
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         feedPagerAdapter = new FeedPagerAdapter(getActivity().getSupportFragmentManager());
         setRetainInstance(true);
+        updatePosts(null);
     }
 
     @Override
@@ -140,5 +182,28 @@ public class FeedFragment extends Fragment {
                 text,
                 Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    @Override
+    public void updatePosts(final SwipeRefreshLayout l) {
+        Location loc = com.chalmers.tda367.localfeud.services.Location.getInstance().getLocation();
+        DataHandlerFacade.getPostDataHandler().getList(new Position(loc), new AbstractDataResponseListener<List<Post>>() {
+            @Override
+            public void onSuccess(List<Post> data) {
+                postAdapter.addPostListToAdapter(data);
+                postAdapter2.addPostListToAdapter(data);
+                if(l != null) {
+                    l.setRefreshing(false);
+                }
+            }
+
+            @Override
+            public void onFailure(DataResponseError error, String errormessage) {
+                // Show snackbar
+                if(l != null) {
+                    l.setRefreshing(false);
+                }
+            }
+        });
     }
 }
