@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static android.location.Location.distanceBetween;
+
 /**
  * Created by Alfred on 2016-04-11.
  */
@@ -63,7 +65,7 @@ public class Post extends GeneralPost implements Serializable {
         double myLatitude = Location.getInstance().getLocation().getLatitude();
         double myLongitude = Location.getInstance().getLocation().getLongitude();
 
-        double phi1 = Math.toRadians(location.getLatitude());
+        /*double phi1 = Math.toRadians(location.getLatitude());
         double phi2 = Math.toRadians(Location.getInstance().getLocation().getLatitude());
 
         double delta_lat = Math.toRadians(myLatitude - location.getLatitude());
@@ -76,10 +78,14 @@ public class Post extends GeneralPost implements Serializable {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
         double distanceDouble = globeRadius * c;
-        distance = (int) Math.round(distanceDouble);
+        distance = (int) Math.round(distanceDouble);*/
+        float[] dist = new float[1];
+        android.location.Location.distanceBetween(myLatitude, myLongitude, location.getLatitude(), location.getLongitude(), dist);
+        distance = (int) Math.round(dist[0]);
 
-        Log.d(TagHandler.MAIN_TAG, "test");
+        /*Log.d(TagHandler.MAIN_TAG, "test");
         Log.d(TagHandler.MAIN_TAG, " myLat: " + myLatitude + " myLong: " + myLongitude + " phi1: " + phi1 + " phi2: " + phi2 + " delta_lat: " + delta_lat + " delta_long: " + delta_lon + " a: " + a + " c: " + c+ " distance: " + distance);
+        */
     }
 
     public int getDistance()
