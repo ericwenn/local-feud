@@ -51,6 +51,7 @@ Applikationens paket är uppdelade på följande sätt:
 
 ####2.2.2 Decomposition into subsystems
 Ett interface vi har skapat är **DataResponseListener**, som håller reda på huruvida datan lyckades/misslyckades hämtas från antingen servern eller ett lokalt system.
+	
 	public interface DataResponseListener<D> {
 	
     void onSuccess( D data );
@@ -62,6 +63,7 @@ Ett interface vi har skapat är **DataResponseListener**, som håller reda på h
 	}
 
 Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmänna funktionerna för *alla* chatter, såsom om man vill skapa en ny chat med någon eller få en lista på de man redan chattar med.
+	
 	public interface IChatDataHandler {
 
     void sendRequest(Post post, int userID, DataResponseListener<Chat> listener);
@@ -71,6 +73,7 @@ Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmä
 	}
 	
 **IChatMessageDataHandler** är det interface som har hand om de funktionerna för *en specifik* chat. Här finns möjlighet att få listan med meddelanden samt skicka ett nytt meddelande.
+	
 	public interface IChatMessageDataHandler {
 
     void getList(Chat chat, DataResponseListener<List<ChatMessage>> listener);
@@ -81,8 +84,9 @@ Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmä
 	
 
 **ICommentDataHandler** sköter kommentarerna på en post, både hämta, skapa och ta bort.
+	
 	public interface ICommentDataHandler {
-
+	
     void getList(Post post, DataResponseListener<List<Comment>> listener );
 
     void getSingle( int id, DataResponseListener<Comment> listener);
@@ -106,6 +110,7 @@ Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmä
 	}
 
 **IMeDataHandler** sköter information angående användaren.
+	
 	public interface IMeDataHandler {
 
     void get(DataResponseListener<Me> listener);
