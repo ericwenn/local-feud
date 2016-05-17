@@ -34,16 +34,14 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.services.NotificationFacade;
 import com.chalmers.tda367.localfeud.services.gcm.QuickstartPreferences;
 import com.chalmers.tda367.localfeud.services.gcm.RegistrationIntentService;
-import com.chalmers.tda367.localfeud.services.gcm.TestIntentService;
 import com.chalmers.tda367.localfeud.util.PermissionHandler;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
@@ -63,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
 
+        /*
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -79,62 +78,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         };
 
         // Registering BroadcastReceiver
-        registerReceiver();
+        registerReceiver();*/
 
-        if (checkPlayServices()) {
-            // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
+        NotificationFacade.registerForNotifications(this);
 
         initFlow();
 
         setContentView(R.layout.activity_main);
         initBottomBar(savedInstanceState);
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver();
-    }
-
-    @Override
-    protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
-        isReceiverRegistered = false;
-        super.onPause();
-    }
-
-    private void registerReceiver(){
-        if(!isReceiverRegistered) {
-            LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                    new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
-            isReceiverRegistered = true;
-        }
-    }
-
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    /**
-     * Check the device to make sure it has the Google Play Services APK. If
-     * it doesn't, display a dialog that allows users to download the APK from
-     * the Google Play Store or enable it in the device's system settings.
-     */
-    private boolean checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i(TagHandler.MAIN_TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
     }
 
     private void initBottomBar(final Bundle savedInstanceState) {

@@ -28,11 +28,6 @@ public class RestClient {
         return instance;
     }
 
-
-
-
-
-
     public RestClient(){
         asyncClient = new AsyncHttpClient();
         syncClient = new SyncHttpClient();
@@ -48,28 +43,14 @@ public class RestClient {
         getClient().addHeader(header, value);
     }
 
-
-
-
-
-
-
-
     public void get(String url, IResponseAction action ) {
         getClient().get(getAbsoluteUrl(url), null, new RestResponseHandler(action));
     }
-
-
-
-
-
 
     public void get(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);
         getClient().get(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
-
-
 
     public void post(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);

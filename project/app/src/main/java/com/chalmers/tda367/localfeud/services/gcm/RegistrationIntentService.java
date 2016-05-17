@@ -11,12 +11,15 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.services.IResponseAction;
+import com.chalmers.tda367.localfeud.services.RestClient;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class RegistrationIntentService extends IntentService {
 
@@ -30,7 +33,6 @@ public class RegistrationIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Log.d(TagHandler.MAIN_TAG, "HANDLE INTENT");
         try {
             // [START register_for_gcm]
             // Initially this call goes out to the network to retrieve the token, subsequent calls
@@ -44,11 +46,7 @@ public class RegistrationIntentService extends IntentService {
             // [END get_token]
             Log.d(TagHandler.MAIN_TAG, "GCM Registration Token: " + token);
 
-            // TODO: Implement this method to send any registration to your app's servers.
             sendRegistrationToServer(token);
-
-            // Subscribe to topic channels
-            //subscribeTopics(token);
 
             // You should store a boolean that indicates whether the generated token has been
             // sent to your server. If the boolean is false, send the token to your server,
@@ -75,7 +73,21 @@ public class RegistrationIntentService extends IntentService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-        // Add custom implementation, as needed.
+        HashMap params = new HashMap<String, String>();
+        params.put("token", token);
+
+        RestClient.getInstance().post("gcm-register/", params, new IResponseAction() {
+            @Override
+            public void onSuccess(String responseBody) {
+                Log.d(TagHandler.MAIN_TAG, "GCM token succesfully submitted to App server");
+            }
+
+            @Override
+            public void onFailure(int statusCode, String responseBody) {
+                Log.e(TagHandler.MAIN_TAG, "GCM token failed to submit to server: " + responseBody);
+            }
+        });
+
     }
 
     /**
