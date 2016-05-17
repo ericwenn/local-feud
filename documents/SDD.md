@@ -1,4 +1,4 @@
-#System design document for NNN
+﻿#System design document for NNN
 
   *Version: 0.0.1*
   
@@ -27,7 +27,7 @@ Vi kommer sträva efter en så löskopplad design som möjligt.
 ##2 System design
 
 ###2.1 Overview
-Applikationen kommer att använda sig av MVC.
+Applikationen kommer att använda sig av MVC. Vyerna är uppdelade i olika aktiviteter, exempelvis flödesaktivitet och skapa inläggsaktivitet. Vissa aktivteter kan används till flera olika saker. Dessa saker, exempelvis inläggsflödet och chattflödet, är uppdelade i fragment, som sätts till aktiviteterna. Små detaljer och objekt som upprepas flera gånger, exempelvis ett enskiljt inlägg, är uppdelade i adaptrar som läggs in i fragmenten och aktiviteterna.
 
 ###2.2 Software decomposition
 
