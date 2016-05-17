@@ -15,14 +15,14 @@ This version overrides all previous versions.
 Vi kommer sträva efter en så löskopplad design som möjligt.
 
 ###1.2 Definitions, acronyms and abbreviations
-* Android, ett operativsystem för mobiltelefoner.
-* Gradle, ett verktyg som hanterar systemets beroende av andra bibliotek.
-* Java, ett programmeringsspråk som är plattformsoberoende.
-* GUI, grafiskt användargränssnitt
-* MVC, ett sätt att bygga ett program med GUI där man delar upp GUI-koden, programkoden och all data i strikta delar.
-* Feed, appens flöde av innehåll.
-* Post, ett inlägg i appens flöde.
-* Chat, en konversation mellan två personer.
+* *Android*, ett operativsystem för mobiltelefoner.
+* *Gradle*, ett verktyg som hanterar systemets beroende av andra bibliotek.
+* *Java*, ett programmeringsspråk som är plattformsoberoende.
+* *GUI*, grafiskt användargränssnitt
+* *MVC*, ett sätt att bygga ett program med GUI där man delar upp GUI-koden, programkoden och all data i strikta delar.
+* *Feed*, appens flöde av innehåll.
+* *Post*, ett inlägg i appens flöde.
+* *Chat*, en konversation mellan två personer.
 
 ##2 System design
 
@@ -36,6 +36,18 @@ Applikationen kommer att använda sig av MVC. Vyerna är uppdelade i olika aktiv
 
 Applikationens paket är uppdelade på följande sätt:
 ![Packages](https://raw.githubusercontent.com/ericwenn/local-feud/master/documents/packages.png)
+* **com.chalmers.tda367.localfeud** är applikationens huvudpaket.
+	* **data** innehåller all typ av data som kommunicerar med servern.
+		* **handler** innehåller de klasser som sköter datans kommunikation med servern.
+			* **interfaces** innehåller de interfaces som implementeras av handler-klasserna.
+	* **control** är det paket där kontrollen med vyerna finns.
+		* **authentication** innehåller de kontrolldelarna som har med autentiseringen att göra.
+		* **chat** innehåller de kontrolldelarna som har med chatten att göra.
+		* **me** innehåller de kontrolldelarna som är personliga för användaren, så som inställningar och notiser.
+		* **permission** innehåller de nödvändiga kontrolldelarna som behövs för att få behörigheter av användaren.
+		* **post** innehåller de kontrolldelarna som berör applikationens flöde och inlägg.
+	* **services** är det paket som sköter nätverksdelen med servern.
+	* **util** innehåller de övriga verktyg som behövs för applikationen.
 
 ####2.2.2 Decomposition into subsystems 
 
