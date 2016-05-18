@@ -51,29 +51,10 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
 
-        /*
-        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                SharedPreferences sharedPreferences =
-                        PreferenceManager.getDefaultSharedPreferences(context);
-                boolean sentToken = sharedPreferences
-                        .getBoolean(GCMPreferences.SENT_TOKEN_TO_SERVER, false);
-                if (sentToken) {
-                    Log.d(TagHandler.MAIN_TAG, "Token sent to GCM");
-                } else {
-                    Log.d(TagHandler.MAIN_TAG, "Token not sent to GCM");
-                }
-            }
-        };
-
-        // Registering BroadcastReceiver
-        registerReceiver();*/
-
+        // Register this application for notifications
         if(NotificationFacade.checkPlayServices(this)){
-            NotificationFacade.registerForNotifications(this);
+            NotificationFacade.getInstance().registerForNotifications(this);
         }
-
 
         initFlow();
 

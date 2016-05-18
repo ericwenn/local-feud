@@ -1,11 +1,8 @@
 package com.chalmers.tda367.localfeud.services.gcm;
 
-import android.content.Intent;
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.control.MainActivity;
 import com.chalmers.tda367.localfeud.services.NotificationFacade;
-import com.google.android.gms.iid.InstanceIDListenerService;
 
 /**
  * Created by Alfred on 2016-05-16.
@@ -21,7 +18,7 @@ public class EddaInstanceIDListenerService extends com.google.android.gms.iid.In
     public void onTokenRefresh() {
         Log.d("GCM", "onTokenRefresh()");
         // Fetch updated Instance ID token and notify our app's server of any changes (if applicable).
-        NotificationFacade.registerForNotifications(getApplicationContext());
+        NotificationFacade.getInstance().registerForNotifications(getApplicationContext());
     }
     // [END refresh_token]
 }

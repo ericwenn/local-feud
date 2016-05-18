@@ -10,6 +10,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.chalmers.tda367.localfeud.control.notifications.IMessageHandler;
+import com.chalmers.tda367.localfeud.control.notifications.MessageHandler;
 import com.chalmers.tda367.localfeud.services.gcm.GCMPreferences;
 import com.chalmers.tda367.localfeud.services.gcm.RegistrationIntentService;
 import com.chalmers.tda367.localfeud.util.TagHandler;
@@ -23,9 +25,31 @@ import java.util.HashMap;
  */
 public class NotificationFacade {
 
-    public static void registerForNotifications(Context context){
+    private static NotificationFacade instance;
+    private boolean isReceiverRegistered;
+    private MessageHandler messageHandler;
+    private Context context;
+
+    public NotificationFacade(){
+        isReceiverRegistered = false;
+    }
+
+    public static NotificationFacade getInstance(){
+        if(instance == null){
+            instance = new NotificationFacade();
+        }
+
+        return instance;
+    }
+
+    /**
+     * Used to register this application for receiving messages from GCM.
+     * @param context The application context
+     */
+    public void registerForNotifications(Context context){
+        this.context = context;
+
         BroadcastReceiver mRegistrationBroadcastReceiver;
-        boolean isReceiverRegistered = false;
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -38,20 +62,7 @@ public class NotificationFacade {
 
                     String token = sharedPreferences.getString(GCMPreferences.GCM_TOKEN, "token");
 
-                    HashMap params = new HashMap<String, String>();
-                    params.put("token", token);
-
-                    RestClient.getInstance().post("gcm-register/", params, new IResponseAction() {
-                        @Override
-                        public void onSuccess(String responseBody) {
-                            Log.d(TagHandler.MAIN_TAG, "GCM token succesfully submitted to App server");
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, String responseBody) {
-                            Log.e(TagHandler.MAIN_TAG, "GCM token failed to submit to server: " + responseBody);
-                        }
-                    });
+                    sendRegistrationToServer(token);
                 } else {
                     Log.d(TagHandler.MAIN_TAG, "Token not sent");
                 }
@@ -68,16 +79,19 @@ public class NotificationFacade {
         context.startService(intent);
     }
 
-    public void addMessageListener(String type, IMessageListener listener){
-
+    public IMessageHandler getMessageHandler(){
+        if (this.messageHandler == null){
+            if (context != null){
+                this.messageHandler = new MessageHandler(context);
+            }else{
+                throw new NullPointerException("Application not registered for notifications");
+            }
+        }
+        return messageHandler;
     }
 
     /**
-     * Persist registration to third-party servers.
-     *
-     * Modify this method to associate the user's GCM registration token with any server-side account
-     * maintained by your application.
-     *
+     * Persist registration to the edda server.
      * @param token The new token.
      */
     protected void sendRegistrationToServer(String token) {
@@ -95,7 +109,6 @@ public class NotificationFacade {
                 Log.e(TagHandler.MAIN_TAG, "GCM token failed to submit to server: " + responseBody);
             }
         });
-
     }
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
