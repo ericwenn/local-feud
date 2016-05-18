@@ -100,23 +100,16 @@ public class AuthenticationFlowActivity extends AppIntro {
 
     }
 
-    private static Activity getActivity() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
-        Class activityThreadClass = Class.forName("android.app.ActivityThread");
-        Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
-        Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
-        activitiesField.setAccessible(true);
-        Map activities = (Map) activitiesField.get(activityThread);
-        for (Object activityRecord : activities.values()) {
-            Class activityRecordClass = activityRecord.getClass();
-            Field pausedField = activityRecordClass.getDeclaredField("paused");
-            pausedField.setAccessible(true);
-            if (!pausedField.getBoolean(activityRecord)) {
-                Field activityField = activityRecordClass.getDeclaredField("activity");
-                activityField.setAccessible(true);
-                return (Activity) activityField.get(activityRecord);
-            }
-        }
-        return null;
-    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Authentication.getInstance().isLoggedIn()) {
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+            finish();
+        }
+
+        Log.d(TAG, "onResume() called with: " + "");
+    }
 }

@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.util.PermissionHandler;
-
 /**
  * Created by ericwenn on 5/13/16.
  */
@@ -36,6 +34,9 @@ public class Location {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         lastKnownLocation = locationManager.getLastKnownLocation( LocationManager.GPS_PROVIDER );
+        if( lastKnownLocation == null ) {
+            lastKnownLocation = locationManager.getLastKnownLocation( LocationManager.NETWORK_PROVIDER );
+        }
         
         // Define a listener that responds to location updates
         LocationListener locationListener = new LocationListener() {
@@ -68,12 +69,9 @@ public class Location {
             return;
         }
 
-        //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER))
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
-        if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER))
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
     }
 
 

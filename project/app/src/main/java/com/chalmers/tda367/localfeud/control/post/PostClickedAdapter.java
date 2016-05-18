@@ -10,8 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
@@ -20,6 +20,7 @@ import com.chalmers.tda367.localfeud.data.GeneralPost;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.DistanceColor;
+import com.chalmers.tda367.localfeud.util.DistanceString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +67,11 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (holder.getClass() == PostViewHolder.class) {
             final Post post = (Post) comments.get(position);
             final PostViewHolder viewHolder = (PostViewHolder) holder;
-            int distanceColor = DistanceColor.distanceColor(post.getLocation().getDistance());
+            int distanceColor = DistanceColor.distanceColor(post.getDistance());
             int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
             viewHolder.postItemMsgTextView.setText(post.getContent().getText());
             viewHolder.postItemTopbar.setBackgroundColor(ContextCompat.getColor(context, distanceColor));
-            viewHolder.postItemDistanceTextView.setText("" + post.getLocation().getDistance());
+            viewHolder.postItemDistanceTextView.setText(DistanceString.getDistanceString(context, post.getDistance()));
             viewHolder.postItemDistanceTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
             viewHolder.postItemTimeTextView.setText(DateString.convert(post.getDatePosted()));
 
@@ -185,7 +186,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private final CardView holderLayout;
         private final ImageButton postItemLikeButton;
         private final ImageButton postItemMoreButton;
-        private final RelativeLayout postItemTopbar;
+        private final FrameLayout postItemTopbar;
 
         public PostViewHolder(View itemView) {
             super(itemView);
@@ -198,7 +199,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             holderLayout = (CardView) itemView.findViewById(R.id.post_list_item);
             postItemLikeButton = (ImageButton) itemView.findViewById(R.id.post_item_like_button);
             postItemMoreButton = (ImageButton) itemView.findViewById(R.id.post_item_more_button);
-            postItemTopbar = (RelativeLayout) itemView.findViewById(R.id.post_item_topbar);
+            postItemTopbar = (FrameLayout) itemView.findViewById(R.id.post_item_topbar);
         }
     }
 

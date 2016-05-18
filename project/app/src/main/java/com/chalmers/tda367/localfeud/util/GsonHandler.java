@@ -1,5 +1,7 @@
 package com.chalmers.tda367.localfeud.util;
 
+import android.util.Log;
+
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.Comment;
@@ -39,6 +41,7 @@ public class GsonHandler
     }
 
     public ArrayList<Post> toPostList(String json) {
+        Log.d(TagHandler.MAIN_TAG, json);
         return gson.fromJson(json, new TypeToken<List<Post>>() {
         }.getType());
     }

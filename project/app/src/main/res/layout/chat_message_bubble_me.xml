@@ -20,7 +20,7 @@
         android:background="@color/distYellow"
         android:padding="@dimen/default_margin"
         android:text="@string/dummy_text"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         android:layout_alignParentEnd="true"
         android:maxWidth="300dp"
         android:layout_below="@+id/time_display"/>

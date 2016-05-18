@@ -30,6 +30,7 @@ public class Chat implements Serializable {
     private String date_started;
     private int number_of_unread_messages;
     private String href;
+    private String last_message;
 
     /**
      * id : 1
@@ -40,6 +41,15 @@ public class Chat implements Serializable {
 
 
     private List<KnownUser> users;
+
+    public String getLastMessage() {
+        if (last_message != null) return last_message;
+        else return "";
+    }
+
+    public void setLastMessage(String lastMessageSent) {
+        this.last_message = lastMessageSent;
+    }
 
     private enum Status {
         accepted, pending
