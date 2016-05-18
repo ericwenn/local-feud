@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/post_item_top_divider"
             android:padding="@dimen/default_margin"
-            android:text="@string/really_long_text"
+            android:text="@string/app_name"
             android:textSize="@dimen/card_post_message_text_size" />
 
         <TextView
