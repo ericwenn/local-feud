@@ -111,6 +111,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                                 Post newPost = post.clone();
                                 newPost.setNumberOfComments(post.getNumberOfComments() + 1);
                                 DataHandlerFacade.getPostDataHandler().triggerChange(post, newPost);
+                                postClickedAdapter.changePostInAdapter(newPost);
                                 setPost(newPost);
                                 DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
                             }
@@ -321,6 +322,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                             Post newPost = post.clone();
                             newPost.setNumberOfComments(post.getNumberOfComments() - 1);
                             DataHandlerFacade.getPostDataHandler().triggerChange(post, newPost);
+                            postClickedAdapter.changePostInAdapter(newPost);
                             setPost(newPost);
                             DataHandlerFacade.getCommentDataHandler().getList( post, refreshCommentsListener );
                             Snackbar.make(recyclerView, "Comment deleted successfully", Snackbar.LENGTH_LONG).show();
