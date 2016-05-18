@@ -19,4 +19,5 @@
     <color name="distYellow">#fbc02d</color>
     <color name="distGreen">#fdd835</color>
     <color name="distBlue">#ffeb3b</color>
+    <color name="dividerGray">#CCCCCC</color>
 </resources>
