@@ -16,29 +16,13 @@ import java.util.Locale;
  */
 public class Chat implements Serializable {
 
-    /**
-     * id : 1
-     * status : accepted
-     * users : [{"id":1,"firstname":"Karl","lastname":"Karlsson","href":"http://localhost/local-feud_backend/src/users/1/"},{"id":2,"firstname":"Johan","lastname":"Ulvgren","href":"http://localhost/local-feud_backend/src/users/2/"}]
-     * date_started : 2016-05-09T16:23:58+02:00
-     * number_of_unread_messages : 0
-     * href : http://localhost/local-feud_backend/src/chats/1/
-     */
-
     private int id;
     private Status status;
     private String date_started;
     private int number_of_unread_messages;
     private String href;
     private String last_message;
-
-    /**
-     * id : 1
-     * firstname : Karl
-     * lastname : Karlsson
-     * href : http://localhost/local-feud_backend/src/users/1/
-     */
-
+    private String last_activity;
 
     private List<KnownUser> users;
 
@@ -119,13 +103,18 @@ public class Chat implements Serializable {
         }
     }
 
-    public Calendar getDateStarted() {
+    public String getLastActivity() {
+        if (last_message != null) return last_activity;
+        else return date_started;
+    }
+
+    public Calendar getDate(String dateString) {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH);
         try {
-            calendar.setTime(simpleDateFormat.parse(getStringDateStarted()));
+            calendar.setTime(simpleDateFormat.parse(dateString));
         } catch (ParseException e) {
-            Log.e(TagHandler.MAIN_TAG, "Can't parse " + getStringDateStarted() + " to SimpleDateFormat");
+            Log.e(TagHandler.MAIN_TAG, "Can't parse " + dateString + " to SimpleDateFormat");
         }
         return calendar;
     }

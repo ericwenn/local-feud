@@ -15,6 +15,8 @@ import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Chat;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -30,6 +32,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     private final Context context;
     private final LayoutInflater inflater;
     private AdapterCallback adapterCallback;
+    private Comparator<Chat> comparator;
 
     private final ArrayList<Chat> chatList = new ArrayList<>();
 
@@ -42,6 +45,13 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         } catch (ClassCastException e) {
             throw new ClassCastException("ChatListAdapter: Activity must implement AdapterCallback.");
         }
+
+        comparator = new Comparator<Chat>() {
+            @Override
+            public int compare(Chat lhs, Chat rhs) {
+                return rhs.getDate(rhs.getLastActivity()).compareTo(lhs.getDate(lhs.getLastActivity()));
+            }
+        };
     }
 
     @Override
@@ -87,6 +97,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
     public void addChatListToAdapter(final List<Chat> chatList) {
         final int currentCount = this.chatList.size();
+
+        Collections.sort(chatList, comparator);
+
         synchronized (this.chatList) {
             clearAdapter();
             this.chatList.addAll(chatList);
