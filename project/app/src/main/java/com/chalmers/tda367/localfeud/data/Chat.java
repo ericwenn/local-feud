@@ -26,6 +26,22 @@ public class Chat implements Serializable {
 
     private List<KnownUser> users;
 
+    public Chat() {
+    }
+
+    private Chat(String date_started, String href, int id,
+                 String last_activity, String last_message,
+                 int number_of_unread_messages, Status status, List<KnownUser> users) {
+        this.date_started = date_started;
+        this.href = href;
+        this.id = id;
+        this.last_activity = last_activity;
+        this.last_message = last_message;
+        this.number_of_unread_messages = number_of_unread_messages;
+        this.status = status;
+        this.users = users;
+    }
+
     public String getLastMessage() {
         if (last_message != null) return last_message;
         else return "";
@@ -119,8 +135,29 @@ public class Chat implements Serializable {
         return calendar;
     }
 
+    public String getStringFromDate(Calendar date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH);
+        return simpleDateFormat.format(date.getTime());
+    }
+
+    public void setLastActivity(String lastActivity) {
+        this.last_activity = lastActivity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o.getClass() == Chat.class && ((Chat) o).getId() == getId();
+    }
+
     @Override
     public String toString() {
         return "Chat id: " + getId() + ", " + getStatus() + ".\nUsers: " + getChatName() + ", href: " + getHref();
+    }
+
+    @Override
+    public Chat clone() {
+        return new Chat(date_started, href, id, last_activity,
+                last_message, number_of_unread_messages,
+                status, users);
     }
 }

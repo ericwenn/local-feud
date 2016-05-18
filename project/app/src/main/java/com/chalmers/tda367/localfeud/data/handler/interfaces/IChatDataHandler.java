@@ -22,4 +22,8 @@ public interface IChatDataHandler {
      * @param listener Listening to when the request is finished
      */
     void getList(DataResponseListener<List<Chat>> listener);
+
+    void addChangeListener( DataChangeListener<Chat> listener );
+
+    void triggerChange( Chat oldValue, Chat newValue );
 }

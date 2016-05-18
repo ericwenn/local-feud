@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Chat;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,6 +90,16 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     private void clearAdapter() {
         chatList.clear();
         notifyDataSetChanged();
+    }
+
+    public void changeChatInAdapter(Chat oldChat, Chat newChat) {
+        if (chatList.contains(oldChat)) {
+            chatList.set(chatList.indexOf(oldChat), newChat);
+            notifyItemChanged(chatList.indexOf(newChat));
+        }
+        else {
+            Log.e(TagHandler.MAIN_TAG, "ChatListAdapter doesn't contain chat " + oldChat.getId());
+        }
     }
 
     public void addChatToAdapter(Chat chat) {
