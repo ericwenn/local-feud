@@ -2,7 +2,6 @@ package com.chalmers.tda367.localfeud.data;
 
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.services.Location;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
@@ -12,12 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import static android.location.Location.distanceBetween;
-
 /**
  * Created by Alfred on 2016-04-11.
  */
-public class Post extends GeneralPost implements Serializable {
+public class Post extends GeneralPost implements Serializable, Cloneable {
 
     private int id;
     private Position location;
@@ -32,6 +29,26 @@ public class Post extends GeneralPost implements Serializable {
     private String href;
     private boolean current_user_has_liked;
 
+    public Post() {
+
+    }
+
+    private Post(Content content, boolean current_user_has_liked, String date_posted, int distance,
+                 String href, int id, boolean is_deleted, Position location, int number_of_comments,
+                 int number_of_likes, double reach, User user) {
+        this.content = content;
+        this.current_user_has_liked = current_user_has_liked;
+        this.date_posted = date_posted;
+        this.distance = distance;
+        this.href = href;
+        this.id = id;
+        this.is_deleted = is_deleted;
+        this.location = location;
+        this.number_of_comments = number_of_comments;
+        this.number_of_likes = number_of_likes;
+        this.reach = reach;
+        this.user = user;
+    }
 
     public boolean isLiked() {
         return current_user_has_liked;
@@ -174,9 +191,16 @@ public class Post extends GeneralPost implements Serializable {
         this.href = href;
     }
 
+    public Post clone() {
+        return new Post(getContent(), current_user_has_liked, getStringDatePosted(), getDistance(),
+                getHref(), getId(), isIsDeleted(), getLocation(), getNumberOfComments(), getNumberOfLikes(),
+                getReach(), getUser());
+    }
 
-
-
+    @Override
+    public boolean equals(Object o) {
+        return o.getClass() == Post.class && ((Post) o).getId() == getId();
+    }
 
     public static class Content implements Serializable {
         private String type;

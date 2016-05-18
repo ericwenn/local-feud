@@ -75,6 +75,10 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
                     fragment.postAdapter.addPostToAdapter(newValue);
                     fragment.postAdapter2.addPostToAdapter(newValue);
                 }
+                else {
+                    fragment.postAdapter.changePostInAdapter(oldValue, newValue);
+                    fragment.postAdapter2.changePostInAdapter(oldValue, newValue);
+                }
             }
         });
 

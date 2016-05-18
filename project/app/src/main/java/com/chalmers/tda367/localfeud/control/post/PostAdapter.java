@@ -19,6 +19,7 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.DistanceString;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -111,6 +112,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         postList.add(post);
         Collections.sort(postList, comparator);
         notifyItemInserted(postList.indexOf(post));
+    }
+
+    public void changePostInAdapter(Post oldPost, Post newPost) {
+        if (postList.contains(oldPost)) {
+            postList.set(postList.indexOf(oldPost), newPost);
+            notifyItemChanged(postList.indexOf(newPost));
+        }
+        else {
+            Log.e(TagHandler.MAIN_TAG, "PostAdapter doesn't contain post " + oldPost.getId());
+        }
     }
 
     private void clearAdapter() {
