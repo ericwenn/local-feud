@@ -68,6 +68,10 @@ public class NotificationFacade {
         context.startService(intent);
     }
 
+    public void addMessageListener(String type, IMessageListener listener){
+
+    }
+
     /**
      * Persist registration to third-party servers.
      *

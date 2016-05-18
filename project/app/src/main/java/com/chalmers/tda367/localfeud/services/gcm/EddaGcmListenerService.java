@@ -8,12 +8,20 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
+import android.util.JsonReader;
 import android.util.Log;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.MainActivity;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.google.android.gms.gcm.GcmListenerService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.IOException;
+import java.io.Reader;
 
 /**
  * Created by Alfred on 2016-05-16.
@@ -31,9 +39,25 @@ public class EddaGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         Log.d(TagHandler.MAIN_TAG, "MESSAGE RECIEVED");
+
+        String type = data.getString("title");
         String message = data.getString("message");
-        Log.d(TagHandler.MAIN_TAG, "From: " + from);
-        Log.d(TagHandler.MAIN_TAG, "Message: " + message);
+        JSONObject json;
+        String sender;
+        String content;
+
+        try{
+            json = new JSONObject(message);
+            sender = json.getString("from");
+            content = json.getString("content");
+            Log.d(TagHandler.MAIN_TAG, "Type: " + type);
+            Log.d(TagHandler.MAIN_TAG, "From: " + sender);
+            Log.d(TagHandler.MAIN_TAG, "Message: " + content);
+
+            sendNotification(sender + ": " + content);
+        }catch (JSONException e){
+            Log.e(TagHandler.MAIN_TAG, e.getMessage());
+        }
 
         if (from.startsWith("/topics/")) {
             // message received from some topic.
@@ -53,7 +77,6 @@ public class EddaGcmListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
-        sendNotification(message);
         // [END_EXCLUDE]
     }
     // [END receive_message]
@@ -72,11 +95,12 @@ public class EddaGcmListenerService extends GcmListenerService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder.setSmallIcon(R.drawable.edda_icon);
-        notificationBuilder.setContentTitle("GCM Message");
+        notificationBuilder.setContentTitle(getString(R.string.app_name));
         notificationBuilder.setContentText(message);
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setSound(defaultSoundUri);
         notificationBuilder.setContentIntent(pendingIntent);
+        notificationBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
