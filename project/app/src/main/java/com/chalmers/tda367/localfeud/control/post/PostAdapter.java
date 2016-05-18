@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,8 +107,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     public void addPostToAdapter(Post post) {
+        Log.d("PostAdapter", "addPostToAdapter() called with: " + "post = [" + post + "]");
         postList.add(post);
-        notifyItemChanged(postList.size());
+        Collections.sort(postList, comparator);
+        notifyItemInserted(postList.indexOf(post));
     }
 
     private void clearAdapter() {

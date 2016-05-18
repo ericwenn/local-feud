@@ -1,14 +1,22 @@
 package com.chalmers.tda367.localfeud.data.handler;
 
+import com.chalmers.tda367.localfeud.data.handler.interfaces.DataChangeListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
 import com.chalmers.tda367.localfeud.services.IResponseAction;
 import com.chalmers.tda367.localfeud.services.RestClient;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by ericwenn on 5/12/16.
  */
 public abstract class AbstractDataHandler {
+
+    protected List<DataChangeListener> listeners = new ArrayList<>();
+
+
 
     public class RestResponseAction implements IResponseAction {
         private DataResponseListener listener;
@@ -58,6 +66,7 @@ public abstract class AbstractDataHandler {
     protected RestClient getClient() {
         return RestClient.getInstance();
     }
+
 
 
 

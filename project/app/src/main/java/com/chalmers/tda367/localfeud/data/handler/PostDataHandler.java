@@ -1,7 +1,10 @@
 package com.chalmers.tda367.localfeud.data.handler;
 
+import android.util.Log;
+
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.DataChangeListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.IPostDataHandler;
 
@@ -75,4 +78,22 @@ public class PostDataHandler extends AbstractDataHandler implements IPostDataHan
     public void delete(Post post, DataResponseListener<Void> listener) {
         // TODO
     }
+
+
+
+    @Override
+    public void addChangeListener(DataChangeListener<Post> listener) {
+        this.listeners.add(listener);
+    }
+
+
+    @Override
+    public void triggerChange(Post oldValue, Post newValue) {
+        Log.i("PostDataHandler", "triggerChange: " + newValue.getContent().getText());
+        for( DataChangeListener<Post> listener : listeners) {
+            listener.onChange( oldValue, newValue );
+        }
+    }
+
+
 }
