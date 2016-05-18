@@ -219,12 +219,13 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         }
         imageButton.setImageResource(revertLikeDrawable);
 
-
         if (!isLiked) {
             DataHandlerFacade.getLikeDataHandler().create( post, new AbstractDataResponseListener<Like>() {
                 @Override
                 public void onSuccess(Like data) {
+                    Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
+                    DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
                 }
 
                 @Override
@@ -238,7 +239,9 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             DataHandlerFacade.getLikeDataHandler().delete( post, new AbstractDataResponseListener<Void>() {
                 @Override
                 public void onSuccess(Void data) {
+                    Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
+                    DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
                 }
 
                 @Override
