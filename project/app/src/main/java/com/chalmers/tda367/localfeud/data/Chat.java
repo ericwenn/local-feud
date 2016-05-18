@@ -136,7 +136,7 @@ public class Chat implements Serializable {
     }
 
     public String getStringFromDate(Calendar date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
         return simpleDateFormat.format(date.getTime());
     }
 

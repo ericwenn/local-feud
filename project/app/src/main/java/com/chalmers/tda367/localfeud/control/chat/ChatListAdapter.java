@@ -94,7 +94,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
     public void changeChatInAdapter(Chat oldChat, Chat newChat) {
         if (chatList.contains(oldChat)) {
-            chatList.set(chatList.indexOf(oldChat), newChat);
+            int chatIndex = chatList.indexOf(oldChat);
+            chatList.set(chatIndex, newChat);
+            Collections.sort(chatList, comparator);
+            if (chatIndex != chatList.indexOf(newChat)) {
+                notifyItemMoved(chatIndex, chatList.indexOf(newChat));
+            }
             notifyItemChanged(chatList.indexOf(newChat));
         }
         else {
