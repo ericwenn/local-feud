@@ -41,4 +41,8 @@ public interface IPostDataHandler {
     void delete( Post post, DataResponseListener<Void> listener );
 
 
+
+    void addChangeListener( DataChangeListener<Post> listener );
+
+    void triggerChange( Post oldValue, Post newValue );
 }

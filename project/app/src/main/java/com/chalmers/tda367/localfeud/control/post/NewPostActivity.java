@@ -67,6 +67,8 @@ public class NewPostActivity extends AppCompatActivity {
                     DataHandlerFacade.getPostDataHandler().create(post, new AbstractDataResponseListener<Post>() {
                         @Override
                         public void onSuccess(Post data) {
+
+                            DataHandlerFacade.getPostDataHandler().triggerChange(null, data);
                             finish();
                         }
 

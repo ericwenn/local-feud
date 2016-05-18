@@ -14,6 +14,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.DataChangeListener;
 
 import java.util.Comparator;
 import java.util.List;
@@ -41,7 +43,7 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
 
 
     public static FeedFragment newInstance(Context context) {
-        FeedFragment fragment = new FeedFragment();
+        final FeedFragment fragment = new FeedFragment();
 
         // Sort on date/ID
         fragment.postAdapter = new PostAdapter(context, new Comparator<Post>() {
@@ -63,6 +65,22 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
         fragment.postFragment.setName(context.getResources().getString(R.string.latest_messages));
         fragment.postFragment2 = PostFragment.newInstance(fragment.postAdapter2, fragment);
         fragment.postFragment2.setName(context.getResources().getString(R.string.nearest_messages));
+
+
+        DataHandlerFacade.getPostDataHandler().addChangeListener(new DataChangeListener<Post>() {
+            @Override
+            public void onChange(Post oldValue, Post newValue) {
+                Log.i("DataChangeListener", "onChange: "+ newValue.getContent().getText());
+                if( oldValue == null ) {
+                    fragment.postAdapter.addPostToAdapter(newValue);
+                    fragment.postAdapter2.addPostToAdapter(newValue);
+                }
+                else {
+                    fragment.postAdapter.changePostInAdapter(oldValue, newValue);
+                    fragment.postAdapter2.changePostInAdapter(oldValue, newValue);
+                }
+            }
+        });
 
         return fragment;
     }

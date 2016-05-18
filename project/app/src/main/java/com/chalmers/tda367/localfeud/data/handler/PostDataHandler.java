@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.data.handler;
 
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.DataChangeListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.IPostDataHandler;
 
@@ -15,7 +16,7 @@ public class PostDataHandler extends AbstractDataHandler implements IPostDataHan
     private static PostDataHandler instance = null;
 
     public synchronized static PostDataHandler getInstance() {
-        if( instance == null) {
+        if (instance == null) {
             instance = new PostDataHandler();
         }
         return instance;
@@ -38,8 +39,7 @@ public class PostDataHandler extends AbstractDataHandler implements IPostDataHan
         param.put("lon", Double.toString(pos.getLongitude()));
 
 
-
-        getClient().get( "posts/", param, new RestResponseAction(listener));
+        getClient().get("posts/", param, new RestResponseAction(listener));
 
 
     }
@@ -75,4 +75,20 @@ public class PostDataHandler extends AbstractDataHandler implements IPostDataHan
     public void delete(Post post, DataResponseListener<Void> listener) {
         // TODO
     }
+
+
+    @Override
+    public void addChangeListener(DataChangeListener<Post> listener) {
+        this.listeners.add(listener);
+    }
+
+
+    @Override
+    public void triggerChange(Post oldValue, Post newValue) {
+        for (DataChangeListener<Post> listener : listeners) {
+            listener.onChange(oldValue, newValue);
+        }
+    }
+
+
 }

@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.data.handler;
 
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.DataChangeListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.IChatDataHandler;
 
@@ -45,5 +46,17 @@ public class ChatDataHandler extends AbstractDataHandler implements IChatDataHan
     @Override
     public void getList(DataResponseListener<List<Chat>> listener) {
         getClient().get("chats/", new RestResponseAction(listener));
+    }
+
+    @Override
+    public void addChangeListener(DataChangeListener<Chat> listener) {
+        this.listeners.add(listener);
+    }
+
+    @Override
+    public void triggerChange(Chat oldValue, Chat newValue) {
+        for (DataChangeListener<Chat> listener : listeners) {
+            listener.onChange(oldValue, newValue);
+        }
     }
 }

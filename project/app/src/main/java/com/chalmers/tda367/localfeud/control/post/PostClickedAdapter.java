@@ -33,7 +33,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final Context context;
     private final LayoutInflater inflater;
     private AdapterCallback adapterCallback;
-    private final Post post;
+    private Post post;
 
     public PostClickedAdapter(Context context, Post post) {
         this.context = context;
@@ -120,6 +120,12 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return 1;
         }
         return -1;
+    }
+
+    public void changePostInAdapter(Post newPost) {
+        post = newPost;
+        comments.set(0, newPost);
+        notifyItemChanged(0);
     }
 
     public void addCommentToAdapter(Comment comment) {
