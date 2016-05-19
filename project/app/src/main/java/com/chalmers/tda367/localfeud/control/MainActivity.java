@@ -2,23 +2,23 @@ package com.chalmers.tda367.localfeud.control;
 
 import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.chat.ChatActiveActivity;
 import com.chalmers.tda367.localfeud.control.chat.ChatFragment;
 import com.chalmers.tda367.localfeud.control.chat.ChatListAdapter;
 import com.chalmers.tda367.localfeud.control.me.MeFragment;
-import com.chalmers.tda367.localfeud.control.permission.PermissionFlow;
 import com.chalmers.tda367.localfeud.control.post.FeedFragment;
 import com.chalmers.tda367.localfeud.control.post.PostAdapter;
 import com.chalmers.tda367.localfeud.control.post.PostClickedActivity;
@@ -29,7 +29,6 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.services.NotificationFacade;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
-import com.chalmers.tda367.localfeud.util.PermissionHandler;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -55,8 +54,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
             NotificationFacade.getInstance().registerForNotifications(this);
         }
 
-        initFlow();
-
         setContentView(R.layout.activity_main);
         initBottomBar(savedInstanceState);
 
@@ -77,13 +74,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
             @Override
             public void onMenuTabReSelected(@IdRes int menuItemId) {
-                if (menuItemId == R.id.feed_item) {
-                    // The user reselected item number one.
-                } else if (menuItemId == R.id.chat_item) {
-                    // The user reselected item number two.
-                } else if (menuItemId == R.id.me_item) {
-                    // The user reselected item number three.
-                }
+                switchFragment(menuItemId);
             }
         });
 
@@ -141,20 +132,21 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     }
 
     @Override
-    public void onLikeClick(final Post post, final ImageButton imageButton) {
-//        Should check if post is liked
+    public void onLikeClick(final Post post, final ImageButton imageButton, final TextView likesDisplay) {
+        imageButton.setEnabled(false);
         final boolean isLiked = post.isLiked();
         final int revertLikeDrawable, originalLikeDrawable;
         if (isLiked) {
             revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
+            likesDisplay.setText(post.getNumberOfLikes()-1 + "");
+
         } else {
             revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+            likesDisplay.setText(post.getNumberOfLikes()+1 + "");
         }
         imageButton.setImageResource(revertLikeDrawable);
-
-
 
         if (!isLiked) {
             DataHandlerFacade.getLikeDataHandler().create( post, new AbstractDataResponseListener<Like>() {
@@ -163,12 +155,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                     Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
                     DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
+                    post.setNumberOfLikes(oldPost.getNumberOfLikes()+1);
+                    imageButton.setEnabled(true);
                 }
 
                 @Override
                 public void onFailure(DataResponseError error, String errormessage) {
                     imageButton.setImageResource(originalLikeDrawable);
                     showSnackbar(getString(R.string.like_error_msg));
+                    imageButton.setEnabled(true);
                 }
             } );
         }
@@ -179,12 +174,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                     Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
                     DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
+                    post.setNumberOfLikes(oldPost.getNumberOfLikes()-1);
+                    imageButton.setEnabled(true);
                 }
 
                 @Override
                 public void onFailure(DataResponseError error, String errormessage) {
                     imageButton.setImageResource(originalLikeDrawable);
                     showSnackbar(getString(R.string.like_error_msg));
+                    imageButton.setEnabled(true);
                 }
             });
         }
@@ -211,21 +209,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         }
     }
 
-    private void initFlow() {
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                if (!PermissionHandler.hasPermissions(getApplicationContext())) {
-                    Intent i = new Intent(MainActivity.this, PermissionFlow.class);
-                    startActivity(i);
-                    finish();
-
-                }
-                return null;
-            }
-        }.execute();
-    }
 
     @Override
     protected void onDestroy() {

@@ -1,7 +1,6 @@
 package com.chalmers.tda367.localfeud.services;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -65,7 +64,7 @@ public class Authentication implements IAuthentication{
             return null;
         }
 
-        HashMap map = new HashMap<String, String>();
+        HashMap map = new HashMap<>();
 
         map.put( "user-id", token.getUserId() );
         map.put( "token", token.getToken() );

@@ -4,6 +4,7 @@ import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseListener;
 import com.chalmers.tda367.localfeud.services.IResponseAction;
+import com.chalmers.tda367.localfeud.services.IRestClient;
 import com.chalmers.tda367.localfeud.services.RestClient;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
 
@@ -15,21 +16,18 @@ import java.util.List;
  */
 public abstract class AbstractDataHandler {
 
-    protected List<DataChangeListener> listeners = new ArrayList<>();
+    protected final List<DataChangeListener> listeners = new ArrayList<>();
 
 
 
     public class RestResponseAction implements IResponseAction {
-        private DataResponseListener listener;
+        private final DataResponseListener listener;
         public RestResponseAction(DataResponseListener listener) {
             this.listener = listener;
         }
         
         public void onSuccess( String responseBody ) {
-            // Parse GSON
             listener.onSuccess(GsonHandler.getInstance().fromJson( responseBody, listener.getType()));
-
-
         }
 
 
@@ -64,7 +62,7 @@ public abstract class AbstractDataHandler {
 
 
 
-    protected RestClient getClient() {
+    protected IRestClient getClient() {
         return RestClient.getInstance();
     }
 

@@ -31,7 +31,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder> {
 
-    private final Context context;
     private final LayoutInflater inflater;
     private AdapterCallback adapterCallback;
     private Comparator<Chat> comparator;
@@ -39,7 +38,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     private final ArrayList<Chat> chatList = new ArrayList<>();
 
     public ChatListAdapter(Context context) {
-        this.context = context;
         inflater = LayoutInflater.from(context);
 
         try {
