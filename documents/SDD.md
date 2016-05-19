@@ -65,128 +65,145 @@ public interface DataResponseListener<D> {
 ```
 
 Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmänna funktionerna för *alla* chatter, såsom om man vill skapa en ny chat med någon eller få en lista på de man redan chattar med.
-	
-	public interface IChatDataHandler {
 
-	    void sendRequest(Post post, int userID, DataResponseListener<Chat> listener);
+```java
+public interface IChatDataHandler {
 
-	    void getList(DataResponseListener<List<Chat>> listener);
+	void sendRequest(Post post, int userID, DataResponseListener<Chat> listener);
+
+	void getList(DataResponseListener<List<Chat>> listener);
     
 	    
-	    void addChangeListener( DataChangeListener<Chat> listener );
+	void addChangeListener( DataChangeListener<Chat> listener );
 
-			void triggerChange( Chat oldValue, Chat newValue );
+	void triggerChange( Chat oldValue, Chat newValue );
 			
-	}
-	
+}
+```
+
 **IChatMessageDataHandler** är det interface som har hand om de funktionerna för *en specifik* chat. Här finns möjlighet att få listan med meddelanden samt skicka ett nytt meddelande.
-	
-	public interface IChatMessageDataHandler {
 
-	    void getList(Chat chat, DataResponseListener<List<ChatMessage>> listener);
+```java
+public interface IChatMessageDataHandler {
 
-	    void send(Chat chat, ChatMessage message, DataResponseListener<ChatMessage> listener );
+	void getList(Chat chat, DataResponseListener<List<ChatMessage>> listener);
+
+	void send(Chat chat, ChatMessage message, DataResponseListener<ChatMessage> listener );
     
-	}
-	
+}
+```
 
 **ICommentDataHandler** sköter kommentarerna på en post, både hämta, skapa och ta bort.
+
+```java
+public interface ICommentDataHandler {
 	
-	public interface ICommentDataHandler {
-	
-	    void getList(Post post, DataResponseListener<List<Comment>> listener );
+	void getList(Post post, DataResponseListener<List<Comment>> listener );
 
-	    void getSingle( int id, DataResponseListener<Comment> listener);
+	void getSingle( int id, DataResponseListener<Comment> listener);
 
-	    void delete( Comment comment, DataResponseListener<Void> listener);
+	void delete( Comment comment, DataResponseListener<Void> listener);
 
-	    void create( Post post, Comment comment, DataResponseListener<Comment> listener);
+	void create( Post post, Comment comment, DataResponseListener<Comment> listener);
 
-	}
+}
+```
 
 **ILikeDataHandler** fungerar precis som *ICommentDataHandler*, fast med gillningar på en post istället för kommentarer.
 
-	public interface ILikeDataHandler {
+```java
+public interface ILikeDataHandler {
 
-	    void getList( Post post, DataResponseListener<List<Like>> listener);
+	void getList( Post post, DataResponseListener<List<Like>> listener);
 
-	    void create( Post post, DataResponseListener<Like> listener);
+	void create( Post post, DataResponseListener<Like> listener);
 
-	    void delete( Post post, DataResponseListener<Void> listener);
+	void delete( Post post, DataResponseListener<Void> listener);
     
-	}
+}
+```
 
 **IMeDataHandler** sköter information angående användaren.
-	
-	public interface IMeDataHandler {
 
-	    void get(DataResponseListener<Me> listener);
+```java
+public interface IMeDataHandler {
 
-	    void setMe( Me me );
+	void get(DataResponseListener<Me> listener);
 
-	    Me getMe() throws NullPointerException;
+	void setMe( Me me );
+
+	Me getMe() throws NullPointerException;
     
-	}
+}
+```
 
 **IPostDataHandler** innehåller funktioner som har med posts att göra. 
 
-	public interface IPostDataHandler {
+```java
+public interface IPostDataHandler {
 
-	    void getList( Position pos, DataResponseListener<List<Post>> listener );
+	void getList( Position pos, DataResponseListener<List<Post>> listener );
 
-	    void getSingle( int id, DataResponseListener<Post> listener );
+	void getSingle( int id, DataResponseListener<Post> listener );
 
-	    void create( Post post, DataResponseListener<Post> listener );
+	void create( Post post, DataResponseListener<Post> listener );
 
-	    void delete( Post post, DataResponseListener<Void> listener );
+	void delete( Post post, DataResponseListener<Void> listener );
 	    
-	    void addChangeListener( DataChangeListener<Post> listener );
+	void addChangeListener( DataChangeListener<Post> listener );
 
-			void triggerChange( Post oldValue, Post newValue );
+	void triggerChange( Post oldValue, Post newValue );
 
-	}
+}
+```
 
 **DataChangeListener** är ett interface som används för att få olika vyer att prata med varandra. Till exempel, om man ändrar något i en post i en viss vy, hjälper DataChangeListener till så att även andra vyer uppdateras.
 
-	public interface DataChangeListener<T> {
+```java
+public interface DataChangeListener<T> {
 	
-			void onChange( T oldValue, T newValue );
+	void onChange( T oldValue, T newValue );
 		
-	}
+}
+```
 
 **IAuthentication** används för att tracka huruvida användaren är inloggad eller inte. Det finns även ett inre interface som heter **IAuthenticationListener** som hanterar när användaren loggar in och ut.
 
-	public interface IAuthentication {
+```java
+public interface IAuthentication {
 
-	    void startTracking(Context context, IAuthenticationListener listener );
+	void startTracking(Context context, IAuthenticationListener listener );
 
-	    HashMap getRequestHeaders();
+	HashMap getRequestHeaders();
 
-	    boolean isLoggedIn();
-
-
-	    interface IAuthenticationListener {
-        void onLogInSuccessful();
-        void onLoginFailed( AuthenticationError err);
-        void onLogOut();
-	    }
+	boolean isLoggedIn();
 
 
-	    enum AuthenticationError {
-		    DECLINED_PERMISSIONS
-	    }
-
+	interface IAuthenticationListener {
+    void onLogInSuccessful();
+    void onLoginFailed( AuthenticationError err);
+    void onLogOut();
 	}
+
+
+	enum AuthenticationError {
+		DECLINED_PERMISSIONS
+	}
+
+}
+```
 
 **IResponseAction** är ett interface som används vid all typ av kontakt med servern. Den håller reda på om anslutningen lyckades som det skulle eller ej.
 
-	public interface IResponseAction {
+```java
+public interface IResponseAction {
 	
-		void onSuccess( String responseBody );
+	void onSuccess( String responseBody );
 		
-		void onFailure( int statusCode, String responseBody );
+	void onFailure( int statusCode, String responseBody );
 		
-	}
+}
+```
 
 
 ####2.2.3 Layering
