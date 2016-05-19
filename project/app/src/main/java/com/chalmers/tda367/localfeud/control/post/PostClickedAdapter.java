@@ -22,6 +22,8 @@ import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.DistanceString;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +76,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             viewHolder.postItemDistanceTextView.setText(DistanceString.getDistanceString(context, post.getDistance()));
             viewHolder.postItemDistanceTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
             viewHolder.postItemTimeTextView.setText(DateString.convert(post.getDatePosted()));
-
+            viewHolder.postItemNbrOfLikes.setText(post.getNumberOfLikes() + "");
 
             viewHolder.postItemSenderTextView.setText(post.getUser().getGenderSymbol() + " " + post.getUser().getAge());
             viewHolder.postItemSenderTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
@@ -82,7 +84,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             viewHolder.postItemLikeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    adapterCallback.onLikeClick(post, viewHolder.postItemLikeButton);
+                    adapterCallback.onLikeClick(post, viewHolder.postItemLikeButton, viewHolder.postItemNbrOfLikes);
                 }
             });
             viewHolder.postItemMoreButton.setOnClickListener(new View.OnClickListener() {
@@ -189,6 +191,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private final TextView postItemDistanceTextView;
         private final TextView postItemTimeTextView;
         private final TextView postItemCommentTextView;
+        private final TextView postItemNbrOfLikes;
         private final CardView holderLayout;
         private final ImageButton postItemLikeButton;
         private final ImageButton postItemMoreButton;
@@ -202,6 +205,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             postItemDistanceTextView = (TextView) itemView.findViewById(R.id.post_item_distance_textview);
             postItemTimeTextView = (TextView) itemView.findViewById(R.id.post_item_time_textview);
             postItemCommentTextView = (TextView) itemView.findViewById(R.id.post_item_comment_textview);
+            postItemNbrOfLikes = (TextView) itemView.findViewById(R.id.post_item_nbr_of_likes);
             holderLayout = (CardView) itemView.findViewById(R.id.post_list_item);
             postItemLikeButton = (ImageButton) itemView.findViewById(R.id.post_item_like_button);
             postItemMoreButton = (ImageButton) itemView.findViewById(R.id.post_item_more_button);
@@ -210,7 +214,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public interface AdapterCallback {
-        void onLikeClick(Post post, ImageButton imageButton);
+        void onLikeClick(Post post, ImageButton imageButton, TextView displayLikes);
 
         void onMoreClick(ImageButton imageButton);
 
