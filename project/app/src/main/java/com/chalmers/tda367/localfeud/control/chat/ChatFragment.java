@@ -23,6 +23,7 @@ import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.interfaces.DataChangeListener;
 
 import java.util.Collections;
 import java.util.List;
@@ -40,9 +41,16 @@ public class ChatFragment extends Fragment {
     }
 
     public static ChatFragment newInstance(MainActivity activity) {
-        ChatFragment fragment = new ChatFragment();
+        final ChatFragment fragment = new ChatFragment();
         fragment.activity = activity;
         fragment.chatListAdapter = new ChatListAdapter(fragment.activity);
+
+        DataHandlerFacade.getChatDataHandler().addChangeListener(new DataChangeListener<Chat>() {
+            @Override
+            public void onChange(Chat oldValue, Chat newValue) {
+                fragment.chatListAdapter.changeChatInAdapter(oldValue, newValue);
+            }
+        });
         return fragment;
     }
 
@@ -54,7 +62,6 @@ public class ChatFragment extends Fragment {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.ChatAppTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         return localInflater.inflate(R.layout.fragment_chat, container, false);
-//        return inflater.inflate(R.layout.fragment_chat, container, false);
     }
 
     @Override

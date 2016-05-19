@@ -36,22 +36,18 @@
                 tools:ignore="RelativeOverlap"
                 android:layout_gravity="end|center_vertical" />
         </FrameLayout>
-
         <View
             android:id="@+id/post_item_top_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/post_item_topbar"
-            android:alpha="0.12"
-            android:background="@android:color/black" />
-
+            android:background="@color/dividerGray" />
         <ImageButton
             android:id="@+id/post_item_like_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/post_item_top_divider"
-            android:alpha="0.54"
             android:background="@android:color/transparent"
             android:contentDescription="@string/like_post"
             android:padding="@dimen/default_margin"
@@ -63,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/post_item_top_divider"
             android:padding="@dimen/default_margin"
-            android:text="@string/really_long_text"
+            android:text="@string/app_name"
             android:textSize="@dimen/card_post_message_text_size" />
 
         <TextView
@@ -85,7 +81,6 @@
             android:layout_below="@id/post_item_msg_textview"
             android:layout_marginTop="2dp"
             android:layout_toEndOf="@id/post_item_comment_textview"
-            android:alpha="0.54"
             android:contentDescription="@string/comment_post"
             android:paddingEnd="@dimen/default_margin"
             android:paddingStart="@dimen/nothing"
@@ -109,7 +104,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/post_item_msg_textview"
-            android:alpha="0.54"
             android:background="@android:color/transparent"
             android:contentDescription="@string/more"
             android:paddingBottom="@dimen/default_margin"

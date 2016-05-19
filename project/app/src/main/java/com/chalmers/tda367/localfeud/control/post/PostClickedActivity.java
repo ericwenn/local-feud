@@ -27,7 +27,6 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
-
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.List;
@@ -109,6 +108,11 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                             @Override
                             public void onSuccess(Comment data) {
                                 swipeRefreshLayout.setRefreshing(false);
+                                Post newPost = post.clone();
+                                newPost.setNumberOfComments(post.getNumberOfComments() + 1);
+                                DataHandlerFacade.getPostDataHandler().triggerChange(post, newPost);
+                                postClickedAdapter.changePostInAdapter(newPost);
+                                setPost(newPost);
                                 DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
                             }
 
@@ -215,12 +219,13 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         }
         imageButton.setImageResource(revertLikeDrawable);
 
-
         if (!isLiked) {
             DataHandlerFacade.getLikeDataHandler().create( post, new AbstractDataResponseListener<Like>() {
                 @Override
                 public void onSuccess(Like data) {
+                    Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
+                    DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
                 }
 
                 @Override
@@ -234,7 +239,9 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             DataHandlerFacade.getLikeDataHandler().delete( post, new AbstractDataResponseListener<Void>() {
                 @Override
                 public void onSuccess(Void data) {
+                    Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
+                    DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
                 }
 
                 @Override
@@ -315,12 +322,18 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                         @Override
                         public void onSuccess(Void data) {
                             swipeRefreshLayout.setRefreshing(false);
+                            Post newPost = post.clone();
+                            newPost.setNumberOfComments(post.getNumberOfComments() - 1);
+                            DataHandlerFacade.getPostDataHandler().triggerChange(post, newPost);
+                            postClickedAdapter.changePostInAdapter(newPost);
+                            setPost(newPost);
                             DataHandlerFacade.getCommentDataHandler().getList( post, refreshCommentsListener );
                             Snackbar.make(recyclerView, "Comment deleted successfully", Snackbar.LENGTH_LONG).show();
                         }
 
                         @Override
                         public void onFailure(DataResponseError error, String errormessage) {
+                            swipeRefreshLayout.setRefreshing(false);
                             Snackbar.make(recyclerView, "Comment failed to be deleted: " + errormessage, Snackbar.LENGTH_LONG).show();
                         }
                     });
@@ -339,6 +352,14 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
         menu.setOnMenuItemClickListener(listener);
         menu.show();
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     private void sendChatRequest(Post post, int userID){

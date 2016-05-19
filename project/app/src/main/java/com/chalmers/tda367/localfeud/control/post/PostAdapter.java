@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.DistanceString;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -106,8 +108,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     public void addPostToAdapter(Post post) {
+        Log.d("PostAdapter", "addPostToAdapter() called with: " + "post = [" + post + "]");
         postList.add(post);
-        notifyItemChanged(postList.size());
+        Collections.sort(postList, comparator);
+        notifyItemInserted(postList.indexOf(post));
+    }
+
+    public void changePostInAdapter(Post oldPost, Post newPost) {
+        if (postList.contains(oldPost)) {
+            postList.set(postList.indexOf(oldPost), newPost);
+            notifyItemChanged(postList.indexOf(newPost));
+        }
+        else {
+            Log.e(TagHandler.MAIN_TAG, "PostAdapter doesn't contain post " + oldPost.getId());
+        }
     }
 
     private void clearAdapter() {
