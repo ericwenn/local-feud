@@ -207,15 +207,19 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
 
     @Override
-    public void onLikeClick(final Post post, final ImageButton imageButton) {
+    public void onLikeClick(final Post post, final ImageButton imageButton, final TextView likesDisplay) {
+        imageButton.setEnabled(false);
         final boolean isLiked = post.isLiked();
         final int revertLikeDrawable, originalLikeDrawable;
         if (isLiked) {
             revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
+            likesDisplay.setText(post.getNumberOfLikes()-1 + "");
+
         } else {
             revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+            likesDisplay.setText(post.getNumberOfLikes()+1 + "");
         }
         imageButton.setImageResource(revertLikeDrawable);
 
@@ -226,12 +230,15 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                     Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
                     DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
+                    post.setNumberOfLikes(oldPost.getNumberOfLikes()+1);
+                    imageButton.setEnabled(true);
                 }
 
                 @Override
                 public void onFailure(DataResponseError error, String errormessage) {
                     imageButton.setImageResource(originalLikeDrawable);
                     Snackbar.make(recyclerView, getString(R.string.like_error_msg), Snackbar.LENGTH_LONG).show();
+                    imageButton.setEnabled(true);
                 }
             } );
         }
@@ -242,12 +249,15 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                     Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
                     DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
+                    post.setNumberOfLikes(oldPost.getNumberOfLikes()-1);
+                    imageButton.setEnabled(true);
                 }
 
                 @Override
                 public void onFailure(DataResponseError error, String errormessage) {
                     imageButton.setImageResource(originalLikeDrawable);
                     Snackbar.make(recyclerView, getString(R.string.like_error_msg), Snackbar.LENGTH_LONG).show();
+                    imageButton.setEnabled(true);
                 }
             });
         }

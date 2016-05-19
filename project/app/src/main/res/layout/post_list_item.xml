@@ -42,16 +42,34 @@
             android:layout_height="1dp"
             android:layout_below="@id/post_item_topbar"
             android:background="@color/dividerGray" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/post_item_top_divider">
         <ImageButton
             android:id="@+id/post_item_like_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@id/post_item_top_divider"
             android:background="@android:color/transparent"
             android:contentDescription="@string/like_post"
-            android:padding="@dimen/default_margin"
+            android:paddingEnd="@dimen/default_margin"
+            android:paddingTop="@dimen/default_margin"
+            android:paddingStart="@dimen/default_margin"
+            android:paddingBottom="@dimen/small_margin"
             android:src="@drawable/ic_favorite_border_black_24dp" />
+
+        <TextView
+            android:id="@+id/post_item_nbr_of_likes"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/post_item_like_button"
+            android:layout_alignParentEnd="true"
+            android:text="0"
+            android:textAlignment="center"
+            android:layout_gravity="end|center_vertical" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/post_item_msg_textview"
