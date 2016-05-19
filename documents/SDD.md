@@ -180,9 +180,9 @@ public interface IAuthentication {
 
 
 	interface IAuthenticationListener {
-    void onLogInSuccessful();
-    void onLoginFailed( AuthenticationError err);
-    void onLogOut();
+			void onLogInSuccessful();
+			void onLoginFailed( AuthenticationError err);
+			void onLogOut();
 	}
 
 
@@ -211,6 +211,8 @@ public interface IResponseAction {
 ####2.2.4 Dependency analysis
 
 ###2.3 Concurrency issues
+
+**N/A**
 
 ###2.4 Persistent data management
 
