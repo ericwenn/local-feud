@@ -205,8 +205,10 @@ public interface IResponseAction {
 
 
 ####2.2.3 Layering
+// TODO
 
 ####2.2.4 Dependency analysis
+// TODO
 
 ###2.3 Concurrency issues
 
