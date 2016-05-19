@@ -47,10 +47,9 @@ Applikationen kommer inte innehålla någon karta utan meddelanden presenteras e
 In this section we specify all requirements
 
 #### 2.1 Functional requirements
-
 I applikationen ska användaren kunna:
-* Läsa inlägg skrivna av andra.
 * Skriva ett inlägg.
+* Läsa inlägg skrivna av andra.
 * Kommentera ett inlägg.
 * Gilla ett inlägg.
 * Starta chatt med en okänd person.
