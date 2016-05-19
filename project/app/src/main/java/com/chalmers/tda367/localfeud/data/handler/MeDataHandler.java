@@ -1,8 +1,8 @@
 package com.chalmers.tda367.localfeud.data.handler;
 
 import com.chalmers.tda367.localfeud.data.Me;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.IMeDataHandler;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.IMeDataHandler;
 
 /**
  * Created by ericwenn on 5/13/16.

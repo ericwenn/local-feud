@@ -44,7 +44,6 @@ public class Location {
             public void onLocationChanged(android.location.Location location) {
                 // Called when a new location is found by the network location provider.
                 lastKnownLocation = location;
-                Log.i(TAG, "onLocationChanged: "+location);
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {

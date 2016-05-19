@@ -34,7 +34,6 @@ public class PermissionFlow extends AppIntro2 {
     @Override
     public void onSlideChanged() {
 
-        Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permission check: " + PermissionHandler.hasPermissions(getApplicationContext()));
         if (!PermissionHandler.hasPermissions(getApplicationContext())) {
             Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permission denied, going to first page");
             if (getPager().getCurrentItem() != 0) {

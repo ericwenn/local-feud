@@ -23,9 +23,9 @@ import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.DataChangeListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
 
 import java.util.Comparator;
 import java.util.List;
@@ -70,7 +70,6 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
         DataHandlerFacade.getPostDataHandler().addChangeListener(new DataChangeListener<Post>() {
             @Override
             public void onChange(Post oldValue, Post newValue) {
-                Log.i("DataChangeListener", "onChange: "+ newValue.getContent().getText());
                 if( oldValue == null ) {
                     fragment.postAdapter.addPostToAdapter(newValue);
                     fragment.postAdapter2.addPostToAdapter(newValue);

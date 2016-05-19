@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.data.handler.interfaces;
+package com.chalmers.tda367.localfeud.data.handler.core;
 
 /**
  * Created by ericwenn on 5/18/16.

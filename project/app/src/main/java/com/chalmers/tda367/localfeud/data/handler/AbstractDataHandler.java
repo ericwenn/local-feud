@@ -1,7 +1,8 @@
 package com.chalmers.tda367.localfeud.data.handler;
 
-import com.chalmers.tda367.localfeud.data.handler.interfaces.DataChangeListener;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseListener;
 import com.chalmers.tda367.localfeud.services.IResponseAction;
 import com.chalmers.tda367.localfeud.services.RestClient;
 import com.chalmers.tda367.localfeud.util.GsonHandler;

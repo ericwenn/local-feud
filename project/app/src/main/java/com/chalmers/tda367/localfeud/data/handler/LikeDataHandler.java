@@ -2,8 +2,8 @@ package com.chalmers.tda367.localfeud.data.handler;
 
 import com.chalmers.tda367.localfeud.data.Like;
 import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.ILikeDataHandler;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.ILikeDataHandler;
 
 import java.util.List;
 

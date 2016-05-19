@@ -17,9 +17,8 @@ import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.User;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
-import com.chalmers.tda367.localfeud.util.TagHandler;
+import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 
 import java.util.Calendar;
 import java.util.List;
@@ -94,7 +93,6 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
                             public void onSuccess(ChatMessage data) {
                                 Chat oldChat = chat.clone();
                                 chat.setLastMessage(message.getText());
-                                Log.d(TagHandler.MAIN_TAG, Calendar.getInstance().toString());
                                 chat.setLastActivity(chat.getStringFromDate(Calendar.getInstance()));
                                 DataHandlerFacade.getChatDataHandler().triggerChange(oldChat, chat);
                                 refreshMessages();

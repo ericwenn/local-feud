@@ -1,6 +1,4 @@
-package com.chalmers.tda367.localfeud.data.handler.interfaces;
-
-import android.util.Log;
+package com.chalmers.tda367.localfeud.data.handler.core;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

@@ -108,7 +108,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     public void addPostToAdapter(Post post) {
-        Log.d("PostAdapter", "addPostToAdapter() called with: " + "post = [" + post + "]");
         postList.add(post);
         Collections.sort(postList, comparator);
         notifyItemInserted(postList.indexOf(post));
