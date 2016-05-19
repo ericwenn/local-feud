@@ -4,6 +4,7 @@ import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseListener;
 import com.chalmers.tda367.localfeud.services.IResponseAction;
+import com.chalmers.tda367.localfeud.services.IRestClient;
 import com.chalmers.tda367.localfeud.services.RestClient;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
 
@@ -64,7 +65,7 @@ public abstract class AbstractDataHandler {
 
 
 
-    protected RestClient getClient() {
+    protected IRestClient getClient() {
         return RestClient.getInstance();
     }
 
