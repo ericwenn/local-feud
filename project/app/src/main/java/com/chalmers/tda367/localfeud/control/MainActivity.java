@@ -68,13 +68,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
             @Override
             public void onMenuTabReSelected(@IdRes int menuItemId) {
-                if (menuItemId == R.id.feed_item) {
-                    // The user reselected item number one.
-                } else if (menuItemId == R.id.chat_item) {
-                    // The user reselected item number two.
-                } else if (menuItemId == R.id.me_item) {
-                    // The user reselected item number three.
-                }
+                switchFragment(menuItemId);
             }
         });
 

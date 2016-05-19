@@ -29,8 +29,8 @@
 
     <!--Hints-->
     <string name="new_post_hint">What would you like to tell the world?</string>
-    <string name="comment_hint">Write a comment...</string>
-    <string name="chat_hint">Write message...</string>
+    <string name="comment_hint">Write a comment…</string>
+    <string name="chat_hint">Write message…</string>
 
     <!--Distances-->
     <string name="dist500">less than 500 meters away</string>
@@ -55,4 +55,5 @@
     <string name="time_dummy">13:37</string>
     <string name="dummy_user">Elvis, 80</string>
     <string name="dummy_user_anon">M, 22</string>
+    <string name="terms_and_conditions">Terms and conditions</string>
 </resources>

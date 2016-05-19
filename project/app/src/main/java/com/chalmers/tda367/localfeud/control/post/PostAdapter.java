@@ -35,7 +35,7 @@ import java.util.List;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private final Context context;
-    private Comparator<Post> comparator;
+    private final Comparator<Post> comparator;
     private final LayoutInflater inflater;
     private AdapterCallback adapterCallback;
 

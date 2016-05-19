@@ -12,7 +12,7 @@ import cz.msebera.android.httpclient.Header;
  * RestResponseHandler class that decides what to do with the response.
  */
 public class RestResponseHandler extends AsyncHttpResponseHandler implements ResponseHandlerInterface {
-    private IResponseAction action;
+    private final IResponseAction action;
 
     public RestResponseHandler(IResponseAction action){
         super();

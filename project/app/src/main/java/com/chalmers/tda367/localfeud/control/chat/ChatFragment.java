@@ -15,14 +15,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 
 import java.util.Collections;
 import java.util.List;
@@ -86,8 +85,6 @@ public class ChatFragment extends Fragment {
     private void initViews(View view) {
         root = (CoordinatorLayout) view.findViewById(R.id.chat_list_root);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.chat_list_refresh_layout);
-
-        TextView textView = (TextView) view.findViewById(R.id.chat_list_toolbar_title_textview);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.chat_list_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

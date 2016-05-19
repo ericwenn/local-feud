@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 
 import com.chalmers.tda367.localfeud.control.MainActivity;
@@ -55,7 +54,9 @@ public class AuthenticationFlowActivity extends AppIntro {
 
             @Override
             public void onLoginFailed(IAuthentication.AuthenticationError err) {
-                Snackbar.make( v, "All permission must be accepted", Snackbar.LENGTH_LONG);
+                if (v != null) {
+                    Snackbar.make( v, "All permission must be accepted", Snackbar.LENGTH_LONG);
+                }
             }
 
             @Override

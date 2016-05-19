@@ -47,7 +47,7 @@
                 android:id="@+id/chat_title"
                 android:layout_marginTop="@dimen/small_margin"
                 android:layout_marginBottom="@dimen/small_margin"
-                android:layout_toRightOf="@+id/profilepic"
+                android:layout_toEndOf="@+id/profilepic"
                 android:gravity="center_vertical"
                 android:text="@string/dummy_user"
                 android:textColor="@android:color/white" />
@@ -84,7 +84,7 @@
             android:id="@+id/posttext"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/input_margin"
+            android:layout_marginStart="@dimen/input_margin"
             android:layout_marginBottom="@dimen/input_margin"
             android:layout_marginTop="@dimen/input_margin"
             android:layout_weight="1"

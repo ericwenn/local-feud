@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Alfred on 2016-04-11.
  */
 public class User implements Serializable {
-    private int id;
+    private final int id;
     private int age;
     private Gender gender;
     private String href;
