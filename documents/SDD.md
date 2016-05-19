@@ -70,6 +70,11 @@ Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmä
 
 	    void getList(DataResponseListener<List<Chat>> listener);
     
+	    
+	    void addChangeListener( DataChangeListener<Chat> listener );
+
+			void triggerChange( Chat oldValue, Chat newValue );
+			
 	}
 	
 **IChatMessageDataHandler** är det interface som har hand om de funktionerna för *en specifik* chat. Här finns möjlighet att få listan med meddelanden samt skicka ett nytt meddelande.
@@ -132,8 +137,56 @@ Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmä
 	    void create( Post post, DataResponseListener<Post> listener );
 
 	    void delete( Post post, DataResponseListener<Void> listener );
+	    
+	    void addChangeListener( DataChangeListener<Post> listener );
+
+			void triggerChange( Post oldValue, Post newValue );
 
 	}
+
+**DataChangeListener** är ett interface som används för att få olika vyer att prata med varandra. Till exempel, om man ändrar något i en post i en viss vy, hjälper DataChangeListener till så att även andra vyer uppdateras.
+
+	public interface DataChangeListener<T> {
+	
+			void onChange( T oldValue, T newValue );
+		
+	}
+
+**IAuthentication** används för att tracka huruvida användaren är inloggad eller inte. Det finns även ett inre interface som heter **IAuthenticationListener** som hanterar när användaren loggar in och ut.
+
+	public interface IAuthentication {
+
+	    void startTracking(Context context, IAuthenticationListener listener );
+
+	    HashMap getRequestHeaders();
+
+	    boolean isLoggedIn();
+
+
+	    interface IAuthenticationListener {
+        void onLogInSuccessful();
+        void onLoginFailed( AuthenticationError err);
+        void onLogOut();
+	    }
+
+
+	    enum AuthenticationError {
+		    DECLINED_PERMISSIONS
+	    }
+
+	}
+
+**IResponseAction** är ett interface som används vid all typ av kontakt med servern. Den håller reda på om anslutningen lyckades som det skulle eller ej.
+
+	public interface IResponseAction {
+	
+		void onSuccess( String responseBody );
+		
+		void onFailure( int statusCode, String responseBody );
+		
+	}
+
+
 ####2.2.3 Layering
 
 ####2.2.4 Dependency analysis
