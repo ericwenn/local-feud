@@ -1,4 +1,4 @@
-#System design document for NNN
+#System design document for Edda
 
   *Version: 0.0.1*
   
@@ -11,7 +11,6 @@ This version overrides all previous versions.
 ##1 Introduction
 
 ###1.1 Design goals
-
 Vi kommer sträva efter en så löskopplad design som möjligt.
 
 ###1.2 Definitions, acronyms and abbreviations
@@ -33,7 +32,6 @@ Applikationen kommer att använda sig av MVC. Vyerna är uppdelade i olika aktiv
 
 
 ####2.2.1 General
-
 Applikationens paket är uppdelade på följande sätt:
 ![Packages](https://raw.githubusercontent.com/ericwenn/local-feud/master/documents/packages.png)
 * **com.chalmers.tda367.localfeud** är applikationens huvudpaket.
@@ -226,4 +224,5 @@ Applikationen körs endast på enheter med Android som operativsystem. Versionen
 
 ##3 References
 
-##APPENDIX 
+##APPENDIX
+![*Domänmodell*](https://raw.githubusercontent.com/ericwenn/local-feud/master/domainmodel/domainmodel.png)
