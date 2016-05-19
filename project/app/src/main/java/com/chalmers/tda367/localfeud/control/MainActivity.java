@@ -8,9 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.chat.ChatActiveActivity;
@@ -126,20 +128,21 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     }
 
     @Override
-    public void onLikeClick(final Post post, final ImageButton imageButton) {
-//        Should check if post is liked
+    public void onLikeClick(final Post post, final ImageButton imageButton, final TextView likesDisplay) {
+        imageButton.setEnabled(false);
         final boolean isLiked = post.isLiked();
         final int revertLikeDrawable, originalLikeDrawable;
         if (isLiked) {
             revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
+            likesDisplay.setText(post.getNumberOfLikes()-1 + "");
+
         } else {
             revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
+            likesDisplay.setText(post.getNumberOfLikes()+1 + "");
         }
         imageButton.setImageResource(revertLikeDrawable);
-
-
 
         if (!isLiked) {
             DataHandlerFacade.getLikeDataHandler().create( post, new AbstractDataResponseListener<Like>() {
@@ -148,12 +151,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                     Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
                     DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
+                    post.setNumberOfLikes(oldPost.getNumberOfLikes()+1);
+                    imageButton.setEnabled(true);
                 }
 
                 @Override
                 public void onFailure(DataResponseError error, String errormessage) {
                     imageButton.setImageResource(originalLikeDrawable);
                     showSnackbar(getString(R.string.like_error_msg));
+                    imageButton.setEnabled(true);
                 }
             } );
         }
@@ -164,12 +170,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                     Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
                     DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
+                    post.setNumberOfLikes(oldPost.getNumberOfLikes()-1);
+                    imageButton.setEnabled(true);
                 }
 
                 @Override
                 public void onFailure(DataResponseError error, String errormessage) {
                     imageButton.setImageResource(originalLikeDrawable);
                     showSnackbar(getString(R.string.like_error_msg));
+                    imageButton.setEnabled(true);
                 }
             });
         }
