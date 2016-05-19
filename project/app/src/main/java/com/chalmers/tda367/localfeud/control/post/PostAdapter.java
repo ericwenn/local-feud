@@ -100,6 +100,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         if (post.isLiked())
             holder.postItemLikeButton.setImageResource(R.drawable.ic_favorite_black_24dp);
         else holder.postItemLikeButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+
+        holder.postItemNbrLikesTextView.setText("" + post.getNumberOfLikes());
     }
 
     @Override
@@ -159,6 +161,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         private final TextView postItemDistanceTextView;
         private final TextView postItemTimeTextView;
         private final TextView postItemCommentTextView;
+        private final TextView postItemNbrLikesTextView;
         private final CardView holderLayout;
         private final ImageButton postItemLikeButton;
         private final ImageButton postItemMoreButton;
@@ -174,6 +177,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             postItemCommentTextView = (TextView) itemView.findViewById(R.id.post_item_comment_textview);
             holderLayout = (CardView) itemView.findViewById(R.id.post_list_item);
             postItemLikeButton = (ImageButton) itemView.findViewById(R.id.post_item_like_button);
+            postItemNbrLikesTextView = (TextView) itemView.findViewById(R.id.post_item_nbr_of_likes);
             postItemMoreButton = (ImageButton) itemView.findViewById(R.id.post_item_more_button);
             postItemTopbar = (FrameLayout) itemView.findViewById(R.id.post_item_topbar);
         }
