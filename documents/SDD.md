@@ -52,15 +52,17 @@ Applikationens paket är uppdelade på följande sätt:
 ####2.2.2 Decomposition into subsystems
 Ett interface vi har skapat är **DataResponseListener**, som håller reda på huruvida datan lyckades/misslyckades hämtas från antingen servern eller ett lokalt system.
 	
-	public interface DataResponseListener<D> {
+```java
+public interface DataResponseListener<D> {
 	
-	    void onSuccess( D data );
+	void onSuccess( D data );
     
-	    void onFailure(DataResponseError error, String errormessage );
+	void onFailure(DataResponseError error, String errormessage );
 
-	    Type getType();
+	Type getType();
     
-	}
+}
+```
 
 Vi har även ett interface som heter **IChatDataHandler**, som sköter de allmänna funktionerna för *alla* chatter, såsom om man vill skapa en ny chat med någon eller få en lista på de man redan chattar med.
 	
