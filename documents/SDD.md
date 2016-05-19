@@ -216,6 +216,8 @@ public interface IResponseAction {
 
 ###2.4 Persistent data management
 
+All data tillhörande applikationen sparas i en relationsdatabas på en extern server. Det enda som sparas på klienten är uppgifter om enheten som används för underlättad kommunikation med notiser.
+
 ###2.5 Access control and security
 
 ###2.6 Boundary conditions 
