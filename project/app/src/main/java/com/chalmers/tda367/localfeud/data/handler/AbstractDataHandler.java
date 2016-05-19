@@ -16,21 +16,18 @@ import java.util.List;
  */
 public abstract class AbstractDataHandler {
 
-    protected List<DataChangeListener> listeners = new ArrayList<>();
+    protected final List<DataChangeListener> listeners = new ArrayList<>();
 
 
 
     public class RestResponseAction implements IResponseAction {
-        private DataResponseListener listener;
+        private final DataResponseListener listener;
         public RestResponseAction(DataResponseListener listener) {
             this.listener = listener;
         }
         
         public void onSuccess( String responseBody ) {
-            // Parse GSON
             listener.onSuccess(GsonHandler.getInstance().fromJson( responseBody, listener.getType()));
-
-
         }
 
 

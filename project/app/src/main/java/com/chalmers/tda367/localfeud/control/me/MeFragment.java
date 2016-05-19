@@ -17,8 +17,6 @@ import com.facebook.login.widget.LoginButton;
 
 public class MeFragment extends Fragment {
 
-    private CoordinatorLayout root;
-
     public MeFragment() {
 
     }
@@ -43,7 +41,7 @@ public class MeFragment extends Fragment {
     }
 
     private void initViews(View view, @Nullable Bundle savedInstanceState) {
-        root = (CoordinatorLayout) view.findViewById(R.id.me_root);
+        CoordinatorLayout root = (CoordinatorLayout) view.findViewById(R.id.me_root);
 
         CollapsingToolbarLayout collapsingToolbarLayout =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar_layout);

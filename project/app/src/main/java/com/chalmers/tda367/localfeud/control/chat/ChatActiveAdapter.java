@@ -22,21 +22,19 @@ import java.util.List;
  */
 public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final ArrayList<ChatMessage> messages = new ArrayList<>();
-    private final Context context;
     private final LayoutInflater inflater;
     private Chat chat;
     private final int myId;
-    private AdapterCallback adapterCallback;
 
     public ChatActiveAdapter(Context context) {
-        this.context = context;
+        Context context1 = context;
         inflater = LayoutInflater.from(context);
         this.myId = DataHandlerFacade.getMeDataHandler().getMe().getId();
         ArrayList<ChatMessage> newMessages = new ArrayList<>();
         addChatMessageListToAdapter(newMessages);
 
         try {
-            adapterCallback = (AdapterCallback) this.context;
+            AdapterCallback adapterCallback = (AdapterCallback) context1;
         } catch (ClassCastException e) {
             throw new ClassCastException("ChatActiveAdapter: Activity must implement AdapterCallback.");
         }

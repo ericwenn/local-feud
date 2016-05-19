@@ -14,8 +14,8 @@ import java.util.Map;
  */
 public class RestClient implements IRestClient {
     private final String BASE_URL = "http://api-local.ericwenn.se/";
-    private AsyncHttpClient asyncClient;
-    private AsyncHttpClient syncClient;
+    private final AsyncHttpClient asyncClient;
+    private final AsyncHttpClient syncClient;
     private RestResponseHandler responseHandler;
 
     private static RestClient instance = null;
@@ -131,6 +131,7 @@ public class RestClient implements IRestClient {
     }
 
     private String getAbsoluteUrl(String relativeUrl) {
+        String BASE_URL = "http://api-local.ericwenn.se/";
         return BASE_URL + relativeUrl;
     }
 }
