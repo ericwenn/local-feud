@@ -48,24 +48,23 @@ In this section we specify all requirements
 
 #### 2.1 Functional requirements
 I applikationen ska användaren kunna:
-* Skriva ett inlägg.
-* Läsa inlägg skrivna av andra.
-* Kommentera ett inlägg.
-* Gilla ett inlägg.
-* Starta chatt med en okänd person.
-* Chatta med en känd person.
+* Skriva ett inlägg samt läsa inlägg skrivna av andra.
+* Integrera med inlägget genom kommentarer och gillningar.
+* Starta chatt med en okänd person och chatta med kända personer.
 * Läsa notiser om någon kommenterat ett inlägg.
 * Ändra inställningar.
 
 #### 2.2 Non-functional requirements
-
 Possible NA (not applicable).
 
 #### 2.2.1 Usability
+Vårt gränssnitt förutsätter att användaren har någon typ av erfarenhet från sociala medier tidigare. För dessa användare kommer applikationen vara extremt lätthanterlig.
+Användargränssnittet kommer att vara i engelska, men applikationen ska ha möjligheten att översättas till andra språk.
 
 #### 2.2.2 Reliability 
+Målet med applikationen är att ha en så pass buggfri applikation att användaren inte ska behöva uppleva några kraschar eller frysningar.
 
-#### 2.2.3 Performance 
+#### 2.2.3 Performance
 
 #### 2.2.4 Supportability
 
