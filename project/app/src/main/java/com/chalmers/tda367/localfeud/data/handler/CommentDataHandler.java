@@ -2,8 +2,8 @@ package com.chalmers.tda367.localfeud.data.handler;
 
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.ICommentDataHandler;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.ICommentDataHandler;
 
 import java.util.HashMap;
 import java.util.List;

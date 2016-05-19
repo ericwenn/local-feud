@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.data.handler.interfaces;
+package com.chalmers.tda367.localfeud.data.handler.core;
 
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;

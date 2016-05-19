@@ -77,7 +77,7 @@
             android:id="@+id/posttext"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/input_margin"
+            android:layout_marginStart="@dimen/input_margin"
             android:layout_marginBottom="@dimen/input_margin"
             android:layout_marginTop="@dimen/input_margin"
             android:layout_weight="1"

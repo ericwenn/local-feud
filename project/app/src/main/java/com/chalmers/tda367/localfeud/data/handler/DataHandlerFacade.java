@@ -1,11 +1,11 @@
 package com.chalmers.tda367.localfeud.data.handler;
 
-import com.chalmers.tda367.localfeud.data.handler.interfaces.IChatDataHandler;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.IChatMessageDataHandler;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.ICommentDataHandler;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.ILikeDataHandler;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.IMeDataHandler;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.IPostDataHandler;
+import com.chalmers.tda367.localfeud.data.handler.core.IChatDataHandler;
+import com.chalmers.tda367.localfeud.data.handler.core.IChatMessageDataHandler;
+import com.chalmers.tda367.localfeud.data.handler.core.ICommentDataHandler;
+import com.chalmers.tda367.localfeud.data.handler.core.ILikeDataHandler;
+import com.chalmers.tda367.localfeud.data.handler.core.IMeDataHandler;
+import com.chalmers.tda367.localfeud.data.handler.core.IPostDataHandler;
 
 /**
  * Created by ericwenn on 5/12/16.

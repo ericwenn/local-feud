@@ -24,9 +24,9 @@ import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.Like;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseListener;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.List;
@@ -171,7 +171,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
             @Override
             public void onFailure(DataResponseError error, String errormessage) {
-                Log.i(TAG, "onFailure: " + errormessage);
+                Log.e(TAG, "onFailure: " + errormessage);
             }
         };
 

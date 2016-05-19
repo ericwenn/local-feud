@@ -7,12 +7,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 /**
  * Created by ericwenn on 5/13/16.
  */
-public class Location {
+public class Location implements ILocation {
     private static final String TAG = "Location";
     private android.location.Location lastKnownLocation;
     private static Location instance = null;
@@ -44,7 +43,6 @@ public class Location {
             public void onLocationChanged(android.location.Location location) {
                 // Called when a new location is found by the network location provider.
                 lastKnownLocation = location;
-                Log.i(TAG, "onLocationChanged: "+location);
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {

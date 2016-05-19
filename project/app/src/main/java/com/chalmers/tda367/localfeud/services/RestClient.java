@@ -12,10 +12,10 @@ import java.util.Map;
 /**
  * Created by Alfred on 2016-04-12.
  */
-public class RestClient {
+public class RestClient implements IRestClient {
     private final String BASE_URL = "http://api-local.ericwenn.se/";
-    private AsyncHttpClient asyncClient;
-    private AsyncHttpClient syncClient;
+    private final AsyncHttpClient asyncClient;
+    private final AsyncHttpClient syncClient;
     private RestResponseHandler responseHandler;
 
     private static RestClient instance = null;
@@ -44,51 +44,76 @@ public class RestClient {
 
     }
 
-    public void addHeader(String header, String value){
-        getClient().addHeader(header, value);
-    }
 
-
-
-
-
-
-
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void get(String url, IResponseAction action ) {
         getClient().get(getAbsoluteUrl(url), null, new RestResponseHandler(action));
     }
 
 
 
-
-
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void get(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);
         getClient().get(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
 
 
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void post(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);
         getClient().post(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void post(String url, IResponseAction action) {
         getClient().post(getAbsoluteUrl(url), null, new RestResponseHandler(action));
     }
 
+
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void put(String url, IResponseAction action) {
+        getClient().post(getAbsoluteUrl(url), null, new RestResponseHandler(action));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void delete(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);
         getClient().delete(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void delete(String url, IResponseAction action){
         getClient().delete(getAbsoluteUrl(url), null, new RestResponseHandler(action));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void put(String url, Map<String, String> paramsMap, IResponseAction action){
         RequestParams params = new RequestParams(paramsMap);
         getClient().put(getAbsoluteUrl(url), params, new RestResponseHandler(action));
@@ -106,6 +131,7 @@ public class RestClient {
     }
 
     private String getAbsoluteUrl(String relativeUrl) {
+        String BASE_URL = "http://api-local.ericwenn.se/";
         return BASE_URL + relativeUrl;
     }
 }

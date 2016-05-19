@@ -15,15 +15,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
-import com.chalmers.tda367.localfeud.control.MainActivity;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.DataChangeListener;
+import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +29,6 @@ import java.util.List;
 public class ChatFragment extends Fragment {
     private static final String TAG = "ChatFragment";
     private CoordinatorLayout root;
-    private MainActivity activity;
     private ChatListAdapter chatListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -40,10 +37,10 @@ public class ChatFragment extends Fragment {
 
     }
 
-    public static ChatFragment newInstance(MainActivity activity) {
+    public static ChatFragment newInstance(Context context) {
         final ChatFragment fragment = new ChatFragment();
-        fragment.activity = activity;
-        fragment.chatListAdapter = new ChatListAdapter(fragment.activity);
+        fragment.chatListAdapter = new ChatListAdapter(context);
+
 
         DataHandlerFacade.getChatDataHandler().addChangeListener(new DataChangeListener<Chat>() {
             @Override
@@ -79,7 +76,7 @@ public class ChatFragment extends Fragment {
             @Override
             public void onFailure(DataResponseError error, String errormessage) {
                 swipeRefreshLayout.setRefreshing(false);
-                Log.i(TAG, "onFailure: "+ errormessage);
+                Log.e(TAG, "onFailure: "+ errormessage);
             }
         });
 
@@ -89,10 +86,8 @@ public class ChatFragment extends Fragment {
         root = (CoordinatorLayout) view.findViewById(R.id.chat_list_root);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.chat_list_refresh_layout);
 
-        TextView textView = (TextView) view.findViewById(R.id.chat_list_toolbar_title_textview);
-
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.chat_list_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(chatListAdapter);
 
@@ -112,7 +107,7 @@ public class ChatFragment extends Fragment {
                     @Override
                     public void onFailure(DataResponseError error, String errormessage) {
                         swipeRefreshLayout.setRefreshing(false);
-                        Log.i(TAG, "onFailure: "+ errormessage);
+                        Log.e(TAG, "onFailure: "+ errormessage);
                     }
                 });
             }
