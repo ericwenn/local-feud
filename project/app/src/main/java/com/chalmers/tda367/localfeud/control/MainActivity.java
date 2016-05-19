@@ -8,9 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.chat.ChatActiveActivity;
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     }
 
     @Override
-    public void onLikeClick(final Post post, final ImageButton imageButton) {
+    public void onLikeClick(final Post post, final ImageButton imageButton, final TextView likesDisplay) {
 //        Should check if post is liked
         final boolean isLiked = post.isLiked();
         final int revertLikeDrawable, originalLikeDrawable;
@@ -145,8 +147,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         }
         imageButton.setImageResource(revertLikeDrawable);
 
-
-
         if (!isLiked) {
             DataHandlerFacade.getLikeDataHandler().create( post, new AbstractDataResponseListener<Like>() {
                 @Override
@@ -154,6 +154,8 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                     Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
                     DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
+                    post.setNumberOfLikes(post.getNumberOfLikes()+1);
+                    likesDisplay.setText(post.getNumberOfLikes() + "");
                 }
 
                 @Override
@@ -170,6 +172,8 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                     Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
                     DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
+                    post.setNumberOfLikes(post.getNumberOfLikes()-1);
+                    likesDisplay.setText(post.getNumberOfLikes() + "");
                 }
 
                 @Override

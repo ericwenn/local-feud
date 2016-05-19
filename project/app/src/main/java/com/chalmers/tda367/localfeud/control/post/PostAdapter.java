@@ -88,7 +88,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.postItemLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adapterCallback.onLikeClick(post, holder.postItemLikeButton);
+                adapterCallback.onLikeClick(post, holder.postItemLikeButton, holder.postItemNbrLikesTextView);
             }
         });
         holder.postItemMoreButton.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +186,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public interface AdapterCallback {
         void onPostClick(Post post);
 
-        void onLikeClick(Post post, ImageButton imageButton);
+        void onLikeClick(Post post, ImageButton imageButton, final TextView likesDisplay);
 
         void onMoreClick(Post post);
 
