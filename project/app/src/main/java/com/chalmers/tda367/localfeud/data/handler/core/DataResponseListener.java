@@ -1,6 +1,4 @@
-package com.chalmers.tda367.localfeud.data.handler.interfaces;
-
-import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
+package com.chalmers.tda367.localfeud.data.handler.core;
 
 import java.lang.reflect.Type;
 

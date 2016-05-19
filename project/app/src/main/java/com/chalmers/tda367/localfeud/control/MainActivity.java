@@ -25,8 +25,8 @@ import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Like;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.util.PermissionHandler;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         } else if (menuItemId == R.id.me_item) {
             if (currentFragment == null || currentFragment.getClass() != MeFragment.class)
                 window.setStatusBarColor(ContextCompat.getColor(this, R.color.meColorPrimaryDark));
-                currentFragment = MeFragment.newInstance(this);
+                currentFragment = MeFragment.newInstance();
         }
         transaction.replace(R.id.main_root, currentFragment);
         transaction.commit();

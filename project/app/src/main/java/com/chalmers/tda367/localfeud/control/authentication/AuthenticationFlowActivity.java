@@ -1,6 +1,5 @@
 package com.chalmers.tda367.localfeud.control.authentication;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,16 +10,12 @@ import android.view.View;
 import com.chalmers.tda367.localfeud.control.MainActivity;
 import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.DataResponseError;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.services.Authentication;
 import com.chalmers.tda367.localfeud.services.IAuthentication;
 import com.chalmers.tda367.localfeud.services.Location;
 import com.github.paolorotolo.appintro.AppIntro;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 
 /**
  * Created by ericwenn on 5/5/16.
@@ -110,6 +105,5 @@ public class AuthenticationFlowActivity extends AppIntro {
             finish();
         }
 
-        Log.d(TAG, "onResume() called with: " + "");
     }
 }

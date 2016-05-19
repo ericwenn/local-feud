@@ -2,8 +2,8 @@ package com.chalmers.tda367.localfeud.data.handler;
 
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.DataResponseListener;
-import com.chalmers.tda367.localfeud.data.handler.interfaces.IChatMessageDataHandler;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.IChatMessageDataHandler;
 
 import java.util.HashMap;
 import java.util.List;

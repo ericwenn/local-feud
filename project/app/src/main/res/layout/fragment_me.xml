@@ -38,24 +38,19 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/me_tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/meColorPrimary"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/meColorAccent"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="@android:color/white"
-            app:tabTextAppearance="@style/TextAppearance.Design.Tab"
-            app:tabTextColor="@color/white70PTransparent" />
-
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/me_viewpager"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/me_logout_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/default_margin" />
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
