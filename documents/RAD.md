@@ -1,4 +1,4 @@
-﻿# Requirements and Analysis Document for NNN
+# Requirements and Analysis Document for Edda
 
 *Version: 1.0*
 
@@ -48,7 +48,15 @@ In this section we specify all requirements
 
 #### 2.1 Functional requirements
 
-Create a list of high level functions here (from the use cases).
+I applikationen ska användaren kunna:
+* Läsa inlägg skrivna av andra.
+* Skriva ett inlägg.
+* Kommentera ett inlägg.
+* Gilla ett inlägg.
+* Starta chatt med en okänd person.
+* Chatta med en känd person.
+* Läsa notiser om någon kommenterat ett inlägg.
+* Ändra inställningar.
 
 #### 2.2 Non-functional requirements
 
