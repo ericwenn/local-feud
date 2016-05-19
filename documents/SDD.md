@@ -219,8 +219,10 @@ public interface IResponseAction {
 All data tillhörande applikationen sparas i en relationsdatabas på en extern server. Det enda som sparas på klienten är uppgifter om enheten som används för underlättad kommunikation med notiser.
 
 ###2.5 Access control and security
+För att kunna komma åt innehållet i applikationen måste användaren logga in. Inloggningen sker mot Facebook vilket gör processen säker, då vi inte lagrar några privata uppgifter om användaren.
 
-###2.6 Boundary conditions 
+###2.6 Boundary conditions
+Applikationen körs endast på enheter med Android som operativsystem. Versionen på operativsystemet måste vara minst *API 21 (5.0 Lollipop)*.
 
 ##3 References
 
