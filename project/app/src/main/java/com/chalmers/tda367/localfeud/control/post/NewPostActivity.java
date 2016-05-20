@@ -7,13 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.services.Location;
 
 
@@ -22,10 +23,8 @@ import com.chalmers.tda367.localfeud.services.Location;
  */
 public class NewPostActivity extends AppCompatActivity {
     private EditText postEditText;
-
+    private RelativeLayout relativeLayout;
     private CoordinatorLayout root;
-
-    private static final String TAG = "NewPostActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +43,8 @@ public class NewPostActivity extends AppCompatActivity {
                 }
             });
         }
+
+        relativeLayout = (RelativeLayout) findViewById(R.id.new_post_main_layout);
 
         postEditText = (EditText) findViewById(R.id.posttext);
         final ImageButton postButton = (ImageButton) findViewById(R.id.post_button);

@@ -22,20 +22,25 @@ import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.github.fabtransitionactivity.SheetLayout;
 
 import java.util.Comparator;
 import java.util.List;
 
-public class FeedFragment extends Fragment implements PostFragment.FragmentCallback {
+public class FeedFragment extends Fragment implements PostFragment.FragmentCallback, SheetLayout.OnFabAnimationEndListener {
 
     private PostAdapter postAdapter;
     private ViewPager viewPager;
     private FeedPagerAdapter feedPagerAdapter;
     private CoordinatorLayout root;
     private PostFragment postFragment, postFragment2;
+
+    private SheetLayout sheetLayout;
+
+    private static final int REQUEST_CODE = 1;
 
     private final static String VIEW_PAGER_KEY = "viewPagerKey";
     private PostAdapter postAdapter2;
@@ -109,14 +114,18 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar_layout);
         collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
 
-        FloatingActionButton createNewFab = (FloatingActionButton) view.findViewById(R.id.post_feed_create_new_fab);
+        final FloatingActionButton createNewFab = (FloatingActionButton) view.findViewById(R.id.post_feed_create_new_fab);
+        createNewFab.setTransitionName("PostNewFab");
         createNewFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), NewPostActivity.class);
-                startActivity(i);
+                sheetLayout.expandFab();
             }
         });
+
+        sheetLayout = (SheetLayout) view.findViewById(R.id.bottom_sheet);
+        sheetLayout.setFab(createNewFab);
+        sheetLayout.setFabAnimationEndListener(this);
 
         root = (CoordinatorLayout) view.findViewById(R.id.feed_fragment_root);
 
@@ -200,5 +209,19 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
                 }
             }
         });
+    }
+
+    @Override
+    public void onFabAnimationEnd() {
+        Intent intent = new Intent(getActivity(), NewPostActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            sheetLayout.contractFab();
+        }
     }
 }

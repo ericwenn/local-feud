@@ -64,6 +64,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/new_post_main_layout"
         android:layout_marginTop="?attr/actionBarSize">
 
         <EditText
