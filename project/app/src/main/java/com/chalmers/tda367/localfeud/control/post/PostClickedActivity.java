@@ -271,7 +271,20 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     public void onMoreClick(ImageButton button) {
         PopupMenu menu = new PopupMenu(this, button, Gravity.END);
         MenuInflater inflater = menu.getMenuInflater();
-        inflater.inflate(R.menu.post_menu, menu.getMenu());
+
+        final MenuItem deletePostMenuItem = menu.getMenu().add(Menu.NONE, 1, Menu.NONE, R.string.delete_post);
+        final MenuItem sendChatRequestMenuItem = menu.getMenu().add(Menu.NONE, 2, Menu.NONE, R.string.send_chat_request);
+        final MenuItem reportMenuItem = menu.getMenu().add(Menu.NONE, 3, Menu.NONE, R.string.report);
+
+        if (DataHandlerFacade.getMeDataHandler().getMe().getId() == post.getUser().getId())
+        {
+            menu.getMenu().removeItem(sendChatRequestMenuItem.getItemId());
+            menu.getMenu().removeItem(reportMenuItem.getItemId());
+        }
+        else
+        {
+            menu.getMenu().removeItem(deletePostMenuItem.getItemId());
+        }
 
         // Make the post accessible by the listener below
         final Post post = this.post;
@@ -279,15 +292,23 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.send_chat_request:
-                        sendChatRequest(post, post.getUser().getId());
-                        return true;
-                    case R.id.report:
-                        Snackbar.make(recyclerView, "Wanna report huh?", Snackbar.LENGTH_LONG).show();
-                        return true;
-                    default:
-                        return false;
+                if (item.getItemId() == sendChatRequestMenuItem.getItemId()) {
+                    sendChatRequest(post, post.getUser().getId());
+                    return true;
+                }
+                else if (item.getItemId() == reportMenuItem.getItemId())
+                {
+                    Snackbar.make(recyclerView, "Not implemented yet", Snackbar.LENGTH_LONG).show();
+                    return true;
+                }
+                else if (item.getItemId() == deletePostMenuItem.getItemId())
+                {
+                    Snackbar.make(recyclerView, "Not implemented yet", Snackbar.LENGTH_LONG).show();
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
         };
@@ -353,7 +374,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                     sendChatRequest(post, comment.getUser().getId());
                     return true;
                 } else if (item.getItemId() == reportMenuItem.getItemId()) {
-                    Snackbar.make(recyclerView, "Wanna report huh?", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(recyclerView, "Not implemented yet", Snackbar.LENGTH_LONG).show();
                     return true;
                 } else {
                     return false;
