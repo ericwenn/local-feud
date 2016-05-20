@@ -80,24 +80,32 @@ public class NewPostActivity extends AppCompatActivity {
 
                     //TODO: Möjliggör bildinlägg
                     content.setType("text");
-                    content.setText(postEditText.getText().toString());
+                    content.setText(postEditText.getText().toString().trim());
 
                     post.setLocation(new Position(Location.getInstance().getLocation()));
                     post.setContent(content);
 
-                    DataHandlerFacade.getPostDataHandler().create(post, new AbstractDataResponseListener<Post>() {
-                        @Override
-                        public void onSuccess(Post data) {
+                    if(!content.getText().equals(""))
+                    {
+                        DataHandlerFacade.getPostDataHandler().create(post, new AbstractDataResponseListener<Post>() {
+                            @Override
+                            public void onSuccess(Post data) {
 
-                            DataHandlerFacade.getPostDataHandler().triggerChange(null, data);
-                            finish();
-                        }
+                                DataHandlerFacade.getPostDataHandler().triggerChange(null, data);
+                                finish();
+                            }
 
-                        @Override
-                        public void onFailure(DataResponseError error, String errormessage) {
-                            Snackbar.make(root, "Fel:" + errormessage, Snackbar.LENGTH_LONG).show();
-                        }
-                    });
+                            @Override
+                            public void onFailure(DataResponseError error, String errormessage) {
+                                Snackbar.make(root, "Fel:" + errormessage, Snackbar.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Snackbar.make(root, "Please write something first!", Snackbar.LENGTH_LONG).show();
+                        postButton.setEnabled(true);
+                    }
                 }
             });
 
