@@ -80,7 +80,7 @@ public class NewPostActivity extends AppCompatActivity {
 
                     //TODO: Möjliggör bildinlägg
                     content.setType("text");
-                    content.setText(postEditText.getText().toString().trim());
+                    content.setText(postEditText.getText().toString().trim().replaceAll("(\r?\n){3,}", "\r\n\r\n"));
 
                     post.setLocation(new Position(Location.getInstance().getLocation()));
                     post.setContent(content);
