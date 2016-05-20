@@ -43,6 +43,14 @@ public class NotificationFacade {
     }
 
     /**
+     * Mainly for testing purposes.
+     * @param context
+     */
+    public void setContext(Context context){
+        this.context = context;
+    }
+
+    /**
      * Used to register this application for receiving messages from GCM.
      * @param context The application context
      */

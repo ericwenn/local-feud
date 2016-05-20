@@ -45,7 +45,7 @@ public class EddaGcmListenerService extends GcmListenerService {
 
         try{
             JSONObject json = new JSONObject(message);
-            NotificationFacade.getInstance().getMessageHandler().handleMessage(type, json);
+            //NotificationFacade.getInstance().getMessageHandler().handleMessage(type, json);
         }catch (JSONException e){
             Log.e(TagHandler.MAIN_TAG, e.getMessage());
         }

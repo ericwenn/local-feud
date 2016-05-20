@@ -1,10 +1,10 @@
 package com.chalmers.tda367.localfeud.control.notifications;
 
-import android.os.Bundle;
+import java.util.Map;
 
 /**
  * Created by Alfred on 2016-05-18.
  */
 public interface IMessageListener {
-    void onMessageRecieved(Bundle data);
+    void onMessageRecieved(Map<String, Object> data);
 }
