@@ -103,14 +103,14 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
                             public void onFailure(DataResponseError error, String errormessage) {
 
                                 Snackbar.make(chatMessageList,
-                                        "Could not post message",
+                                        "Could not post message.",
                                         Snackbar.LENGTH_LONG)
                                         .show();
                             }
                         });
                     } else {
                         Snackbar.make(chatMessageList,
-                                "Are you sick in your brain?! You must enter something in the box you know!",
+                                "Please write something first.",
                                 Snackbar.LENGTH_LONG)
                                 .show();
                     }
