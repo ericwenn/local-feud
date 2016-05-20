@@ -91,13 +91,14 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         if (postCommentButton != null) {
             postCommentButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-
-
+                public void onClick(View v)
+                {
                     if (!writeCommentText.getText().toString().isEmpty()) {
                         Comment comment = new Comment();
-                        comment.setText(writeCommentText.getText().toString());
+                        comment.setText(writeCommentText.getText().toString().trim().replaceAll("(\r?\n){3,}", "\r\n\r\n"));
+
                         writeCommentText.setText("");
+
                         swipeRefreshLayout.post(new Runnable() {
                             @Override
                             public void run() {
