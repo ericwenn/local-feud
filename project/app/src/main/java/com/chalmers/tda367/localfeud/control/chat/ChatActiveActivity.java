@@ -80,11 +80,12 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         if (postMessageButton != null) {
             postMessageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
+                    String messageText = chatMessageInput.getText().toString().trim().replaceAll("(\r?\n){3,}", "\r\n\r\n");
 
-                    if (!chatMessageInput.getText().toString().isEmpty()) {
-                        String messageText = chatMessageInput.getText().toString();
-
+                    if (!messageText.isEmpty())
+                    {
                         final ChatMessage message = new ChatMessage(chat, messageText, new User(DataHandlerFacade.getMeDataHandler().getMe()));
 
                         chatMessageInput.setText("");
