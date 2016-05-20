@@ -86,7 +86,7 @@
             android:hint="@string/comment_hint"
             android:maxLength="240"
             android:padding="10dp"
-            android:inputType="textCapSentences"
+            android:inputType="textCapSentences|textMultiLine"
             android:textColor="@android:color/black" />
 
         <ImageButton
