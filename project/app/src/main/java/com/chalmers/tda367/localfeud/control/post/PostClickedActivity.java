@@ -139,7 +139,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     }
 
 
-
     private void initRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
         if (recyclerView != null) {
@@ -161,7 +160,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
 
 
-
         refreshCommentsListener = new AbstractDataResponseListener<List<Comment>>() {
             @Override
             public void onSuccess(List<Comment> data) {
@@ -172,6 +170,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             @Override
             public void onFailure(DataResponseError error, String errormessage) {
                 Log.e(TAG, "onFailure: " + errormessage);
+                onShowSnackbar(getErrorString(error));
             }
         };
 
@@ -181,16 +180,10 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
         DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
 
-
-
-
-
-
-        
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                DataHandlerFacade.getCommentDataHandler().getList( post, refreshCommentsListener );
+                DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
             }
         });
 
@@ -201,10 +194,18 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             }
         });
 
-
     }
 
-
+    private String getErrorString(DataResponseError error) {
+        switch (error) {
+            case NOTFOUND:
+                return getString(R.string.comment_notfound_error_msg);
+            case UNAUTHORIZED:
+                return getString(R.string.unauthorized_error_msg);
+            default:
+                return getString(R.string.server_error_comment_msg);
+        }
+    }
 
     @Override
     public void onLikeClick(final Post post, final ImageButton imageButton, final TextView likesDisplay) {
@@ -214,23 +215,23 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         if (isLiked) {
             revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
-            likesDisplay.setText(post.getNumberOfLikes()-1 + "");
+            likesDisplay.setText(post.getNumberOfLikes() - 1 + "");
 
         } else {
             revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
-            likesDisplay.setText(post.getNumberOfLikes()+1 + "");
+            likesDisplay.setText(post.getNumberOfLikes() + 1 + "");
         }
         imageButton.setImageResource(revertLikeDrawable);
 
         if (!isLiked) {
-            DataHandlerFacade.getLikeDataHandler().create( post, new AbstractDataResponseListener<Like>() {
+            DataHandlerFacade.getLikeDataHandler().create(post, new AbstractDataResponseListener<Like>() {
                 @Override
                 public void onSuccess(Like data) {
                     Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
                     DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
-                    post.setNumberOfLikes(oldPost.getNumberOfLikes()+1);
+                    post.setNumberOfLikes(oldPost.getNumberOfLikes() + 1);
                     imageButton.setEnabled(true);
                 }
 
@@ -240,16 +241,15 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                     Snackbar.make(recyclerView, getString(R.string.like_error_msg), Snackbar.LENGTH_LONG).show();
                     imageButton.setEnabled(true);
                 }
-            } );
-        }
-        else {
-            DataHandlerFacade.getLikeDataHandler().delete( post, new AbstractDataResponseListener<Void>() {
+            });
+        } else {
+            DataHandlerFacade.getLikeDataHandler().delete(post, new AbstractDataResponseListener<Void>() {
                 @Override
                 public void onSuccess(Void data) {
                     Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
                     DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
-                    post.setNumberOfLikes(oldPost.getNumberOfLikes()-1);
+                    post.setNumberOfLikes(oldPost.getNumberOfLikes() - 1);
                     imageButton.setEnabled(true);
                 }
 
@@ -262,7 +262,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             });
         }
     }
-
 
 
     @Override
@@ -318,7 +317,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == deleteCommentMenuItem.getItemId()){
+                if (item.getItemId() == deleteCommentMenuItem.getItemId()) {
 
                     swipeRefreshLayout.post(new Runnable() {
 
@@ -337,7 +336,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                             DataHandlerFacade.getPostDataHandler().triggerChange(post, newPost);
                             postClickedAdapter.changePostInAdapter(newPost);
                             setPost(newPost);
-                            DataHandlerFacade.getCommentDataHandler().getList( post, refreshCommentsListener );
+                            DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
                             Snackbar.make(recyclerView, "Comment deleted successfully", Snackbar.LENGTH_LONG).show();
                         }
 
@@ -372,7 +371,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         this.post = post;
     }
 
-    private void sendChatRequest(Post post, int userID){
+    private void sendChatRequest(Post post, int userID) {
 
         DataHandlerFacade.getChatDataHandler().sendRequest(post, userID, new AbstractDataResponseListener<Chat>() {
 

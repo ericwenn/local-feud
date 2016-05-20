@@ -77,6 +77,7 @@ public class ChatFragment extends Fragment {
             public void onFailure(DataResponseError error, String errormessage) {
                 swipeRefreshLayout.setRefreshing(false);
                 Log.e(TAG, "onFailure: "+ errormessage);
+                showSnackbar(getErrorString(error));
             }
         });
 
@@ -119,6 +120,17 @@ public class ChatFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
+    }
+
+    private String getErrorString(DataResponseError error) {
+        switch (error) {
+            case NOTFOUND:
+                return getString(R.string.chatlist_notfound_error_msg);
+            case UNAUTHORIZED:
+                return getString(R.string.unauthorized_error_msg);
+            default:
+                return getString(R.string.server_error_chatlist_msg);
+        }
     }
 
     public void showSnackbar(String text) {

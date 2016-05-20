@@ -158,9 +158,8 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
 
     private void addPages(ViewPager viewPager) {
         feedPagerAdapter.addPage(postFragment);
-
-//        TODO: Change to a diff fragment
         feedPagerAdapter.addPage(postFragment2);
+
         viewPager.setAdapter(feedPagerAdapter);
 
     }
@@ -199,7 +198,8 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
 
             @Override
             public void onFailure(DataResponseError error, String errormessage) {
-//                TODO: Show snackbar onFailure
+                showSnackbar(getErrorString(error));
+
                 if (l != null) {
                     l.setRefreshing(false);
                 }
@@ -209,6 +209,17 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
                 }
             }
         });
+    }
+
+    private String getErrorString(DataResponseError error) {
+        switch (error) {
+            case NOTFOUND:
+                return getString(R.string.post_notfound_error_msg);
+            case UNAUTHORIZED:
+                return getString(R.string.unauthorized_error_msg);
+            default:
+                return getString(R.string.server_error_post_msg);
+        }
     }
 
     @Override
