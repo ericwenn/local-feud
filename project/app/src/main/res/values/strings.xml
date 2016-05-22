@@ -6,6 +6,7 @@
     <string name="feed_menu_button">Feed</string>
     <string name="chat_menu_button">Chat</string>
     <string name="me_menu_button">Me</string>
+    <string name="me_title">Your profile</string>
     <string name="chat_string">Chat</string>
     <string name="notice_string">Notice</string>
     <string name="settings_string">Settings</string>
@@ -20,6 +21,7 @@
     <string name="distance">Distance</string>
     <string name="latest_messages">Latest</string>
     <string name="nearest_messages">Nearest</string>
+
     <!--Error Messages-->
     <string name="like_error_msg">Couldn\'t like right now. Try again later.</string>
     <string name="server_error_msg">Couldn\'t get posts right now. Try again later.</string>
