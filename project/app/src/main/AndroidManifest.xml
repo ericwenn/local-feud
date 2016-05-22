@@ -50,6 +50,7 @@
             android:label="@string/app_name" />
         <activity
             android:name=".control.chat.ChatActiveActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:label="@string/app_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

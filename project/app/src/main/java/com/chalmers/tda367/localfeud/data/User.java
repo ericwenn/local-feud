@@ -17,10 +17,12 @@ public class User implements Serializable {
         male, female
     }
 
-    public User (int id, int age, Gender gender){
+    public User (int id, int age, Gender gender, String firstname, String lastname){
         this.id = id;
         this.age = age;
         this.gender = gender;
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
     public User( Me user ) {
