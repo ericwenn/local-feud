@@ -1,6 +1,7 @@
 package com.chalmers.tda367.localfeud.data;
 
 import java.io.Serializable;
+import java.io.StreamCorruptedException;
 
 /**
  * Created by Alfred on 2016-04-11.
@@ -10,6 +11,7 @@ public class User implements Serializable {
     private int age;
     private Gender gender;
     private String href;
+    private String firstname, lastname;
 
     public enum Gender {
         male, female
@@ -37,6 +39,23 @@ public class User implements Serializable {
 
     public Gender getGender(){
         return this.gender;
+    }
+
+    public String getFirstname()
+    {
+        return firstname;
+    }
+    public void setFirstname(String lastname)
+    {
+        this.firstname = firstname;
+    }
+    public String getLastname()
+    {
+        return lastname;
+    }
+    public void setLastname(String lastname)
+    {
+        this.lastname = lastname;
     }
 
     public String getGenderSymbol()

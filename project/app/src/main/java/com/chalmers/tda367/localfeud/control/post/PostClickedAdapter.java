@@ -103,10 +103,10 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             final CommentViewHolder viewHolder = (CommentViewHolder) holder;
             viewHolder.commentItemMsgTextView.setText(comment.getText());
             viewHolder.commentItemTimeTextView.setText(DateString.convert(comment.getDatePosted()));
-            viewHolder.commentItemSenderTextView.setText(comment.getUser().getGenderSymbol() + " " + comment.getUser().getAge());
+            viewHolder.commentItemSenderTextView.setText(comment.getUser().getGenderSymbol() + " " + comment.getUser().getAge() + " " + comment.getUser().getFirstname() + " " + comment.getUser().getLastname());
             if(comment.getUser().getId() == post.getUser().getId())
             {
-                viewHolder.commentItemSenderTextView.append(" (topic creator)");
+                viewHolder.commentItemSenderTextView.append(" (TC)");
             }
             viewHolder.commentItemMoreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
