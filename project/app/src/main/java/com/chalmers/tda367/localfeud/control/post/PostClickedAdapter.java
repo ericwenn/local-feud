@@ -18,6 +18,7 @@ import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Comment;
 import com.chalmers.tda367.localfeud.data.GeneralPost;
 import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.util.DateString;
 import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.DistanceString;
@@ -103,6 +104,10 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             viewHolder.commentItemMsgTextView.setText(comment.getText());
             viewHolder.commentItemTimeTextView.setText(DateString.convert(comment.getDatePosted()));
             viewHolder.commentItemSenderTextView.setText(comment.getUser().getGenderSymbol() + " " + comment.getUser().getAge());
+            if(comment.getUser().getId() == post.getUser().getId())
+            {
+                viewHolder.commentItemSenderTextView.append(" (topic creator)");
+            }
             viewHolder.commentItemMoreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
