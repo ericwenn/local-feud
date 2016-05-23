@@ -79,11 +79,10 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         initViews();
     }
 
-    private void initViews() {
-
+    private void initViews()
+    {
         initRecyclerView();
         initSwipeRefreshLayout();
-
 
         writeCommentText = (EditText) findViewById(R.id.posttext);
         ImageButton postCommentButton = (ImageButton) findViewById(R.id.post_button);
@@ -115,6 +114,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                                 postClickedAdapter.changePostInAdapter(newPost);
                                 setPost(newPost);
                                 DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
+                                scrollToBottom();
                             }
 
                             @Override
@@ -158,10 +158,9 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     }
 
 
-    private void initSwipeRefreshLayout() {
+    private void initSwipeRefreshLayout()
+    {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
-
-
 
         refreshCommentsListener = new AbstractDataResponseListener<List<Comment>>() {
             @Override
@@ -182,12 +181,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
         DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
 
-
-
-
-
-
-        
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -201,10 +194,12 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
-
-
     }
 
+    public void scrollToBottom()
+    {
+        recyclerView.scrollToPosition(postClickedAdapter.getItemCount()-1);
+    }
 
 
     @Override
