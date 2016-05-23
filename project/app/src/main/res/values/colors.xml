@@ -3,7 +3,7 @@
     <color name="feedColorPrimary">#ffffff</color>
     <color name="feedColorPrimaryDark">#000000</color>
     <color name="defaultTextColor">#757575</color>
-    <color name="feedColorAccent">#FF4081</color>
+    <color name="feedColorAccent">#2979ff</color>
     <color name="chatColorPrimary">#8BC34A</color>
     <color name="chatColorPrimaryDark">#689F38</color>
     <color name="chatColorAccent">#795548</color>
