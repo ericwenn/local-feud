@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="fragmentBackground">#cccccc</color>
     <color name="feedColorPrimary">#ffffff</color>
     <color name="feedColorPrimaryDark">#000000</color>
     <color name="defaultTextColor">#757575</color>
@@ -7,6 +8,7 @@
     <color name="chatColorPrimary">#8BC34A</color>
     <color name="chatColorPrimaryDark">#689F38</color>
     <color name="chatColorAccent">#795548</color>
+    <color name="chatNotMeColor">#9ccc65</color>
     <color name="meColorPrimary">#F44336</color>
     <color name="meColorPrimaryDark">#D32F2F</color>
     <color name="meColorAccent">#448AFF</color>
