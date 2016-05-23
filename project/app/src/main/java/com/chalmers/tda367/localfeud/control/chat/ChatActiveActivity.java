@@ -2,6 +2,8 @@ package com.chalmers.tda367.localfeud.control.chat;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +30,9 @@ import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.services.NotificationFacade;
 import com.chalmers.tda367.localfeud.util.MapEntry;
 import com.chalmers.tda367.localfeud.util.TagHandler;
+import com.facebook.login.widget.ProfilePictureView;
 
+import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +51,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     private EditText chatMessageInput;
     private ChatActiveAdapter chatActiveAdapter;
     private Chat chat;
+    private ProfilePictureView profilePictureView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +106,10 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
                 }
             });
         }
+
+        /*profilePictureView = (ProfilePictureView) findViewById(R.id.profilepic2);
+
+        profilePictureView.setProfileId("694967503939103");*/
 
         chatMessageList.setLayoutManager(new LinearLayoutManager(this));
         chatMessageList.setHasFixedSize(true);

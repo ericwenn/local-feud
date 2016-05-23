@@ -49,7 +49,7 @@
             app:tabMode="fixed"
             app:tabSelectedTextColor="@android:color/black"
             app:tabTextAppearance="@style/TextAppearance.Design.Tab"
-            app:tabTextColor="@android:color/black" />
+            app:tabTextColor="@color/defaultTextColor" />
 
     </android.support.design.widget.AppBarLayout>
 
