@@ -47,7 +47,7 @@ public class DateString {
         }
 
         // More than 5 minutes ago
-        if( TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) > 5) {
+        if( TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) > 2) {
             return TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) + " minutes ago";
         }
 
