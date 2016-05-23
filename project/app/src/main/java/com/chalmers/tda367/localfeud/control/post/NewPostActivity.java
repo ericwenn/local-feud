@@ -9,17 +9,16 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.data.Position;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.services.Location;
-
-import org.w3c.dom.Text;
 
 
 /**
@@ -29,9 +28,9 @@ public class NewPostActivity extends AppCompatActivity {
     private EditText postEditText;
     private TextView postInputCounter;
 
-    private CoordinatorLayout root;
+    private RelativeLayout relativeLayout;
 
-    private static final String TAG = "NewPostActivity";
+    private CoordinatorLayout root;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +49,8 @@ public class NewPostActivity extends AppCompatActivity {
                 }
             });
         }
+
+        relativeLayout = (RelativeLayout) findViewById(R.id.new_post_main_layout);
 
         postEditText = (EditText) findViewById(R.id.posttext);
         postInputCounter = (TextView) findViewById(R.id.post_message_input_counter);

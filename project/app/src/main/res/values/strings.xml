@@ -23,12 +23,22 @@
     <string name="nearest_messages">Nearest</string>
 
     <!--Error Messages-->
-    <string name="like_error_msg">Couldn\'t like right now. Try again later.</string>
-    <string name="server_error_msg">Couldn\'t get posts right now. Try again later.</string>
-    <string name="notfound_error_msg">Couldn\'t load post.</string>
     <string name="unauthorized_error_msg">You need to be signed in.</string>
+    <!--Post Related-->
+    <string name="server_error_post_msg">Couldn\'t get posts right now. Try again later.</string>
+    <string name="post_notfound_error_msg">Couldn\'t load post.</string>
+    <!--Comment Related-->
+    <string name="server_error_comment_msg">Couldn\'t get comments right now. Try again later.</string>
+    <string name="comment_notfound_error_msg">Couldn\'t load comment.</string>
     <string name="comment_failed_to_post_msg">Couldn\'t post comment.</string>
     <string name="empty_comment_error_msg">You can\'t post a empty comment.</string>
+    <!--Like Related-->
+    <string name="like_error_msg">Couldn\'t like right now. Try again later.</string>
+    <!--Chat Related-->
+    <string name="server_error_chatlist_msg">Couldn\'t get chats right now. Try again later.</string>
+    <string name="chatlist_notfound_error_msg">Couldn\'t load chats.</string>
+    <string name="server_error_chat_msg">Couldn\'t get messages right now. Try again later.</string>
+    <string name="chat_notfound_error_msg">Couldn\'t load messages.</string>
 
     <!--Hints-->
     <string name="new_post_hint">What would you like to tell the world?</string>
