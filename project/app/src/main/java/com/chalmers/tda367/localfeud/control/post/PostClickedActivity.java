@@ -80,10 +80,8 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     }
 
     private void initViews() {
-
         initRecyclerView();
         initSwipeRefreshLayout();
-
 
         writeCommentText = (EditText) findViewById(R.id.posttext);
         ImageButton postCommentButton = (ImageButton) findViewById(R.id.post_button);
@@ -91,8 +89,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         if (postCommentButton != null) {
             postCommentButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     if (!writeCommentText.getText().toString().isEmpty()) {
                         Comment comment = new Comment();
                         comment.setText(writeCommentText.getText().toString().trim().replaceAll("(\r?\n){3,}", "\r\n\r\n"));
@@ -115,6 +112,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                                 postClickedAdapter.changePostInAdapter(newPost);
                                 setPost(newPost);
                                 DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
+                                scrollToBottom();
                             }
 
                             @Override
@@ -140,7 +138,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     }
 
 
-
     private void initRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
         if (recyclerView != null) {
@@ -161,8 +158,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     private void initSwipeRefreshLayout() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
 
-
-
         refreshCommentsListener = new AbstractDataResponseListener<List<Comment>>() {
             @Override
             public void onSuccess(List<Comment> data) {
@@ -173,6 +168,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             @Override
             public void onFailure(DataResponseError error, String errormessage) {
                 Log.e(TAG, "onFailure: " + errormessage);
+                onShowSnackbar(getErrorString(error));
             }
         };
 
@@ -182,16 +178,10 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
         DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
 
-
-
-
-
-
-        
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                DataHandlerFacade.getCommentDataHandler().getList( post, refreshCommentsListener );
+                DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
             }
         });
 
@@ -201,11 +191,22 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
-
-
     }
 
+    private String getErrorString(DataResponseError error) {
+        switch (error) {
+            case NOTFOUND:
+                return getString(R.string.comment_notfound_error_msg);
+            case UNAUTHORIZED:
+                return getString(R.string.unauthorized_error_msg);
+            default:
+                return getString(R.string.server_error_comment_msg);
+        }
+    }
 
+    public void scrollToBottom() {
+        recyclerView.scrollToPosition(postClickedAdapter.getItemCount() - 1);
+    }
 
     @Override
     public void onLikeClick(final Post post, final ImageButton imageButton, final TextView likesDisplay) {
@@ -215,23 +216,23 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         if (isLiked) {
             revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
-            likesDisplay.setText(post.getNumberOfLikes()-1 + "");
+            likesDisplay.setText(post.getNumberOfLikes() - 1 + "");
 
         } else {
             revertLikeDrawable = R.drawable.ic_favorite_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
-            likesDisplay.setText(post.getNumberOfLikes()+1 + "");
+            likesDisplay.setText(post.getNumberOfLikes() + 1 + "");
         }
         imageButton.setImageResource(revertLikeDrawable);
 
         if (!isLiked) {
-            DataHandlerFacade.getLikeDataHandler().create( post, new AbstractDataResponseListener<Like>() {
+            DataHandlerFacade.getLikeDataHandler().create(post, new AbstractDataResponseListener<Like>() {
                 @Override
                 public void onSuccess(Like data) {
                     Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
                     DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
-                    post.setNumberOfLikes(oldPost.getNumberOfLikes()+1);
+                    post.setNumberOfLikes(oldPost.getNumberOfLikes() + 1);
                     imageButton.setEnabled(true);
                 }
 
@@ -241,16 +242,15 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                     Snackbar.make(recyclerView, getString(R.string.like_error_msg), Snackbar.LENGTH_LONG).show();
                     imageButton.setEnabled(true);
                 }
-            } );
-        }
-        else {
-            DataHandlerFacade.getLikeDataHandler().delete( post, new AbstractDataResponseListener<Void>() {
+            });
+        } else {
+            DataHandlerFacade.getLikeDataHandler().delete(post, new AbstractDataResponseListener<Void>() {
                 @Override
                 public void onSuccess(Void data) {
                     Post oldPost = post.clone();
                     post.setIsLiked(!isLiked);
                     DataHandlerFacade.getPostDataHandler().triggerChange(oldPost, post);
-                    post.setNumberOfLikes(oldPost.getNumberOfLikes()-1);
+                    post.setNumberOfLikes(oldPost.getNumberOfLikes() - 1);
                     imageButton.setEnabled(true);
                 }
 
@@ -265,7 +265,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     }
 
 
-
     @Override
     // More-button on post is clicked
     public void onMoreClick(ImageButton button) {
@@ -276,13 +275,10 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         final MenuItem sendChatRequestMenuItem = menu.getMenu().add(Menu.NONE, 2, Menu.NONE, R.string.send_chat_request);
         final MenuItem reportMenuItem = menu.getMenu().add(Menu.NONE, 3, Menu.NONE, R.string.report);
 
-        if (DataHandlerFacade.getMeDataHandler().getMe().getId() == post.getUser().getId())
-        {
+        if (DataHandlerFacade.getMeDataHandler().getMe().getId() == post.getUser().getId()) {
             menu.getMenu().removeItem(sendChatRequestMenuItem.getItemId());
             menu.getMenu().removeItem(reportMenuItem.getItemId());
-        }
-        else
-        {
+        } else {
             menu.getMenu().removeItem(deletePostMenuItem.getItemId());
         }
 
@@ -295,19 +291,13 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                 if (item.getItemId() == sendChatRequestMenuItem.getItemId()) {
                     sendChatRequest(post, post.getUser().getId());
                     return true;
-                }
-                else if (item.getItemId() == reportMenuItem.getItemId())
-                {
+                } else if (item.getItemId() == reportMenuItem.getItemId()) {
                     Snackbar.make(recyclerView, "Not implemented yet", Snackbar.LENGTH_LONG).show();
                     return true;
-                }
-                else if (item.getItemId() == deletePostMenuItem.getItemId())
-                {
+                } else if (item.getItemId() == deletePostMenuItem.getItemId()) {
                     Snackbar.make(recyclerView, "Not implemented yet", Snackbar.LENGTH_LONG).show();
                     return true;
-                }
-                else
-                {
+                } else {
                     return false;
                 }
             }
@@ -340,7 +330,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == deleteCommentMenuItem.getItemId()){
+                if (item.getItemId() == deleteCommentMenuItem.getItemId()) {
 
                     swipeRefreshLayout.post(new Runnable() {
 
@@ -359,7 +349,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                             DataHandlerFacade.getPostDataHandler().triggerChange(post, newPost);
                             postClickedAdapter.changePostInAdapter(newPost);
                             setPost(newPost);
-                            DataHandlerFacade.getCommentDataHandler().getList( post, refreshCommentsListener );
+                            DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
                             Snackbar.make(recyclerView, "Comment deleted successfully", Snackbar.LENGTH_LONG).show();
                         }
 
@@ -394,7 +384,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         this.post = post;
     }
 
-    private void sendChatRequest(Post post, int userID){
+    private void sendChatRequest(Post post, int userID) {
 
         DataHandlerFacade.getChatDataHandler().sendRequest(post, userID, new AbstractDataResponseListener<Chat>() {
 

@@ -23,6 +23,7 @@
         android:paddingStart="@dimen/default_margin"
         android:paddingEnd="@dimen/default_margin"
         android:text="@string/dummy_user"
+        android:textColor="@color/lightGrey"
         android:id="@+id/comment_item_sender_textview"/>
 
     <TextView
@@ -35,6 +36,7 @@
         android:paddingEnd="@dimen/default_margin"
         android:id="@+id/comment_item_time_textview"
         android:text="@string/time_dummy"
+        android:textColor="@color/lightGrey"
         tools:ignore="RelativeOverlap" />
 
     <View
@@ -65,7 +67,6 @@
         android:paddingStart="@dimen/default_margin"
         android:paddingEnd="@dimen/default_margin"
         android:src="@drawable/ic_more_horiz_black_24dp"
-        android:alpha="0.54"
         android:background="@android:color/transparent"
         android:contentDescription="@string/more" />
 
