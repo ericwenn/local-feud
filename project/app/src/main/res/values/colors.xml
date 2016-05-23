@@ -13,6 +13,7 @@
     <color name="meColorPrimaryDark">#D32F2F</color>
     <color name="meColorAccent">#448AFF</color>
     <color name="alphaBlack">#8c000000</color>
+    <color name="white">#000</color>
     <color name="lightGrey">#bbbbbb</color>
     <color name="white70PTransparent">#B3FFFFFF</color>
     <color name="distRed">#f57f17</color>

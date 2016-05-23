@@ -44,7 +44,7 @@
                     android:layout_marginTop="@dimen/default_margin"
                     android:gravity="center_vertical"
                     android:text="@string/create_new_post"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     tools:ignore="RelativeOverlap" />
 
                 <ImageButton
@@ -54,7 +54,7 @@
                     android:layout_alignParentEnd="true"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/send_post_button"
-                    android:src="@drawable/ic_send_white_24dp" />
+                    android:src="@drawable/ic_send_black_24dp" />
             </RelativeLayout>
 
 

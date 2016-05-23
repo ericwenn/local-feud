@@ -94,7 +94,7 @@
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/feedColorPrimary"
-            android:src="@drawable/ic_send_white_24dp"
+            android:src="@drawable/ic_send_black_24dp"
             android:contentDescription="@string/send_post_button" />
 
     </LinearLayout>
