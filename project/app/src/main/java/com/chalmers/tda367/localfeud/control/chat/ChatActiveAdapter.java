@@ -4,23 +4,33 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.control.notifications.IMessageListener;
+import com.chalmers.tda367.localfeud.control.notifications.MessageHandler;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
+import com.chalmers.tda367.localfeud.services.NotificationFacade;
+import com.chalmers.tda367.localfeud.util.MapEntry;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by Daniel Ahlqvist on 2016-05-08.
  */
 public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = "ChatActiveAdapter";
     private final ArrayList<ChatMessage> messages = new ArrayList<>();
     private final LayoutInflater inflater;
     private Chat chat;
@@ -31,6 +41,7 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         inflater = LayoutInflater.from(context);
         this.myId = DataHandlerFacade.getMeDataHandler().getMe().getId();
         ArrayList<ChatMessage> newMessages = new ArrayList<>();
+        clearAdapter();
         addChatMessageListToAdapter(newMessages);
 
         try {
@@ -38,6 +49,11 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } catch (ClassCastException e) {
             throw new ClassCastException("ChatActiveAdapter: Activity must implement AdapterCallback.");
         }
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
     }
 
     @Override
@@ -110,7 +126,6 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void addChatMessageListToAdapter(final List<ChatMessage> messages) {
         final int currentCount = this.messages.size();
         synchronized (this.messages) {
-            clearAdapter();
             this.messages.addAll(messages);
         }
         if (Looper.getMainLooper() == Looper.myLooper()) {
@@ -123,6 +138,14 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             });
         }
+    }
+
+    public void addChatMessageToAdapter(final ChatMessage message){
+        synchronized (messages) {
+            messages.add(message);
+        }
+
+        notifyItemInserted(messages.indexOf(message));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.chalmers.tda367.localfeud.control;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -24,8 +25,9 @@ import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Like;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.services.NotificationFacade;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -44,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
 
+        // Register this application for notifications
+        if(NotificationFacade.checkPlayServices(this)){
+            NotificationFacade.getInstance().registerForNotifications(this);
+        }
 
         setContentView(R.layout.activity_main);
         initBottomBar(savedInstanceState);
