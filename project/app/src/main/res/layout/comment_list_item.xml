@@ -52,6 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/comment_item_msg_textview"
+        android:textColor="@color/defaultTextColor"
         android:padding="@dimen/default_margin"
         android:textSize="@dimen/card_post_comment_text_size"
         android:text="@string/dummy_text"/>
