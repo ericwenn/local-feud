@@ -151,18 +151,16 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
             });
         }
 
-        chatMessageInput.setOnClickListener(new View.OnClickListener()
-        {
-             @Override
-             public void onClick(View v) {
+        chatMessageInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 scrollToBottom();
-             }
-         });
+            }
+        });
         refreshMessages();
     }
 
-    public void refreshMessages()
-    {
+    public void refreshMessages() {
         DataHandlerFacade.getChatMessageDataHandler().getList(chat, new AbstractDataResponseListener<List<ChatMessage>>() {
             @Override
             public void onSuccess(List<ChatMessage> data) {
@@ -172,13 +170,28 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
 
             @Override
             public void onFailure(DataResponseError error, String errormessage) {
-                Log.e(TAG, "onFailure: "+ errormessage);
+                Log.e(TAG, "onFailure: " + errormessage);
+                Snackbar.make(chatMessageList,
+                        getErrorString(error),
+                        Snackbar.LENGTH_LONG)
+                        .show();
             }
         });
     }
-    public void scrollToBottom()
-    {
-        chatMessageList.scrollToPosition(chatActiveAdapter.getItemCount()-1);
+
+    public void scrollToBottom() {
+        chatMessageList.scrollToPosition(chatActiveAdapter.getItemCount() - 1);
+    }
+
+    private String getErrorString(DataResponseError error) {
+        switch (error) {
+            case NOTFOUND:
+                return getString(R.string.chatlist_notfound_error_msg);
+            case UNAUTHORIZED:
+                return getString(R.string.unauthorized_error_msg);
+            default:
+                return getString(R.string.server_error_chatlist_msg);
+        }
     }
 
     @Override

@@ -78,6 +78,7 @@
             android:layout_below="@id/post_item_top_divider"
             android:padding="@dimen/default_margin"
             android:text="@string/app_name"
+            android:textColor="@color/defaultTextColor"
             android:textSize="@dimen/card_post_message_text_size" />
 
         <TextView

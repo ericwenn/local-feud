@@ -119,12 +119,12 @@ public class Chat implements Serializable {
             return "UNKNOWN";
         }
         else if (users.size() == 1) {
-            return users.get(0).getFirstName() + ", " + users.get(0).getAge();
+            return users.get(0).getFirstname() + ", " + users.get(0).getAge();
         }
         else {
             String chatName = "";
             for (KnownUser user : users) {
-                chatName += (user.getFirstName() + ", ");
+                chatName += (user.getFirstname() + ", ");
             }
             return chatName.substring(0, chatName.length() - 2);
         }
