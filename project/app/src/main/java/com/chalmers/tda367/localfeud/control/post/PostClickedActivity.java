@@ -3,6 +3,7 @@ package com.chalmers.tda367.localfeud.control.post;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +28,7 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseListener;
+import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.List;
@@ -85,6 +87,9 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
         writeCommentText = (EditText) findViewById(R.id.posttext);
         ImageButton postCommentButton = (ImageButton) findViewById(R.id.post_button);
+
+        int distanceColor = DistanceColor.distanceColor(post.getDistance());
+        postCommentButton.setBackgroundColor(ContextCompat.getColor(this, distanceColor));
 
         if (postCommentButton != null) {
             postCommentButton.setOnClickListener(new View.OnClickListener() {
