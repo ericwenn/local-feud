@@ -52,7 +52,7 @@ public class Comment extends GeneralPost {
 
     public Calendar getDatePosted() {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
         try {
             calendar.setTime(simpleDateFormat.parse(getStringDatePosted()));
         } catch (ParseException e) {

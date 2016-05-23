@@ -7,6 +7,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 /**
  * Created by ericwenn on 5/13/16.
@@ -40,7 +43,7 @@ public class Location implements ILocation {
         if( lastKnownLocation == null ) {
             lastKnownLocation = locationManager.getLastKnownLocation( LocationManager.NETWORK_PROVIDER );
         }
-        
+
         // Define a listener that responds to location updates
         LocationListener locationListener = new LocationListener() {
             @Override
@@ -60,15 +63,26 @@ public class Location implements ILocation {
         };
 
         // Register the listener with the Location Manager to receive location updates
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 0, locationListener);
 
 
     }
 
 
     public android.location.Location getLocation() {
-        return lastKnownLocation;
+        if (lastKnownLocation != null) {
+            return lastKnownLocation;
+        }
+        else {
+            try {
+                LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                return locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            } catch (SecurityException e) {
+                Log.e(TagHandler.MAIN_TAG, "GPS Permission is not granted.");
+            }
+        }
+        return new android.location.Location(LocationManager.NETWORK_PROVIDER);
     }
 
 }

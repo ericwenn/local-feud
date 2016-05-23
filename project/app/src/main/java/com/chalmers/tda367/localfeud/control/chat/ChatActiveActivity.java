@@ -1,9 +1,6 @@
 package com.chalmers.tda367.localfeud.control.chat;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,8 +17,6 @@ import com.chalmers.tda367.localfeud.control.notifications.IMessageListener;
 import com.chalmers.tda367.localfeud.control.notifications.MessageHandler;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
-import com.chalmers.tda367.localfeud.data.KnownUser;
-import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.User;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.MeDataHandler;
@@ -32,7 +27,6 @@ import com.chalmers.tda367.localfeud.util.MapEntry;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.login.widget.ProfilePictureView;
 
-import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
