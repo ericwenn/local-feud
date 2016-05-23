@@ -27,11 +27,9 @@ Den sista delen kommer att visa användarens profil, där användaren har möjli
 
 
 ### 1.3 Scope of application
-
 Applikationen kommer inte innehålla någon karta utan meddelanden presenteras endast med ett avstånd från dig själv.
 
 ### 1.4 Objectives and success criteria of the project 
-
   * Som användare skall man kunna publicera inlägg knutna till den geografiska position man befinner sig i vid publiceringstillfället. Man skall även kunna läsa andra personers inlägg om ens egen läsradie tangerar inläggens synlighetsradie.
 
   * Man skall kunna interagera med inlägg genom någon form av upp/nedröstning eller gillamarkering och genom att kommentera inlägget. När inlägget får mer interaktioner ökar dess synlighetsradie enligt en av oss förutbestämd funktion.
@@ -41,9 +39,12 @@ Applikationen kommer inte innehålla någon karta utan meddelanden presenteras e
   * Användare skall dessutom kunna starta privata chattar med varandra där deras anonymitet släpper. Användarnas namn och bild visas då i chatten.
 
 ### 1.5 Definitions, acronyms and abbreviations
+* *Cold start*, tiden som det tar för en applikation att visa någonting på skärmen.
+* *Timeout-fel*, om någonting går snett i kopplingen mellan klient och server så genereras ett Timeout-fel när max-tiden uppnåtts.
+* *Java*, ett programmeringsspråk som är plattformsoberoende.
+* *Android*, ett operativsystem för mobiltelefoner.
 
 ## 2 Requirements
-
 In this section we specify all requirements
 
 ### 2.1 Functional requirements
@@ -55,7 +56,6 @@ I applikationen ska användaren kunna:
 * Ändra inställningar.
 
 ### 2.2 Non-functional requirements
-Possible NA (not applicable).
 
 #### 2.2.1 Usability
 Vårt gränssnitt förutsätter att användaren har någon typ av erfarenhet från sociala medier tidigare. För dessa användare kommer applikationen vara extremt lätthanterlig.
@@ -65,10 +65,11 @@ Användargränssnittet kommer att vara i engelska, men applikationen ska ha möj
 Målet med applikationen är att ha en så pass buggfri applikation att användaren inte ska behöva uppleva några kraschar eller frysningar.
 
 #### 2.2.3 Performance
-// TODO: Ev timeout-fel, kall-start?
+Vår applikation ska ha en *cold start* på max 3 sekunder. När användaren väl använder applikationen så ska det i värsta fall ta max 2 sekunder från det att användaren utfört sin handling till att användaren fått respons på skärmen.
+Om användaren har en sämre internetuppkoppling kan det dock ta längre tid att hämta hem information från servern. Är uppkopplingen så pass dålig att ingenting händer ger servern ett *timeout-fel* efter 30 sekunder.
 
 #### 2.2.4 Supportability
-Applikationen ska fungera på alla telefoner som drivs av Android  med API 21 (Lollipop) eller senare, men det ska inte vara några problem att göra applikationen bakåtkompatibel i större utsträckning. Applikationens huvudfunktioner ska vara separerade från övriga delar av programmet, så som dess vyer.
+Applikationen ska fungera på alla telefoner/surfplattor som drivs av Android  med API 21 (Lollipop) eller senare, men det ska inte vara några problem att göra applikationen bakåtkompatibel i större utsträckning. Applikationens huvudfunktioner ska vara separerade från övriga delar av programmet, så som dess vyer.
 
 Applikationen ska även nyttja resursfilerna som finns i Android full ut, vilket gör det smidigt för framtida eventuella översättningar.
 
@@ -76,7 +77,7 @@ Applikationen ska även nyttja resursfilerna som finns i Android full ut, vilket
 Applikationen kommer att skrivas i Java för att smidigast köras på Android. Vi kommer att behöva exportera projektet till en körbar .apk-fil. Det är sedan denna fil som användaren behöver ladda ner för att kunna installera applikationen.
 
 #### 2.2.6 Packaging and installation
-Applikationen laddas ner och installeras från Google Play Store.
+Applikationen laddas ner som en .apk-fil och installeras från Google Play Store. I filen finns alla Java-klasser och resursfiler.
 
 #### 2.2.7 Legal
 Det finns inga juridiska problem i applikationen.
@@ -98,7 +99,7 @@ Se appendix för bild och text om våra use cases.
 
 #### 2.3.3 Domain model
 
-![Image of Use Cases](https://raw.githubusercontent.com/ericwenn/local-feud/master/domainmodel/domainmodel.jpg)
+![Image of Domain Model](https://raw.githubusercontent.com/ericwenn/local-feud/master/domainmodel/domainmodel.jpg)
 
 #### 2.3.4 User interface 
 
