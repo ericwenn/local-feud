@@ -67,4 +67,13 @@
         android:src="@drawable/ic_create_white_48dp"
         app:layout_behavior="com.chalmers.tda367.localfeud.control.ScrollAwareFABBehavior" />
 
+    <com.github.fabtransitionactivity.SheetLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        app:ft_container_gravity="center"
+        app:ft_color="@color/feedColorPrimary"
+        android:elevation="@dimen/card_corner_radius"/>
+
 </android.support.design.widget.CoordinatorLayout>

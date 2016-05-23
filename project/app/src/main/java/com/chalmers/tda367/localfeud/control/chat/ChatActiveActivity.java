@@ -80,11 +80,12 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         if (postMessageButton != null) {
             postMessageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
+                    String messageText = chatMessageInput.getText().toString().trim().replaceAll("(\r?\n){3,}", "\r\n\r\n");
 
-                    if (!chatMessageInput.getText().toString().isEmpty()) {
-                        String messageText = chatMessageInput.getText().toString();
-
+                    if (!messageText.isEmpty())
+                    {
                         final ChatMessage message = new ChatMessage(chat, messageText, new User(DataHandlerFacade.getMeDataHandler().getMe()));
 
                         chatMessageInput.setText("");
@@ -102,14 +103,14 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
                             public void onFailure(DataResponseError error, String errormessage) {
 
                                 Snackbar.make(chatMessageList,
-                                        "Could not post message",
+                                        "Could not post message.",
                                         Snackbar.LENGTH_LONG)
                                         .show();
                             }
                         });
                     } else {
                         Snackbar.make(chatMessageList,
-                                "Are you sick in your brain?! You must enter something in the box you know!",
+                                "Please write something first.",
                                 Snackbar.LENGTH_LONG)
                                 .show();
                     }
@@ -117,18 +118,16 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
             });
         }
 
-        chatMessageInput.setOnClickListener(new View.OnClickListener()
-        {
-             @Override
-             public void onClick(View v) {
+        chatMessageInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 scrollToBottom();
-             }
-         });
+            }
+        });
         refreshMessages();
     }
 
-    public void refreshMessages()
-    {
+    public void refreshMessages() {
         DataHandlerFacade.getChatMessageDataHandler().getList(chat, new AbstractDataResponseListener<List<ChatMessage>>() {
             @Override
             public void onSuccess(List<ChatMessage> data) {
@@ -138,13 +137,28 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
 
             @Override
             public void onFailure(DataResponseError error, String errormessage) {
-                Log.e(TAG, "onFailure: "+ errormessage);
+                Log.e(TAG, "onFailure: " + errormessage);
+                Snackbar.make(chatMessageList,
+                        getErrorString(error),
+                        Snackbar.LENGTH_LONG)
+                        .show();
             }
         });
     }
-    public void scrollToBottom()
-    {
-        chatMessageList.scrollToPosition(chatActiveAdapter.getItemCount()-1);
+
+    public void scrollToBottom() {
+        chatMessageList.scrollToPosition(chatActiveAdapter.getItemCount() - 1);
+    }
+
+    private String getErrorString(DataResponseError error) {
+        switch (error) {
+            case NOTFOUND:
+                return getString(R.string.chatlist_notfound_error_msg);
+            case UNAUTHORIZED:
+                return getString(R.string.unauthorized_error_msg);
+            default:
+                return getString(R.string.server_error_chatlist_msg);
+        }
     }
 
 

@@ -2,6 +2,7 @@
 <resources>
     <color name="feedColorPrimary">#ffffff</color>
     <color name="feedColorPrimaryDark">#000000</color>
+    <color name="defaultTextColor">#757575</color>
     <color name="feedColorAccent">#FF4081</color>
     <color name="chatColorPrimary">#8BC34A</color>
     <color name="chatColorPrimaryDark">#689F38</color>
@@ -11,6 +12,7 @@
     <color name="meColorAccent">#448AFF</color>
     <color name="alphaBlack">#8c000000</color>
     <color name="white">#000</color>
+    <color name="lightGrey">#bbbbbb</color>
     <color name="white70PTransparent">#B3FFFFFF</color>
     <color name="distRed">#f57f17</color>
     <color name="distOrange">#f9a825</color>

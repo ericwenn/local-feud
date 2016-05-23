@@ -1,14 +1,12 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -19,7 +17,6 @@ import com.chalmers.tda367.localfeud.control.chat.ChatActiveActivity;
 import com.chalmers.tda367.localfeud.control.chat.ChatFragment;
 import com.chalmers.tda367.localfeud.control.chat.ChatListAdapter;
 import com.chalmers.tda367.localfeud.control.me.MeFragment;
-import com.chalmers.tda367.localfeud.control.permission.PermissionFlow;
 import com.chalmers.tda367.localfeud.control.post.FeedFragment;
 import com.chalmers.tda367.localfeud.control.post.PostAdapter;
 import com.chalmers.tda367.localfeud.control.post.PostClickedActivity;
@@ -27,9 +24,8 @@ import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Like;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
-import com.chalmers.tda367.localfeud.util.PermissionHandler;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -48,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         // Initialize Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
 
-        initFlow();
 
         setContentView(R.layout.activity_main);
         initBottomBar(savedInstanceState);
@@ -205,21 +200,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         }
     }
 
-    private void initFlow() {
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                if (!PermissionHandler.hasPermissions(getApplicationContext())) {
-                    Intent i = new Intent(MainActivity.this, PermissionFlow.class);
-                    startActivity(i);
-                    finish();
-
-                }
-                return null;
-            }
-        }.execute();
-    }
 
     @Override
     protected void onDestroy() {

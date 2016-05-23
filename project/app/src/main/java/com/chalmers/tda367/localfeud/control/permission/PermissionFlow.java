@@ -3,16 +3,16 @@ package com.chalmers.tda367.localfeud.control.permission;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.MainActivity;
-import com.chalmers.tda367.localfeud.util.PermissionHandler;
+import com.chalmers.tda367.localfeud.services.Location;
+import com.chalmers.tda367.localfeud.services.LocationPermissionError;
 import com.chalmers.tda367.localfeud.util.SlideFactory;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.github.paolorotolo.appintro.AppIntro2;
 
 public class PermissionFlow extends AppIntro2 {
+    private static final String TAG = "PermissionFlow";
 
     // Please DO NOT override onCreate. Use init.
     @Override
@@ -32,21 +32,22 @@ public class PermissionFlow extends AppIntro2 {
     public void onDonePressed() {}
 
     @Override
+
     public void onSlideChanged() {
 
-        if (!PermissionHandler.hasPermissions(getApplicationContext())) {
-            Log.d(TagHandler.PERMISSION_FLOW_TAG, "Permission denied, going to first page");
-            if (getPager().getCurrentItem() != 0) {
+        if (getPager().getCurrentItem() != 0) {
+
+            askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+
+            try {
+                Location.getInstance().startTracking(getApplicationContext());
+            } catch (LocationPermissionError locationPermissionError) {
                 getPager().setCurrentItem(0);
-                askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             }
-        } else {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
             finish();
-            Log.d(TagHandler.PERMISSION_FLOW_TAG, "Success");
         }
-        // Do something when the slide changes.
     }
 
     @Override

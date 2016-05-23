@@ -7,27 +7,27 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.chalmers.tda367.localfeud.control.MainActivity;
+import com.chalmers.tda367.localfeud.control.permission.PermissionFlow;
 import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.services.Authentication;
 import com.chalmers.tda367.localfeud.services.IAuthentication;
 import com.chalmers.tda367.localfeud.services.Location;
+import com.chalmers.tda367.localfeud.services.LocationPermissionError;
 import com.github.paolorotolo.appintro.AppIntro;
 
 /**
  * Created by ericwenn on 5/5/16.
  */
 public class AuthenticationFlowActivity extends AppIntro {
-    private static final String TAG = "AuthFlow";
 
     @Override
     public void init(@Nullable Bundle savedInstanceState) {
 
         final View v = this.getCurrentFocus();
 
-        Location.getInstance().startTracking(getApplicationContext());
 
         IAuthentication authService = Authentication.getInstance( );
         authService.startTracking(getApplicationContext(), new IAuthentication.IAuthenticationListener() {
@@ -46,6 +46,15 @@ public class AuthenticationFlowActivity extends AppIntro {
                     }
                 });
 
+
+                try {
+                    Location.getInstance().startTracking(getApplicationContext());
+                } catch (LocationPermissionError locationPermissionError) {
+                    Intent i = new Intent(getApplicationContext(), PermissionFlow.class);
+                    startActivity(i);
+                    finish();
+                    return;
+                }
 
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);

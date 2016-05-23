@@ -83,7 +83,7 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
 
         float[] dist = new float[1];
         android.location.Location.distanceBetween(myLatitude, myLongitude, location.getLatitude(), location.getLongitude(), dist);
-        distance = (int) Math.round(dist[0]);
+        distance = Math.round(dist[0]);
     }
 
     public int getDistance()
