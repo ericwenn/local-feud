@@ -19,6 +19,7 @@ import com.chalmers.tda367.localfeud.control.notifications.MessageHandler;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.KnownUser;
+import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.User;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.MeDataHandler;
@@ -66,32 +67,23 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     }
 
     private void registerAsMessageListener(){
+        int counterPartUserId = chat.getFirstCounterPart(MeDataHandler.getInstance().getMe().getId()).getId();
+
+        Log.d(TagHandler.MAIN_TAG, chat.getFirstCounterPart(MeDataHandler.getInstance().getMe().getId()).getFirstName());
+
         //Register this as a listener for messages
-        MapEntry<String, Object> data = new MapEntry<String, Object>(MessageHandler.CHAT_MESSAGE_SENDER_ID, getCounterpartOfChat());
+        MapEntry<String, Object> data = new MapEntry<String, Object>(MessageHandler.CHAT_MESSAGE_SENDER_ID, counterPartUserId);
         NotificationFacade.getInstance().getMessageHandler().addMessageListener(MessageHandler.CHAT_MESSAGE_RECIEVED, data, this);
+        Log.d(TagHandler.MAIN_TAG, "Register as message listener for user: " + counterPartUserId);
     }
 
     private void unregisterAsMessageListener(){
+        int counterPartUserId = chat.getFirstCounterPart(MeDataHandler.getInstance().getMe().getId()).getId();
+
         //Unregister this as a listener for messages
-        MapEntry<String, Object> data = new MapEntry<String, Object>(MessageHandler.CHAT_MESSAGE_SENDER_ID, getCounterpartOfChat());
+        MapEntry<String, Object> data = new MapEntry<String, Object>(MessageHandler.CHAT_MESSAGE_SENDER_ID, counterPartUserId);
         NotificationFacade.getInstance().getMessageHandler().removeMessageListener(MessageHandler.CHAT_MESSAGE_RECIEVED, data, this);
-    }
-
-    private int getCounterpartOfChat(){
-        int userid = -1;
-
-        for (KnownUser user : chat.getUsers()){
-            if (user.getId() != MeDataHandler.getInstance().getMe().getId()){
-                userid = user.getId();
-                break;
-            }
-        }
-
-        if (userid == -1){
-            throw new Resources.NotFoundException("Second part of chat not found.");
-        }
-
-        return userid;
+        Log.d(TagHandler.MAIN_TAG, "Unregister as listener");
     }
 
     private void initViews() {
@@ -197,6 +189,14 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
 
     @Override
     public void onMessageRecieved(Map<String, Object> data) {
-        Log.d(TagHandler.MAIN_TAG, "Message recieved in ChatActive");
+        final ChatMessage chatMessage = (ChatMessage) data.get("object");
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                chatActiveAdapter.addChatMessageToAdapter(chatMessage);
+                scrollToBottom();
+            }
+        });
     }
 }

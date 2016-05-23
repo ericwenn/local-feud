@@ -30,6 +30,7 @@ import java.util.Objects;
  * Created by Daniel Ahlqvist on 2016-05-08.
  */
 public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = "ChatActiveAdapter";
     private final ArrayList<ChatMessage> messages = new ArrayList<>();
     private final LayoutInflater inflater;
     private Chat chat;
@@ -40,6 +41,7 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         inflater = LayoutInflater.from(context);
         this.myId = DataHandlerFacade.getMeDataHandler().getMe().getId();
         ArrayList<ChatMessage> newMessages = new ArrayList<>();
+        clearAdapter();
         addChatMessageListToAdapter(newMessages);
 
         try {
@@ -124,7 +126,6 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void addChatMessageListToAdapter(final List<ChatMessage> messages) {
         final int currentCount = this.messages.size();
         synchronized (this.messages) {
-            clearAdapter();
             this.messages.addAll(messages);
         }
         if (Looper.getMainLooper() == Looper.myLooper()) {
@@ -137,6 +138,14 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             });
         }
+    }
+
+    public void addChatMessageToAdapter(final ChatMessage message){
+        synchronized (messages) {
+            messages.add(message);
+        }
+
+        notifyItemInserted(messages.indexOf(message));
     }
 
     @Override

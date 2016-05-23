@@ -13,6 +13,10 @@ import android.util.Log;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.MainActivity;
+import com.chalmers.tda367.localfeud.data.Chat;
+import com.chalmers.tda367.localfeud.data.ChatMessage;
+import com.chalmers.tda367.localfeud.data.handler.MeDataHandler;
+import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.util.MapEntry;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
@@ -58,7 +62,9 @@ public class MessageHandler implements IMessageHandler {
                 try{
                     messageData.put("from", data.getString("from"));
                     messageData.put("content", data.getString("content"));
-                    messageData.put("user_id", data.getInt("user_id"));
+                    ChatMessage chatMessage = GsonHandler.getInstance().fromJson(data.getString("object"), ChatMessage.class);
+                    messageData.put(CHAT_MESSAGE_SENDER_ID, chatMessage.getUser().getId());
+                    messageData.put("object", chatMessage);
                 }catch(JSONException e){
                     Log.e(TagHandler.MAIN_TAG, e.getMessage());
                 }
