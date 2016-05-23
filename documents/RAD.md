@@ -72,6 +72,7 @@ Applikationen ska fungera på alla telefoner som drivs av Android  med API 21 (L
 Applikationen ska även nyttja resursfilerna som finns i Android full ut, vilket gör det smidigt för framtida eventuella översättningar.
 
 #### 2.2.5 Implementation 
+Applikationen kommer att skrivas i Java för att smidigast köras på Android. Vi kommer att behöva exportera projektet till en körbar .apk-fil. Det är sedan denna fil som användaren behöver ladda ner för att kunna installera applikationen.
 
 #### 2.2.6 Packaging and installation
 
