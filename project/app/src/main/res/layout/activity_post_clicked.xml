@@ -22,7 +22,7 @@
                 android:id="@+id/post_clicked_back_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_back_white_24dp"
+                android:src="@drawable/ic_arrow_back_black_24dp"
                 android:paddingTop="@dimen/toolbar_back_button_margin"
                 android:paddingBottom="@dimen/toolbar_back_button_margin"
                 android:paddingStart="@dimen/nothing"
