@@ -12,12 +12,12 @@ This version overrides all previous versions.
 
 This section gives a brief overview of the project.
 
-#### 1.1 Purpose of application
+### 1.1 Purpose of application
 
 Applikationen kommer låta personer inom ett område anonymt kommunicera och diskutera med varandra. Syftet är att hitta nya vänner, dela med sig av tankar och åsikter eller kanske till och med hitta en framtida livspartner. Om två personer fattar tycke för varandra kommer nämligen anonymiteten
 försvinna, de kommer kunna chatta med varandra och personlig information från Facebook kommer presenteras.
 
-#### 1.2 General characteristics of application
+### 1.2 General characteristics of application
 
 Applikationen kommer att vara anpassat för plattformar som kör Android, kopplat till våra servrar där all data hanteras.
 
@@ -26,11 +26,11 @@ Den andra delen kommer att innehålla användarens chattar.
 Den sista delen kommer att visa användarens profil, där användaren har möjlighet att ändra sina inställningar samt administrera sina skrivna inlägg.
 
 
-#### 1.3 Scope of application
+### 1.3 Scope of application
 
 Applikationen kommer inte innehålla någon karta utan meddelanden presenteras endast med ett avstånd från dig själv.
 
-#### 1.4 Objectives and success criteria of the project 
+### 1.4 Objectives and success criteria of the project 
 
   * Som användare skall man kunna publicera inlägg knutna till den geografiska position man befinner sig i vid publiceringstillfället. Man skall även kunna läsa andra personers inlägg om ens egen läsradie tangerar inläggens synlighetsradie.
 
@@ -40,13 +40,13 @@ Applikationen kommer inte innehålla någon karta utan meddelanden presenteras e
 
   * Användare skall dessutom kunna starta privata chattar med varandra där deras anonymitet släpper. Användarnas namn och bild visas då i chatten.
 
-#### 1.5 Definitions, acronyms and abbreviations
+### 1.5 Definitions, acronyms and abbreviations
 
 ## 2 Requirements
 
 In this section we specify all requirements
 
-#### 2.1 Functional requirements
+### 2.1 Functional requirements
 I applikationen ska användaren kunna:
 * Skriva ett inlägg samt läsa inlägg skrivna av andra.
 * Integrera med inlägget genom kommentarer och gillningar.
@@ -54,7 +54,7 @@ I applikationen ska användaren kunna:
 * Läsa notiser om någon kommenterat ett inlägg.
 * Ändra inställningar.
 
-#### 2.2 Non-functional requirements
+### 2.2 Non-functional requirements
 Possible NA (not applicable).
 
 #### 2.2.1 Usability
@@ -65,6 +65,7 @@ Användargränssnittet kommer att vara i engelska, men applikationen ska ha möj
 Målet med applikationen är att ha en så pass buggfri applikation att användaren inte ska behöva uppleva några kraschar eller frysningar.
 
 #### 2.2.3 Performance
+// TODO: Ev timeout-fel, kall-start?
 
 #### 2.2.4 Supportability
 Applikationen ska fungera på alla telefoner som drivs av Android  med API 21 (Lollipop) eller senare, men det ska inte vara några problem att göra applikationen bakåtkompatibel i större utsträckning. Applikationens huvudfunktioner ska vara separerade från övriga delar av programmet, så som dess vyer.
@@ -75,27 +76,17 @@ Applikationen ska även nyttja resursfilerna som finns i Android full ut, vilket
 Applikationen kommer att skrivas i Java för att smidigast köras på Android. Vi kommer att behöva exportera projektet till en körbar .apk-fil. Det är sedan denna fil som användaren behöver ladda ner för att kunna installera applikationen.
 
 #### 2.2.6 Packaging and installation
+Applikationen laddas ner och installeras från Google Play Store.
 
-#### 2.2.7 Legal 
+#### 2.2.7 Legal
+Det finns inga juridiska problem i applikationen.
 
-#### 2.3 Application models
+### 2.3 Application models
 
 #### 2.3.1 Use case model 
-
-![Image of Use Cases](https://raw.githubusercontent.com/ericwenn/local-feud/master/usecases/use-case.jpg)
-
-* Skriv ett inlägg.
-* Kommentera ett inlägg.
-* Gilla inlägg.
-* Starta chatt med okänd person.
-* Chatta med känd person.
-* Läsa notiser.
-* Läs inlägg.
-* Ändra inställningar
-
+Se appendix för bild och text om våra use cases.
 
 #### 2.3.2 Use cases priority
-
 1. Skriv ett inlägg
 2. Läs inlägg
 3. Gilla inlägg
@@ -127,11 +118,22 @@ Vynummer refererar till bild placerad under "GUI" i sektionen "References".
 
 **Vy 7** (Logga in) visar inloggningsskärmen. Detta är det första som visas när applikationen startas första gången. Vyn är enkel; en logotyp, en bakgrundsbild och en "logga in med Facebookknapp". Facebook är ett krav för att använda applikationen.
 
-#### 2.4 References
+### 2.4 References
 
-  APPENDIX 
+##### APPENDIX 
+  
+  ![Image of Use Cases](https://raw.githubusercontent.com/ericwenn/local-feud/master/usecases/use-case.jpg)
 
-  GUI
+* Skriv ett inlägg - Hög - Implementerad.
+* Kommentera ett inlägg - Medel - Implementerad.
+* Gilla inlägg - Medel - Implementerad.
+* Starta chatt med okänd person - Medel - Implementerad.
+* Chatta med känd person - Låg - Implementerad.
+* Läsa notiser - Låg - Ej implementerad.
+* Läs inlägg - Hög - Implementerad.
+* Ändra inställningar - Medel - Implementerad.
+
+######  GUI
 ![Image of Use Cases](https://raw.githubusercontent.com/ericwenn/local-feud/master/documents/vyer.jpg)
 
   Domain model
