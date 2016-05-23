@@ -4,7 +4,7 @@
   
   *Date: 9/5/2016*
   
-  *Author: Local Feud team yao*
+  *Author: Group 11*
 
 This version overrides all previous versions.
 
