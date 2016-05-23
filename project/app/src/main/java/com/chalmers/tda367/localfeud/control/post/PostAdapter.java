@@ -62,7 +62,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Post post = postList.get(position);
-
+        Log.d(TagHandler.MAIN_TAG, "Text: " + post.getContent().getText() + "\nDate: " + post.getStringDatePosted() + "\n");
         // Distance
         int distanceColor = DistanceColor.distanceColor(post.getDistance());
         int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
