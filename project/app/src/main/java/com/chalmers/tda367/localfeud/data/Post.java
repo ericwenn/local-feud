@@ -129,7 +129,7 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
 
     public Calendar getDatePosted() {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
         try {
             calendar.setTime(simpleDateFormat.parse(getStringDatePosted()));
         } catch (ParseException e) {
@@ -138,7 +138,7 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
         return calendar;
     }
 
-    private String getStringDatePosted() {
+    public String getStringDatePosted() {
         return date_posted;
     }
 
