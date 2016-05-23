@@ -2,24 +2,40 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="#222222"
     android:layout_weight="10"
     android:id="@+id/main">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/turtle_back"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/edda_logo_simple_w"
+        android:padding="50dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/app_logo"
+        android:contentDescription="@string/app_logo" />
+
     <TextView
-        android:layout_width="300sp"
-        android:layout_height="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-thin"
         android:textColor="#ffffff"
         android:textSize="28sp"
-        android:text="Authenticate"
+        android:layout_marginBottom="20dp"
+        android:text="@string/authenticate"
         android:textStyle="bold"
         android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp" />
+        android:layout_below="@+id/app_logo"
+        android:layout_centerHorizontal="true" />
 
 
     <TextView
@@ -29,17 +45,48 @@
         android:gravity="center_vertical"
         android:textColor="#ffffff"
         android:textSize="16sp"
-        android:text="Change permissions in your device's app settings. Give Local Feud access to the the device's Location."
+        android:text="@string/get_location_permission"
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/fb_login"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="100dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:paddingBottom="90dp">
+
+        <Button
+            android:id="@+id/btn_fb_login"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_centerHorizontal="true"
+            android:text="@string/login_button"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
+            android:background="@android:color/white"
+            android:textColor="@color/feedColorPrimaryDark"
+            android:textSize="16sp"/>
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/fb_login"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_fb_login"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/terms_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/terms_and_conditions"
+                android:layout_below="@id/fb_login"
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="#ffffff"
+                android:textStyle="bold"/>
+    </RelativeLayout>
 </RelativeLayout>

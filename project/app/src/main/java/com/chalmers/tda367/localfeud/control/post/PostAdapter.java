@@ -1,0 +1,195 @@
+package com.chalmers.tda367.localfeud.control.post;
+
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.data.Post;
+import com.chalmers.tda367.localfeud.util.DateString;
+import com.chalmers.tda367.localfeud.util.DistanceColor;
+import com.chalmers.tda367.localfeud.util.DistanceString;
+import com.chalmers.tda367.localfeud.util.TagHandler;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * Text om klassen
+ *
+ * @author David Söderberg
+ * @since 16-04-11
+ */
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
+
+    private final Context context;
+    private final Comparator<Post> comparator;
+    private final LayoutInflater inflater;
+    private AdapterCallback adapterCallback;
+
+    private final ArrayList<Post> postList = new ArrayList<>();
+
+    public PostAdapter(Context context, Comparator<Post> comparator) {
+        this.context = context;
+        this.comparator = comparator;
+        inflater = LayoutInflater.from(context);
+
+        try {
+            adapterCallback = (AdapterCallback) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException("PostAdapter: Activity must implement AdapterCallback.");
+        }
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = inflater.inflate(R.layout.post_list_item, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final Post post = postList.get(position);
+
+        // Distance
+        int distanceColor = DistanceColor.distanceColor(post.getDistance());
+        int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
+        holder.postItemTopbar.setBackgroundColor(ContextCompat.getColor(context, distanceColor));
+        String distance = DistanceString.getDistanceString(context, post.getDistance());
+        holder.postItemDistanceTextView.setText(distance);
+        holder.postItemDistanceTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
+
+
+        holder.postItemTimeTextView.setText(DateString.convert(post.getDatePosted()));
+        holder.postItemMsgTextView.setText(post.getContent().getText());
+
+        holder.postItemSenderTextView.setText(post.getUser().getGenderSymbol() + " " + post.getUser().getAge());
+        holder.postItemSenderTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
+        String numberOfComments = "" + post.getNumberOfComments();
+        holder.postItemCommentTextView.setText(numberOfComments);
+        holder.holderLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterCallback.onPostClick(post);
+            }
+        });
+        holder.postItemLikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterCallback.onLikeClick(post, holder.postItemLikeButton, holder.postItemNbrLikesTextView);
+            }
+        });
+        holder.postItemMoreButton.setVisibility(View.GONE);
+        holder.postItemMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterCallback.onMoreClick(post);
+            }
+        });
+        if (post.isLiked())
+            holder.postItemLikeButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+        else holder.postItemLikeButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+
+        holder.postItemNbrLikesTextView.setText("" + post.getNumberOfLikes());
+    }
+
+    @Override
+    public int getItemCount() {
+        return postList.size();
+    }
+
+    public void addPostToAdapter(Post post) {
+        postList.add(post);
+        Collections.sort(postList, comparator);
+        notifyItemInserted(postList.indexOf(post));
+    }
+
+    public void changePostInAdapter(Post oldPost, Post newPost) {
+        if (postList.contains(oldPost)) {
+            postList.set(postList.indexOf(oldPost), newPost);
+            notifyItemChanged(postList.indexOf(newPost));
+        }
+        else {
+            Log.e(TagHandler.MAIN_TAG, "PostAdapter doesn't contain post " + oldPost.getId());
+        }
+    }
+
+    private void clearAdapter() {
+        postList.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addPostListToAdapter(final List<Post> postList) {
+        final int currentCount = this.postList.size();
+
+        Collections.sort(postList, comparator);
+
+        synchronized (this.postList) {
+            clearAdapter();
+            this.postList.addAll(postList);
+        }
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            notifyItemRangeInserted(currentCount, postList.size());
+        } else {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    notifyItemRangeInserted(currentCount, postList.size());
+                }
+            });
+        }
+    }
+
+
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        private final TextView postItemMsgTextView;
+        private final TextView postItemSenderTextView;
+        private final TextView postItemDistanceTextView;
+        private final TextView postItemTimeTextView;
+        private final TextView postItemCommentTextView;
+        private final TextView postItemNbrLikesTextView;
+        private final CardView holderLayout;
+        private final ImageButton postItemLikeButton;
+        private final ImageButton postItemMoreButton;
+        private final FrameLayout postItemTopbar;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            postItemSenderTextView = (TextView) itemView.findViewById(R.id.post_item_sender_textview);
+            postItemMsgTextView = (TextView) itemView.findViewById(R.id.post_item_msg_textview);
+            postItemDistanceTextView = (TextView) itemView.findViewById(R.id.post_item_distance_textview);
+            postItemTimeTextView = (TextView) itemView.findViewById(R.id.post_item_time_textview);
+            postItemCommentTextView = (TextView) itemView.findViewById(R.id.post_item_comment_textview);
+            holderLayout = (CardView) itemView.findViewById(R.id.post_list_item);
+            postItemLikeButton = (ImageButton) itemView.findViewById(R.id.post_item_like_button);
+            postItemNbrLikesTextView = (TextView) itemView.findViewById(R.id.post_item_nbr_of_likes);
+            postItemMoreButton = (ImageButton) itemView.findViewById(R.id.post_item_more_button);
+            postItemTopbar = (FrameLayout) itemView.findViewById(R.id.post_item_topbar);
+        }
+    }
+
+    public interface AdapterCallback {
+        void onPostClick(Post post);
+
+        void onLikeClick(Post post, ImageButton imageButton, final TextView likesDisplay);
+
+        void onMoreClick(Post post);
+
+        void onShowSnackbar(String text);
+    }
+}

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/chat_view_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <ImageButton
+                android:id="@+id/chat_view_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_back_white_24dp"
+                android:paddingTop="@dimen/toolbar_back_button_margin"
+                android:paddingBottom="@dimen/toolbar_back_button_margin"
+                android:paddingStart="@dimen/nothing"
+                android:paddingEnd="@dimen/toolbar_back_button_margin"
+                android:layout_marginEnd="@dimen/toolbar_back_button_margin"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/back_button" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilepic"
+                android:layout_width="@dimen/chat_view_image_size"
+                android:layout_height="@dimen/chat_view_image_size"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:gravity="center_vertical"
+                android:src="@drawable/com_facebook_profile_picture_blank_square" />
+
+            <TextView
+                style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chat_title"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:layout_toEndOf="@+id/profilepic"
+                android:gravity="center_vertical"
+                android:text="@string/dummy_user"
+                android:textColor="@android:color/white" />
+
+        </android.support.v7.widget.Toolbar>
+
+        <View
+            android:id="@+id/chat_top_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/chat_top_bar"
+            android:alpha="0.12"
+            android:background="@android:color/black" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chat_message_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="?attr/actionBarSize">
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/write_chat_message_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/posttext"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/input_margin"
+            android:layout_marginBottom="@dimen/input_margin"
+            android:layout_marginTop="@dimen/input_margin"
+            android:layout_weight="1"
+            android:maxLines="3"
+            android:background="#fff"
+            android:gravity="top|start"
+            android:hint="@string/chat_hint"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLength="240"
+            android:padding="10dp"
+            android:textColor="@android:color/black" />
+
+        <ImageButton
+            android:id="@+id/post_button"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/chatColorPrimary"
+            android:src="@drawable/ic_send_white_24dp"
+            android:contentDescription="@string/send_chat_message" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

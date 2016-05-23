@@ -1,7 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#222222"
     android:layout_weight="10"
     android:id="@+id/main">
 
@@ -13,7 +12,7 @@
         android:fontFamily="sans-serif-thin"
         android:textColor="#ffffff"
         android:textSize="28sp"
-        android:text="Grant access"
+        android:text="@string/grant_access"
         android:textStyle="bold"
         android:layout_marginTop="50sp" />
 
@@ -25,7 +24,7 @@
         android:gravity="center_vertical"
         android:textColor="#ffffff"
         android:textSize="16sp"
-        android:text="Change permissions in your device's app settings. Give Local Feud access to the the device's Location." />
+        android:text="@string/get_location_permission" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="64dp" />

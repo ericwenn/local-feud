@@ -1,7 +1,5 @@
 package com.chalmers.tda367.localfeud.util;
 
-import android.graphics.Color;
-
 import com.chalmers.tda367.localfeud.R;
 
 /**
@@ -9,7 +7,7 @@ import com.chalmers.tda367.localfeud.R;
  */
 public class DistanceColor
 {
-    public static int distanceColor(Double distance) throws NullPointerException
+    public static int distanceColor(int distance) throws NullPointerException
     {
         if (distance < 500)
         {
@@ -36,11 +34,35 @@ public class DistanceColor
     {
         if (color == R.color.distRed)
         {
-            return R.color.white;
+            return android.R.color.white;
         }
         else
         {
-            return R.color.black;
+            return R.color.alphaBlack;
+        }
+    }
+
+    public static int distanceStyle(int color) throws NullPointerException
+    {
+        if (color == R.color.distRed)
+        {
+            return R.style.DistRedTheme;
+        }
+        else if (color == R.color.distOrange)
+        {
+            return R.style.DistOrangeTheme;
+        }
+        else if (color == R.color.distYellow)
+        {
+            return R.style.DistYellowTheme;
+        }
+        else if (color == R.color.distGreen)
+        {
+            return R.style.DistGreenTheme;
+        }
+        else
+        {
+            return R.style.DistBlueTheme;
         }
     }
 }

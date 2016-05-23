@@ -55,7 +55,7 @@ public class Like
         return calendar;
     }
 
-    public String getStringDateAdded() {
+    private String getStringDateAdded() {
         return date_added;
     }
 }

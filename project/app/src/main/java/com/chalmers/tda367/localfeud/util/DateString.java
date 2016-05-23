@@ -1,7 +1,5 @@
 package com.chalmers.tda367.localfeud.util;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
@@ -49,7 +47,7 @@ public class DateString {
         }
 
         // More than 5 minutes ago
-        if( TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) > 5) {
+        if( TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) > 2) {
             return TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) + " minutes ago";
         }
 

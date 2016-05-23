@@ -1,12 +1,8 @@
 package com.chalmers.tda367.localfeud.util;
 
-import com.chalmers.tda367.localfeud.data.Post;
-import com.chalmers.tda367.localfeud.data.Comment;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Type;
 
 /**
  * Text om klassen
@@ -14,26 +10,23 @@ import java.util.List;
  * @author David Söderberg
  * @since 16-04-12
  */
-public class GsonHandler {
-    private Gson gson;
+public class GsonHandler
+{
+    private final Gson gson;
     private static GsonHandler instance = null;
+
     private GsonHandler() {
         gson = new Gson();
     }
+
     public synchronized static GsonHandler getInstance() {
         if (instance == null) {
             instance = new GsonHandler();
         }
         return instance;
     }
-    public Post toPost(String json) {
-        return gson.fromJson(json, Post.class);
-    }
 
-    public ArrayList<Post> toPostList(String json) {
-        return gson.fromJson(json, new TypeToken<List<Post>>(){}.getType());
-    }
-    public ArrayList<Comment> toCommentList(String json) {
-        return gson.fromJson(json, new TypeToken<List<Comment>>(){}.getType());
+    public <E> E fromJson(String json, Type type) {
+        return gson.fromJson(json, type);
     }
 }

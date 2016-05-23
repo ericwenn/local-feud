@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud.data;
 
 import android.util.Log;
 
+import com.chalmers.tda367.localfeud.services.Location;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.io.Serializable;
@@ -13,18 +14,41 @@ import java.util.Locale;
 /**
  * Created by Alfred on 2016-04-11.
  */
-public class Post extends GeneralPost implements Serializable {
+public class Post extends GeneralPost implements Serializable, Cloneable {
 
     private int id;
     private Position location;
     private User user;
     private double reach;
+    private int distance;
     private Content content;
     private String date_posted;
     private boolean is_deleted;
     private int number_of_comments;
     private int number_of_likes;
     private String href;
+    private boolean current_user_has_liked;
+
+    public Post() {
+
+    }
+
+    private Post(Content content, boolean current_user_has_liked, String date_posted, int distance,
+                 String href, int id, boolean is_deleted, Position location, int number_of_comments,
+                 int number_of_likes, double reach, User user) {
+        this.content = content;
+        this.current_user_has_liked = current_user_has_liked;
+        this.date_posted = date_posted;
+        this.distance = distance;
+        this.href = href;
+        this.id = id;
+        this.is_deleted = is_deleted;
+        this.location = location;
+        this.number_of_comments = number_of_comments;
+        this.number_of_likes = number_of_likes;
+        this.reach = reach;
+        this.user = user;
+    }
 
     public boolean isLiked() {
         return current_user_has_liked;
@@ -34,7 +58,6 @@ public class Post extends GeneralPost implements Serializable {
         this.current_user_has_liked = currentUserHasLiked;
     }
 
-    private boolean current_user_has_liked;
 
     public int getId() {
         return id;
@@ -52,6 +75,24 @@ public class Post extends GeneralPost implements Serializable {
         this.location = location;
     }
 
+
+    public void setDistance()
+    {
+        double myLatitude = Location.getInstance().getLocation().getLatitude();
+        double myLongitude = Location.getInstance().getLocation().getLongitude();
+
+        float[] dist = new float[1];
+        android.location.Location.distanceBetween(myLatitude, myLongitude, location.getLatitude(), location.getLongitude(), dist);
+        distance = Math.round(dist[0]);
+    }
+
+    public int getDistance()
+    {
+        setDistance();
+        return distance;
+    }
+
+
     public User getUser() {
         return user;
     }
@@ -59,6 +100,9 @@ public class Post extends GeneralPost implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
+
+
 
     public double getReach() {
         return reach;
@@ -68,6 +112,9 @@ public class Post extends GeneralPost implements Serializable {
         this.reach = reach;
     }
 
+
+
+
     public Content getContent() {
         return content;
     }
@@ -75,6 +122,10 @@ public class Post extends GeneralPost implements Serializable {
     public void setContent(Content content) {
         this.content = content;
     }
+
+
+
+
 
     public Calendar getDatePosted() {
         Calendar calendar = Calendar.getInstance();
@@ -95,6 +146,11 @@ public class Post extends GeneralPost implements Serializable {
         this.date_posted = date_posted;
     }
 
+
+
+
+
+
     public boolean isIsDeleted() {
         return is_deleted;
     }
@@ -102,6 +158,10 @@ public class Post extends GeneralPost implements Serializable {
     public void setIsDeleted(boolean is_deleted) {
         this.is_deleted = is_deleted;
     }
+
+
+
+
 
     public int getNumberOfComments() {
         return number_of_comments;
@@ -111,6 +171,8 @@ public class Post extends GeneralPost implements Serializable {
         this.number_of_comments = number_of_comments;
     }
 
+
+
     public int getNumberOfLikes() {
         return number_of_likes;
     }
@@ -119,12 +181,25 @@ public class Post extends GeneralPost implements Serializable {
         this.number_of_likes = number_of_likes;
     }
 
+
+
     public String getHref() {
         return href;
     }
 
     public void setHref(String href) {
         this.href = href;
+    }
+
+    public Post clone() {
+        return new Post(getContent(), current_user_has_liked, getStringDatePosted(), getDistance(),
+                getHref(), getId(), isIsDeleted(), getLocation(), getNumberOfComments(), getNumberOfLikes(),
+                getReach(), getUser());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o.getClass() == Post.class && ((Post) o).getId() == getId();
     }
 
     public static class Content implements Serializable {
@@ -147,4 +222,5 @@ public class Post extends GeneralPost implements Serializable {
             this.text = text;
         }
     }
+
 }

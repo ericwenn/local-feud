@@ -7,32 +7,71 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <permission android:name=".permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name=".permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/edda_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/MyAppTheme">
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="gcm.play.android.samples.com.gcmquickstart" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name=".services.gcm.EddaGcmListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".services.gcm.EddaInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".services.gcm.RegistrationIntentService"
+            android:exported="false"
+            android:enabled="true">
+        </service>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
-        <activity
-            android:name=".control.SplashActivity"
-            android:theme="@style/SplashTheme">
-        </activity>
         <activity
             android:name=".control.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".control.NewPostActivity"
+            android:name=".control.post.NewPostActivity"
             android:label="@string/app_name"
+            android:parentActivityName=".control.MainActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".control.MainActivity" />
+        </activity>
+        <activity
+            android:name=".control.post.PostClickedActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:parentActivityName=".control.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
@@ -40,18 +79,20 @@
                 android:value=".control.MainActivity" />
         </activity>
         <activity
-            android:name=".control.PostClickedActivity"
-            android:label="@string/app_name"
-            android:parentActivityName=".control.MainActivity"
-            android:screenOrientation="portrait">
+            android:name=".control.permission.PermissionFlow"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".control.chat.ChatActiveActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:label="@string/app_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".control.MainActivity" />
         </activity>
         <activity
-            android:name=".permissionflow.PermissionFlow"
-            android:label="Local Feud" />
-        <activity android:name=".authentication.AuthenticationFlowActivity" android:label="Local Feud">
+            android:name=".control.authentication.AuthenticationFlowActivity"
+            android:label="@string/app_name"
+            android:theme="@style/MyAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

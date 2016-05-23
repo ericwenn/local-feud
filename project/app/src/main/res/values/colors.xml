@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="bgcolor">#cccccc</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="black">#000</color>
+    <color name="defaultTextColor">#757575</color>
+    <color name="feedColorPrimary">#3F51B5</color>
+    <color name="feedColorPrimaryDark">#303F9F</color>
+    <color name="feedColorAccent">#FF4081</color>
+    <color name="chatColorPrimary">#8BC34A</color>
+    <color name="chatColorPrimaryDark">#689F38</color>
+    <color name="chatColorAccent">#795548</color>
+    <color name="meColorPrimary">#F44336</color>
+    <color name="meColorPrimaryDark">#D32F2F</color>
+    <color name="meColorAccent">#448AFF</color>
+    <color name="alphaBlack">#8c000000</color>
+    <color name="lightGrey">#bbbbbb</color>
     <color name="white">#fff</color>
-    <color name="transparent">#00ffffff</color>
     <color name="white70PTransparent">#B3FFFFFF</color>
-    <color name="distRed">#dc2f29</color>
-    <color name="distOrange">#efa443</color>
-    <color name="distYellow">#ffcc00</color>
-    <color name="distGreen">#f4e880</color>
-    <color name="distBlue">#feffb8</color>
+    <color name="distRed">#f57f17</color>
+    <color name="distOrange">#f9a825</color>
+    <color name="distYellow">#fbc02d</color>
+    <color name="distGreen">#fdd835</color>
+    <color name="distBlue">#ffeb3b</color>
+    <color name="dividerGray">#CCCCCC</color>
 </resources>

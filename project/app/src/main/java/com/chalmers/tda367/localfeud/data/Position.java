@@ -1,5 +1,7 @@
 package com.chalmers.tda367.localfeud.data;
 
+import android.location.Location;
+
 import java.io.Serializable;
 
 /**
@@ -13,6 +15,9 @@ public class Position implements Serializable{
     public Position(double latitude, double longitude){
         this.setLatitude(latitude);
         this.setLongitude(longitude);
+    }
+    public Position(Location loc) {
+        this( loc.getLatitude(), loc.getLongitude());
     }
 
     public double getLatitude() {

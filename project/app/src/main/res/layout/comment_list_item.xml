@@ -2,6 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/comment_list_item"
@@ -21,7 +22,8 @@
         android:paddingBottom="@dimen/default_margin"
         android:paddingStart="@dimen/default_margin"
         android:paddingEnd="@dimen/default_margin"
-        android:text="(Quinnosymbol) Hjördis, 86"
+        android:text="@string/dummy_user"
+        android:textColor="@color/lightGrey"
         android:id="@+id/comment_item_sender_textview"/>
 
     <TextView
@@ -33,7 +35,9 @@
         android:paddingStart="@dimen/default_margin"
         android:paddingEnd="@dimen/default_margin"
         android:id="@+id/comment_item_time_textview"
-        android:text="20:00"/>
+        android:text="@string/time_dummy"
+        android:textColor="@color/lightGrey"
+        tools:ignore="RelativeOverlap" />
 
     <View
         android:id="@+id/post_item_top_divider"
@@ -41,16 +45,30 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:alpha="0.12"
-        android:background="@color/black" />
+        android:background="@android:color/black" />
 
     <TextView
         android:layout_below="@id/post_item_top_divider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/comment_item_msg_textview"
+        android:textColor="@color/defaultTextColor"
         android:padding="@dimen/default_margin"
         android:textSize="@dimen/card_post_comment_text_size"
-        android:text="Detta är en vansinnigt bra kommentar! Väldigt innehållsrik måste jag säga!"/>
+        android:text="@string/dummy_text"/>
+
+    <ImageButton
+        android:id="@+id/comment_item_more_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_item_msg_textview"
+        android:layout_alignParentEnd="true"
+        android:paddingBottom="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        android:paddingEnd="@dimen/default_margin"
+        android:src="@drawable/ic_more_horiz_black_24dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/more" />
 
     </RelativeLayout>
 

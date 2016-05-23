@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/chat_bubble_margin">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/time_dummy"
+        android:id="@+id/time_display"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_alignParentEnd="true"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/me_chat_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/distYellow"
+        android:padding="@dimen/default_margin"
+        android:text="@string/dummy_text"
+        android:textColor="@android:color/white"
+        android:textIsSelectable="true"
+        android:layout_alignParentEnd="true"
+        android:maxWidth="300dp"
+        android:layout_below="@+id/time_display"/>
+
+</RelativeLayout>

@@ -1,24 +1,34 @@
 package com.chalmers.tda367.localfeud.data;
 
 import java.io.Serializable;
+import java.io.StreamCorruptedException;
 
 /**
  * Created by Alfred on 2016-04-11.
  */
 public class User implements Serializable {
-    private int id;
+    private final int id;
     private int age;
-    private Sex sex;
+    private Gender gender;
     private String href;
+    private String firstname, lastname;
 
-    public enum Sex{
-        MALE, FEMALE
+    public enum Gender {
+        male, female
     }
 
-    public User (int id, int age, Sex sex){
+    public User (int id, int age, Gender gender, String firstname, String lastname){
         this.id = id;
         this.age = age;
-        this.sex = sex;
+        this.gender = gender;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
+    public User( Me user ) {
+        this.id = user.getId();
+        this.age = user.getAge();
+        this.gender = user.getGender();
     }
 
     public int getId(){
@@ -29,10 +39,42 @@ public class User implements Serializable {
         return this.age;
     }
 
-    public Sex getSex(){
-        return this.sex;
+    public Gender getGender(){
+        return this.gender;
     }
 
+    public String getFirstname()
+    {
+        return firstname;
+    }
+    public void setFirstname(String lastname)
+    {
+        this.firstname = firstname;
+    }
+    public String getLastname()
+    {
+        return lastname;
+    }
+    public void setLastname(String lastname)
+    {
+        this.lastname = lastname;
+    }
+
+    public String getGenderSymbol()
+    {
+        if(gender.equals(Gender.male))
+        {
+            return "♂";
+        }
+        else if(gender.equals(Gender.female))
+        {
+            return "♀";
+        }
+        else
+        {
+            return "Unknown gender";
+        }
+    }
     public boolean equals(Object o){
         if (o == null){
             return false;
@@ -55,4 +97,5 @@ public class User implements Serializable {
     public void setHref(String href) {
         this.href = href;
     }
+
 }
