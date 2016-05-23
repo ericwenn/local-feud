@@ -67,6 +67,9 @@ Målet med applikationen är att ha en så pass buggfri applikation att använda
 #### 2.2.3 Performance
 
 #### 2.2.4 Supportability
+Applikationen ska fungera på alla telefoner som drivs av Android  med API 21 (Lollipop) eller senare, men det ska inte vara några problem att göra applikationen bakåtkompatibel i större utsträckning. Applikationens huvudfunktioner ska vara separerade från övriga delar av programmet, så som dess vyer.
+
+Applikationen ska även nyttja resursfilerna som finns i Android full ut, vilket gör det smidigt för framtida eventuella översättningar.
 
 #### 2.2.5 Implementation 
 
