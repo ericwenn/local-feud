@@ -28,6 +28,14 @@ public class RestResponseHandler extends AsyncHttpResponseHandler implements Res
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
         Log.e(TagHandler.MAIN_TAG, "Failure. Status code:" + statusCode);
 
-        this.action.onFailure(statusCode, new String(responseBody));
+        String responseString;
+
+        if(responseBody == null || responseBody.length == 0){
+            responseString = "";
+        }else{
+            responseString = new String(responseBody);
+        }
+
+        this.action.onFailure(statusCode, responseString);
     }
 }

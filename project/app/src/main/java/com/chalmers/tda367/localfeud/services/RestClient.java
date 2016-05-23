@@ -28,11 +28,6 @@ public class RestClient implements IRestClient {
         return instance;
     }
 
-
-
-
-
-
     public RestClient(){
         asyncClient = new AsyncHttpClient();
         syncClient = new SyncHttpClient();
@@ -44,6 +39,9 @@ public class RestClient implements IRestClient {
 
     }
 
+    public void addHeader(String header, String value){
+        getClient().addHeader(header, value);
+    }
 
     /**
      * {@inheritDoc}
@@ -54,7 +52,6 @@ public class RestClient implements IRestClient {
     }
 
 
-
     /**
      * {@inheritDoc}
      */
@@ -63,7 +60,6 @@ public class RestClient implements IRestClient {
         RequestParams params = new RequestParams(paramsMap);
         getClient().get(getAbsoluteUrl(url), params, new RestResponseHandler(action));
     }
-
 
     /**
      * {@inheritDoc}

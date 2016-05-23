@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "517596981987",
+    "project_id": "edda-837c3"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517596981987:android:4dc71cc64f41ae53",
+        "android_client_info": {
+          "package_name": "com.chalmers.tda367.localfeud"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB8hzhvfJVowNeDkDdHyowfmHka_IJ2DM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
