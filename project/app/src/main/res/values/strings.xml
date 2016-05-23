@@ -12,6 +12,7 @@
     <string name="send_chat_request">Send chat request</string>
     <string name="report">Report</string>
     <string name="delete_comment">Delete comment</string>
+    <string name="delete_post">Delete post</string>
     <string name="grant_access">Grant access</string>
     <string name="authenticate">Authenticate</string>
     <string name="get_location_permission">Change permissions in your device\'s app settings. Give Edda access to the device\'s Location.</string>

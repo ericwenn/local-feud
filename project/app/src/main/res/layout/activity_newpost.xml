@@ -61,24 +61,32 @@
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
+    <EditText
+        android:id="@+id/posttext"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:gravity="top|start"
+        android:hint="@string/new_post_hint"
+        android:inputType="textMultiLine|textCapSentences"
+        android:maxLength="240"
+        android:minLines="5"
+        android:padding="16dp"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="?attr/actionBarSize"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize">
-
-        <EditText
-            android:id="@+id/posttext"
+        android:layout_gravity="bottom">
+        <TextView
+            android:id="@+id/post_message_input_counter"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#fff"
-            android:gravity="top|start"
-            android:hint="@string/new_post_hint"
-            android:inputType="textMultiLine|textCapSentences"
-            android:maxLength="240"
-            android:minLines="5"
-            android:padding="16dp"
-            android:textColor="@android:color/black" />
-
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:text="0/240"
+            android:textSize="@dimen/card_post_message_text_size"
+            android:layout_margin="@dimen/default_margin"/>
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
