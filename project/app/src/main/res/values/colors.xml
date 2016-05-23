@@ -9,8 +9,8 @@
     <color name="chatColorPrimaryDark">#689F38</color>
     <color name="chatColorAccent">#795548</color>
     <color name="chatNotMeColor">#9ccc65</color>
-    <color name="meColorPrimary">#F44336</color>
-    <color name="meColorPrimaryDark">#D32F2F</color>
+    <color name="meColorPrimary">#40c4ff</color>
+    <color name="meColorPrimaryDark">#0091ea</color>
     <color name="meColorAccent">#448AFF</color>
     <color name="alphaBlack">#8c000000</color>
     <color name="white">#000</color>
