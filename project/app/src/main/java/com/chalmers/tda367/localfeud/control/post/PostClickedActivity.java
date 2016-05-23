@@ -80,10 +80,8 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     }
 
     private void initViews() {
-
         initRecyclerView();
         initSwipeRefreshLayout();
-
 
         writeCommentText = (EditText) findViewById(R.id.posttext);
         ImageButton postCommentButton = (ImageButton) findViewById(R.id.post_button);
@@ -91,8 +89,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         if (postCommentButton != null) {
             postCommentButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     if (!writeCommentText.getText().toString().isEmpty()) {
                         Comment comment = new Comment();
                         comment.setText(writeCommentText.getText().toString().trim().replaceAll("(\r?\n){3,}", "\r\n\r\n"));
@@ -115,6 +112,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                                 postClickedAdapter.changePostInAdapter(newPost);
                                 setPost(newPost);
                                 DataHandlerFacade.getCommentDataHandler().getList(post, refreshCommentsListener);
+                                scrollToBottom();
                             }
 
                             @Override
@@ -160,7 +158,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
     private void initSwipeRefreshLayout() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
 
-
         refreshCommentsListener = new AbstractDataResponseListener<List<Comment>>() {
             @Override
             public void onSuccess(List<Comment> data) {
@@ -194,7 +191,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
-
     }
 
     private String getErrorString(DataResponseError error) {
@@ -206,6 +202,10 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             default:
                 return getString(R.string.server_error_comment_msg);
         }
+    }
+
+    public void scrollToBottom() {
+        recyclerView.scrollToPosition(postClickedAdapter.getItemCount() - 1);
     }
 
     @Override
@@ -275,13 +275,10 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         final MenuItem sendChatRequestMenuItem = menu.getMenu().add(Menu.NONE, 2, Menu.NONE, R.string.send_chat_request);
         final MenuItem reportMenuItem = menu.getMenu().add(Menu.NONE, 3, Menu.NONE, R.string.report);
 
-        if (DataHandlerFacade.getMeDataHandler().getMe().getId() == post.getUser().getId())
-        {
+        if (DataHandlerFacade.getMeDataHandler().getMe().getId() == post.getUser().getId()) {
             menu.getMenu().removeItem(sendChatRequestMenuItem.getItemId());
             menu.getMenu().removeItem(reportMenuItem.getItemId());
-        }
-        else
-        {
+        } else {
             menu.getMenu().removeItem(deletePostMenuItem.getItemId());
         }
 
@@ -294,19 +291,13 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                 if (item.getItemId() == sendChatRequestMenuItem.getItemId()) {
                     sendChatRequest(post, post.getUser().getId());
                     return true;
-                }
-                else if (item.getItemId() == reportMenuItem.getItemId())
-                {
+                } else if (item.getItemId() == reportMenuItem.getItemId()) {
                     Snackbar.make(recyclerView, "Not implemented yet", Snackbar.LENGTH_LONG).show();
                     return true;
-                }
-                else if (item.getItemId() == deletePostMenuItem.getItemId())
-                {
+                } else if (item.getItemId() == deletePostMenuItem.getItemId()) {
                     Snackbar.make(recyclerView, "Not implemented yet", Snackbar.LENGTH_LONG).show();
                     return true;
-                }
-                else
-                {
+                } else {
                     return false;
                 }
             }
