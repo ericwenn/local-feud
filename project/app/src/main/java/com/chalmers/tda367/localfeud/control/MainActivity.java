@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     private BottomBar bottomBar;
     private Fragment currentFragment;
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private boolean isReceiverRegistered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,7 @@
 package com.chalmers.tda367.localfeud.control.chat;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,21 +14,29 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
+import com.chalmers.tda367.localfeud.control.notifications.IMessageListener;
+import com.chalmers.tda367.localfeud.control.notifications.MessageHandler;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
+import com.chalmers.tda367.localfeud.data.KnownUser;
 import com.chalmers.tda367.localfeud.data.User;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
+import com.chalmers.tda367.localfeud.data.handler.MeDataHandler;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.services.NotificationFacade;
+import com.chalmers.tda367.localfeud.util.MapEntry;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 
 /**
  * Created by Daniel Ahlqvist on 2016-05-03.
  */
-public class ChatActiveActivity extends AppCompatActivity implements ChatActiveAdapter.AdapterCallback {
+public class ChatActiveActivity extends AppCompatActivity implements ChatActiveAdapter.AdapterCallback, IMessageListener {
 
     private static final String TAG = "ChatActiveActivity";
 
@@ -50,7 +59,39 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     @Override
     protected void onResume() {
         super.onResume();
+
+        registerAsMessageListener();
+
         initViews();
+    }
+
+    private void registerAsMessageListener(){
+        //Register this as a listener for messages
+        MapEntry<String, Object> data = new MapEntry<String, Object>(MessageHandler.CHAT_MESSAGE_SENDER_ID, getCounterpartOfChat());
+        NotificationFacade.getInstance().getMessageHandler().addMessageListener(MessageHandler.CHAT_MESSAGE_RECIEVED, data, this);
+    }
+
+    private void unregisterAsMessageListener(){
+        //Unregister this as a listener for messages
+        MapEntry<String, Object> data = new MapEntry<String, Object>(MessageHandler.CHAT_MESSAGE_SENDER_ID, getCounterpartOfChat());
+        NotificationFacade.getInstance().getMessageHandler().removeMessageListener(MessageHandler.CHAT_MESSAGE_RECIEVED, data, this);
+    }
+
+    private int getCounterpartOfChat(){
+        int userid = -1;
+
+        for (KnownUser user : chat.getUsers()){
+            if (user.getId() != MeDataHandler.getInstance().getMe().getId()){
+                userid = user.getId();
+                break;
+            }
+        }
+
+        if (userid == -1){
+            throw new Resources.NotFoundException("Second part of chat not found.");
+        }
+
+        return userid;
     }
 
     private void initViews() {
@@ -148,5 +189,14 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         chatMessageList.scrollToPosition(chatActiveAdapter.getItemCount()-1);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterAsMessageListener();
+    }
 
+    @Override
+    public void onMessageRecieved(Map<String, Object> data) {
+        Log.d(TagHandler.MAIN_TAG, "Message recieved in ChatActive");
+    }
 }

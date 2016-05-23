@@ -36,7 +36,7 @@ public class MessageHandler implements IMessageHandler {
     public static final String CHAT_MESSAGE_RECIEVED = "chat_message_recieved";
 
     // Message data keys
-    public static final String CHAT_MESSAGE_SENDER_ID = "";
+    public static final String CHAT_MESSAGE_SENDER_ID = "user_id";
 
     private static final MapEntry<String, Object> EMPTY_PAIR = new MapEntry<>(null, null);
 
