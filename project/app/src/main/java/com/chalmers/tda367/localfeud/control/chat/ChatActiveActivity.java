@@ -69,8 +69,6 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     private void registerAsMessageListener(){
         int counterPartUserId = chat.getFirstCounterPart(MeDataHandler.getInstance().getMe().getId()).getId();
 
-        Log.d(TagHandler.MAIN_TAG, chat.getFirstCounterPart(MeDataHandler.getInstance().getMe().getId()).getFirstName());
-
         //Register this as a listener for messages
         MapEntry<String, Object> data = new MapEntry<String, Object>(MessageHandler.CHAT_MESSAGE_SENDER_ID, counterPartUserId);
         NotificationFacade.getInstance().getMessageHandler().addMessageListener(MessageHandler.CHAT_MESSAGE_RECIEVED, data, this);
