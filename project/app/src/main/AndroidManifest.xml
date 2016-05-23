@@ -39,7 +39,6 @@
         <activity
             android:name=".control.post.PostClickedActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateVisible|adjustResize"
             android:parentActivityName=".control.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
@@ -51,7 +50,6 @@
             android:label="@string/app_name" />
         <activity
             android:name=".control.chat.ChatActiveActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"
             android:label="@string/app_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
