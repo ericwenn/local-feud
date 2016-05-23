@@ -91,6 +91,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 adapterCallback.onLikeClick(post, holder.postItemLikeButton, holder.postItemNbrLikesTextView);
             }
         });
+        holder.postItemMoreButton.setVisibility(View.GONE);
         holder.postItemMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

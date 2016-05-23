@@ -30,6 +30,7 @@
             android:name=".control.post.NewPostActivity"
             android:label="@string/app_name"
             android:parentActivityName=".control.MainActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
