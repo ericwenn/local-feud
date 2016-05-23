@@ -1,7 +1,6 @@
 package com.chalmers.tda367.localfeud.control.chat;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,8 +17,6 @@ import com.chalmers.tda367.localfeud.control.notifications.IMessageListener;
 import com.chalmers.tda367.localfeud.control.notifications.MessageHandler;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
-import com.chalmers.tda367.localfeud.data.KnownUser;
-import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.User;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.MeDataHandler;
@@ -68,8 +65,6 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
 
     private void registerAsMessageListener(){
         int counterPartUserId = chat.getFirstCounterPart(MeDataHandler.getInstance().getMe().getId()).getId();
-
-        Log.d(TagHandler.MAIN_TAG, chat.getFirstCounterPart(MeDataHandler.getInstance().getMe().getId()).getFirstName());
 
         //Register this as a listener for messages
         MapEntry<String, Object> data = new MapEntry<String, Object>(MessageHandler.CHAT_MESSAGE_SENDER_ID, counterPartUserId);
