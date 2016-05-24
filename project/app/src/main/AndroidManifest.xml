@@ -52,7 +52,8 @@
             android:value="@string/facebook_app_id" />
         <activity
             android:name=".control.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/LightAppTheme"/>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -72,7 +73,8 @@
             android:name=".control.post.PostClickedActivity"
             android:label="@string/app_name"
             android:parentActivityName=".control.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/LightAppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".control.MainActivity" />

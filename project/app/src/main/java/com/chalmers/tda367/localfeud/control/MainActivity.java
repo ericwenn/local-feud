@@ -1,6 +1,6 @@
 package com.chalmers.tda367.localfeud.control;
 
-import android.content.BroadcastReceiver;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -25,9 +26,9 @@ import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Like;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.services.NotificationFacade;
-import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.services.NotificationFacade;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -111,12 +112,17 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     }
 
     @Override
-    public void onPostClick(Post post) {
+    public void onPostClick(Post post, CardView view) {
         Intent i = new Intent(getApplicationContext(), PostClickedActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("post", post);
         i.putExtras(bundle);
-        startActivity(i);
+
+        startActivity(i,
+                ActivityOptions.makeSceneTransitionAnimation(this,
+                        view,
+                        getString(R.string.post_transition_target))
+                        .toBundle());
     }
 
     @Override

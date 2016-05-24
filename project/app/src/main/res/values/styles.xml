@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/feedColorPrimary</item>
         <item name="colorPrimaryDark">@color/feedColorPrimaryDark</item>
         <item name="colorAccent">@color/feedColorAccent</item>
+        <item name="android:windowContentTransitions">true</item>
+
     </style>
     <style name="SplashTheme" parent="MyAppTheme">
         <item name="android:windowBackground">@drawable/splash_drawable</item>

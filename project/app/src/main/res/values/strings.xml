@@ -22,6 +22,10 @@
     <string name="latest_messages">Latest</string>
     <string name="nearest_messages">Nearest</string>
 
+    <!--Transitions-->
+    <string name="post_transition_start">post_start</string>
+    <string name="post_transition_target">post_target</string>
+
     <!--Error Messages-->
     <string name="unauthorized_error_msg">You need to be signed in.</string>
     <!--Post Related-->

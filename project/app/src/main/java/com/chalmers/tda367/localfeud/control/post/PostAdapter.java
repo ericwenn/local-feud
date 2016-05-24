@@ -37,13 +37,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private final Context context;
     private final Comparator<Post> comparator;
     private final LayoutInflater inflater;
+    private final String transitionName;
     private AdapterCallback adapterCallback;
 
     private final ArrayList<Post> postList = new ArrayList<>();
 
-    public PostAdapter(Context context, Comparator<Post> comparator) {
+    public PostAdapter(Context context, Comparator<Post> comparator, String transitionName) {
         this.context = context;
         this.comparator = comparator;
+        this.transitionName = transitionName;
         inflater = LayoutInflater.from(context);
 
         try {
@@ -69,6 +71,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         String distance = DistanceString.getDistanceString(context, post.getDistance());
         holder.postItemDistanceTextView.setText(distance);
         holder.postItemDistanceTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
+        holder.holderLayout.setTransitionName(context.getString(R.string.post_transition_start) + transitionName + "_" + position);
 
 
         holder.postItemTimeTextView.setText(DateString.convert(post.getDatePosted()));
@@ -81,7 +84,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.holderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adapterCallback.onPostClick(post);
+                adapterCallback.onPostClick(post, holder.holderLayout);
             }
         });
         holder.postItemLikeButton.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +186,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     public interface AdapterCallback {
-        void onPostClick(Post post);
+        void onPostClick(Post post, CardView view);
 
         void onLikeClick(Post post, ImageButton imageButton, final TextView likesDisplay);
 
