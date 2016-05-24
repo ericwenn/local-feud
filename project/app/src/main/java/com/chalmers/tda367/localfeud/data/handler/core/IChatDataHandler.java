@@ -23,6 +23,8 @@ public interface IChatDataHandler {
      */
     void getList(DataResponseListener<List<Chat>> listener);
 
+    void getSingle(int chatid, DataResponseListener<Chat> listener);
+
     void addChangeListener( DataChangeListener<Chat> listener );
 
     void triggerChange( Chat oldValue, Chat newValue );

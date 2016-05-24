@@ -91,14 +91,13 @@
             android:label="@string/app_name" />
         <activity
             android:name=".control.chat.ChatActiveActivity"
+            android:parentActivityName="com.chalmers.tda367.localfeud.control.MainActivity">
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:label="@string/app_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".control.MainActivity" />
         </activity>
-        <!-- END ACTIVITY HIERARCHY -->
-
         <activity
             android:name=".control.authentication.AuthenticationFlowActivity"
             android:label="@string/app_name"
@@ -108,6 +107,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- END ACTIVITY HIERARCHY -->
+
     </application>
 
 </manifest>

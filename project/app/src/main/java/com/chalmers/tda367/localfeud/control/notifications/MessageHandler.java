@@ -96,31 +96,17 @@ public class MessageHandler implements IMessageHandler {
         Intent resultIntent = new Intent(context, ChatActiveActivity.class);
 
         // TODO: get the real chat
-        Chat chat = new Chat();
+        /*Chat chat = new Chat();
         chat.setId(38);
         List<KnownUser> list = new ArrayList<>();
         list.add(new KnownUser(19, 10, User.Gender.male, "Alfred", "Björk"));
         chat.setUsers(list);
         chat.setStatus(Chat.Status.pending);
         chat.setDateStarted("2016-05-20T16:14:22+02:00");
-        chat.setLastActivity("2016-05-24T08:53:10+02:00");
-
-        /*Chat id: 38
-        Status: pending
-        Users: [First name:Alfred
-        Last name:Björk
-        Gender:male
-        Age:19
-        Id:10
-        Href:null]
-        Href: null
-        Date started: 2016-05-20T16:14:22+02:00
-        Unread messages: 0
-        Last message: Hej
-        Last activity: 2016-05-24T08:53:10+02:00]*/
+        chat.setLastActivity("2016-05-24T08:53:10+02:00");*/
 
         Bundle bundle = new Bundle();
-        bundle.putSerializable("chat", chat);
+        bundle.putInt("chatid", chatMessage.getChatId());
         resultIntent.putExtras(bundle);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);

@@ -29,7 +29,7 @@ public class RestResponseHandler extends AsyncHttpResponseHandler implements Res
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
         Log.e(TagHandler.MAIN_TAG, "Failure. Status code:" + statusCode);
-
+        Log.e(TagHandler.MAIN_TAG, new String(responseBody));
         String responseString;
 
         if(responseBody == null || responseBody.length == 0){

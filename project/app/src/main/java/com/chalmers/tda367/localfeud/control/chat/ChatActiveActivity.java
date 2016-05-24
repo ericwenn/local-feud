@@ -52,7 +52,25 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         super.onCreate(savedInstanceState);
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-        chat = (Chat) bundle.getSerializable("chat");
+
+        if (bundle.containsKey("chatid") && chat == null){
+            DataHandlerFacade.getChatDataHandler().getSingle(bundle.getInt("chatid"), new AbstractDataResponseListener<Chat>() {
+                @Override
+                public void onSuccess(Chat data) {
+                    chat = data;
+                    registerAsMessageListener();
+                    initViews();
+                }
+
+                @Override
+                public void onFailure(DataResponseError error, String errormessage) {
+                    finish();
+                }
+            });
+        }else if (chat == null){
+            chat = (Chat) bundle.getSerializable("chat");
+        }
+
         setTheme(R.style.ChatAppTheme);
         setContentView(R.layout.activity_active_chat);
     }
@@ -61,11 +79,10 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     protected void onResume() {
         super.onResume();
 
-        registerAsMessageListener();
-
-        Log.d(TagHandler.MAIN_TAG, Integer.toString(chat.getId()));
-
-        initViews();
+        if (chat != null){
+            registerAsMessageListener();
+            initViews();
+        }
     }
 
     private void registerAsMessageListener(){
@@ -119,17 +136,18 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
 
                     if (!messageText.isEmpty())
                     {
-                        final ChatMessage message = new ChatMessage(chat, messageText, new User(DataHandlerFacade.getMeDataHandler().getMe()));
+                        final ChatMessage message = new ChatMessage(chat.getId(), messageText, new User(DataHandlerFacade.getMeDataHandler().getMe()));
 
                         chatMessageInput.setText("");
                         DataHandlerFacade.getChatMessageDataHandler().send(chat, message, new AbstractDataResponseListener<ChatMessage>() {
                             @Override
                             public void onSuccess(ChatMessage data) {
+                                Log.d(TagHandler.MAIN_TAG, data.toString());
                                 Chat oldChat = chat.clone();
-                                chat.setLastMessage(message.getText());
+                                chat.setLastMessage(data.getText());
                                 chat.setLastActivity(chat.getStringFromDate(Calendar.getInstance()));
                                 DataHandlerFacade.getChatDataHandler().triggerChange(oldChat, chat);
-                                refreshMessages();
+                                addChatMessageToAdapter(data);
                             }
 
                             @Override
@@ -200,10 +218,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         unregisterAsMessageListener();
     }
 
-    @Override
-    public void onMessageRecieved(Map<String, Object> data) {
-        final ChatMessage chatMessage = (ChatMessage) data.get("object");
-
+    protected void addChatMessageToAdapter(final ChatMessage chatMessage){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -211,5 +226,17 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
                 scrollToBottom();
             }
         });
+    }
+
+    @Override
+    public void onMessageRecieved(Map<String, Object> data) {
+        final ChatMessage chatMessage = (ChatMessage) data.get("object");
+
+        Chat oldChat = chat.clone();
+        chat.setLastMessage(chatMessage.getText());
+        chat.setLastActivity(chat.getStringFromDate(Calendar.getInstance()));
+        DataHandlerFacade.getChatDataHandler().triggerChange(oldChat, chat);
+
+        addChatMessageToAdapter(chatMessage);
     }
 }
