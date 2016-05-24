@@ -44,8 +44,10 @@
             android:background="@color/dividerGray" />
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/post_item_like_layout"
+            android:layout_width="56dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_below="@id/post_item_top_divider">
         <ImageButton
             android:id="@+id/post_item_like_button"
@@ -62,7 +64,7 @@
 
         <TextView
             android:id="@+id/post_item_nbr_of_likes"
-            android:layout_width="56dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/post_item_like_button"
             android:layout_alignParentEnd="true"
@@ -73,13 +75,14 @@
 
         <TextView
             android:id="@+id/post_item_msg_textview"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/post_item_top_divider"
             android:padding="@dimen/default_margin"
-            android:text="@string/app_name"
+            android:text="@string/really_long_text"
             android:textColor="@color/defaultTextColor"
-            android:textSize="@dimen/card_post_message_text_size" />
+            android:textSize="@dimen/card_post_message_text_size"
+            android:layout_toStartOf="@id/post_item_like_layout"/>
 
         <TextView
             android:id="@+id/post_item_comment_textview"

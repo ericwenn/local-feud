@@ -18,7 +18,7 @@
         android:id="@+id/not_me_chat_text"
         android:text="@string/dummy_text"
         android:padding="@dimen/default_margin"
-        android:background="@color/feedColorPrimary"
+        android:background="@color/chatNotMeColor"
         android:textIsSelectable="true"
         android:textColor="@android:color/white"
         android:maxWidth="300dp"

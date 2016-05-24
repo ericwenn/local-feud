@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         bottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.feedColorPrimary));
         bottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.chatColorPrimary));
         bottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.meColorPrimary));
+        bottomBar.setTextAppearance(R.style.BottomBarBadge_Text);
     }
 
     private void switchFragment(int menuItemId) {

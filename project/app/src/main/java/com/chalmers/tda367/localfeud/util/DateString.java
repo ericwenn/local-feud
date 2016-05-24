@@ -7,10 +7,8 @@ import java.util.concurrent.TimeUnit;
  * Created by ericwenn on 4/26/16.
  */
 public class DateString {
-    public static String convert(Calendar c) throws NullPointerException {
-
-
-
+    public static String convert(Calendar c) throws NullPointerException
+    {
         Calendar current = Calendar.getInstance();
         long timeElapsedMs = current.getTimeInMillis() - c.getTimeInMillis();
 
@@ -46,8 +44,8 @@ public class DateString {
             return "1 hour ago";
         }
 
-        // More than 5 minutes ago
-        if( TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) > 2) {
+        // More than 1 minutes ago
+        if( TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) >= 1) {
             return TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) + " minutes ago";
         }
 

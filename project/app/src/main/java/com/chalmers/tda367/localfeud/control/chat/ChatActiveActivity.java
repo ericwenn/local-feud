@@ -1,7 +1,6 @@
 package com.chalmers.tda367.localfeud.control.chat;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,8 +17,6 @@ import com.chalmers.tda367.localfeud.control.notifications.IMessageListener;
 import com.chalmers.tda367.localfeud.control.notifications.MessageHandler;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
-import com.chalmers.tda367.localfeud.data.KnownUser;
-import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.User;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.MeDataHandler;
@@ -28,6 +25,7 @@ import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.services.NotificationFacade;
 import com.chalmers.tda367.localfeud.util.MapEntry;
 import com.chalmers.tda367.localfeud.util.TagHandler;
+import com.facebook.login.widget.ProfilePictureView;
 
 import java.util.Calendar;
 import java.util.List;
@@ -47,6 +45,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     private EditText chatMessageInput;
     private ChatActiveAdapter chatActiveAdapter;
     private Chat chat;
+    private ProfilePictureView profilePictureView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +101,10 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
                 }
             });
         }
+
+        /*profilePictureView = (ProfilePictureView) findViewById(R.id.profilepic2);
+
+        profilePictureView.setProfileId("694967503939103");*/
 
         chatMessageList.setLayoutManager(new LinearLayoutManager(this));
         chatMessageList.setHasFixedSize(true);
