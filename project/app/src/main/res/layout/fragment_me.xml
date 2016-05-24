@@ -47,6 +47,7 @@
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/me_logout_btn"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

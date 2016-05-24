@@ -3,6 +3,7 @@ package com.chalmers.tda367.localfeud.control.me;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -15,7 +16,7 @@ import android.view.ViewGroup;
 import com.chalmers.tda367.localfeud.R;
 import com.facebook.login.widget.LoginButton;
 
-public class MeFragment extends Fragment {
+public class MeFragment extends PreferenceFragment {
 
     public MeFragment() {
 
@@ -23,6 +24,12 @@ public class MeFragment extends Fragment {
 
     public static MeFragment newInstance() {
         return new MeFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.settings);
     }
 
     @Override
@@ -41,6 +48,8 @@ public class MeFragment extends Fragment {
     }
 
     private void initViews(View view, @Nullable Bundle savedInstanceState) {
+        addPreferencesFromResource(R.xml.settings);
+
         CoordinatorLayout root = (CoordinatorLayout) view.findViewById(R.id.me_root);
 
         CollapsingToolbarLayout collapsingToolbarLayout =

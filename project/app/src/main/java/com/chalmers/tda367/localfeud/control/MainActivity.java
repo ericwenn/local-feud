@@ -1,5 +1,6 @@
 package com.chalmers.tda367.localfeud.control;
 
+import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
