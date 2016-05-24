@@ -98,4 +98,13 @@ public class User implements Serializable {
         this.href = href;
     }
 
+    @Override
+    public String toString(){
+        return "First name:" + firstname + "\n" +
+                "Last name:" + lastname + "\n" +
+                "Gender:" + gender + "\n" +
+                "Age:" + age + "\n" +
+                "Id:" + id + "\n" +
+                "Href:" + href;
+    }
 }

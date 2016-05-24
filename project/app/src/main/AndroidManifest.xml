@@ -19,6 +19,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
+
+        <!-- START GCM -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -47,6 +49,9 @@
             android:exported="false"
             android:enabled="true">
         </service>
+        <!-- END GCM -->
+
+        <!-- START FACEBOOK -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -59,6 +64,9 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- END FACEBOOK -->
+
+        <!-- START ACTIVITY HIERARCHY -->
         <activity
             android:name=".control.post.NewPostActivity"
             android:label="@string/app_name"
@@ -84,6 +92,8 @@
             android:label="@string/app_name" />
         <activity
             android:name=".control.chat.ChatActiveActivity"
+            android:parentActivityName=".control.MainActivity">
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:label="@string/app_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -98,6 +108,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- END ACTIVITY HIERARCHY -->
+
     </application>
 
 </manifest>

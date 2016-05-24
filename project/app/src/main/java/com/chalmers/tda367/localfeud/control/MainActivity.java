@@ -1,6 +1,7 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.app.ActivityOptions;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -54,6 +55,26 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
         setContentView(R.layout.activity_main);
         initBottomBar(savedInstanceState);
+
+        Intent intent = this.getIntent();
+        Bundle intentExtras = intent.getExtras();
+
+        // This is if MainActivity is started from a notification
+        if (intentExtras != null && intentExtras.containsKey("chatid")){
+            DataHandlerFacade.getChatDataHandler().getSingle(intentExtras.getInt("chatid"), new AbstractDataResponseListener<Chat>() {
+                @Override
+                public void onSuccess(Chat data) {
+                    onChatClicked(data);
+                    switchFragment(R.id.chat_item);
+                    bottomBar.selectTabAtPosition(1,true);
+                }
+
+                @Override
+                public void onFailure(DataResponseError error, String errormessage) {
+                    showSnackbar("Failed to load chat: " + errormessage);
+                }
+            });
+        }
 
     }
 

@@ -1,5 +1,7 @@
 package com.chalmers.tda367.localfeud.data.handler;
 
+import android.util.Log;
+
 import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseListener;
@@ -7,6 +9,7 @@ import com.chalmers.tda367.localfeud.services.IResponseAction;
 import com.chalmers.tda367.localfeud.services.IRestClient;
 import com.chalmers.tda367.localfeud.services.RestClient;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,7 @@ public abstract class AbstractDataHandler {
 
 
 
-        public void onFailure( int statusCode, String responseBody ) {
+        public void onFailure( int statusCode, String responseError ) {
             // översätta statuscode till ett DataResponseError
             // Eventuellt läsa av error message från responsebody
 
@@ -54,7 +57,7 @@ public abstract class AbstractDataHandler {
                     err = DataResponseError.REALLYBAD;
             }
 
-            listener.onFailure(err, responseBody);
+            listener.onFailure(err, responseError);
         }
     }
 
