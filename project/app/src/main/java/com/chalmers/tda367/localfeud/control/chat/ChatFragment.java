@@ -69,7 +69,6 @@ public class ChatFragment extends Fragment {
         DataHandlerFacade.getChatDataHandler().getList(new AbstractDataResponseListener<List<Chat>>() {
             @Override
             public void onSuccess(List<Chat> data) {
-                Log.d(TagHandler.MAIN_TAG, data.toString());
                 swipeRefreshLayout.setRefreshing(false);
                 Collections.reverse(data);
                 chatListAdapter.addChatListToAdapter( data );
