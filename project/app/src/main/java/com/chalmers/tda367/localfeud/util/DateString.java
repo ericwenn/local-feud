@@ -44,8 +44,8 @@ public class DateString {
             return "1 hour ago";
         }
 
-        // More than 5 minutes ago
-        if( TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) > 1) {
+        // More than 1 minutes ago
+        if( TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) >= 1) {
             return TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) + " minutes ago";
         }
 
