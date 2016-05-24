@@ -53,23 +53,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
 
-        if (bundle.containsKey("chatid") && chat == null){
-            DataHandlerFacade.getChatDataHandler().getSingle(bundle.getInt("chatid"), new AbstractDataResponseListener<Chat>() {
-                @Override
-                public void onSuccess(Chat data) {
-                    chat = data;
-                    registerAsMessageListener();
-                    initViews();
-                }
-
-                @Override
-                public void onFailure(DataResponseError error, String errormessage) {
-                    finish();
-                }
-            });
-        }else if (chat == null){
-            chat = (Chat) bundle.getSerializable("chat");
-        }
+        chat = (Chat) bundle.getSerializable("chat");
 
         setTheme(R.style.ChatAppTheme);
         setContentView(R.layout.activity_active_chat);
@@ -78,12 +62,10 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     @Override
     protected void onResume() {
         super.onResume();
-
-        if (chat != null){
-            registerAsMessageListener();
-            initViews();
-        }
+        registerAsMessageListener();
+        initViews();
     }
+
 
     private void registerAsMessageListener(){
         int counterPartUserId = chat.getFirstCounterPart(MeDataHandler.getInstance().getMe().getId()).getId();

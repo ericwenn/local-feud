@@ -93,7 +93,7 @@ public class MessageHandler implements IMessageHandler {
     }
 
     private PendingIntent getChatPendingIntent(ChatMessage chatMessage){
-        Intent resultIntent = new Intent(context, ChatActiveActivity.class);
+        Intent resultIntent = new Intent(context, MainActivity.class);
 
         // TODO: get the real chat
         /*Chat chat = new Chat();
@@ -111,7 +111,7 @@ public class MessageHandler implements IMessageHandler {
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         // Adds the back stack
-        stackBuilder.addParentStack(ChatActiveActivity.class);
+        //stackBuilder.addParentStack(ChatActiveActivity.class);
         // Adds the Intent to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
         // Gets a PendingIntent containing the entire back stack
