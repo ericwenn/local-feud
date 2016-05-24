@@ -22,6 +22,7 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.Collections;
 import java.util.List;
@@ -68,6 +69,7 @@ public class ChatFragment extends Fragment {
         DataHandlerFacade.getChatDataHandler().getList(new AbstractDataResponseListener<List<Chat>>() {
             @Override
             public void onSuccess(List<Chat> data) {
+                Log.d(TagHandler.MAIN_TAG, data.toString());
                 swipeRefreshLayout.setRefreshing(false);
                 Collections.reverse(data);
                 chatListAdapter.addChatListToAdapter( data );
