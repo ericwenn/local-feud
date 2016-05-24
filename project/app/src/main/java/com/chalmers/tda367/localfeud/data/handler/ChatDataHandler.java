@@ -48,6 +48,10 @@ public class ChatDataHandler extends AbstractDataHandler implements IChatDataHan
         getClient().get("chats/", new RestResponseAction(listener));
     }
 
+    public void getSingle(int chatID, DataResponseListener<Chat> listener){
+        getClient().get("chats/" + chatID + "/", new RestResponseAction(listener));
+    }
+
     @Override
     public void addChangeListener(DataChangeListener<Chat> listener) {
         this.listeners.add(listener);
