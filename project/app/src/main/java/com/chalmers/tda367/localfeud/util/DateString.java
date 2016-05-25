@@ -7,6 +7,13 @@ import java.util.concurrent.TimeUnit;
  * Created by ericwenn on 4/26/16.
  */
 public class DateString {
+
+    /**
+     * Selects a string to represent the time that has elapsed since a given time.
+     *
+     * @param c a calendar object which holds the time and date to compare the current time with.
+     * @return a string which will be displayed to the user.
+     */
     public static String convert(Calendar c) throws NullPointerException
     {
         Calendar current = Calendar.getInstance();
