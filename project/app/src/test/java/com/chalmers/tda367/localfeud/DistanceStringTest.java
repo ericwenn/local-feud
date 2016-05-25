@@ -2,6 +2,7 @@ package com.chalmers.tda367.localfeud;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
+import android.test.mock.MockContext;
 
 import com.chalmers.tda367.localfeud.util.DistanceString;
 
