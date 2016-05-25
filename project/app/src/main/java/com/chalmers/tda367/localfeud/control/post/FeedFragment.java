@@ -55,7 +55,7 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
             public int compare(Post lhs, Post rhs) {
                 return rhs.getId() - lhs.getId();
             }
-        });
+        }, "latest");
 
         // Sort on distance
         fragment.postAdapter2 = new PostAdapter(context, new Comparator<Post>() {
@@ -63,7 +63,7 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
             public int compare(Post lhs, Post rhs) {
                 return lhs.getDistance() - rhs.getDistance();
             }
-        });
+        }, "nearest");
 
         fragment.postFragment = PostFragment.newInstance(fragment.postAdapter, fragment);
         fragment.postFragment.setName(context.getResources().getString(R.string.latest_messages));

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="fragmentBackground">#cccccc</color>
-    <color name="feedColorPrimary">#ffffff</color>
-    <color name="feedColorPrimaryDark">#000000</color>
+    <color name="feedColorPrimary">#f5f5f5</color>
+    <color name="feedColorPrimaryDark">#e0e0e0</color>
     <color name="defaultTextColor">#757575</color>
     <color name="feedColorAccent">#2979ff</color>
     <color name="chatColorPrimary">#8BC34A</color>
     <color name="chatColorPrimaryDark">#689F38</color>
     <color name="chatColorAccent">#795548</color>
     <color name="chatNotMeColor">#9ccc65</color>
-    <color name="meColorPrimary">#40c4ff</color>
-    <color name="meColorPrimaryDark">#0091ea</color>
-    <color name="meColorAccent">#448AFF</color>
+    <color name="meColorPrimary">#03A9F4</color>
+    <color name="meColorPrimaryDark">#0288D1</color>
+    <color name="meColorAccent">#FF9100</color>
     <color name="alphaBlack">#8c000000</color>
     <color name="white">#000</color>
     <color name="lightGrey">#bbbbbb</color>
