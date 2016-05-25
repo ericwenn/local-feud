@@ -27,10 +27,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Text om klassen
- *
- * @author David Söderberg
- * @since 16-04-11
+ *  Adapter used by RecyclerView in PostFragment.
+ *  Handles all binding from Post objects to post_list_items
+ *  Also controls all kind of changes in the list
  */
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
@@ -88,6 +87,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         // Distance
         int distanceColor = DistanceColor.distanceColor(post.getDistance());
         int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
+
+//        Setting all data from post to the ViewHolder
         holder.postItemTopbar.setBackgroundColor(ContextCompat.getColor(context, distanceColor));
         String distance = DistanceString.getDistanceString(context, post.getDistance());
         holder.postItemDistanceTextView.setText(distance);

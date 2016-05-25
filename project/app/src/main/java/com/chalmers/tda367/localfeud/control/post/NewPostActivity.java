@@ -22,7 +22,8 @@ import com.chalmers.tda367.localfeud.services.Location;
 
 
 /**
- * Created by Daniel Ahlqvist on 2016-04-14.
+ *  A Activity which is displayed when user wants
+ *  to create a new Post.
  */
 public class NewPostActivity extends AppCompatActivity {
     private EditText postEditText;
@@ -98,6 +99,7 @@ public class NewPostActivity extends AppCompatActivity {
                     post.setLocation(new Position(Location.getInstance().getLocation()));
                     post.setContent(content);
 
+//                    Checking so user doesn't post a empty post
                     if(!content.getText().equals(""))
                     {
                         DataHandlerFacade.getPostDataHandler().create(post, new AbstractDataResponseListener<Post>() {

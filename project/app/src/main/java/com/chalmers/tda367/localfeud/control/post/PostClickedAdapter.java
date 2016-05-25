@@ -26,7 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Daniel Ahlqvist on 2016-04-18.
+ *  Adapter used by RecyclerView in PostClickedActivity.
+ *  Handles all binding from Post and Comment objects to
+ *  post_list_items and comment_list_items
+ *  Also controls all kind of changes in the list
  */
 public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final ArrayList<? super GeneralPost> comments = new ArrayList<>();
