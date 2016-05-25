@@ -10,7 +10,6 @@ public class DateString {
     public static String convert(Calendar c) throws NullPointerException {
 
 
-
         Calendar current = Calendar.getInstance();
         long timeElapsedMs = current.getTimeInMillis() - c.getTimeInMillis();
 
@@ -19,7 +18,7 @@ public class DateString {
         if( TimeUnit.MILLISECONDS.toDays(timeElapsedMs) > 13 ) {
             return (int)Math.ceil((double) TimeUnit.MILLISECONDS.toDays(timeElapsedMs) / 7) + " weeks ago";
         }
-
+        
         // One week ago
         if( TimeUnit.MILLISECONDS.toDays(timeElapsedMs) > 6) {
             return "1 week ago";

@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     private BottomBar bottomBar;
     private Fragment currentFragment;
+    private PreferenceFragment settingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,9 +98,9 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 window.setStatusBarColor(ContextCompat.getColor(this, R.color.chatColorPrimaryDark));
                 currentFragment = ChatFragment.newInstance(this);
         } else if (menuItemId == R.id.me_item) {
-            if (currentFragment == null || currentFragment.getClass() != MeFragment.class)
+            if (currentFragment == null || settingsFragment.getClass() != MeFragment.class)
                 window.setStatusBarColor(ContextCompat.getColor(this, R.color.meColorPrimaryDark));
-                currentFragment = MeFragment.newInstance();
+                settingsFragment = MeFragment.newInstance();
         }
         transaction.replace(R.id.main_root, currentFragment);
         transaction.commit();
