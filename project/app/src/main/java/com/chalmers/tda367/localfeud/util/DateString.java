@@ -45,8 +45,13 @@ public class DateString {
         }
 
         // More than 1 minutes ago
-        if( TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) >= 1) {
+        if( TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) > 1) {
             return TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) + " minutes ago";
+        }
+
+        // 1 minute ago
+        if( TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) > 0) {
+            return TimeUnit.MILLISECONDS.toMinutes(timeElapsedMs) + " minute ago";
         }
 
         // Just now
