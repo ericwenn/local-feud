@@ -30,6 +30,10 @@ import com.github.fabtransitionactivity.SheetLayout;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ *  A Fragment that's controlling both PostFragments
+ *  in the TabLayout.
+ */
 public class FeedFragment extends Fragment implements PostFragment.FragmentCallback, SheetLayout.OnFabAnimationEndListener {
 
     private PostAdapter postAdapter;
