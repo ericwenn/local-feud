@@ -7,12 +7,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 
 /**
- * Text om klassen
- *
- * @author David Söderberg
- * @since 16-04-18
+ *  A FragmentStatePagerAdapter with
+ *  a custom addPage function
+ *  for adding Fragments to the adapter.
  */
 public class FeedPagerAdapter extends FragmentStatePagerAdapter {
+
+//    List of fragments being hold by the adapter
     private final ArrayList<Fragment> pages = new ArrayList<>();
 
     public FeedPagerAdapter(FragmentManager fm) {
@@ -29,6 +30,10 @@ public class FeedPagerAdapter extends FragmentStatePagerAdapter {
         return pages.size();
     }
 
+    /**
+     *  Function for adding a new fragment to the adapter.
+     *  @param fragment the page that should be added
+     */
     public void addPage(Fragment fragment) {
         pages.add(fragment);
     }
