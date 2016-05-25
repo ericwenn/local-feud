@@ -9,6 +9,14 @@ import com.chalmers.tda367.localfeud.R;
  */
 public class DistanceString
 {
+    /**
+     * Selects a string to represent the distance between the user device and the post
+     * coordinates.
+     *
+     * @param context the context which stores the resource where the strings could be found.
+     * @param distance the distance between the user device and the post coordinates.
+     * @return a string which will be displayed to the user.
+     */
     public static String getDistanceString(Context context, int distance)
     {
         if (distance < 500)

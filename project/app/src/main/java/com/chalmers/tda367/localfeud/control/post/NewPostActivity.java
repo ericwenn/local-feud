@@ -32,6 +32,11 @@ public class NewPostActivity extends AppCompatActivity {
 
     private CoordinatorLayout root;
 
+    /**
+     * Binds a layout XML file to the activity and starts the initialization of the activity
+     *
+     * @param savedInstanceState an old state of the activity, used to resume a previous instance.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +44,9 @@ public class NewPostActivity extends AppCompatActivity {
         initViews();
     }
 
+    /**
+     * Binds the objects in the layout XML file to variables in the activity class.
+     */
     private void initViews() {
         ImageButton backButton = (ImageButton) findViewById(R.id.new_post_back_btn);
         if (backButton != null) {
@@ -61,6 +69,10 @@ public class NewPostActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
+            /**
+             * Updates the text view which displays the number of characters the input
+             * text field contains.
+             */
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {

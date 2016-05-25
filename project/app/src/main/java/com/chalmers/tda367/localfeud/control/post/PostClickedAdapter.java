@@ -35,6 +35,12 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private AdapterCallback adapterCallback;
     private Post post;
 
+    /**
+     * Constructor.
+     *
+     * @param context the current state of the object it is called from.
+     * @param post the post from which the adapter will show data
+     */
     public PostClickedAdapter(Context context, Post post) {
         this.context = context;
         this.post = post;
@@ -49,6 +55,14 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+    /**
+     * Determines if the adapter will be used for a post or for a comment.
+     *
+     * @param parent the view group in which the adapter will be placed
+     * @param viewType what kind of object the adapter will show.
+     *                 0 represents a post and 1 represents a comment.
+     * @return view holder for post or comment, which will be used in a recycler view.
+     */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
@@ -61,6 +75,13 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+    /**
+     * Binds the data of a comment or post object to a view holder.
+     *
+     * @param holder the basic view holder in which the data will be placed.
+     *               There are two different types: one for posts and one for comments.
+     * @param position the position of the post or comment in the comments list.
+     */
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
@@ -116,6 +137,13 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
+    /**
+     * Determines it the object at a given position in the comments list is an instance of
+     * post or comment.
+     *
+     * @param position the position in the list that will be checked.
+     * @return an integer value. 0 represents a post and 1 represents a comment.
+     */
     @Override
     public int getItemViewType(int position) {
         if (comments.get(position).getClass() == Post.class) {
@@ -127,23 +155,42 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return -1;
     }
 
+    /**
+     * Replaces the post in the adapter with another post. Used to update the data in the
+     * post view holder, when a change is made in the comments list.
+     *
+     * @param newPost the (updated) post which will replace the current post of the adapter.
+     */
     public void changePostInAdapter(Post newPost) {
         post = newPost;
         comments.set(0, newPost);
         notifyItemChanged(0);
     }
 
+    /**
+     * Adds a new comment to the comments list
+     *
+     * @param comment the comment which will be added to the comments list.
+     */
     public void addCommentToAdapter(Comment comment) {
         comments.add(comment);
         notifyItemChanged(comments.size());
     }
 
+    /**
+     * Removes everything from the recycler view and adds the current post.
+     */
     private void clearAdapter() {
         comments.clear();
         comments.add(post);
         notifyDataSetChanged();
     }
 
+    /**
+     * Used to add all comments of a post to the comments list at the same time.
+     *
+     * @param comments the list of all comments on a post
+     */
     public void addCommentListToAdapter(final List<Comment> comments) {
         final int currentCount = this.comments.size();
         synchronized (this.comments) {
@@ -163,11 +210,20 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
+    /**
+     * Counts the number of objects in the comments list.
+     *
+     * @return the number of objects in the comments list.
+     */
     @Override
     public int getItemCount() {
         return comments.size();
     }
 
+    /**
+     * A class which is used to model a view holder for a comment. The variables are connected
+     * to the id values from the corresponding layout XML file.
+     */
     class CommentViewHolder extends RecyclerView.ViewHolder {
         private final TextView commentItemMsgTextView;
         private final TextView commentItemSenderTextView;
@@ -175,6 +231,11 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private final CardView holderLayout;
         private final ImageButton commentItemMoreButton;
 
+        /**
+         * Constructor.
+         *
+         * @param itemView the comment view which has been created using the layout XML file.
+         */
         public CommentViewHolder(View itemView)
         {
             super(itemView);
@@ -186,9 +247,11 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+    /**
+     * A class which is used to model a view holder for a post. The variables are connected
+     * to the id values from the corresponding layout XML file.
+     */
     class PostViewHolder extends RecyclerView.ViewHolder {
-
-//        ViewHolder för översta inlägget
         private final TextView postItemMsgTextView;
         private final TextView postItemSenderTextView;
         private final TextView postItemDistanceTextView;
@@ -200,6 +263,11 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private final ImageButton postItemMoreButton;
         private final FrameLayout postItemTopbar;
 
+        /**
+         * Constructor.
+         *
+         * @param itemView the post view which has been created using the layout XML file.
+         */
         public PostViewHolder(View itemView) {
             super(itemView);
 
@@ -217,12 +285,35 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public interface AdapterCallback {
+        /**
+         * Determines what will happen when the like button is pressed.
+         *
+         * @param post the post that has been liked.
+         * @param imageButton the like button which has been pressed.
+         * @param displayLikes the text view which displays the number of likes.
+         */
         void onLikeClick(Post post, ImageButton imageButton, TextView displayLikes);
 
+        /**
+         * Determines what will happen when the more button of a post is pressed.
+         *
+         * @param imageButton the more button which has been pressed.
+         */
         void onMoreClick(ImageButton imageButton);
 
+        /**
+         * Determines what will happen when the more button of a comment is pressed.
+         *
+         * @param comment the comment the more button belongs to
+         * @param imageButton the more button which has been pressed.
+         */
         void onCommentMoreClick(Comment comment, ImageButton imageButton);
 
+        /**
+         * Displays a snackbar with a message.
+         *
+         * @param text the text that will be displayed in the snackbar.
+         */
         void onShowSnackbar(String text);
     }
 }
