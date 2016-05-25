@@ -45,7 +45,12 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
     private final static String VIEW_PAGER_KEY = "viewPagerKey";
     private PostAdapter postAdapter2;
 
-
+    /**
+     *  Should be used for creating a new instance of FeedFragment,
+     *  since constructors of Fragments can't have any arguments
+     *  @param context from calling activity
+     *  @return a new instance of FeedFragment
+     */
     public static FeedFragment newInstance(Context context) {
         final FeedFragment fragment = new FeedFragment();
 
