@@ -215,7 +215,7 @@ public class PostClickedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     /**
      * Counts the number of objects in the comments list.
      *
-     * @return the number of comments in the comments list.
+     * @return the number of objects in the comments list.
      */
     @Override
     public int getItemCount() {
