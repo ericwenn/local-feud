@@ -72,6 +72,9 @@ public class Authentication implements IAuthentication{
         return map;
     }
 
+    public void logOut() {
+        token = null;
+    }
     @Override
     public boolean isLoggedIn() {
         return token != null;
