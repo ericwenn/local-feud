@@ -32,10 +32,7 @@ public class RestClient implements IRestClient {
         asyncClient = new AsyncHttpClient();
         syncClient = new SyncHttpClient();
 
-        HashMap<String,String> h = Authentication.getInstance().getRequestHeaders();
-        for(Map.Entry<String, String> m : h.entrySet()) {
-            asyncClient.addHeader(m.getKey(),m.getValue());
-        }
+
 
     }
 
@@ -120,9 +117,20 @@ public class RestClient implements IRestClient {
      */
     private AsyncHttpClient getClient()
     {
+        HashMap<String,String> h = Authentication.getInstance().getRequestHeaders();
+
         // Return the synchronous HTTP client when the thread is not prepared
-        if (Looper.myLooper() == null)
+        if (Looper.myLooper() == null){
+            for(Map.Entry<String, String> m : h.entrySet()) {
+                syncClient.addHeader(m.getKey(),m.getValue());
+            }
             return syncClient;
+        }
+
+        for(Map.Entry<String, String> m : h.entrySet()) {
+            asyncClient.addHeader(m.getKey(),m.getValue());
+        }
+
         return asyncClient;
     }
 
