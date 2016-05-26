@@ -1,8 +1,9 @@
 package com.chalmers.tda367.localfeud.control;
 
 import android.app.ActivityOptions;
-
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,8 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.services.Location;
+import com.chalmers.tda367.localfeud.services.LocationPermissionError;
 import com.chalmers.tda367.localfeud.services.NotificationFacade;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
@@ -51,6 +54,11 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         // Register this application for notifications
         if(NotificationFacade.checkPlayServices(this)){
             NotificationFacade.getInstance().registerForNotifications(this);
+        }
+        if (!Location.getInstance().isTracking()) {
+            try {
+                Location.getInstance().startTracking(getApplicationContext());
+            } catch (LocationPermissionError locationPermissionError) {}
         }
 
         setContentView(R.layout.activity_main);
@@ -237,6 +245,12 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     @Override
     protected void onDestroy() {
+        try {
+                SharedPreferences prefs = getSharedPreferences("com.chalmers.tda367.localfeud", Context.MODE_PRIVATE);
+            prefs.edit().putLong("last_latitude", Double.doubleToRawLongBits(Location.getInstance().getLocation().getLatitude()));
+            prefs.edit().putLong("last_longitude", Double.doubleToRawLongBits(Location.getInstance().getLocation().getLongitude()));
+            Location.getInstance().stopTracking();
+        } catch (LocationPermissionError locationPermissionError) {}
         super.onDestroy();
     }
 }
