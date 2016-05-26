@@ -292,4 +292,3 @@ Applikationen körs endast på enheter med Android som operativsystem. Versionen
 ##3 References
 
 ##APPENDIX
-![*Domänmodell*](https://raw.githubusercontent.com/ericwenn/local-feud/master/domainmodel/domainmodel.png)
