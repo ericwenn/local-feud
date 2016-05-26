@@ -1,12 +1,10 @@
-package com.chalmers.tda367.localfeud.control.notifications;
+package com.chalmers.tda367.localfeud.services.notifications;
 
 import android.support.annotation.Nullable;
 
 import com.chalmers.tda367.localfeud.util.MapEntry;
 
 import org.json.JSONObject;
-
-import java.util.Map;
 
 /**
  * Created by Alfred on 2016-05-18.

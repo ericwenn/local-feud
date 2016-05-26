@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
-import com.chalmers.tda367.localfeud.control.notifications.IMessageListener;
+import com.chalmers.tda367.localfeud.services.notifications.IMessageListener;
 import com.chalmers.tda367.localfeud.control.notifications.MessageHandler;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
@@ -22,7 +22,7 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.MeDataHandler;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
-import com.chalmers.tda367.localfeud.services.NotificationFacade;
+import com.chalmers.tda367.localfeud.control.notifications.NotificationFacade;
 import com.chalmers.tda367.localfeud.util.MapEntry;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.facebook.login.widget.ProfilePictureView;

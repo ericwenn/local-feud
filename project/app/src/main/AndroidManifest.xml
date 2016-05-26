@@ -31,14 +31,14 @@
             </intent-filter>
         </receiver>
         <service
-            android:name=".services.gcm.EddaGcmListenerService"
+            android:name=".control.notifications.EddaGcmListenerService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name=".services.gcm.EddaInstanceIDListenerService"
+            android:name=".control.notifications.EddaInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
