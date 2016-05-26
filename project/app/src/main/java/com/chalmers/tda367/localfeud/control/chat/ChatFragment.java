@@ -22,21 +22,28 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *  A fragment which works as one of the tabs for MainActivity.
+ *  The fragment holds the activities used for chats and chat
+ *  messages.
+ */
 public class ChatFragment extends Fragment {
     private static final String TAG = "ChatFragment";
     private CoordinatorLayout root;
     private ChatListAdapter chatListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-
-    public ChatFragment() {
-
-    }
-
+    /**
+     * Method run when a new instance of the fragment is created.
+     *
+     * @param context the current state of the object it is called from.
+     * @return a new ChatFragment object
+     */
     public static ChatFragment newInstance(Context context) {
         final ChatFragment fragment = new ChatFragment();
         fragment.chatListAdapter = new ChatListAdapter(context);
@@ -52,7 +59,16 @@ public class ChatFragment extends Fragment {
     }
 
 
-
+    /**
+     * Creates the view which the fragment will hold. The view is created using
+     * the fragment_chat layout XML file.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState an old state of the activity, used to resume
+     *                           a previous instance.
+     * @return the view the fragment will hold
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

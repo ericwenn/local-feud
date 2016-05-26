@@ -27,23 +27,30 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Text om klassen
- *
- * @author David Söderberg
- * @since 16-04-11
+ *  Adapter used by RecyclerView in PostFragment.
+ *  Handles all binding from Post objects to post_list_items
+ *  Also controls all kind of changes in the list
  */
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private final Context context;
     private final Comparator<Post> comparator;
     private final LayoutInflater inflater;
+    private final String transitionName;
     private AdapterCallback adapterCallback;
 
     private final ArrayList<Post> postList = new ArrayList<>();
 
-    public PostAdapter(Context context, Comparator<Post> comparator) {
+    /**
+     * Constructor.
+     *
+     * @param context the current state of the object it is called from.
+     * @param comparator used to compare different posts with each other.
+     */
+    public PostAdapter(Context context, Comparator<Post> comparator, String transitionName) {
         this.context = context;
         this.comparator = comparator;
+        this.transitionName = transitionName;
         inflater = LayoutInflater.from(context);
 
         try {
@@ -53,23 +60,40 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
+    /**
+     * Creates a view holder for the post. The holder is connected to the corresponding
+     * layout XML file.
+     *
+     * @param parent the view group in which the adapter will be placed
+     * @param viewType what kind of object the adapter will show. (Not used, since the adapter
+     *                 is only used for posts)
+     * @return view holder for a post, which will be used in a recycler view.
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.post_list_item, parent, false);
         return new ViewHolder(view);
     }
 
+    /**
+     * Binds the data of a post object to a view holder.
+     *
+     * @param holder the basic view holder in which the data will be placed.
+     * @param position the position of the post in the posts list.
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Post post = postList.get(position);
-        Log.d(TagHandler.MAIN_TAG, "Text: " + post.getContent().getText() + "\nDate: " + post.getStringDatePosted() + "\n");
         // Distance
         int distanceColor = DistanceColor.distanceColor(post.getDistance());
         int distanceTextColor = DistanceColor.distanceTextColor(distanceColor);
+
+//        Setting all data from post to the ViewHolder
         holder.postItemTopbar.setBackgroundColor(ContextCompat.getColor(context, distanceColor));
         String distance = DistanceString.getDistanceString(context, post.getDistance());
         holder.postItemDistanceTextView.setText(distance);
         holder.postItemDistanceTextView.setTextColor(ContextCompat.getColor(context, distanceTextColor));
+        holder.holderLayout.setTransitionName(context.getString(R.string.post_transition_start) + transitionName + "_" + position);
 
 
         holder.postItemTimeTextView.setText(DateString.convert(post.getDatePosted()));
@@ -82,7 +106,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.holderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adapterCallback.onPostClick(post);
+                adapterCallback.onPostClick(post, holder.holderLayout);
             }
         });
         holder.postItemLikeButton.setOnClickListener(new View.OnClickListener() {
@@ -105,17 +129,34 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.postItemNbrLikesTextView.setText("" + post.getNumberOfLikes());
     }
 
+    /**
+     * Counts the number of objects in the posts list.
+     *
+     * @return the number of objects in the posts list.
+     */
     @Override
     public int getItemCount() {
         return postList.size();
     }
 
+    /**
+     * Adds a new post to the post list and uses the comparator to sort the list.
+     *
+     * @param post the post which will be added to the posts list.
+     */
     public void addPostToAdapter(Post post) {
         postList.add(post);
         Collections.sort(postList, comparator);
         notifyItemInserted(postList.indexOf(post));
     }
 
+    /**
+     * Replaces the post in the adapter with another post. Used to update the data in the
+     * post view holder, when a change is made to the post.
+     *
+     * @param oldPost the current post which will be replaced
+     * @param newPost the (updated) post which will replace the current post in the adapter.
+     */
     public void changePostInAdapter(Post oldPost, Post newPost) {
         if (postList.contains(oldPost)) {
             postList.set(postList.indexOf(oldPost), newPost);
@@ -126,11 +167,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
+    /**
+     * Removes everything from the recycler view.
+     */
     private void clearAdapter() {
         postList.clear();
         notifyDataSetChanged();
     }
 
+    /**
+     * Used to add a number of a post to the posts list at the same time.
+     *
+     * @param postList the list of all post to be added
+     */
     public void addPostListToAdapter(final List<Post> postList) {
         final int currentCount = this.postList.size();
 
@@ -153,7 +202,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
 
-
+    /**
+     * A class which is used to model a view holder for a post. The variables are connected
+     * to the id values from the corresponding layout XML file.
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView postItemMsgTextView;
@@ -167,6 +219,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         private final ImageButton postItemMoreButton;
         private final FrameLayout postItemTopbar;
 
+        /**
+         * Constructor.
+         *
+         * @param itemView the post view which has been created using the layout XML file.
+         */
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -184,12 +241,36 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     public interface AdapterCallback {
-        void onPostClick(Post post);
 
-        void onLikeClick(Post post, ImageButton imageButton, final TextView likesDisplay);
+        /**
+         * Determines what will happen when a post is clicked
+         *
+         * @param post the post that has been clicked.
+         * @param view a CardView that will be used for transition
+         */
+        void onPostClick(Post post, CardView view);
 
+        /**
+         * Determines what will happen when the like button is pressed.
+         *
+         * @param post the post that has been liked.
+         * @param imageButton the like button which has been pressed.
+         * @param displayLikes the text view which displays the number of likes.
+         */
+        void onLikeClick(Post post, ImageButton imageButton, final TextView displayLikes);
+
+        /**
+         * Determines what will happen when the more button of a post is pressed.
+         *
+         * @param post the post the more button belongs to.
+         */
         void onMoreClick(Post post);
 
+        /**
+         * Displays a snackbar with a message.
+         *
+         * @param text the text that will be displayed in the snackbar.
+         */
         void onShowSnackbar(String text);
     }
 }

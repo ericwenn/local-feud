@@ -7,6 +7,12 @@ import com.chalmers.tda367.localfeud.R;
  */
 public class DistanceColor
 {
+    /**
+     * Determines which color will be used as background for a post header.
+     *
+     * @param distance the distance between the user device and the post coordinates.
+     * @return the color as an integer value.
+     */
     public static int distanceColor(int distance) throws NullPointerException
     {
         if (distance < 500)
@@ -30,6 +36,13 @@ public class DistanceColor
             return R.color.distBlue;
         }
     }
+
+    /**
+     * Determines which color will be used for the text for a post header.
+     *
+     * @param color the background color of the header
+     * @return the color as an integer value.
+     */
     public static int distanceTextColor(int color) throws NullPointerException
     {
         if (color == R.color.distRed)
@@ -42,6 +55,12 @@ public class DistanceColor
         }
     }
 
+    /**
+     * Determines which style will be used for the PostClickedActivity.
+     *
+     * @param color the background color of the post header
+     * @return the style as an integer value.
+     */
     public static int distanceStyle(int color) throws NullPointerException
     {
         if (color == R.color.distRed)

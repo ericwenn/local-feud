@@ -4,6 +4,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
+        android:title="Notifications">
+
+        <CheckBoxPreference
+            android:key="notOnOff"
+            android:title="Toggle notifications"
+            android:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="General">
 
         <Preference

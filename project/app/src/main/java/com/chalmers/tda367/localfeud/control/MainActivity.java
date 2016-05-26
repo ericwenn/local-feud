@@ -1,8 +1,9 @@
 package com.chalmers.tda367.localfeud.control;
 
-import android.app.FragmentManager;
-import android.content.BroadcastReceiver;
+import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.IdRes;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -27,9 +29,11 @@ import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Like;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.services.NotificationFacade;
-import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.services.LocationHandler;
+import com.chalmers.tda367.localfeud.services.LocationPermissionError;
+import com.chalmers.tda367.localfeud.control.notifications.NotificationFacade;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -53,9 +57,34 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         if(NotificationFacade.checkPlayServices(this)){
             NotificationFacade.getInstance().registerForNotifications(this);
         }
+        if (!LocationHandler.getInstance().isTracking()) {
+            try {
+                LocationHandler.getInstance().startTracking(getApplicationContext());
+            } catch (LocationPermissionError locationPermissionError) {}
+        }
 
         setContentView(R.layout.activity_main);
         initBottomBar(savedInstanceState);
+
+        Intent intent = this.getIntent();
+        Bundle intentExtras = intent.getExtras();
+
+        // This is if MainActivity is started from a notification
+        if (intentExtras != null && intentExtras.containsKey("chatid")){
+            DataHandlerFacade.getChatDataHandler().getSingle(intentExtras.getInt("chatid"), new AbstractDataResponseListener<Chat>() {
+                @Override
+                public void onSuccess(Chat data) {
+                    onChatClicked(data);
+                    switchFragment(R.id.chat_item);
+                    bottomBar.selectTabAtPosition(1,true);
+                }
+
+                @Override
+                public void onFailure(DataResponseError error, String errormessage) {
+                    showSnackbar("Failed to load chat: " + errormessage);
+                }
+            });
+        }
 
     }
 
@@ -114,12 +143,17 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     }
 
     @Override
-    public void onPostClick(Post post) {
+    public void onPostClick(Post post, CardView view) {
         Intent i = new Intent(getApplicationContext(), PostClickedActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("post", post);
         i.putExtras(bundle);
-        startActivity(i);
+
+        startActivity(i,
+                ActivityOptions.makeSceneTransitionAnimation(this,
+                        view,
+                        getString(R.string.post_transition_target))
+                        .toBundle());
     }
 
     @Override
@@ -213,6 +247,12 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     @Override
     protected void onDestroy() {
+        try {
+                SharedPreferences prefs = getSharedPreferences("com.chalmers.tda367.localfeud", Context.MODE_PRIVATE);
+            prefs.edit().putLong("last_latitude", Double.doubleToRawLongBits(LocationHandler.getInstance().getLocation().getLatitude()));
+            prefs.edit().putLong("last_longitude", Double.doubleToRawLongBits(LocationHandler.getInstance().getLocation().getLongitude()));
+            LocationHandler.getInstance().stopTracking();
+        } catch (LocationPermissionError locationPermissionError) {}
         super.onDestroy();
     }
 }

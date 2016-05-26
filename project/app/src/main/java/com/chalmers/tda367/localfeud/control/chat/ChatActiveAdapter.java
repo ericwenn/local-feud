@@ -4,30 +4,23 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
-import com.chalmers.tda367.localfeud.control.notifications.IMessageListener;
-import com.chalmers.tda367.localfeud.control.notifications.MessageHandler;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.services.NotificationFacade;
-import com.chalmers.tda367.localfeud.util.MapEntry;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
- * Created by Daniel Ahlqvist on 2016-05-08.
+ * Adapter used by ChatActiveActivity to display chat messages
+ * bubbles in its recycler view. The adapter is created using the
+ * layout XML files chat_message_bubble_me and chat_message_bubble_not_me
  */
 public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "ChatActiveAdapter";
@@ -36,6 +29,11 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Chat chat;
     private final int myId;
 
+    /**
+     * Constructor.
+     *
+     * @param context the current state of the object it is called from.
+     */
     public ChatActiveAdapter(Context context) {
         Context context1 = context;
         inflater = LayoutInflater.from(context);
@@ -51,11 +49,25 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    /**
+     * Stops the recycler view from observing the adapter
+     *
+     * @param recyclerView the recycler view which stops observing this adapter.
+     */
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
     }
 
+    /**
+     * Determines if the adapter will be used for a message sent by the user or by somebody else.
+     *
+     * @param parent the view group in which the adapter will be placed
+     * @param viewType what kind of object the adapter will show.
+     *                 0 represents a message sent by the user and 1 represents a message
+     *                 sent by somebody else.
+     * @return view holder for a message, which will be used in a recycler view.
+     */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
@@ -68,6 +80,14 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    /**
+     * Binds the data of a message object to a view holder.
+     *
+     * @param holder the basic view holder in which the data will be placed.
+     *               There are two different types: one for messages sent by the user
+     *               and one for messages sent by somebody else.
+     * @param position the position of the message in the messages list.
+     */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ChatMessage message = messages.get(position);
@@ -109,11 +129,22 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    /**
+     * Removes everything from the recycler view.
+     */
     private void clearAdapter() {
         messages.clear();
         notifyDataSetChanged();
     }
 
+    /**
+     * Determines it the object at a given position in the messages list is an instance of
+     * a message sent by the user or a message sent by somebody else.
+     *
+     * @param position the position in the list that will be checked.
+     * @return an integer value. 0 represents a message sent by the user and
+     *         1 represents a message sent by somebody else.
+     */
     @Override
     public int getItemViewType(int position) {
         if (messages.get(position).getUser().getId() == myId) {
@@ -123,6 +154,11 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    /**
+     * Used to add all messages in a chat to the messages list at the same time.
+     *
+     * @param messages the list of all messages in a chat
+     */
     public void addChatMessageListToAdapter(final List<ChatMessage> messages) {
         final int currentCount = this.messages.size();
         synchronized (this.messages) {
@@ -140,6 +176,11 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    /**
+     * Adds a new message to the chat messages list
+     *
+     * @param message the message which will be added to the comments list.
+     */
     public void addChatMessageToAdapter(final ChatMessage message){
         synchronized (messages) {
             messages.add(message);
@@ -148,14 +189,28 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyItemInserted(messages.indexOf(message));
     }
 
+    /**
+     * Counts the number of objects in the messages list.
+     *
+     * @return the number of objects in the messages list.
+     */
     @Override
     public int getItemCount() {
         return messages.size();
     }
 
+    /**
+     * A class which is used to model a view holder for a message sent by the user.
+     * The variables are connected to the id values from the corresponding layout XML file.
+     */
     private class MeViewHolder extends RecyclerView.ViewHolder {
         private final TextView messageText, timeDisplay;
 
+        /**
+         * Constructor.
+         *
+         * @param itemView the chat message view which has been created using the layout XML file.
+         */
         public MeViewHolder(View itemView) {
             super(itemView);
             messageText = (TextView) itemView.findViewById(R.id.me_chat_text);
@@ -163,9 +218,18 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    /**
+     * A class which is used to model a view holder for a message sent by somebody else.
+     * The variables are connected to the id values from the corresponding layout XML file.
+     */
     private class NotMeViewHolder extends RecyclerView.ViewHolder {
         private final TextView messageText, timeDisplay;
 
+        /**
+         * Constructor.
+         *
+         * @param itemView the chat message view which has been created using the layout XML file.
+         */
         public NotMeViewHolder(View itemView) {
             super(itemView);
             messageText = (TextView) itemView.findViewById(R.id.not_me_chat_text);

@@ -18,11 +18,12 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
-import com.chalmers.tda367.localfeud.services.Location;
+import com.chalmers.tda367.localfeud.services.LocationHandler;
 
 
 /**
- * Created by Daniel Ahlqvist on 2016-04-14.
+ *  A Activity which is displayed when user wants
+ *  to create a new Post.
  */
 public class NewPostActivity extends AppCompatActivity {
     private EditText postEditText;
@@ -32,6 +33,11 @@ public class NewPostActivity extends AppCompatActivity {
 
     private CoordinatorLayout root;
 
+    /**
+     * Binds a layout XML file to the activity and starts the initialization of the activity
+     *
+     * @param savedInstanceState an old state of the activity, used to resume a previous instance.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +45,9 @@ public class NewPostActivity extends AppCompatActivity {
         initViews();
     }
 
+    /**
+     * Binds the objects in the layout XML file to variables in the activity class.
+     */
     private void initViews() {
         ImageButton backButton = (ImageButton) findViewById(R.id.new_post_back_btn);
         if (backButton != null) {
@@ -61,6 +70,10 @@ public class NewPostActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
+            /**
+             * Updates the text view which displays the number of characters the input
+             * text field contains.
+             */
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
@@ -83,9 +96,10 @@ public class NewPostActivity extends AppCompatActivity {
                     content.setType("text");
                     content.setText(postEditText.getText().toString().trim().replaceAll("(\r?\n){3,}", "\r\n\r\n"));
 
-                    post.setLocation(new Position(Location.getInstance().getLocation()));
+                    post.setLocation(new Position(LocationHandler.getInstance().getLocation()));
                     post.setContent(content);
 
+//                    Checking so user doesn't post a empty post
                     if(!content.getText().equals(""))
                     {
                         DataHandlerFacade.getPostDataHandler().create(post, new AbstractDataResponseListener<Post>() {

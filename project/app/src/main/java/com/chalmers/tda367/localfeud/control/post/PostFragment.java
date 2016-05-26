@@ -16,10 +16,8 @@ import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 /**
- * Text om klassen
- *
- * @author David Söderberg
- * @since 16-04-18
+ *  A Fragment that's controlling a RecyclerView
+ *  used for displaying all posts in a list.
  */
 public class PostFragment extends Fragment {
 
@@ -36,10 +34,19 @@ public class PostFragment extends Fragment {
 
     }
 
+    /**
+     *  Should be used for creating a new instance of PostFragment,
+     *  since constructors of Fragments can't have any arguments
+     *  @param adapter the PostAdapter that's controlling RecyclerView
+     *  @param feedFragment calling FeedFragment
+     *  @return a new instance of PostFragment
+     */
     public static PostFragment newInstance(PostAdapter adapter, Fragment feedFragment) {
         PostFragment fragment = new PostFragment();
         fragment.postAdapter = adapter;
 
+//        Creating a FragmentCallback which will send all
+//        update requests to FeedFragment
         try {
             fragment.callback = (FragmentCallback) feedFragment;
         } catch (ClassCastException e) {
@@ -66,7 +73,7 @@ public class PostFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(postAdapter);
-        swipeRefreshLayout.setColorSchemeResources(R.color.feedColorPrimary,
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.black,
                 R.color.feedColorAccent);
         swipeRefreshLayout.setOnRefreshListener(listener);
 
@@ -84,6 +91,7 @@ public class PostFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+//        Restoring the state of RecyclerView
         if (listState != null) {
             recyclerView.getLayoutManager().onRestoreInstanceState(listState);
         }
@@ -129,6 +137,10 @@ public class PostFragment extends Fragment {
     }
 
     public interface FragmentCallback {
+        /**
+         *  Requesting new posts.
+         *  @param l the SwipeRefreshLayout connected to RecyclerView
+         */
         void updatePosts(SwipeRefreshLayout l);
     }
 }

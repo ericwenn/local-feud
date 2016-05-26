@@ -25,11 +25,16 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.services.LocationHandler;
 import com.github.fabtransitionactivity.SheetLayout;
 
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ *  A Fragment that's controlling both PostFragments
+ *  in the TabLayout.
+ */
 public class FeedFragment extends Fragment implements PostFragment.FragmentCallback, SheetLayout.OnFabAnimationEndListener {
 
     private PostAdapter postAdapter;
@@ -45,7 +50,12 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
     private final static String VIEW_PAGER_KEY = "viewPagerKey";
     private PostAdapter postAdapter2;
 
-
+    /**
+     *  Should be used for creating a new instance of FeedFragment,
+     *  since constructors of Fragments can't have any arguments
+     *  @param context from calling activity
+     *  @return a new instance of FeedFragment
+     */
     public static FeedFragment newInstance(Context context) {
         final FeedFragment fragment = new FeedFragment();
 
@@ -55,7 +65,7 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
             public int compare(Post lhs, Post rhs) {
                 return rhs.getId() - lhs.getId();
             }
-        });
+        }, "latest");
 
         // Sort on distance
         fragment.postAdapter2 = new PostAdapter(context, new Comparator<Post>() {
@@ -63,14 +73,16 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
             public int compare(Post lhs, Post rhs) {
                 return lhs.getDistance() - rhs.getDistance();
             }
-        });
+        }, "nearest");
 
+//        Creating two postFragments with two different sorting behaviours
+//        .setName is used for to set the name that TabLayout will use
         fragment.postFragment = PostFragment.newInstance(fragment.postAdapter, fragment);
         fragment.postFragment.setName(context.getResources().getString(R.string.latest_messages));
         fragment.postFragment2 = PostFragment.newInstance(fragment.postAdapter2, fragment);
         fragment.postFragment2.setName(context.getResources().getString(R.string.nearest_messages));
 
-
+//        Adding ChangeListeners that will update the list of both PostAdapters
         DataHandlerFacade.getPostDataHandler().addChangeListener(new DataChangeListener<Post>() {
             @Override
             public void onChange(Post oldValue, Post newValue) {
@@ -84,7 +96,6 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
                 }
             }
         });
-
         return fragment;
     }
 
@@ -109,6 +120,11 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
         initViews(view, savedInstanceState);
     }
 
+    /**
+     *  Initializing the relevant components that layout contains.
+     *  @param view the holder layout that's containing all components
+     *  @param savedInstanceState saved state from last instance of fragment
+     */
     private void initViews(final View view, @Nullable Bundle savedInstanceState) {
         CollapsingToolbarLayout collapsingToolbarLayout =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar_layout);
@@ -123,6 +139,7 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
             }
         });
 
+//        Using a SheetLayout that's used for transition to NewPostActivity
         sheetLayout = (SheetLayout) view.findViewById(R.id.bottom_sheet);
         sheetLayout.setFab(createNewFab);
         sheetLayout.setFabAnimationEndListener(this);
@@ -131,16 +148,19 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
 
         viewPager = (ViewPager) view.findViewById(R.id.post_feed_viewpager);
 
+//        Resetting the viewPagers state
         if (savedInstanceState != null)
             viewPager.onRestoreInstanceState(savedInstanceState.getBundle(VIEW_PAGER_KEY));
 
         feedPagerAdapter = new FeedPagerAdapter(getActivity().getSupportFragmentManager());
         addPages(viewPager);
+
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.main_tablayout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+//                Changing the page to chosen tab
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -156,6 +176,10 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
         });
     }
 
+    /**
+     *  Used for adding fragments to a ViewPager
+     *  @param viewPager the ViewPager who should contain the fragments
+     */
     private void addPages(ViewPager viewPager) {
         feedPagerAdapter.addPage(postFragment);
         feedPagerAdapter.addPage(postFragment2);
@@ -172,6 +196,10 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
         postFragment2.onSaveInstanceState(outState);
     }
 
+    /**
+     *  Simplifies the way of showing a Snackbar
+     *  @param text the text that should be displayed in the Snackbar
+     */
     public void showSnackbar(String text) {
         Snackbar.make(root,
                 text,
@@ -181,12 +209,15 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
 
     @Override
     public void updatePosts(final SwipeRefreshLayout l) {
-        Location loc = com.chalmers.tda367.localfeud.services.Location.getInstance().getLocation();
+        Location loc = LocationHandler.getInstance().getLocation();
         DataHandlerFacade.getPostDataHandler().getList(new Position(loc), new AbstractDataResponseListener<List<Post>>() {
             @Override
             public void onSuccess(List<Post> data) {
+//                Adding the new posts to both adapters
                 postAdapter.addPostListToAdapter(data);
                 postAdapter2.addPostListToAdapter(data);
+
+//                Stopping the SwipeToRefresh spinner
                 if (l != null) {
                     l.setRefreshing(false);
                 }
@@ -198,8 +229,10 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
 
             @Override
             public void onFailure(DataResponseError error, String errormessage) {
+//                Showing what went wrong in a Snackbar
                 showSnackbar(getErrorString(error));
 
+//                Stopping the SwipeToRefresh spinner
                 if (l != null) {
                     l.setRefreshing(false);
                 }
@@ -211,6 +244,11 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
         });
     }
 
+    /**
+     *  Converting a DataResponseError to a String error mesage
+     *  @param error given DataResponseError that should be converted
+     *  @return the requested string
+     */
     private String getErrorString(DataResponseError error) {
         switch (error) {
             case NOTFOUND:

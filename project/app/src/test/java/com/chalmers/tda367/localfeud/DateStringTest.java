@@ -97,6 +97,15 @@ public class DateStringTest {
         oneDayAgo.add( Calendar.MINUTE, -1);
 
         String testOneDayAgo = DateString.convert(oneDayAgo);
+        assertThat(testOneDayAgo, is("1 minute ago"));
+    }
+
+    @Test
+    public void oneSecondAgo_isCorrect() throws Exception {
+        Calendar oneSecondAgo = Calendar.getInstance();
+        oneSecondAgo.add( Calendar.SECOND, -1);
+
+        String testOneDayAgo = DateString.convert(oneSecondAgo);
         assertThat(testOneDayAgo, is("Just now"));
     }
 

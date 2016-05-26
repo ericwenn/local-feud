@@ -2,16 +2,15 @@ package com.chalmers.tda367.localfeud.control.notifications;
 
 import android.test.mock.MockContext;
 
+import com.chalmers.tda367.localfeud.services.notifications.IMessageListener;
 import com.chalmers.tda367.localfeud.util.MapEntry;
 
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -36,7 +35,7 @@ public class MessageHandlerTest {
 
         listener1 = new IMessageListener() {
             @Override
-            public void onMessageRecieved(Map<String, Object> data) {
+            public void onMessageReceived(Map<String, Object> data) {
                 assertEquals(defData, data);
                 System.out.println("Listens to only the message type");
             }
@@ -44,7 +43,7 @@ public class MessageHandlerTest {
 
         listener2 = new IMessageListener() {
             @Override
-            public void onMessageRecieved(Map<String, Object> data) {
+            public void onMessageReceived(Map<String, Object> data) {
                 assertEquals(defData, data);
                 System.out.println("Listens to all messages with the user_id equals to 12");
             }
@@ -52,7 +51,7 @@ public class MessageHandlerTest {
 
         listener3 = new IMessageListener() {
             @Override
-            public void onMessageRecieved(Map<String, Object> data) {
+            public void onMessageReceived(Map<String, Object> data) {
                 assertEquals(defData, data);
                 System.out.println("Listens to all messages with from equals to Alfred Björk");
             }

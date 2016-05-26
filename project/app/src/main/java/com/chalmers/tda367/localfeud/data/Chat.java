@@ -3,7 +3,6 @@ package com.chalmers.tda367.localfeud.data;
 import android.content.res.Resources;
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.data.handler.MeDataHandler;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.io.Serializable;
@@ -53,7 +52,7 @@ public class Chat implements Serializable {
         this.last_message = lastMessageSent;
     }
 
-    private enum Status {
+    public enum Status {
         accepted, pending
     }
 
@@ -103,7 +102,7 @@ public class Chat implements Serializable {
 
     public KnownUser getFirstCounterPart(int myUserId){
         for (KnownUser user : getUsers()){
-            if (user.getId() != MeDataHandler.getInstance().getMe().getId()){
+            if (user.getId() != myUserId){
                 return user;
             }
         }
@@ -162,7 +161,16 @@ public class Chat implements Serializable {
 
     @Override
     public String toString() {
-        return "Chat id: " + getId() + ", " + getStatus() + ".\nUsers: " + getChatName() + ", href: " + getHref();
+        //return "Chat id: " + getId() + ", " + getStatus() + ".\nUsers: " + getChatName() + ", href: " + getHref();
+        return "Chat id: " + getId() + "\n" +
+                "Status: " + getStatus() + "\n" +
+                "Users: " + users.toString() + "\n" +
+                "Href: " + getHref() + "\n" +
+                "Date started: " + date_started + "\n" +
+                "Unread messages: " + number_of_unread_messages + "\n" +
+                "Last message: " + last_message + "\n" +
+                "Last activity: " + last_activity;
+
     }
 
     @Override
