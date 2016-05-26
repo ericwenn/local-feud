@@ -32,7 +32,7 @@ import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListe
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.services.LocationHandler;
 import com.chalmers.tda367.localfeud.services.LocationPermissionError;
-import com.chalmers.tda367.localfeud.services.NotificationFacade;
+import com.chalmers.tda367.localfeud.control.notifications.NotificationFacade;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;

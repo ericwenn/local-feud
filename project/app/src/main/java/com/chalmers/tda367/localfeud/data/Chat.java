@@ -3,7 +3,6 @@ package com.chalmers.tda367.localfeud.data;
 import android.content.res.Resources;
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.data.handler.MeDataHandler;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.io.Serializable;
@@ -103,7 +102,7 @@ public class Chat implements Serializable {
 
     public KnownUser getFirstCounterPart(int myUserId){
         for (KnownUser user : getUsers()){
-            if (user.getId() != MeDataHandler.getInstance().getMe().getId()){
+            if (user.getId() != myUserId){
                 return user;
             }
         }

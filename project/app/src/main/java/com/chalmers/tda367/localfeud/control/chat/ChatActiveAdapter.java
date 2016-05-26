@@ -4,27 +4,18 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chalmers.tda367.localfeud.R;
-import com.chalmers.tda367.localfeud.control.notifications.IMessageListener;
-import com.chalmers.tda367.localfeud.control.notifications.MessageHandler;
 import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.services.NotificationFacade;
-import com.chalmers.tda367.localfeud.util.MapEntry;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * Adapter used by ChatActiveActivity to display chat messages

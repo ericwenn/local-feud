@@ -16,6 +16,8 @@ import android.util.Log;
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.MainActivity;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
+import com.chalmers.tda367.localfeud.services.notifications.IMessageHandler;
+import com.chalmers.tda367.localfeud.services.notifications.IMessageListener;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.util.MapEntry;
 import com.chalmers.tda367.localfeud.util.TagHandler;
@@ -88,17 +90,8 @@ public class MessageHandler implements IMessageHandler {
     }
 
     private PendingIntent getChatPendingIntent(ChatMessage chatMessage){
+//        MainActivity is required here to start Chat
         Intent resultIntent = new Intent(context, MainActivity.class);
-
-        // TODO: get the real chat
-        /*Chat chat = new Chat();
-        chat.setId(38);
-        List<KnownUser> list = new ArrayList<>();
-        list.add(new KnownUser(19, 10, User.Gender.male, "Alfred", "Björk"));
-        chat.setUsers(list);
-        chat.setStatus(Chat.Status.pending);
-        chat.setDateStarted("2016-05-20T16:14:22+02:00");
-        chat.setLastActivity("2016-05-24T08:53:10+02:00");*/
 
         Bundle bundle = new Bundle();
         bundle.putInt("chatid", chatMessage.getChatId());

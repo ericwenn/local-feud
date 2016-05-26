@@ -2,16 +2,15 @@ package com.chalmers.tda367.localfeud.control.notifications;
 
 import android.test.mock.MockContext;
 
+import com.chalmers.tda367.localfeud.services.notifications.IMessageListener;
 import com.chalmers.tda367.localfeud.util.MapEntry;
 
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 
