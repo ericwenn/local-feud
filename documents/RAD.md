@@ -21,20 +21,20 @@ försvinna, de kommer kunna chatta med varandra och personlig information från 
 
 Applikationen kommer att vara anpassat för plattformar som kör Android, kopplat till våra servrar där all data hanteras.
 
-Applikationen kommer att vara uppdelat tre olika delar. I en del kommer själva flödet av inlägg att finnas. Denna del kommer även att vara olika i två tillstånd. Ett tillstånd ska visa de senaste inläggen som skrivits i närheten av läsaren. Det andra tillståndet ska visa de populäraste meddelanden som fått mest uppmärksamhet. I denna del kommer man även kunna skriva inlägg.
+Applikationen kommer att vara uppdelat tre olika delar. I en del kommer själva flödet av inlägg att finnas. Denna del kommer även att vara olika i två tillstånd. Ett tillstånd ska visa de senaste inläggen som skrivits i närheten av läsaren. Det andra tillståndet ska sortera på avstånd från nuvarande position. I denna del kommer man även kunna skriva inlägg.
 Den andra delen kommer att innehålla användarens chattar.
-Den sista delen kommer att visa användarens profil, där användaren har möjlighet att ändra sina inställningar samt administrera sina skrivna inlägg.
+Den sista delen kommer att visa användarens profil, där användaren har möjlighet att ändra inställningar.
 
 
 ### 1.3 Scope of application
 Applikationen kommer inte innehålla någon karta utan meddelanden presenteras endast med ett avstånd från dig själv.
 
 ### 1.4 Objectives and success criteria of the project 
-  * Som användare skall man kunna publicera inlägg knutna till den geografiska position man befinner sig i vid publiceringstillfället. Man skall även kunna läsa andra personers inlägg om ens egen läsradie tangerar inläggens synlighetsradie.
+  * Som användare skall man kunna publicera inlägg knutna till den geografiska position man befinner sig i vid publiceringstillfället. Man skall även kunna läsa andra personers inlägg om man är tillräckligt nära deras publiceringsposition.
 
-  * Man skall kunna interagera med inlägg genom någon form av upp/nedröstning eller gillamarkering och genom att kommentera inlägget. När inlägget får mer interaktioner ökar dess synlighetsradie enligt en av oss förutbestämd funktion.
+  * Man skall kunna interagera med inlägg genom någon form av upp/nedröstning eller gillamarkering och genom att kommentera inlägget.
 
-  * Man skall kunna välja att sortera inlägg på olika sätt. Det ska gå att sortera på senaste inlägg samt popularitet och man kan påverka antalet inlägg i sitt flöde genom att justera sin läsradie.
+  * Man skall kunna välja att sortera inlägg på olika sätt. Det ska gå att sortera på senaste inlägg samt avstånd.
 
   * Användare skall dessutom kunna starta privata chattar med varandra där deras anonymitet släpper. Användarnas namn och bild visas då i chatten.
 
@@ -50,9 +50,8 @@ In this section we specify all requirements
 ### 2.1 Functional requirements
 I applikationen ska användaren kunna:
 * Skriva ett inlägg samt läsa inlägg skrivna av andra.
-* Integrera med inlägget genom kommentarer och gillningar.
+* Interagrera med inlägget genom kommentarer och gillningar.
 * Starta chatt med en okänd person och chatta med kända personer.
-* Läsa notiser om någon kommenterat ett inlägg.
 * Ändra inställningar.
 
 ### 2.2 Non-functional requirements
