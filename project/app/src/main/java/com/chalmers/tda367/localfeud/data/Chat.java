@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by Alfred on 2016-04-11.
+ * A Chat object holding all data from server.
  */
 public class Chat implements Serializable {
 
@@ -161,7 +161,6 @@ public class Chat implements Serializable {
 
     @Override
     public String toString() {
-        //return "Chat id: " + getId() + ", " + getStatus() + ".\nUsers: " + getChatName() + ", href: " + getHref();
         return "Chat id: " + getId() + "\n" +
                 "Status: " + getStatus() + "\n" +
                 "Users: " + users.toString() + "\n" +

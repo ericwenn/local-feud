@@ -10,37 +10,33 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Created by Daniel Ahlqvist on 2016-04-13.
+ *  A Like object that matches the server object.
  */
-public class Like
-{
+public class Like {
     private int id, postid, userid;
     private String date_added;
 
-    public int getId()
-    {
+    public int getId() {
         return id;
     }
-    public void setId(int newId)
-    {
+
+    public void setId(int newId) {
         id = newId;
     }
 
-    public int getPostId()
-    {
+    public int getPostId() {
         return postid;
     }
-    public void setPostId(int newId)
-    {
+
+    public void setPostId(int newId) {
         postid = newId;
     }
 
-    public int getUserId()
-    {
+    public int getUserId() {
         return userid;
     }
-    public void setUserId(int newId)
-    {
+
+    public void setUserId(int newId) {
         userid = newId;
     }
 

@@ -33,7 +33,8 @@ import java.util.Set;
 import java.util.UnknownFormatConversionException;
 
 /**
- * Created by Alfred on 2016-05-18.
+ *  Handling incoming messages and sorting these
+ *  to right components.
  */
 public class MessageHandler implements IMessageHandler {
     private Map<String, Map<MapEntry<String, Object>, List<IMessageListener>>> listeners;

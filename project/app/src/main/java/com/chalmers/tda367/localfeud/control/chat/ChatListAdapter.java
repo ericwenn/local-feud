@@ -24,10 +24,8 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Text om metoden
- *
- * @author David Söderberg
- * @since 16-05-08
+ *  Adapter for RecyclerView in ChatFragment.
+ *  Displaying all active chats in a list.
  */
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder> {
 
@@ -35,17 +33,20 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     private AdapterCallback adapterCallback;
     private Comparator<Chat> comparator;
 
+//    chatList will contain all active chats
     private final ArrayList<Chat> chatList = new ArrayList<>();
 
     public ChatListAdapter(Context context) {
         inflater = LayoutInflater.from(context);
 
         try {
+//            Casting context to AdapterCallback. Will be used for click events
             adapterCallback = (AdapterCallback) context;
         } catch (ClassCastException e) {
             throw new ClassCastException("ChatListAdapter: Activity must implement AdapterCallback.");
         }
 
+//        Sorting list after date
         comparator = new Comparator<Chat>() {
             @Override
             public int compare(Chat lhs, Chat rhs) {
@@ -54,16 +55,32 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         };
     }
 
+    /**
+     *  Creates a view holder for the chat. The holder is connected to the corresponding
+     *  layout XML file.
+     *
+     *  @param parent the view group in which the adapter will be placed
+     *  @param viewType what kind of object the adapter will show. (Not used, since the adapter
+     *                 is only used for chats)
+     *  @return view holder for a chat, which will be used in a recycler view.
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.chat_list_item, parent, false);
         return new ViewHolder(view);
     }
 
+    /**
+     *  Binds the data of a chat object to a view holder.
+     *
+     *  @param holder the basic view holder in which the data will be placed.
+     *  @param position the position of the chat in the chatList.
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Chat chat = chatList.get(position);
-        
+
+//        Setting all data from chat to the ViewHolder
         holder.titleTextView.setText(chat.getChatName());
         holder.msgTextView.setText(chat.getLastMessage());
 
@@ -80,16 +97,30 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         });
     }
 
+    /**
+     *  Counts the number of objects in the chatList.
+     *
+     *  @return the number of objects in the chatList.
+     */
     @Override
     public int getItemCount() {
         return chatList.size();
     }
 
+    /**
+     *  Removes every chat from the list.
+     */
     private void clearAdapter() {
         chatList.clear();
         notifyDataSetChanged();
     }
 
+    /**
+     *  Used when changing data in existing chat.
+     *
+     *  @param oldChat the chat which should be replaced
+     *  @param newChat the chat that should replace oldChat
+     */
     public void changeChatInAdapter(Chat oldChat, Chat newChat) {
         if (chatList.contains(oldChat)) {
             int chatIndex = chatList.indexOf(oldChat);
@@ -105,11 +136,22 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         }
     }
 
+    /**
+     *  Adds a new chat to the chatList.
+     *
+     *  @param chat the post which will be added to the chatList.
+     */
     public void addChatToAdapter(Chat chat) {
         chatList.add(chat);
         notifyItemChanged(chatList.size());
     }
 
+    /**
+     *  Used to add a number of a chats to the chatList at the same time.
+     *  Also sorts the list after given comparator.
+     *
+     *  @param chatList the list of all post to be added
+     */
     public void addChatListToAdapter(final List<Chat> chatList) {
         final int currentCount = this.chatList.size();
 
@@ -131,8 +173,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         }
     }
 
-
-
+    /**
+     *  A class which is used to model a view holder for a chat. The variables are connected
+     *  to the id values from the corresponding layout XML file.
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView titleTextView;
         private final TextView msgTextView;
@@ -149,7 +193,19 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     }
 
     public interface AdapterCallback {
+
+        /**
+         * Determines what will happen when a chat is clicked
+         *
+         * @param chat the chat that has been clicked.
+         */
         void onChatClicked(Chat chat);
+
+        /**
+         * Displays a snackbar with a message.
+         *
+         * @param text the text that will be displayed in the snackbar.
+         */
         void onShowSnackbar(String text);
     }
 }

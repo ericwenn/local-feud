@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Created by Daniel Ahlqvist on 2016-04-13.
+ *  A comment that's posted on a Post object.
  */
 public class Comment extends GeneralPost {
     private int id, postid;

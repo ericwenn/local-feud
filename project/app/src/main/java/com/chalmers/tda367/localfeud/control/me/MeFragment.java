@@ -15,12 +15,20 @@ import android.view.ViewGroup;
 import com.chalmers.tda367.localfeud.R;
 import com.facebook.login.widget.LoginButton;
 
+/**
+ *  A Fragment that's controlling users settings.
+ */
 public class MeFragment extends Fragment {
 
     public MeFragment() {
 
     }
 
+    /**
+     *  Should be used for creating a new instance of MeFragment,
+     *  since constructors of Fragments can't have any arguments
+     *  @return a new instance of MeFragment
+     */
     public static MeFragment newInstance() {
         return new MeFragment();
     }
@@ -29,6 +37,7 @@ public class MeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+//        Changing to R.style.MeAppTheme
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.MeAppTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         return localInflater.inflate(R.layout.fragment_me, container, false);
@@ -40,6 +49,11 @@ public class MeFragment extends Fragment {
         initViews(view, savedInstanceState);
     }
 
+    /**
+     *  Initializing the relevant components that layout contains.
+     *  @param view the holder layout that's containing all components
+     *  @param savedInstanceState saved state from last instance of fragment
+     */
     private void initViews(View view, @Nullable Bundle savedInstanceState) {
         CoordinatorLayout root = (CoordinatorLayout) view.findViewById(R.id.me_root);
 
