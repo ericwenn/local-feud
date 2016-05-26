@@ -12,7 +12,7 @@ import android.support.v4.app.ActivityCompat;
 /**
  *  Used for receiving users position.
  */
-public class LocationHandler implements ILocation {
+public class LocationHandler implements ILocationHandler {
     private android.location.Location lastKnownLocation;
     private static LocationHandler instance = null;
     private Context context;
