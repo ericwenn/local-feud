@@ -18,7 +18,7 @@ import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
-import com.chalmers.tda367.localfeud.services.Location;
+import com.chalmers.tda367.localfeud.services.LocationHandler;
 
 
 /**
@@ -96,7 +96,7 @@ public class NewPostActivity extends AppCompatActivity {
                     content.setType("text");
                     content.setText(postEditText.getText().toString().trim().replaceAll("(\r?\n){3,}", "\r\n\r\n"));
 
-                    post.setLocation(new Position(Location.getInstance().getLocation()));
+                    post.setLocation(new Position(LocationHandler.getInstance().getLocation()));
                     post.setContent(content);
 
 //                    Checking so user doesn't post a empty post
