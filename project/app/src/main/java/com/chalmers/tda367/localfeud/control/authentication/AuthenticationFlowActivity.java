@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 
 import com.chalmers.tda367.localfeud.control.MainActivity;
@@ -16,9 +15,8 @@ import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListe
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.services.Authentication;
 import com.chalmers.tda367.localfeud.services.IAuthentication;
-import com.chalmers.tda367.localfeud.services.Location;
+import com.chalmers.tda367.localfeud.services.LocationHandler;
 import com.chalmers.tda367.localfeud.services.LocationPermissionError;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.github.paolorotolo.appintro.AppIntro;
 
 import java.lang.reflect.Field;
@@ -37,11 +35,9 @@ public class AuthenticationFlowActivity extends AppIntro {
 
 
         IAuthentication authService = Authentication.getInstance();
-        Log.d(TagHandler.MAIN_TAG, "New init");
         authService.startTracking(getApplicationContext(), new IAuthentication.IAuthenticationListener() {
             @Override
             public void onLogInSuccessful() {
-                Log.d(TagHandler.MAIN_TAG, "Logging in!");
                 DataHandlerFacade
                         .getMeDataHandler().get(new AbstractDataResponseListener<Me>() {
                     @Override
@@ -56,14 +52,13 @@ public class AuthenticationFlowActivity extends AppIntro {
 
 
                 try {
-                    Location.getInstance().startTracking(getApplicationContext());
+                    LocationHandler.getInstance().startTracking(getApplicationContext());
                 } catch (LocationPermissionError locationPermissionError) {
                     Intent i = new Intent(getApplicationContext(), PermissionFlow.class);
                     startActivity(i);
                     finish();
                     return;
                 }
-                Log.d(TagHandler.MAIN_TAG, "Sending to Main");
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
                 finish();
@@ -122,7 +117,6 @@ public class AuthenticationFlowActivity extends AppIntro {
     protected void onResume() {
         super.onResume();
         if (Authentication.getInstance().isLoggedIn()) {
-            Log.d(TagHandler.MAIN_TAG, "User is logged in");
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
             finish();

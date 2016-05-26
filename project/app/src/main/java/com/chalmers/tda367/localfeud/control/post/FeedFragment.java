@@ -25,6 +25,7 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.services.LocationHandler;
 import com.github.fabtransitionactivity.SheetLayout;
 
 import java.util.Comparator;
@@ -208,7 +209,7 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
 
     @Override
     public void updatePosts(final SwipeRefreshLayout l) {
-        Location loc = com.chalmers.tda367.localfeud.services.Location.getInstance().getLocation();
+        Location loc = LocationHandler.getInstance().getLocation();
         DataHandlerFacade.getPostDataHandler().getList(new Position(loc), new AbstractDataResponseListener<List<Post>>() {
             @Override
             public void onSuccess(List<Post> data) {
