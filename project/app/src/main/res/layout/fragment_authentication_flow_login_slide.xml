@@ -66,7 +66,7 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:padding="@dimen/default_margin"
             android:background="@android:color/white"
-            android:textColor="@color/feedColorPrimaryDark"
+            android:textColor="@color/authColorPrimaryDark"
             android:textSize="16sp"/>
 
             <com.facebook.login.widget.LoginButton

@@ -5,6 +5,8 @@
     <color name="feedColorPrimaryDark">#e0e0e0</color>
     <color name="defaultTextColor">#757575</color>
     <color name="feedColorAccent">#2979ff</color>
+    <color name="authColorPrimary">#3F51B5</color>
+    <color name="authColorPrimaryDark">#303F9F</color>
     <color name="chatColorPrimary">#8BC34A</color>
     <color name="chatColorPrimaryDark">#689F38</color>
     <color name="chatColorAccent">#795548</color>

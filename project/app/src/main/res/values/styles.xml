@@ -8,6 +8,14 @@
         <item name="android:windowContentTransitions">true</item>
 
     </style>
+    <style name="AuthTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/authColorPrimary</item>
+        <item name="colorPrimaryDark">@color/authColorPrimaryDark</item>
+        <item name="colorAccent">@color/feedColorAccent</item>
+        <item name="android:windowContentTransitions">true</item>
+
+    </style>
+
     <style name="SplashTheme" parent="MyAppTheme">
         <item name="android:windowBackground">@drawable/splash_drawable</item>
     </style>
