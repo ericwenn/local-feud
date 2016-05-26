@@ -33,7 +33,9 @@ import java.util.Map;
 
 
 /**
- * Created by Daniel Ahlqvist on 2016-05-03.
+ * Activity used to show a chat with another user. The activity contains a
+ * recycler view, containing ChatActiveAdapter objects. The activity is
+ * bound to the activity_active_chat layout XML file.
  */
 public class ChatActiveActivity extends AppCompatActivity implements ChatActiveAdapter.AdapterCallback, IMessageListener {
 
@@ -47,6 +49,12 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
     private Chat chat;
     private ProfilePictureView profilePictureView;
 
+    /**
+     * Binds a layout XML file to the activity and receives the active chat
+     * from the object it is created from (ChatListAdapter).
+     *
+     * @param savedInstanceState an old state of the activity, used to resume a previous instance.
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = this.getIntent();
@@ -58,6 +66,9 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         setContentView(R.layout.activity_active_chat);
     }
 
+    /**
+     * Used to resume the activity. It will start to listen for messages incoming.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -65,7 +76,10 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         initViews();
     }
 
-
+    /**
+     * Used to start listening for incoming messages, to make sure that a message
+     * will show up instantly when it is received.
+     */
     private void registerAsMessageListener(){
         int counterPartUserId = chat.getFirstCounterPart(MeDataHandler.getInstance().getMe().getId()).getId();
 
@@ -75,6 +89,10 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         Log.d(TagHandler.MAIN_TAG, "Register as message listener for user: " + counterPartUserId);
     }
 
+    /**
+     * Stops the activity from listening for incoming messages. Messages will no longer
+     * show up instantly.
+     */
     private void unregisterAsMessageListener(){
         int counterPartUserId = chat.getFirstCounterPart(MeDataHandler.getInstance().getMe().getId()).getId();
 
@@ -84,6 +102,10 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         Log.d(TagHandler.MAIN_TAG, "Unregister as listener");
     }
 
+    /**
+     * Binds the objects in the layout XML file to variables in the activity class.
+     * Listeners are set to the buttons.
+     */
     private void initViews() {
         chatMessageList = (RecyclerView) findViewById(R.id.chat_message_list);
         chatMessageInput = (EditText) findViewById(R.id.posttext);
@@ -114,6 +136,12 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
 
         if (postMessageButton != null) {
             postMessageButton.setOnClickListener(new View.OnClickListener() {
+
+                /**
+                 * Sends a message when the send button is clicked, if nothing is wrong.
+                 *
+                 * @param v the current view.
+                 */
                 @Override
                 public void onClick(View v)
                 {
@@ -163,6 +191,9 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         refreshMessages();
     }
 
+    /**
+     * Reloads and downloads possible new messages from the server.
+     */
     public void refreshMessages() {
         DataHandlerFacade.getChatMessageDataHandler().getList(chat, new AbstractDataResponseListener<List<ChatMessage>>() {
             @Override
@@ -182,6 +213,9 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         });
     }
 
+    /**
+     * Scrolls the recycler view to the bottom to show the latest message.
+     */
     public void scrollToBottom() {
         chatMessageList.scrollToPosition(chatActiveAdapter.getItemCount() - 1);
     }
@@ -197,12 +231,22 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         }
     }
 
+    /**
+     * When the activity is taken out of focus, the unregisterAsMessageListener
+     * method is called to stop the activity from listening for incoming messages.
+     */
     @Override
     protected void onPause() {
         super.onPause();
         unregisterAsMessageListener();
     }
 
+    /**
+     * Used to add a chat message to the ChatActiveAdapter. The method with the
+     * same name in the adapter is called.
+     *
+     * @param chatMessage the chat message which will be added.
+     */
     protected void addChatMessageToAdapter(final ChatMessage chatMessage){
         runOnUiThread(new Runnable() {
             @Override
@@ -213,6 +257,11 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
         });
     }
 
+    /**
+     * Determines what will happen when a chat message is received.
+     *
+     * @param data a map containing a chat message and a key
+     */
     @Override
     public void onMessageRecieved(Map<String, Object> data) {
         final ChatMessage chatMessage = (ChatMessage) data.get("object");
