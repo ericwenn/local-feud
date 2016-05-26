@@ -429,7 +429,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
             @Override
             public void onFailure(DataResponseError error, String errormessage) {
-                Snackbar.make(recyclerView, "Chat creation failed: " + errormessage, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(recyclerView, "Chat creation failed. " + errormessage, Snackbar.LENGTH_LONG).show();
 
             }
         });
