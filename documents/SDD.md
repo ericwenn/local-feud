@@ -203,6 +203,66 @@ public interface IResponseAction {
 }
 ```
 
+**IMessageHandler** tar emot alla notiser och sorterar ut dessa till rätt komponent av applikationen.
+
+```java
+public interface IMessageHandler {
+
+    void removeMessageListener(String type, IMessageListener listener);
+    
+    void removeMessageListener(String type, @Nullable MapEntry<String, Object> data, IMessageListener listener);
+    
+    void addMessageListener(String type, IMessageListener listener);
+    
+    void addMessageListener(String type, @Nullable MapEntry<String, Object> data, IMessageListener listener);
+    void handleMessage(String type, JSONObject data);
+}
+```
+
+**IMessageListener** lyssnar efter nya inkommande meddelanden.
+
+```java
+public interface IMessageListener {
+
+    void onMessageReceived(Map<String, Object> data);
+    
+}
+```
+
+**ILocation** används när man vill spåra efter användarens position.
+
+```java
+public interface ILocation {
+
+    void startTracking(Context context) throws LocationPermissionError;
+    
+    android.location.Location getLocation();
+    
+}
+```
+
+**IRestClient** sköter kontakten med servern.
+```java
+public interface IRestClient {
+
+    void get(String url, Map<String,String> paramsMap, IResponseAction action);
+
+    void get(String url, IResponseAction action);
+
+    void post(String url, IResponseAction action);
+
+    void post(String url, Map<String,String> paramsMap, IResponseAction action);
+
+    void put(String url, IResponseAction action);
+
+    void put(String url, Map<String,String> paramsMap, IResponseAction action);
+
+    void delete(String url, IResponseAction action);
+
+    void delete(String url, Map<String,String> paramsMap, IResponseAction action);
+
+}
+```
 
 ####2.2.3 Layering
 **N/A**
