@@ -3,6 +3,7 @@ package com.chalmers.tda367.localfeud.services;
 import android.test.mock.MockContext;
 
 import com.chalmers.tda367.localfeud.control.notifications.MessageHandler;
+import com.chalmers.tda367.localfeud.control.notifications.NotificationFacade;
 
 import org.junit.Test;
 

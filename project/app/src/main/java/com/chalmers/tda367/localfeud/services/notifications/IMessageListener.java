@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.control.notifications;
+package com.chalmers.tda367.localfeud.services.notifications;
 
 import java.util.Map;
 

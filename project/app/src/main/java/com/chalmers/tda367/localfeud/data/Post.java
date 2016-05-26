@@ -2,7 +2,7 @@ package com.chalmers.tda367.localfeud.data;
 
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.services.Location;
+import com.chalmers.tda367.localfeud.services.LocationHandler;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.io.Serializable;
@@ -78,8 +78,8 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
 
     public void setDistance()
     {
-        double myLatitude = Location.getInstance().getLocation().getLatitude();
-        double myLongitude = Location.getInstance().getLocation().getLongitude();
+        double myLatitude = LocationHandler.getInstance().getLocation().getLatitude();
+        double myLongitude = LocationHandler.getInstance().getLocation().getLongitude();
 
         float[] dist = new float[1];
         android.location.Location.distanceBetween(myLatitude, myLongitude, location.getLatitude(), location.getLongitude(), dist);

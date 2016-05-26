@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.MainActivity;
-import com.chalmers.tda367.localfeud.services.Location;
+import com.chalmers.tda367.localfeud.services.LocationHandler;
 import com.chalmers.tda367.localfeud.services.LocationPermissionError;
 import com.chalmers.tda367.localfeud.util.SlideFactory;
 import com.github.paolorotolo.appintro.AppIntro2;
@@ -40,7 +40,7 @@ public class PermissionFlow extends AppIntro2 {
             askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
 
             try {
-                Location.getInstance().startTracking(getApplicationContext());
+                LocationHandler.getInstance().startTracking(getApplicationContext());
             } catch (LocationPermissionError locationPermissionError) {
                 getPager().setCurrentItem(0);
             }
