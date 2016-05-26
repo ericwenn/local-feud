@@ -27,7 +27,9 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Created by Daniel Ahlqvist on 2016-05-08.
+ * Adapter used by ChatActiveActivity to display chat messages
+ * bubbles in its recycler view. The adapter is created using the
+ * layout XML files chat_message_bubble_me and chat_message_bubble_not_me
  */
 public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "ChatActiveAdapter";
