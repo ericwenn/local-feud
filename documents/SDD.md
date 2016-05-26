@@ -229,12 +229,16 @@ public interface IMessageListener {
 }
 ```
 
-**ILocation** används när man vill spåra efter användarens position.
+**ILocationHandler** används när man vill spåra efter användarens position.
 
 ```java
 public interface ILocation {
 
     void startTracking(Context context) throws LocationPermissionError;
+    
+    void stopTracking() throws LocationPermissionError;
+    
+    boolean isTracking();
     
     android.location.Location getLocation();
     
