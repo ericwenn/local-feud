@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Created by Alfred on 2016-04-11.
+ *  A Post object with all required data.
  */
 public class Post extends GeneralPost implements Serializable, Cloneable {
 
@@ -76,8 +76,7 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     }
 
 
-    public void setDistance()
-    {
+    public void setDistance() {
         double myLatitude = LocationHandler.getInstance().getLocation().getLatitude();
         double myLongitude = LocationHandler.getInstance().getLocation().getLongitude();
 
@@ -86,8 +85,7 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
         distance = Math.round(dist[0]);
     }
 
-    public int getDistance()
-    {
+    public int getDistance() {
         setDistance();
         return distance;
     }
@@ -102,8 +100,6 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     }
 
 
-
-
     public double getReach() {
         return reach;
     }
@@ -113,8 +109,6 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     }
 
 
-
-
     public Content getContent() {
         return content;
     }
@@ -122,9 +116,6 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     public void setContent(Content content) {
         this.content = content;
     }
-
-
-
 
 
     public Calendar getDatePosted() {
@@ -147,10 +138,6 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     }
 
 
-
-
-
-
     public boolean isIsDeleted() {
         return is_deleted;
     }
@@ -158,9 +145,6 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     public void setIsDeleted(boolean is_deleted) {
         this.is_deleted = is_deleted;
     }
-
-
-
 
 
     public int getNumberOfComments() {
@@ -172,7 +156,6 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     }
 
 
-
     public int getNumberOfLikes() {
         return number_of_likes;
     }
@@ -180,7 +163,6 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     public void setNumberOfLikes(int number_of_likes) {
         this.number_of_likes = number_of_likes;
     }
-
 
 
     public String getHref() {

@@ -5,19 +5,20 @@ import android.location.Location;
 import java.io.Serializable;
 
 /**
- * Created by Alfred on 2016-04-11.
+ *  A Position object matching the object on server.
  */
-public class Position implements Serializable{
+public class Position implements Serializable {
     private double latitude;
     private double longitude;
     private double distance;
 
-    public Position(double latitude, double longitude){
+    public Position(double latitude, double longitude) {
         this.setLatitude(latitude);
         this.setLongitude(longitude);
     }
+
     public Position(Location loc) {
-        this( loc.getLatitude(), loc.getLongitude());
+        this(loc.getLatitude(), loc.getLongitude());
     }
 
     public double getLatitude() {

@@ -1,10 +1,9 @@
 package com.chalmers.tda367.localfeud.data;
 
 import java.io.Serializable;
-import java.io.StreamCorruptedException;
 
 /**
- * Created by Alfred on 2016-04-11.
+ *  A User object containing all required data.
  */
 public class User implements Serializable {
     private final int id;

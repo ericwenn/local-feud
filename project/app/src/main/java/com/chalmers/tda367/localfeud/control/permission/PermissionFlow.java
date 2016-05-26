@@ -11,10 +11,13 @@ import com.chalmers.tda367.localfeud.services.LocationPermissionError;
 import com.chalmers.tda367.localfeud.util.SlideFactory;
 import com.github.paolorotolo.appintro.AppIntro2;
 
+/**
+ *  The activity that's used when asking for required permissions.
+ */
 public class PermissionFlow extends AppIntro2 {
     private static final String TAG = "PermissionFlow";
 
-    // Please DO NOT override onCreate. Use init.
+//    Please DO NOT override onCreate. Use init.
     @Override
     public void init(Bundle savedInstanceState) {
 

@@ -21,9 +21,6 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.HashMap;
 
-/**
- * Created by Alfred on 2016-05-17.
- */
 public class NotificationFacade {
 
     private static NotificationFacade instance;

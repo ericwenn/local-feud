@@ -3,7 +3,6 @@ package com.chalmers.tda367.localfeud.control.notifications;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.control.notifications.NotificationFacade;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.google.android.gms.gcm.GcmListenerService;
 
@@ -11,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by Alfred on 2016-05-16.
+ * Listening for new incoming messages.
  */
 public class EddaGcmListenerService extends GcmListenerService {
 
