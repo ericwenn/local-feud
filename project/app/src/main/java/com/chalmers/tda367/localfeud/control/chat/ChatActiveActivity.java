@@ -263,7 +263,7 @@ public class ChatActiveActivity extends AppCompatActivity implements ChatActiveA
      * @param data a map containing a chat message and a key
      */
     @Override
-    public void onMessageRecieved(Map<String, Object> data) {
+    public void onMessageReceived(Map<String, Object> data) {
         final ChatMessage chatMessage = (ChatMessage) data.get("object");
 
         Chat oldChat = chat.clone();

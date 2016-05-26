@@ -36,7 +36,7 @@ public class MessageHandlerTest {
 
         listener1 = new IMessageListener() {
             @Override
-            public void onMessageRecieved(Map<String, Object> data) {
+            public void onMessageReceived(Map<String, Object> data) {
                 assertEquals(defData, data);
                 System.out.println("Listens to only the message type");
             }
@@ -44,7 +44,7 @@ public class MessageHandlerTest {
 
         listener2 = new IMessageListener() {
             @Override
-            public void onMessageRecieved(Map<String, Object> data) {
+            public void onMessageReceived(Map<String, Object> data) {
                 assertEquals(defData, data);
                 System.out.println("Listens to all messages with the user_id equals to 12");
             }
@@ -52,7 +52,7 @@ public class MessageHandlerTest {
 
         listener3 = new IMessageListener() {
             @Override
-            public void onMessageRecieved(Map<String, Object> data) {
+            public void onMessageReceived(Map<String, Object> data) {
                 assertEquals(defData, data);
                 System.out.println("Listens to all messages with from equals to Alfred Björk");
             }

@@ -15,12 +15,7 @@ import android.util.Log;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.MainActivity;
-import com.chalmers.tda367.localfeud.control.chat.ChatActiveActivity;
-import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
-import com.chalmers.tda367.localfeud.data.KnownUser;
-import com.chalmers.tda367.localfeud.data.User;
-import com.chalmers.tda367.localfeud.data.handler.MeDataHandler;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.util.MapEntry;
 import com.chalmers.tda367.localfeud.util.TagHandler;
@@ -221,7 +216,7 @@ public class MessageHandler implements IMessageHandler {
 
                 // Notify the listeners mapped to the mapEntry
                 for (IMessageListener listener : listeners) {
-                    listener.onMessageRecieved(data);
+                    listener.onMessageReceived(data);
                 }
             }
         }

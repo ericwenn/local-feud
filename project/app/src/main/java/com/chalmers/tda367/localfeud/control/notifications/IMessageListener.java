@@ -6,5 +6,5 @@ import java.util.Map;
  * Created by Alfred on 2016-05-18.
  */
 public interface IMessageListener {
-    void onMessageRecieved(Map<String, Object> data);
+    void onMessageReceived(Map<String, Object> data);
 }
