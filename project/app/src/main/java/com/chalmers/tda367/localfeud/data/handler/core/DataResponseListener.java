@@ -3,7 +3,8 @@ package com.chalmers.tda367.localfeud.data.handler.core;
 import java.lang.reflect.Type;
 
 /**
- * Created by ericwenn on 5/12/16.
+ *  Listener that checks if the receiving of data
+ *  was successful or not.
  */
 public interface DataResponseListener<D> {
     void onSuccess( D data );

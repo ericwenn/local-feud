@@ -6,7 +6,7 @@ import com.chalmers.tda367.localfeud.data.Post;
 import java.util.List;
 
 /**
- * Created by Alfred on 2016-05-12.
+ *  Handles all necessary functions for chats.
  */
 public interface IChatDataHandler {
     /**
