@@ -205,10 +205,11 @@ public interface IResponseAction {
 
 
 ####2.2.3 Layering
-// TODO
+**N/A**
 
 ####2.2.4 Dependency analysis
-// TODO
+De olika beroenden mellan paketen visas här. Det finns inga cirkulära beroenden mellan paketen.
+![Stan](https://raw.githubusercontent.com/ericwenn/local-feud/master/documents/stan.png)
 
 ###2.3 Concurrency issues
 
