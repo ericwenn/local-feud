@@ -44,6 +44,14 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     private BottomBar bottomBar;
     private Fragment currentFragment;
 
+    /**
+     * Binds a layout XML file to the activity, initializes the Facebook SDK,
+     * registers the application for notifications and checks if the activity
+     * was started using a chatid, which should redirect it to a chat.
+     *
+     * @param savedInstanceState an old state of the activity, used to resume a
+     *                           previous instance.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +94,13 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
 
     }
 
+    /**
+     * Initializes the bottom bar and sets its background colors for
+     * different tabs
+     *
+     * @param savedInstanceState an old state of the bottom bar, used to resume a
+     *                           previous instance.
+     */
     private void initBottomBar(final Bundle savedInstanceState) {
         bottomBar = BottomBar.attach(this, savedInstanceState);
         bottomBar.noTopOffset();
@@ -111,6 +126,12 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         bottomBar.setTextAppearance(R.style.BottomBarBadge_Text);
     }
 
+    /**
+     * Used to switch between different fragments in the activity. Handles the
+     * color change of the bottom bar.
+     *
+     * @param menuItemId the id of the button that has been clicked
+     */
     private void switchFragment(int menuItemId) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Window window = getWindow();
@@ -133,6 +154,11 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         transaction.commit();
     }
 
+    /**
+     * Saves the current instance of the activity, to make it possible to resume later.
+     *
+     * @param outState a container for all data to be saved
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -140,6 +166,13 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         currentFragment.onSaveInstanceState(outState);
     }
 
+    /**
+     * Defines what will happen if a post is clicked in the feed. Starts a
+     * PostClickedActivity with the post clicked.
+     *
+     * @param post the post that has been clicked
+     * @param view a card that has been clicked
+     */
     @Override
     public void onPostClick(Post post, CardView view) {
         Intent i = new Intent(getApplicationContext(), PostClickedActivity.class);
@@ -154,6 +187,13 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                         .toBundle());
     }
 
+    /**
+     * Defines what will happen if a chat is clicked in the chat list.
+     * Starts a ChatActiveActivity to display the chat messages of the clicked
+     * chat.
+     *
+     * @param chat the chat that should be opened
+     */
     @Override
     public void onChatClicked(Chat chat)
     {
@@ -164,6 +204,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         startActivity(i);
     }
 
+    /**
+     * Defines what will happen if a like button is clicked in the feed. Changes
+     * color of the icon, updates the number of likes and sends the "like" (or dislike)
+     * to the database.
+     *
+     * @param post the post that has been liked/disliked
+     * @param imageButton the heart button
+     * @param likesDisplay the text label which shows the number of likes
+     */
     @Override
     public void onLikeClick(final Post post, final ImageButton imageButton, final TextView likesDisplay) {
         imageButton.setEnabled(false);
@@ -181,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         }
         imageButton.setImageResource(revertLikeDrawable);
 
+        //If the post has not been liked by the user before.
         if (!isLiked) {
             DataHandlerFacade.getLikeDataHandler().create( post, new AbstractDataResponseListener<Like>() {
                 @Override
@@ -200,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 }
             } );
         }
+        //If the user tries to remove the like from a post.
         else {
             DataHandlerFacade.getLikeDataHandler().delete( post, new AbstractDataResponseListener<Void>() {
                 @Override
@@ -221,11 +272,22 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         }
     }
 
+    /**
+     * Defines what will happen if a more button (which currently doesn't
+     * exist) in the feed is clicked.
+     *
+     * @param post the post the more button belongs to
+     */
     @Override
     public void onMoreClick(Post post) {
         showSnackbar("No more for you");
     }
 
+    /**
+     * Used to display a message in a snackbar.
+     *
+     * @param text the text that should be displayed in the snackbar.
+     */
     @Override
     public void onShowSnackbar(String text) {
         showSnackbar(text);
@@ -242,7 +304,10 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         }
     }
 
-
+    /**
+     * Defines what will happen if the activity is destroyed (stopped).
+     * Stops tracking the user's location.
+     */
     @Override
     protected void onDestroy() {
         try {
