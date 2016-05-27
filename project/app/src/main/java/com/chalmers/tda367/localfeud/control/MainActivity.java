@@ -127,11 +127,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 window.setStatusBarColor(ContextCompat.getColor(this, R.color.chatColorPrimaryDark));
                 currentFragment = ChatFragment.newInstance(this);
         } else if (menuItemId == R.id.me_item) {
-            if (currentFragment == null || settingsFragment.getClass() != MeFragment.class)
                 window.setStatusBarColor(ContextCompat.getColor(this, R.color.meColorPrimaryDark));
                 settingsFragment = MeFragment.newInstance();
         }
-        transaction.replace(R.id.main_root, currentFragment);
+        if(menuItemId == R.id.me_item)
+        {
+            transaction.remove(currentFragment);
+        }
+        else
+            transaction.replace(R.id.main_root, currentFragment);
         transaction.commit();
     }
 
