@@ -37,6 +37,12 @@ import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
+/**
+ *  The main activity of the application, which handles the switch between the
+ *  tab fragments and the on click methods for different elements in the GUI.
+ *  Also handles the bottom bar and other details regarding the functionality
+ *  of the application.
+ */
 public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback, ChatListAdapter.AdapterCallback {
 
     private static final String TAG = "MainActivity";
