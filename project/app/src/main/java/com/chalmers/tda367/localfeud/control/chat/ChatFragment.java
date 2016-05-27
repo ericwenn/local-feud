@@ -77,6 +77,14 @@ public class ChatFragment extends Fragment {
         return localInflater.inflate(R.layout.fragment_chat, container, false);
     }
 
+    /**
+     * Calls the method to initialize the view of the fragment and tries to get
+     * a list of chats
+     *
+     * @param view the view to initialize
+     * @param savedInstanceState an old state of the fragment, used to resume
+     *                           a previous instance.
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -99,6 +107,12 @@ public class ChatFragment extends Fragment {
 
     }
 
+    /**
+     * Initializing the view of the fragment. Binds the objects from the
+     * layout XML file to variables.
+     *
+     * @param view the view to initialize
+     */
     private void initViews(View view) {
         root = (CoordinatorLayout) view.findViewById(R.id.chat_list_root);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.chat_list_refresh_layout);
@@ -111,6 +125,10 @@ public class ChatFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeResources(R.color.chatColorPrimary,
                 R.color.chatColorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            /**
+             * Called when a swipe down refresh is made. Tries to update the
+             * list of chats.
+             */
             @Override
             public void onRefresh() {
                 DataHandlerFacade.getChatDataHandler().getList(new AbstractDataResponseListener<List<Chat>>() {
@@ -138,6 +156,12 @@ public class ChatFragment extends Fragment {
         });
     }
 
+    /**
+     * Returns an error string if something goes wrong.
+     *
+     * @param error the error to display
+     * @return a string with an error message
+     */
     private String getErrorString(DataResponseError error) {
         switch (error) {
             case NOTFOUND:
@@ -149,6 +173,11 @@ public class ChatFragment extends Fragment {
         }
     }
 
+    /**
+     * Shows a snackbar with information.
+     *
+     * @param text the text to display in the snackbar
+     */
     public void showSnackbar(String text) {
         Snackbar.make(root,
                 text,
