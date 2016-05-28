@@ -24,7 +24,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 /**
- * Created by ericwenn on 5/5/16.
+ *  Activity for authenticate user with Facebook.
  */
 public class AuthenticationFlowActivity extends AppIntro {
 
@@ -34,6 +34,7 @@ public class AuthenticationFlowActivity extends AppIntro {
         final View v = this.getCurrentFocus();
 
 
+//        Using a tracker that checks if user is logged in or not
         IAuthentication authService = Authentication.getInstance();
         authService.startTracking(getApplicationContext(), new IAuthentication.IAuthenticationListener() {
             @Override
@@ -42,6 +43,7 @@ public class AuthenticationFlowActivity extends AppIntro {
                         .getMeDataHandler().get(new AbstractDataResponseListener<Me>() {
                     @Override
                     public void onSuccess(Me data) {
+//                        Storing users data as Me
                         DataHandlerFacade.getMeDataHandler().setMe(data);
                     }
 
@@ -59,6 +61,8 @@ public class AuthenticationFlowActivity extends AppIntro {
                     finish();
                     return;
                 }
+
+//                Sending user to MainActivity
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
                 finish();
@@ -73,10 +77,13 @@ public class AuthenticationFlowActivity extends AppIntro {
 
             @Override
             public void onLogOut() {
+//                Logging out user
                 Authentication.getInstance().logOut();
+
+//                Finishing current activity and sending user to AuthenticationFlowActivity
                 try {
                     getActivity().finish();
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 Intent i = new Intent(getApplicationContext(), AuthenticationFlowActivity.class);
                 startActivity(i);
                 finish();
@@ -124,6 +131,15 @@ public class AuthenticationFlowActivity extends AppIntro {
 
     }
 
+    /**
+     *  Used for getting current activity
+     *  @return current activity
+     *  @throws ClassNotFoundException if no class with "android.app.ActivityThread" can be found
+     *  @throws NoSuchMethodException if activityThreadClass doesn't have method "currentActivityThread"
+     *  @throws InvocationTargetException when trying to invoke "currentActivityThread"
+     *  @throws IllegalAccessException for all getters on fields/activities
+     *  @throws NoSuchFieldException when trying to .getDeclaredField
+     */
     private static Activity getActivity() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
         Class activityThreadClass = Class.forName("android.app.ActivityThread");
         Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
