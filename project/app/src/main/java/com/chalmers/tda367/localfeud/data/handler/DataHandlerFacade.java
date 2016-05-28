@@ -7,9 +7,6 @@ import com.chalmers.tda367.localfeud.data.handler.core.ILikeDataHandler;
 import com.chalmers.tda367.localfeud.data.handler.core.IMeDataHandler;
 import com.chalmers.tda367.localfeud.data.handler.core.IPostDataHandler;
 
-/**
- * Created by ericwenn on 5/12/16.
- */
 public class DataHandlerFacade {
     public static IPostDataHandler getPostDataHandler() {
         return PostDataHandler.getInstance();

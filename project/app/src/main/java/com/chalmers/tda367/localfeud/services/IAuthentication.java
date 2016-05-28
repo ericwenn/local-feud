@@ -4,9 +4,6 @@ import android.content.Context;
 
 import java.util.HashMap;
 
-/**
- * Created by ericwenn on 5/16/16.
- */
 public interface IAuthentication {
 
     void startTracking(Context context, IAuthenticationListener listener );
