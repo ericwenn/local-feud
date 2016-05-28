@@ -6,9 +6,6 @@ import com.chalmers.tda367.localfeud.util.MapEntry;
 
 import org.json.JSONObject;
 
-/**
- * Created by Alfred on 2016-05-18.
- */
 public interface IMessageHandler {
     void removeMessageListener(String type, IMessageListener listener);
     void removeMessageListener(String type, @Nullable MapEntry<String, Object> data, IMessageListener listener);

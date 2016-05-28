@@ -4,14 +4,7 @@ import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 
-/**
- * Text om klassen
- *
- * @author David Söderberg
- * @since 16-04-12
- */
-public class GsonHandler
-{
+public class GsonHandler {
     private final Gson gson;
     private static GsonHandler instance = null;
 

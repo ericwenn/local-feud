@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ *  A Simple fragment that takes a layoutResId and coverts
+ *  it to a Fragment.
+ */
 public class SlideFactory extends Fragment {
 
     private static final String ARG_LAYOUT_RES_ID = "layoutResId";

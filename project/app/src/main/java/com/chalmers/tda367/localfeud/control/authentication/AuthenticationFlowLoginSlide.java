@@ -15,17 +15,12 @@ import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link AuthenticationFlowLoginSlide#newInstance} factory method to
- * create an instance of this fragment.
+ *  Fragment used in AuthenticationFlowActivity
  */
 
-// * {@link AuthenticationFlowLoginSlide.OnFragmentInteractionListener}
 public class AuthenticationFlowLoginSlide extends Fragment {
 
     private CallbackManager callbackManager;
-
-    //private OnFragmentInteractionListener mListener;
 
     public AuthenticationFlowLoginSlide() {
         // Required empty public constructor

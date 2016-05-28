@@ -9,9 +9,6 @@ import com.loopj.android.http.SyncHttpClient;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Alfred on 2016-04-12.
- */
 public class RestClient implements IRestClient {
     private final String BASE_URL = "http://api-local.ericwenn.se/";
     private final AsyncHttpClient asyncClient;

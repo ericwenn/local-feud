@@ -5,9 +5,6 @@ import com.chalmers.tda367.localfeud.data.ChatMessage;
 
 import java.util.List;
 
-/**
- * Created by Alfred on 2016-05-12.
- */
 public interface IChatMessageDataHandler {
 
     /**

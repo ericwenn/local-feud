@@ -7,9 +7,6 @@ import com.chalmers.tda367.localfeud.data.handler.core.ILikeDataHandler;
 
 import java.util.List;
 
-/**
- * Created by ericwenn on 5/13/16.
- */
 public class LikeDataHandler extends AbstractDataHandler implements ILikeDataHandler {
 
     private static LikeDataHandler instance = null;
