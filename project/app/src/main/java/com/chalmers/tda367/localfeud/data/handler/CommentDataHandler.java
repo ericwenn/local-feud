@@ -8,9 +8,6 @@ import com.chalmers.tda367.localfeud.data.handler.core.ICommentDataHandler;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by ericwenn on 5/12/16.
- */
 public class CommentDataHandler extends AbstractDataHandler implements ICommentDataHandler {
 
     private static final String TAG = "CommentDataHandler";

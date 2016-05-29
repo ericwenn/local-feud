@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.services;
+package com.chalmers.tda367.localfeud.control.notifications;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -10,8 +10,9 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.control.notifications.IMessageHandler;
-import com.chalmers.tda367.localfeud.control.notifications.MessageHandler;
+import com.chalmers.tda367.localfeud.services.IResponseAction;
+import com.chalmers.tda367.localfeud.services.RestClient;
+import com.chalmers.tda367.localfeud.services.notifications.IMessageHandler;
 import com.chalmers.tda367.localfeud.services.gcm.GCMPreferences;
 import com.chalmers.tda367.localfeud.services.gcm.RegistrationIntentService;
 import com.chalmers.tda367.localfeud.util.TagHandler;
@@ -20,9 +21,6 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.HashMap;
 
-/**
- * Created by Alfred on 2016-05-17.
- */
 public class NotificationFacade {
 
     private static NotificationFacade instance;

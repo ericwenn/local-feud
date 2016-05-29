@@ -3,6 +3,7 @@
     android:id="@+id/feed_fragment_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fragmentBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <android.support.design.widget.AppBarLayout
@@ -32,7 +33,7 @@
                         android:layout_gravity="center"
                         android:layout_marginEnd="20dp"
                         android:contentDescription="@string/app_logo"
-                        android:src="@drawable/edda_logo_simple_w" />
+                        android:src="@drawable/edda_logo_simple" />
 
             </android.support.v7.widget.Toolbar>
 
@@ -46,9 +47,9 @@
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/feedColorAccent"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@android:color/white"
+            app:tabSelectedTextColor="@android:color/black"
             app:tabTextAppearance="@style/TextAppearance.Design.Tab"
-            app:tabTextColor="@color/white70PTransparent" />
+            app:tabTextColor="@color/defaultTextColor" />
 
     </android.support.design.widget.AppBarLayout>
 

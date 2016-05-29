@@ -1,7 +1,7 @@
 package com.chalmers.tda367.localfeud.data.handler.core;
 
 /**
- * Created by ericwenn on 5/18/16.
+ *  A interface that listens for changes on T.
  */
 public interface DataChangeListener<T> {
     void onChange( T oldValue, T newValue );

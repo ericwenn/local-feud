@@ -1,31 +1,16 @@
-package com.chalmers.tda367.localfeud.services.gcm;
+package com.chalmers.tda367.localfeud.control.notifications;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.NotificationCompat;
-import android.util.JsonReader;
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.R;
-import com.chalmers.tda367.localfeud.control.MainActivity;
-import com.chalmers.tda367.localfeud.services.NotificationFacade;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 import com.google.android.gms.gcm.GcmListenerService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import java.io.IOException;
-import java.io.Reader;
 
 /**
- * Created by Alfred on 2016-05-16.
+ * Listening for new incoming messages.
  */
 public class EddaGcmListenerService extends GcmListenerService {
 

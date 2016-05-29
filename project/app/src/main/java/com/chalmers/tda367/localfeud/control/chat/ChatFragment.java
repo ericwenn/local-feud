@@ -26,17 +26,23 @@ import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *  A fragment which works as one of the tabs for MainActivity.
+ *  The fragment holds the activities used for chats and chat
+ *  messages.
+ */
 public class ChatFragment extends Fragment {
     private static final String TAG = "ChatFragment";
     private CoordinatorLayout root;
     private ChatListAdapter chatListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-
-    public ChatFragment() {
-
-    }
-
+    /**
+     * Method run when a new instance of the fragment is created.
+     *
+     * @param context the current state of the object it is called from.
+     * @return a new ChatFragment object
+     */
     public static ChatFragment newInstance(Context context) {
         final ChatFragment fragment = new ChatFragment();
         fragment.chatListAdapter = new ChatListAdapter(context);
@@ -52,7 +58,16 @@ public class ChatFragment extends Fragment {
     }
 
 
-
+    /**
+     * Creates the view which the fragment will hold. The view is created using
+     * the fragment_chat layout XML file.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState an old state of the activity, used to resume
+     *                           a previous instance.
+     * @return the view the fragment will hold
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,6 +76,14 @@ public class ChatFragment extends Fragment {
         return localInflater.inflate(R.layout.fragment_chat, container, false);
     }
 
+    /**
+     * Calls the method to initialize the view of the fragment and tries to get
+     * a list of chats
+     *
+     * @param view the view to initialize
+     * @param savedInstanceState an old state of the fragment, used to resume
+     *                           a previous instance.
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -83,6 +106,12 @@ public class ChatFragment extends Fragment {
 
     }
 
+    /**
+     * Initializing the view of the fragment. Binds the objects from the
+     * layout XML file to variables.
+     *
+     * @param view the view to initialize
+     */
     private void initViews(View view) {
         root = (CoordinatorLayout) view.findViewById(R.id.chat_list_root);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.chat_list_refresh_layout);
@@ -95,6 +124,10 @@ public class ChatFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeResources(R.color.chatColorPrimary,
                 R.color.chatColorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            /**
+             * Called when a swipe down refresh is made. Tries to update the
+             * list of chats.
+             */
             @Override
             public void onRefresh() {
                 DataHandlerFacade.getChatDataHandler().getList(new AbstractDataResponseListener<List<Chat>>() {
@@ -122,6 +155,12 @@ public class ChatFragment extends Fragment {
         });
     }
 
+    /**
+     * Returns an error string if something goes wrong.
+     *
+     * @param error the error to display
+     * @return a string with an error message
+     */
     private String getErrorString(DataResponseError error) {
         switch (error) {
             case NOTFOUND:
@@ -133,6 +172,11 @@ public class ChatFragment extends Fragment {
         }
     }
 
+    /**
+     * Shows a snackbar with information.
+     *
+     * @param text the text to display in the snackbar
+     */
     public void showSnackbar(String text) {
         Snackbar.make(root,
                 text,

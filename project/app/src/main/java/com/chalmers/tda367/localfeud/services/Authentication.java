@@ -8,9 +8,6 @@ import com.facebook.FacebookSdk;
 
 import java.util.HashMap;
 
-/**
- * Created by ericwenn on 5/12/16.
- */
 public class Authentication implements IAuthentication{
 
     private static Authentication instance = null;
@@ -64,14 +61,16 @@ public class Authentication implements IAuthentication{
             return null;
         }
 
-        HashMap map = new HashMap<>();
+        HashMap<String, String> map = new HashMap<>();
 
         map.put( "user-id", token.getUserId() );
         map.put( "token", token.getToken() );
-        // TODO
         return map;
     }
 
+    public void logOut() {
+        token = null;
+    }
     @Override
     public boolean isLoggedIn() {
         return token != null;

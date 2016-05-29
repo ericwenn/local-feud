@@ -1,12 +1,7 @@
-package com.chalmers.tda367.localfeud.services.gcm;
+package com.chalmers.tda367.localfeud.control.notifications;
 
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.services.NotificationFacade;
-
-/**
- * Created by Alfred on 2016-05-16.
- */
 public class EddaInstanceIDListenerService extends com.google.android.gms.iid.InstanceIDListenerService {
     /**
      * Called if InstanceID token is updated. This may occur if the security of

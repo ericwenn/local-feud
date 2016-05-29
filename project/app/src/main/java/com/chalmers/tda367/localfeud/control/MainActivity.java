@@ -1,13 +1,16 @@
 package com.chalmers.tda367.localfeud.control;
 
-import android.content.BroadcastReceiver;
+import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -25,13 +28,21 @@ import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.Like;
 import com.chalmers.tda367.localfeud.data.Post;
 import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
-import com.chalmers.tda367.localfeud.services.NotificationFacade;
-import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
+import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
+import com.chalmers.tda367.localfeud.services.LocationHandler;
+import com.chalmers.tda367.localfeud.services.LocationPermissionError;
+import com.chalmers.tda367.localfeud.control.notifications.NotificationFacade;
 import com.facebook.FacebookSdk;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
+/**
+ *  The main activity of the application, which handles the switch between the
+ *  tab fragments and the on click methods for different elements in the GUI.
+ *  Also handles the bottom bar and other details regarding the functionality
+ *  of the application.
+ */
 public class MainActivity extends AppCompatActivity implements PostAdapter.AdapterCallback, ChatListAdapter.AdapterCallback {
 
     private static final String TAG = "MainActivity";
@@ -39,6 +50,14 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
     private BottomBar bottomBar;
     private Fragment currentFragment;
 
+    /**
+     * Binds a layout XML file to the activity, initializes the Facebook SDK,
+     * registers the application for notifications and checks if the activity
+     * was started using a chatid, which should redirect it to a chat.
+     *
+     * @param savedInstanceState an old state of the activity, used to resume a
+     *                           previous instance.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +69,44 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         if(NotificationFacade.checkPlayServices(this)){
             NotificationFacade.getInstance().registerForNotifications(this);
         }
+        if (!LocationHandler.getInstance().isTracking()) {
+            try {
+                LocationHandler.getInstance().startTracking(getApplicationContext());
+            } catch (LocationPermissionError locationPermissionError) {}
+        }
 
         setContentView(R.layout.activity_main);
         initBottomBar(savedInstanceState);
 
+        Intent intent = this.getIntent();
+        Bundle intentExtras = intent.getExtras();
+
+        // This is if MainActivity is started from a notification
+        if (intentExtras != null && intentExtras.containsKey("chatid")){
+            DataHandlerFacade.getChatDataHandler().getSingle(intentExtras.getInt("chatid"), new AbstractDataResponseListener<Chat>() {
+                @Override
+                public void onSuccess(Chat data) {
+                    onChatClicked(data);
+                    switchFragment(R.id.chat_item);
+                    bottomBar.selectTabAtPosition(1,true);
+                }
+
+                @Override
+                public void onFailure(DataResponseError error, String errormessage) {
+                    showSnackbar("Failed to load chat: " + errormessage);
+                }
+            });
+        }
+
     }
 
+    /**
+     * Initializes the bottom bar and sets its background colors for
+     * different tabs
+     *
+     * @param savedInstanceState an old state of the bottom bar, used to resume a
+     *                           previous instance.
+     */
     private void initBottomBar(final Bundle savedInstanceState) {
         bottomBar = BottomBar.attach(this, savedInstanceState);
         bottomBar.noTopOffset();
@@ -78,8 +129,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         bottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.feedColorPrimary));
         bottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.chatColorPrimary));
         bottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.meColorPrimary));
+        bottomBar.setTextAppearance(R.style.BottomBarBadge_Text);
     }
 
+    /**
+     * Used to switch between different fragments in the activity. Handles the
+     * color change of the bottom bar.
+     *
+     * @param menuItemId the id of the button that has been clicked
+     */
     private void switchFragment(int menuItemId) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Window window = getWindow();
@@ -102,6 +160,11 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         transaction.commit();
     }
 
+    /**
+     * Saves the current instance of the activity, to make it possible to resume later.
+     *
+     * @param outState a container for all data to be saved
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -109,15 +172,34 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         currentFragment.onSaveInstanceState(outState);
     }
 
+    /**
+     * Defines what will happen if a post is clicked in the feed. Starts a
+     * PostClickedActivity with the post clicked.
+     *
+     * @param post the post that has been clicked
+     * @param view a card that has been clicked
+     */
     @Override
-    public void onPostClick(Post post) {
+    public void onPostClick(Post post, CardView view) {
         Intent i = new Intent(getApplicationContext(), PostClickedActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("post", post);
         i.putExtras(bundle);
-        startActivity(i);
+
+        startActivity(i,
+                ActivityOptions.makeSceneTransitionAnimation(this,
+                        view,
+                        getString(R.string.post_transition_target))
+                        .toBundle());
     }
 
+    /**
+     * Defines what will happen if a chat is clicked in the chat list.
+     * Starts a ChatActiveActivity to display the chat messages of the clicked
+     * chat.
+     *
+     * @param chat the chat that should be opened
+     */
     @Override
     public void onChatClicked(Chat chat)
     {
@@ -128,6 +210,15 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         startActivity(i);
     }
 
+    /**
+     * Defines what will happen if a like button is clicked in the feed. Changes
+     * color of the icon, updates the number of likes and sends the "like" (or dislike)
+     * to the database.
+     *
+     * @param post the post that has been liked/disliked
+     * @param imageButton the heart button
+     * @param likesDisplay the text label which shows the number of likes
+     */
     @Override
     public void onLikeClick(final Post post, final ImageButton imageButton, final TextView likesDisplay) {
         imageButton.setEnabled(false);
@@ -145,6 +236,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         }
         imageButton.setImageResource(revertLikeDrawable);
 
+        //If the post has not been liked by the user before.
         if (!isLiked) {
             DataHandlerFacade.getLikeDataHandler().create( post, new AbstractDataResponseListener<Like>() {
                 @Override
@@ -164,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
                 }
             } );
         }
+        //If the user tries to remove the like from a post.
         else {
             DataHandlerFacade.getLikeDataHandler().delete( post, new AbstractDataResponseListener<Void>() {
                 @Override
@@ -185,11 +278,22 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         }
     }
 
+    /**
+     * Defines what will happen if a more button (which currently doesn't
+     * exist) in the feed is clicked.
+     *
+     * @param post the post the more button belongs to
+     */
     @Override
     public void onMoreClick(Post post) {
         showSnackbar("No more for you");
     }
 
+    /**
+     * Used to display a message in a snackbar.
+     *
+     * @param text the text that should be displayed in the snackbar.
+     */
     @Override
     public void onShowSnackbar(String text) {
         showSnackbar(text);
@@ -206,9 +310,18 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.Adapt
         }
     }
 
-
+    /**
+     * Defines what will happen if the activity is destroyed (stopped).
+     * Stops tracking the user's location.
+     */
     @Override
     protected void onDestroy() {
+        try {
+                SharedPreferences prefs = getSharedPreferences("com.chalmers.tda367.localfeud", Context.MODE_PRIVATE);
+            prefs.edit().putLong("last_latitude", Double.doubleToRawLongBits(LocationHandler.getInstance().getLocation().getLatitude()));
+            prefs.edit().putLong("last_longitude", Double.doubleToRawLongBits(LocationHandler.getInstance().getLocation().getLongitude()));
+            LocationHandler.getInstance().stopTracking();
+        } catch (LocationPermissionError locationPermissionError) {}
         super.onDestroy();
     }
 }

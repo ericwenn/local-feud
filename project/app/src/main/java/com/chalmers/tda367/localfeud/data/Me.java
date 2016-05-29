@@ -3,7 +3,7 @@ package com.chalmers.tda367.localfeud.data;
 import java.io.Serializable;
 
 /**
- * Created by Alfred on 2016-05-11.
+ *  All required data about user.
  */
 public class Me implements Serializable {
     private int id, age;

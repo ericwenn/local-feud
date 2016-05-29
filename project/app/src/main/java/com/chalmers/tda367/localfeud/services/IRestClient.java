@@ -2,9 +2,6 @@ package com.chalmers.tda367.localfeud.services;
 
 import java.util.Map;
 
-/**
- * Created by ericwenn on 5/19/16.
- */
 public interface IRestClient {
 
 

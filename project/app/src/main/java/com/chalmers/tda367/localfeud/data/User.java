@@ -1,10 +1,9 @@
 package com.chalmers.tda367.localfeud.data;
 
 import java.io.Serializable;
-import java.io.StreamCorruptedException;
 
 /**
- * Created by Alfred on 2016-04-11.
+ *  A User object containing all required data.
  */
 public class User implements Serializable {
     private final int id;
@@ -60,6 +59,11 @@ public class User implements Serializable {
         this.lastname = lastname;
     }
 
+    /**
+     *  Converts a gender into a gender symbol, which is displayed
+     *  in the application
+     *  @return a string with a gender symbol
+     */
     public String getGenderSymbol()
     {
         if(gender.equals(Gender.male))
@@ -98,4 +102,13 @@ public class User implements Serializable {
         this.href = href;
     }
 
+    @Override
+    public String toString(){
+        return "First name:" + firstname + "\n" +
+                "Last name:" + lastname + "\n" +
+                "Gender:" + gender + "\n" +
+                "Age:" + age + "\n" +
+                "Id:" + id + "\n" +
+                "Href:" + href;
+    }
 }

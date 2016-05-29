@@ -2,7 +2,7 @@ package com.chalmers.tda367.localfeud.data;
 
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.services.Location;
+import com.chalmers.tda367.localfeud.services.LocationHandler;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Created by Alfred on 2016-04-11.
+ *  A Post object with all required data.
  */
 public class Post extends GeneralPost implements Serializable, Cloneable {
 
@@ -76,18 +76,16 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     }
 
 
-    public void setDistance()
-    {
-        double myLatitude = Location.getInstance().getLocation().getLatitude();
-        double myLongitude = Location.getInstance().getLocation().getLongitude();
+    public void setDistance() {
+        double myLatitude = LocationHandler.getInstance().getLocation().getLatitude();
+        double myLongitude = LocationHandler.getInstance().getLocation().getLongitude();
 
         float[] dist = new float[1];
         android.location.Location.distanceBetween(myLatitude, myLongitude, location.getLatitude(), location.getLongitude(), dist);
         distance = Math.round(dist[0]);
     }
 
-    public int getDistance()
-    {
+    public int getDistance() {
         setDistance();
         return distance;
     }
@@ -102,8 +100,6 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     }
 
 
-
-
     public double getReach() {
         return reach;
     }
@@ -111,8 +107,6 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     public void setReach(int reach) {
         this.reach = reach;
     }
-
-
 
 
     public Content getContent() {
@@ -123,13 +117,13 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
         this.content = content;
     }
 
-
-
-
-
+    /**
+     *  Converts the date_posted string to a calendar object and returns it
+     *  @return a calendar object with the date
+     */
     public Calendar getDatePosted() {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
         try {
             calendar.setTime(simpleDateFormat.parse(getStringDatePosted()));
         } catch (ParseException e) {
@@ -138,17 +132,13 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
         return calendar;
     }
 
-    private String getStringDatePosted() {
+    public String getStringDatePosted() {
         return date_posted;
     }
 
     public void setDatePosted(String date_posted) {
         this.date_posted = date_posted;
     }
-
-
-
-
 
 
     public boolean isIsDeleted() {
@@ -160,9 +150,6 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     }
 
 
-
-
-
     public int getNumberOfComments() {
         return number_of_comments;
     }
@@ -172,7 +159,6 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     }
 
 
-
     public int getNumberOfLikes() {
         return number_of_likes;
     }
@@ -180,7 +166,6 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
     public void setNumberOfLikes(int number_of_likes) {
         this.number_of_likes = number_of_likes;
     }
-
 
 
     public String getHref() {

@@ -3,6 +3,7 @@ package com.chalmers.tda367.localfeud.control.post;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,12 +28,16 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseListener;
+import com.chalmers.tda367.localfeud.util.DistanceColor;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.List;
 
 /**
- * Created by Daniel Ahlqvist on 2016-04-18.
+ *  Activity that's being displayed when user clicks on
+ *  a single Post item from list.
+ *  Displays all comments from post and also give
+ *  user the opportunity to post own comments.
  */
 public class PostClickedActivity extends AppCompatActivity implements PostClickedAdapter.AdapterCallback {
     private RecyclerView recyclerView;
@@ -79,6 +84,9 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         initViews();
     }
 
+    /**
+     *  Initializing the relevant components that layout contains.
+     */
     private void initViews() {
         initRecyclerView();
         initSwipeRefreshLayout();
@@ -86,10 +94,15 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         writeCommentText = (EditText) findViewById(R.id.posttext);
         ImageButton postCommentButton = (ImageButton) findViewById(R.id.post_button);
 
+        int distanceColor = DistanceColor.distanceColor(post.getDistance());
+        postCommentButton.setBackgroundColor(ContextCompat.getColor(this, distanceColor));
+
         if (postCommentButton != null) {
             postCommentButton.setOnClickListener(new View.OnClickListener() {
+//                Click listener when user wants to post a new comment
                 @Override
                 public void onClick(View v) {
+
                     if (!writeCommentText.getText().toString().isEmpty()) {
                         Comment comment = new Comment();
                         comment.setText(writeCommentText.getText().toString().trim().replaceAll("(\r?\n){3,}", "\r\n\r\n"));
@@ -102,12 +115,15 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                                 swipeRefreshLayout.setRefreshing(true);
                             }
                         });
+                        // Making a call to the server
                         DataHandlerFacade.getCommentDataHandler().create(post, comment, new AbstractDataResponseListener<Comment>() {
                             @Override
                             public void onSuccess(Comment data) {
                                 swipeRefreshLayout.setRefreshing(false);
                                 Post newPost = post.clone();
                                 newPost.setNumberOfComments(post.getNumberOfComments() + 1);
+
+//                                Updating list in PostFragments with new values
                                 DataHandlerFacade.getPostDataHandler().triggerChange(post, newPost);
                                 postClickedAdapter.changePostInAdapter(newPost);
                                 setPost(newPost);
@@ -117,7 +133,6 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
                             @Override
                             public void onFailure(DataResponseError error, String errormessage) {
-
                                 Snackbar.make(recyclerView,
                                         R.string.comment_failed_to_post_msg,
                                         Snackbar.LENGTH_LONG)
@@ -137,7 +152,10 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
     }
 
-
+    /**
+     *  Initializing the RecyclerView that's holding the clicked post
+     *  and it's comments.
+     */
     private void initRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.comment_feed_recyclerview);
         if (recyclerView != null) {
@@ -149,12 +167,14 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-
         postClickedAdapter = new PostClickedAdapter(this, post);
         recyclerView.setAdapter(postClickedAdapter);
     }
 
-
+    /**
+     *  Initializing the SwipeRefreshLayout that requesting updates when
+     *  user using a swipe-gesture down.
+     */
     private void initSwipeRefreshLayout() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.post_clicked_refresh_layout);
 
@@ -192,7 +212,11 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
             }
         });
     }
-
+    /**
+     *  Converting a DataResponseError to a String error mesage
+     *  @param error given DataResponseError that should be converted
+     *  @return the requested string
+     */
     private String getErrorString(DataResponseError error) {
         switch (error) {
             case NOTFOUND:
@@ -204,15 +228,29 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         }
     }
 
+    /**
+    *   Used for scrolling the RecyclerView down to the last item.
+    */
     public void scrollToBottom() {
         recyclerView.scrollToPosition(postClickedAdapter.getItemCount() - 1);
     }
 
+    /**
+     * Defines what will happen if a like button is clicked. Changes
+     * color of the icon, updates the number of likes and sends the "like" (or dislike)
+     * to the database.
+     *
+     * @param post the post that has been liked/disliked
+     * @param imageButton the heart button
+     * @param likesDisplay the text label which shows the number of likes
+     */
     @Override
     public void onLikeClick(final Post post, final ImageButton imageButton, final TextView likesDisplay) {
         imageButton.setEnabled(false);
         final boolean isLiked = post.isLiked();
         final int revertLikeDrawable, originalLikeDrawable;
+
+//        Setting the right drawables and updating numberOfLikes
         if (isLiked) {
             revertLikeDrawable = R.drawable.ic_favorite_border_black_24dp;
             originalLikeDrawable = R.drawable.ic_favorite_black_24dp;
@@ -225,6 +263,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         }
         imageButton.setImageResource(revertLikeDrawable);
 
+//        Deciding if a like should be created or deleted
         if (!isLiked) {
             DataHandlerFacade.getLikeDataHandler().create(post, new AbstractDataResponseListener<Like>() {
                 @Override
@@ -264,9 +303,12 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         }
     }
 
-
+    /**
+     * Defines what will happen if the post more button is clicked.
+     *
+     * @param button the more button that has been clicked
+     */
     @Override
-    // More-button on post is clicked
     public void onMoreClick(ImageButton button) {
         PopupMenu menu = new PopupMenu(this, button, Gravity.END);
         MenuInflater inflater = menu.getMenuInflater();
@@ -307,6 +349,12 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         menu.show();
     }
 
+    /**
+     * Defines what will happen if a comment more button is clicked.
+     *
+     * @param comment the comment the button belongs to
+     * @param button the more button that has been clicked
+     */
     @Override
     public void onCommentMoreClick(final Comment comment, ImageButton button) {
         PopupMenu menu = new PopupMenu(this, button, Gravity.END);
@@ -384,6 +432,11 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         this.post = post;
     }
 
+    /**
+     *  Used when user sends a chat request to another user.
+     *  @param post current post
+     *  @param userID the user that will receive the chat request
+     */
     private void sendChatRequest(Post post, int userID) {
 
         DataHandlerFacade.getChatDataHandler().sendRequest(post, userID, new AbstractDataResponseListener<Chat>() {
@@ -396,12 +449,17 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
 
             @Override
             public void onFailure(DataResponseError error, String errormessage) {
-                Snackbar.make(recyclerView, "Chat creation failed: " + errormessage, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(recyclerView, "Chat creation failed. " + errormessage, Snackbar.LENGTH_LONG).show();
 
             }
         });
     }
 
+    /**
+     * Used to display a message in a snackbar.
+     *
+     * @param text the text that should be displayed in the snackbar.
+     */
     @Override
     public void onShowSnackbar(String text) {
         Snackbar.make(recyclerView, text, Snackbar.LENGTH_LONG).show();

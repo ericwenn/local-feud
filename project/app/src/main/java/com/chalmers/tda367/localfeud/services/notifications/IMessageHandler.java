@@ -1,4 +1,4 @@
-package com.chalmers.tda367.localfeud.control.notifications;
+package com.chalmers.tda367.localfeud.services.notifications;
 
 import android.support.annotation.Nullable;
 
@@ -6,11 +6,6 @@ import com.chalmers.tda367.localfeud.util.MapEntry;
 
 import org.json.JSONObject;
 
-import java.util.Map;
-
-/**
- * Created by Alfred on 2016-05-18.
- */
 public interface IMessageHandler {
     void removeMessageListener(String type, IMessageListener listener);
     void removeMessageListener(String type, @Nullable MapEntry<String, Object> data, IMessageListener listener);

@@ -3,9 +3,6 @@ package com.chalmers.tda367.localfeud.data.handler.core;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-/**
- * Created by ericwenn on 5/12/16.
- */
 public abstract class AbstractDataResponseListener<D> implements DataResponseListener<D> {
 
 

@@ -1,8 +1,5 @@
 package com.chalmers.tda367.localfeud.services.gcm;
 
-/**
- * Created by Alfred on 2016-05-16.
- */
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +15,9 @@ import com.google.android.gms.iid.InstanceID;
 
 import java.io.IOException;
 
+/**
+ *  IntentService that registers GCM messages
+ */
 public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";

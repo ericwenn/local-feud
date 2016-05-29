@@ -1,5 +1,6 @@
 package com.chalmers.tda367.localfeud.control.authentication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,12 +15,16 @@ import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListe
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
 import com.chalmers.tda367.localfeud.services.Authentication;
 import com.chalmers.tda367.localfeud.services.IAuthentication;
-import com.chalmers.tda367.localfeud.services.Location;
+import com.chalmers.tda367.localfeud.services.LocationHandler;
 import com.chalmers.tda367.localfeud.services.LocationPermissionError;
 import com.github.paolorotolo.appintro.AppIntro;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+
 /**
- * Created by ericwenn on 5/5/16.
+ *  Activity for authenticate user with Facebook.
  */
 public class AuthenticationFlowActivity extends AppIntro {
 
@@ -29,16 +34,17 @@ public class AuthenticationFlowActivity extends AppIntro {
         final View v = this.getCurrentFocus();
 
 
-        IAuthentication authService = Authentication.getInstance( );
+//        Using a tracker that checks if user is logged in or not
+        IAuthentication authService = Authentication.getInstance();
         authService.startTracking(getApplicationContext(), new IAuthentication.IAuthenticationListener() {
             @Override
             public void onLogInSuccessful() {
-
                 DataHandlerFacade
                         .getMeDataHandler().get(new AbstractDataResponseListener<Me>() {
                     @Override
                     public void onSuccess(Me data) {
-                        DataHandlerFacade.getMeDataHandler().setMe( data );
+//                        Storing users data as Me
+                        DataHandlerFacade.getMeDataHandler().setMe(data);
                     }
 
                     @Override
@@ -48,7 +54,7 @@ public class AuthenticationFlowActivity extends AppIntro {
 
 
                 try {
-                    Location.getInstance().startTracking(getApplicationContext());
+                    LocationHandler.getInstance().startTracking(getApplicationContext());
                 } catch (LocationPermissionError locationPermissionError) {
                     Intent i = new Intent(getApplicationContext(), PermissionFlow.class);
                     startActivity(i);
@@ -56,6 +62,7 @@ public class AuthenticationFlowActivity extends AppIntro {
                     return;
                 }
 
+//                Sending user to MainActivity
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
                 finish();
@@ -64,12 +71,21 @@ public class AuthenticationFlowActivity extends AppIntro {
             @Override
             public void onLoginFailed(IAuthentication.AuthenticationError err) {
                 if (v != null) {
-                    Snackbar.make( v, "All permission must be accepted", Snackbar.LENGTH_LONG);
+                    Snackbar.make(v, "All permission must be accepted", Snackbar.LENGTH_LONG);
                 }
             }
 
             @Override
             public void onLogOut() {
+//                Logging out user
+                Authentication.getInstance().logOut();
+
+//                Finishing current activity and sending user to AuthenticationFlowActivity
+                try {
+                    if(getActivity() != null) {
+                        getActivity().finish();
+                    }
+                } catch (Exception ignored) {}
                 Intent i = new Intent(getApplicationContext(), AuthenticationFlowActivity.class);
                 startActivity(i);
                 finish();
@@ -109,11 +125,40 @@ public class AuthenticationFlowActivity extends AppIntro {
     @Override
     protected void onResume() {
         super.onResume();
-        if(Authentication.getInstance().isLoggedIn()) {
+        if (Authentication.getInstance().isLoggedIn()) {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
             finish();
         }
 
     }
+
+    /**
+     *  Used for getting current activity
+     *  @return current activity
+     *  @throws ClassNotFoundException if no class with "android.app.ActivityThread" can be found
+     *  @throws NoSuchMethodException if activityThreadClass doesn't have method "currentActivityThread"
+     *  @throws InvocationTargetException when trying to invoke "currentActivityThread"
+     *  @throws IllegalAccessException for all getters on fields/activities
+     *  @throws NoSuchFieldException when trying to .getDeclaredField
+     */
+    private static Activity getActivity() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+        Class activityThreadClass = Class.forName("android.app.ActivityThread");
+        Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
+        Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
+        activitiesField.setAccessible(true);
+        Map activities = (Map) activitiesField.get(activityThread);
+        for (Object activityRecord : activities.values()) {
+            Class activityRecordClass = activityRecord.getClass();
+            Field pausedField = activityRecordClass.getDeclaredField("paused");
+            pausedField.setAccessible(true);
+            if (!pausedField.getBoolean(activityRecord)) {
+                Field activityField = activityRecordClass.getDeclaredField("activity");
+                activityField.setAccessible(true);
+                return (Activity) activityField.get(activityRecord);
+            }
+        }
+        return null;
+    }
 }
+

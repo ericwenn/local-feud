@@ -5,9 +5,6 @@ import com.chalmers.tda367.localfeud.data.Post;
 
 import java.util.List;
 
-/**
- * Created by ericwenn on 5/12/16.
- */
 public interface IPostDataHandler {
 
 

@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Created by Daniel Ahlqvist on 2016-04-13.
+ *  A comment that's posted on a Post object.
  */
 public class Comment extends GeneralPost {
     private int id, postid;
@@ -50,9 +50,13 @@ public class Comment extends GeneralPost {
         content = newText;
     }
 
+    /**
+     *  Converts the date_posted string to a calendar object and returns it
+     *  @return a calendar object with the date
+     */
     public Calendar getDatePosted() {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
         try {
             calendar.setTime(simpleDateFormat.parse(getStringDatePosted()));
         } catch (ParseException e) {

@@ -9,9 +9,6 @@ import com.chalmers.tda367.localfeud.data.handler.core.IChatDataHandler;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by ericwenn on 5/13/16.
- */
 public class ChatDataHandler extends AbstractDataHandler implements IChatDataHandler {
 
     private static ChatDataHandler instance = null;
@@ -46,6 +43,10 @@ public class ChatDataHandler extends AbstractDataHandler implements IChatDataHan
     @Override
     public void getList(DataResponseListener<List<Chat>> listener) {
         getClient().get("chats/", new RestResponseAction(listener));
+    }
+
+    public void getSingle(int chatID, DataResponseListener<Chat> listener){
+        getClient().get("chats/" + chatID + "/", new RestResponseAction(listener));
     }
 
     @Override

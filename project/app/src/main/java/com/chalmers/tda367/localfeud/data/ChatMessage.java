@@ -10,17 +10,17 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Created by Daniel Ahlqvist on 2016-05-08.
+ *  A ChatMessage from a Chat.
+ *  Holding data about a single message.
  */
-public class ChatMessage
-{
+public class ChatMessage {
     private int id;
-    private Chat chatid;
+    private int chatid;
     private String message;
     private User user;
     private String timesent;
 
-    public ChatMessage(Chat chatid, String message, User user) {
+    public ChatMessage(int chatid, String message, User user) {
         this.chatid = chatid;
         this.message = message;
         this.user = user;
@@ -42,11 +42,11 @@ public class ChatMessage
         user = newUser;
     }
 
-    public Chat getChatId() {
+    public int getChatId() {
         return chatid;
     }
 
-    public void setChatId(Chat newId) {
+    public void setChatId(int newId) {
         chatid = newId;
     }
 
@@ -70,6 +70,15 @@ public class ChatMessage
     }
 
     public String getStringDatePosted() {
-        return timesent.substring(0,10) + " " + timesent.substring(11,16);
+        return timesent.substring(0, 10) + " " + timesent.substring(11, 16);
+    }
+
+    @Override
+    public String toString() {
+        return "Id: " + id + "\n" +
+                "Chat-id: " + chatid + "\n" +
+                "Message: " + message + "\n" +
+                "User: " + user + "\n" +
+                "String: " + timesent;
     }
 }

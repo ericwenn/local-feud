@@ -6,22 +6,21 @@ import android.os.Bundle;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.MainActivity;
-import com.chalmers.tda367.localfeud.services.Location;
+import com.chalmers.tda367.localfeud.services.LocationHandler;
 import com.chalmers.tda367.localfeud.services.LocationPermissionError;
 import com.chalmers.tda367.localfeud.util.SlideFactory;
 import com.github.paolorotolo.appintro.AppIntro2;
 
+/**
+ *  The activity that's used when asking for required permissions.
+ */
 public class PermissionFlow extends AppIntro2 {
     private static final String TAG = "PermissionFlow";
 
-    // Please DO NOT override onCreate. Use init.
     @Override
     public void init(Bundle savedInstanceState) {
 
-
         addSlide(SlideFactory.newInstance(R.layout.fragment_permission_flow_slide1));
-
-        // TODO Adds one more slide just to enable the permissions
         addSlide(SlideFactory.newInstance(R.layout.fragment_permission_flow_slide1));
 
         askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
@@ -32,15 +31,15 @@ public class PermissionFlow extends AppIntro2 {
     public void onDonePressed() {}
 
     @Override
-
     public void onSlideChanged() {
 
         if (getPager().getCurrentItem() != 0) {
 
+//            Asking for permissions in real time on >= API 23
             askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
 
             try {
-                Location.getInstance().startTracking(getApplicationContext());
+                LocationHandler.getInstance().startTracking(getApplicationContext());
             } catch (LocationPermissionError locationPermissionError) {
                 getPager().setCurrentItem(0);
             }
@@ -52,7 +51,6 @@ public class PermissionFlow extends AppIntro2 {
 
     @Override
     public void onNextPressed() {
-        // Do something when users tap on Next button.
     }
 
 }

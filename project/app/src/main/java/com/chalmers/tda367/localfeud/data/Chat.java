@@ -3,7 +3,6 @@ package com.chalmers.tda367.localfeud.data;
 import android.content.res.Resources;
 import android.util.Log;
 
-import com.chalmers.tda367.localfeud.data.handler.MeDataHandler;
 import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.io.Serializable;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by Alfred on 2016-04-11.
+ * A Chat object holding all data from server.
  */
 public class Chat implements Serializable {
 
@@ -53,7 +52,7 @@ public class Chat implements Serializable {
         this.last_message = lastMessageSent;
     }
 
-    private enum Status {
+    public enum Status {
         accepted, pending
     }
 
@@ -103,7 +102,7 @@ public class Chat implements Serializable {
 
     public KnownUser getFirstCounterPart(int myUserId){
         for (KnownUser user : getUsers()){
-            if (user.getId() != MeDataHandler.getInstance().getMe().getId()){
+            if (user.getId() != myUserId){
                 return user;
             }
         }
@@ -114,6 +113,11 @@ public class Chat implements Serializable {
         this.users = users;
     }
 
+    /**
+     *  Creating a name for a chat. A chat between two persons does
+     *  contain the name of the other user and that users age.
+     *  @return the chat name as a string
+     */
     public String getChatName() {
         if (users.isEmpty()) {
             return "UNKNOWN";
@@ -135,9 +139,14 @@ public class Chat implements Serializable {
         else return date_started;
     }
 
+    /**
+     *  Takes a string with a date and converts it into a calendar object
+     *  @param dateString the string containing the date
+     *  @return a calendar object with the date
+     */
     public Calendar getDate(String dateString) {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
         try {
             calendar.setTime(simpleDateFormat.parse(dateString));
         } catch (ParseException e) {
@@ -162,7 +171,15 @@ public class Chat implements Serializable {
 
     @Override
     public String toString() {
-        return "Chat id: " + getId() + ", " + getStatus() + ".\nUsers: " + getChatName() + ", href: " + getHref();
+        return "Chat id: " + getId() + "\n" +
+                "Status: " + getStatus() + "\n" +
+                "Users: " + users.toString() + "\n" +
+                "Href: " + getHref() + "\n" +
+                "Date started: " + date_started + "\n" +
+                "Unread messages: " + number_of_unread_messages + "\n" +
+                "Last message: " + last_message + "\n" +
+                "Last activity: " + last_activity;
+
     }
 
     @Override

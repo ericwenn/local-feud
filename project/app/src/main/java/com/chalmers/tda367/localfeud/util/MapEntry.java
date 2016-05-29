@@ -3,9 +3,6 @@ package com.chalmers.tda367.localfeud.util;
 import java.util.AbstractMap;
 import java.util.Map;
 
-/**
- * Created by Alfred on 2016-05-19.
- */
 public class MapEntry<K, V> extends AbstractMap.SimpleEntry {
     private final K key;
     private V value;
@@ -16,7 +13,7 @@ public class MapEntry<K, V> extends AbstractMap.SimpleEntry {
         this.value = value;
     }
 
-    public MapEntry(Map.Entry<K, V> entry){
+    public MapEntry(Map.Entry<K, V> entry) {
         this(entry.getKey(), entry.getValue());
     }
 

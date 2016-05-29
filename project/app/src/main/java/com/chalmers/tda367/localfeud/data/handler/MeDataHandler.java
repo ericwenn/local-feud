@@ -4,9 +4,6 @@ import com.chalmers.tda367.localfeud.data.Me;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.IMeDataHandler;
 
-/**
- * Created by ericwenn on 5/13/16.
- */
 public class MeDataHandler extends AbstractDataHandler implements IMeDataHandler {
     private static MeDataHandler instance = null;
 

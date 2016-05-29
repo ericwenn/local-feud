@@ -11,9 +11,6 @@ import com.chalmers.tda367.localfeud.util.GsonHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ericwenn on 5/12/16.
- */
 public abstract class AbstractDataHandler {
 
     protected final List<DataChangeListener> listeners = new ArrayList<>();
@@ -32,7 +29,7 @@ public abstract class AbstractDataHandler {
 
 
 
-        public void onFailure( int statusCode, String responseBody ) {
+        public void onFailure( int statusCode, String responseError ) {
             // översätta statuscode till ett DataResponseError
             // Eventuellt läsa av error message från responsebody
 
@@ -54,7 +51,7 @@ public abstract class AbstractDataHandler {
                     err = DataResponseError.REALLYBAD;
             }
 
-            listener.onFailure(err, responseBody);
+            listener.onFailure(err, responseError);
         }
     }
 

@@ -2,20 +2,22 @@ package com.chalmers.tda367.localfeud.control.notifications;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.chalmers.tda367.localfeud.R;
 import com.chalmers.tda367.localfeud.control.MainActivity;
-import com.chalmers.tda367.localfeud.data.Chat;
 import com.chalmers.tda367.localfeud.data.ChatMessage;
-import com.chalmers.tda367.localfeud.data.handler.MeDataHandler;
+import com.chalmers.tda367.localfeud.services.notifications.IMessageHandler;
+import com.chalmers.tda367.localfeud.services.notifications.IMessageListener;
 import com.chalmers.tda367.localfeud.util.GsonHandler;
 import com.chalmers.tda367.localfeud.util.MapEntry;
 import com.chalmers.tda367.localfeud.util.TagHandler;
@@ -28,9 +30,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UnknownFormatConversionException;
 
 /**
- * Created by Alfred on 2016-05-18.
+ *  Handling incoming messages and sorting these
+ *  to right components.
  */
 public class MessageHandler implements IMessageHandler {
     private Map<String, Map<MapEntry<String, Object>, List<IMessageListener>>> listeners;
@@ -58,22 +62,25 @@ public class MessageHandler implements IMessageHandler {
 
                 // Store relevant data
                 Map<String, Object> messageData = new HashMap<>();
+                ChatMessage chatMessage;
+
+                Log.d(TagHandler.MAIN_TAG, data.toString());
 
                 try{
                     messageData.put("from", data.getString("from"));
                     messageData.put("content", data.getString("content"));
-                    ChatMessage chatMessage = GsonHandler.getInstance().fromJson(data.getString("object"), ChatMessage.class);
+                    chatMessage = GsonHandler.getInstance().fromJson(data.getString("object"), ChatMessage.class);
                     messageData.put(CHAT_MESSAGE_SENDER_ID, chatMessage.getUser().getId());
                     messageData.put("object", chatMessage);
                 }catch(JSONException e){
-                    Log.e(TagHandler.MAIN_TAG, e.getMessage());
+                    throw new UnknownFormatConversionException(e.getMessage());
                 }
 
                 // Send data to the right receiver
                 if (hasListenersMap(type, messageData)){
                     notifyListeners(type, messageData);
                 }else{
-                    sendNotification(messageData.get("from") + ": " + messageData.get("content"));
+                    sendNotification(messageData.get("from") + ": " + messageData.get("content"), getChatPendingIntent(chatMessage));
                 }
             break;
 
@@ -81,6 +88,23 @@ public class MessageHandler implements IMessageHandler {
 
             break;
         }
+    }
+
+    private PendingIntent getChatPendingIntent(ChatMessage chatMessage){
+//        MainActivity is required here to start Chat
+        Intent resultIntent = new Intent(context, MainActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("chatid", chatMessage.getChatId());
+        resultIntent.putExtras(bundle);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        // Adds the back stack
+        //stackBuilder.addParentStack(ChatActiveActivity.class);
+        // Adds the Intent to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        // Gets a PendingIntent containing the entire back stack
+        return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
 
@@ -186,7 +210,7 @@ public class MessageHandler implements IMessageHandler {
 
                 // Notify the listeners mapped to the mapEntry
                 for (IMessageListener listener : listeners) {
-                    listener.onMessageRecieved(data);
+                    listener.onMessageReceived(data);
                 }
             }
         }
@@ -259,11 +283,14 @@ public class MessageHandler implements IMessageHandler {
      * Create and show a simple notification containing a text message.
      * @param message A message to display in the notification.
      */
-    private void sendNotification(String message) {
-        Intent intent = new Intent(context, MainActivity.class);
+    private void sendNotification(String message, PendingIntent action) {
+        /*Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code , intent,
+                PendingIntent.FLAG_ONE_SHOT);*/
+
+
+
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
@@ -272,7 +299,7 @@ public class MessageHandler implements IMessageHandler {
         notificationBuilder.setContentText(message);
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setSound(defaultSoundUri);
-        notificationBuilder.setContentIntent(pendingIntent);
+        notificationBuilder.setContentIntent(action);
         notificationBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
 
         NotificationManager notificationManager =
