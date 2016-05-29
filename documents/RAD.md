@@ -134,8 +134,6 @@ Vynummer refererar till bild placerad under "GUI" i sektionen "References".
 * Ändra inställningar - Medel - Implementerad.
 
 ######  GUI
-![Image of Use Cases](https://raw.githubusercontent.com/ericwenn/local-feud/master/documents/vyer.jpg)
+![Image of sketch](https://raw.githubusercontent.com/ericwenn/local-feud/master/documents/vyer.jpg)
 
-  Domain model
 
-  Use case texts

@@ -1,6 +1,6 @@
 #System design document for Edda
 
-  *Version: 0.0.1*
+  *Version: 1.0.0*
   
   *Date: 9/5/2016*
   
@@ -288,7 +288,3 @@ För att kunna komma åt innehållet i applikationen måste användaren logga in
 
 ###2.6 Boundary conditions
 Applikationen körs endast på enheter med Android som operativsystem. Versionen på operativsystemet måste vara minst *API 21 (5.0 Lollipop)*.
-
-##3 References
-
-##APPENDIX
