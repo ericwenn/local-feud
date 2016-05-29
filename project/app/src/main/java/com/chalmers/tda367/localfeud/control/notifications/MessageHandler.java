@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -67,9 +68,12 @@ public class MessageHandler implements IMessageHandler {
                 Log.d(TagHandler.MAIN_TAG, data.toString());
 
                 try{
+                    // Get the chatMessage object
+                    chatMessage = GsonHandler.getInstance().fromJson(data.getJSONObject("object").toString(), ChatMessage.class);
+
+                    // Store data that can be listened for
                     messageData.put("from", data.getString("from"));
                     messageData.put("content", data.getString("content"));
-                    chatMessage = GsonHandler.getInstance().fromJson(data.getString("object"), ChatMessage.class);
                     messageData.put(CHAT_MESSAGE_SENDER_ID, chatMessage.getUser().getId());
                     messageData.put("object", chatMessage);
                 }catch(JSONException e){
@@ -85,7 +89,7 @@ public class MessageHandler implements IMessageHandler {
             break;
 
             default:
-
+                // Message with unknown type received
             break;
         }
     }
@@ -191,28 +195,32 @@ public class MessageHandler implements IMessageHandler {
         // Get the map entries
         Set<Map.Entry<String, Object>> entries = data.entrySet();
 
+        // Set up a set with listeners to notify
+        Set<IMessageListener> toNotify = new HashSet<>();
+
         // Loop through every key in the data mapping
         for (Map.Entry<String, Object> itEntry : entries) {
 
             MapEntry<String, Object> entry = new MapEntry<>(itEntry);
 
             if (listenerMappings.containsKey(entry)){
-                List<IMessageListener> listeners = new ArrayList<>(listenerMappings.get(entry));
+                 toNotify.addAll(listenerMappings.get(entry));
 
                 if (listenerMappings.containsKey(keyListeningPair(entry.getKey()))){
                     // Add also the listeners from the mapEntry that corresponds to only listening for the key
-                    listeners.addAll(listenerMappings.get(keyListeningPair(entry.getKey())));
-                }
-                if (listenerMappings.containsKey(EMPTY_PAIR)){
-                    // Add also the listeners to only the type
-                    listeners.addAll(listenerMappings.get(EMPTY_PAIR));
-                }
-
-                // Notify the listeners mapped to the mapEntry
-                for (IMessageListener listener : listeners) {
-                    listener.onMessageReceived(data);
+                    toNotify.addAll(listenerMappings.get(keyListeningPair(entry.getKey())));
                 }
             }
+        }
+
+        if (listenerMappings.containsKey(EMPTY_PAIR)){
+            // Add also the listeners to only the type
+            toNotify.addAll(listenerMappings.get(EMPTY_PAIR));
+        }
+
+        // Notify the listeners mapped to the mapEntry
+        for (IMessageListener listener : toNotify) {
+            listener.onMessageReceived(data);
         }
     }
 
