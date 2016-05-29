@@ -39,6 +39,17 @@ public class AuthenticationFlowLoginSlide extends Fragment {
         return fragment;
     }
 
+    /**
+     * Creates the view for the login page, which the fragment will hold.
+     * The view is created using the fragment_authentication_flow_login_slide
+     * layout XML file.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState an old state of the activity, used to resume
+     *                           a previous instance.
+     * @return the view the fragment will hold
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,7 +82,13 @@ public class AuthenticationFlowLoginSlide extends Fragment {
         return v;
     }
 
-
+    /**
+     * Called when the activity is exits.
+     *
+     * @param requestCode a code which tells where the result came from
+     * @param resultCode a result code from a child activity
+     * @param data data sent to the caller
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
