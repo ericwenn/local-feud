@@ -59,6 +59,11 @@ public class User implements Serializable {
         this.lastname = lastname;
     }
 
+    /**
+     *  Converts a gender into a gender symbol, which is displayed
+     *  in the application
+     *  @return a string with a gender symbol
+     */
     public String getGenderSymbol()
     {
         if(gender.equals(Gender.male))

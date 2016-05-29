@@ -115,6 +115,7 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
                                 swipeRefreshLayout.setRefreshing(true);
                             }
                         });
+                        // Making a call to the server
                         DataHandlerFacade.getCommentDataHandler().create(post, comment, new AbstractDataResponseListener<Comment>() {
                             @Override
                             public void onSuccess(Comment data) {
@@ -234,6 +235,15 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         recyclerView.scrollToPosition(postClickedAdapter.getItemCount() - 1);
     }
 
+    /**
+     * Defines what will happen if a like button is clicked. Changes
+     * color of the icon, updates the number of likes and sends the "like" (or dislike)
+     * to the database.
+     *
+     * @param post the post that has been liked/disliked
+     * @param imageButton the heart button
+     * @param likesDisplay the text label which shows the number of likes
+     */
     @Override
     public void onLikeClick(final Post post, final ImageButton imageButton, final TextView likesDisplay) {
         imageButton.setEnabled(false);
@@ -293,7 +303,11 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         }
     }
 
-
+    /**
+     * Defines what will happen if the post more button is clicked.
+     *
+     * @param button the more button that has been clicked
+     */
     @Override
     public void onMoreClick(ImageButton button) {
         PopupMenu menu = new PopupMenu(this, button, Gravity.END);
@@ -335,6 +349,12 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         menu.show();
     }
 
+    /**
+     * Defines what will happen if a comment more button is clicked.
+     *
+     * @param comment the comment the button belongs to
+     * @param button the more button that has been clicked
+     */
     @Override
     public void onCommentMoreClick(final Comment comment, ImageButton button) {
         PopupMenu menu = new PopupMenu(this, button, Gravity.END);
@@ -435,6 +455,11 @@ public class PostClickedActivity extends AppCompatActivity implements PostClicke
         });
     }
 
+    /**
+     * Used to display a message in a snackbar.
+     *
+     * @param text the text that should be displayed in the snackbar.
+     */
     @Override
     public void onShowSnackbar(String text) {
         Snackbar.make(recyclerView, text, Snackbar.LENGTH_LONG).show();

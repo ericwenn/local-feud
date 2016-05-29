@@ -113,6 +113,11 @@ public class Chat implements Serializable {
         this.users = users;
     }
 
+    /**
+     *  Creating a name for a chat. A chat between two persons does
+     *  contain the name of the other user and that users age.
+     *  @return the chat name as a string
+     */
     public String getChatName() {
         if (users.isEmpty()) {
             return "UNKNOWN";
@@ -134,6 +139,11 @@ public class Chat implements Serializable {
         else return date_started;
     }
 
+    /**
+     *  Takes a string with a date and converts it into a calendar object
+     *  @param dateString the string containing the date
+     *  @return a calendar object with the date
+     */
     public Calendar getDate(String dateString) {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);

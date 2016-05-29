@@ -31,7 +31,6 @@ public class PermissionFlow extends AppIntro2 {
     public void onDonePressed() {}
 
     @Override
-
     public void onSlideChanged() {
 
         if (getPager().getCurrentItem() != 0) {

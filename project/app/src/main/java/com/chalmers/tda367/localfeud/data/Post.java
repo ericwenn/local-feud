@@ -117,7 +117,10 @@ public class Post extends GeneralPost implements Serializable, Cloneable {
         this.content = content;
     }
 
-
+    /**
+     *  Converts the date_posted string to a calendar object and returns it
+     *  @return a calendar object with the date
+     */
     public Calendar getDatePosted() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);

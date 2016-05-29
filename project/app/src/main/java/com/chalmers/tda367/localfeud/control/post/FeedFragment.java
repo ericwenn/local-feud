@@ -266,6 +266,13 @@ public class FeedFragment extends Fragment implements PostFragment.FragmentCallb
         startActivityForResult(intent, REQUEST_CODE);
     }
 
+    /**
+     * Called when the activity is exits.
+     *
+     * @param requestCode a code which tells where the result came from
+     * @param resultCode a result code from a child activity
+     * @param data data sent to the caller
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -56,7 +56,14 @@ public class PostFragment extends Fragment {
         return fragment;
     }
 
-
+    /**
+     * Creates the view which the fragment will hold. The view is created using
+     * the post_feed_fragment layout XML file.
+     *
+     * @param savedInstanceState an old state of the activity, used to resume
+     *                           a previous instance.
+     * @return the view the fragment will hold
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
