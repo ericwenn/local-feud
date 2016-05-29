@@ -35,7 +35,6 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
      * @param context the current state of the object it is called from.
      */
     public ChatActiveAdapter(Context context) {
-        Context context1 = context;
         inflater = LayoutInflater.from(context);
         this.myId = DataHandlerFacade.getMeDataHandler().getMe().getId();
         ArrayList<ChatMessage> newMessages = new ArrayList<>();
@@ -43,7 +42,7 @@ public class ChatActiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         addChatMessageListToAdapter(newMessages);
 
         try {
-            AdapterCallback adapterCallback = (AdapterCallback) context1;
+            AdapterCallback adapterCallback = (AdapterCallback) context;
         } catch (ClassCastException e) {
             throw new ClassCastException("ChatActiveAdapter: Activity must implement AdapterCallback.");
         }

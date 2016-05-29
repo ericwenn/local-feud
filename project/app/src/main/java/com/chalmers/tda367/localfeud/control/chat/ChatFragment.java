@@ -22,7 +22,6 @@ import com.chalmers.tda367.localfeud.data.handler.DataHandlerFacade;
 import com.chalmers.tda367.localfeud.data.handler.core.AbstractDataResponseListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataChangeListener;
 import com.chalmers.tda367.localfeud.data.handler.core.DataResponseError;
-import com.chalmers.tda367.localfeud.util.TagHandler;
 
 import java.util.Collections;
 import java.util.List;

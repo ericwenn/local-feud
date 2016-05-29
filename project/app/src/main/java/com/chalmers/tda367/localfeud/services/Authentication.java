@@ -61,11 +61,10 @@ public class Authentication implements IAuthentication{
             return null;
         }
 
-        HashMap map = new HashMap<>();
+        HashMap<String, String> map = new HashMap<>();
 
         map.put( "user-id", token.getUserId() );
         map.put( "token", token.getToken() );
-        // TODO
         return map;
     }
 

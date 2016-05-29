@@ -82,7 +82,9 @@ public class AuthenticationFlowActivity extends AppIntro {
 
 //                Finishing current activity and sending user to AuthenticationFlowActivity
                 try {
-                    getActivity().finish();
+                    if(getActivity() != null) {
+                        getActivity().finish();
+                    }
                 } catch (Exception ignored) {}
                 Intent i = new Intent(getApplicationContext(), AuthenticationFlowActivity.class);
                 startActivity(i);

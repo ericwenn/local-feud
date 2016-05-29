@@ -1,19 +1,12 @@
 package com.chalmers.tda367.localfeud;
 
 import android.content.Context;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.AndroidTestCase;
-import android.test.InstrumentationTestCase;
-import android.test.InstrumentationTestSuite;
-import android.test.mock.MockContext;
 
-import com.chalmers.tda367.localfeud.control.MainActivity;
 import com.chalmers.tda367.localfeud.util.DistanceString;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
